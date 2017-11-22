@@ -1,0 +1,856 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,shell-script," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="記錄板端使用到的shell script一些方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell-script">
+<meta property="og:url" content="http://yoursite.com/2016/07/29/shell-script/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="記錄板端使用到的shell script一些方式">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.555Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shell-script">
+<meta name="twitter:description" content="記錄板端使用到的shell script一些方式">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> shell-script | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                shell-script
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-29T10:36:22+08:00" content="2016-07-29">
+              2016-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/29/shell-script/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/29/shell-script/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/29/shell-script/" class="leancloud_visitors" data-flag-title="shell-script">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x8A18;&#x9304;&#x677F;&#x7AEF;&#x4F7F;&#x7528;&#x5230;&#x7684;shell script&#x4E00;&#x4E9B;&#x65B9;&#x5F0F;</p>
+<a id="more"></a>
+<!-- toc -->
+<ul>
+<li><a href="#shell-script">shell script</a><ul>
+<li><a href="#&#x5982;&#x4F55;&#x57F7;&#x884C;&#x76EE;&#x9304;&#x5167;&#x6240;&#x6709;script-run-parts">&#x5982;&#x4F55;&#x57F7;&#x884C;&#x76EE;&#x9304;&#x5167;&#x6240;&#x6709;script (run-parts)</a></li>
+<li><a href="#&#x5982;&#x4F55;&#x53D6;&#x5F97;link&#x5BE6;&#x969B;&#x4F4D;&#x7F6E;-readlink">&#x5982;&#x4F55;&#x53D6;&#x5F97;link&#x5BE6;&#x969B;&#x4F4D;&#x7F6E; (readlink)</a></li>
+<li><a href="#&#x6AA2;&#x67E5;&#x6A94;&#x6848;&#x662F;&#x5426;&#x5728;&#x5B58;&#x82E5;&#x4E0D;&#x5B58;&#x5728;&#x5247;&#x96E2;&#x958B;script">&#x6AA2;&#x67E5;&#x6A94;&#x6848;&#x662F;&#x5426;&#x5728;&#x5B58;&#xFF0C;&#x82E5;&#x4E0D;&#x5B58;&#x5728;&#x5247;&#x96E2;&#x958B;script</a></li>
+<li><a href="#&#x6E2C;&#x8A66;&#x8B8A;&#x6578;&#x662F;&#x5426;&#x70BA;&#x7A7A;&#x82E5;&#x662F;&#x5247;&#x96E2;&#x958B;script">&#x6E2C;&#x8A66;&#x8B8A;&#x6578;&#x662F;&#x5426;&#x70BA;&#x7A7A;&#xFF0C;&#x82E5;&#x662F;&#x5247;&#x96E2;&#x958B;script</a></li>
+</ul>
+</li>
+<li><a href="#busybox-command">busybox command</a><ul>
+<li><a href="#run-parts-&#x8AAA;&#x660E;">run-parts &#x8AAA;&#x660E;</a></li>
+<li><a href="#readlink-&#x8AAA;&#x660E;">readlink &#x8AAA;&#x660E;</a></li>
+<li><a href="#shell-test-&#x7528;&#x6CD5;">shell test &#x7528;&#x6CD5;</a></li>
+<li><a href="#busybox-config">busybox config</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a><ul>
+<li><a href="#&#x5982;&#x4F55;&#x53D6;&#x5F97;script&#x81EA;&#x5DF2;&#x7684;pid">&#x5982;&#x4F55;&#x53D6;&#x5F97;script&#x81EA;&#x5DF2;&#x7684;pid</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<h2 id="shell-script"><a href="#shell_script" class="headerlink" title="shell script"></a>shell script</h2><h3 id="&#x5982;&#x4F55;&#x57F7;&#x884C;&#x76EE;&#x9304;&#x5167;&#x6240;&#x6709;script-run-parts"><a href="#u5982_u4F55_u57F7_u884C_u76EE_u9304_u5167_u6240_u6709script__28run-parts_29" class="headerlink" title="&#x5982;&#x4F55;&#x57F7;&#x884C;&#x76EE;&#x9304;&#x5167;&#x6240;&#x6709;script (run-parts)"></a>&#x5982;&#x4F55;&#x57F7;&#x884C;&#x76EE;&#x9304;&#x5167;&#x6240;&#x6709;script (run-parts)</h3><ul>
+<li>&#x4F7F;&#x7528;run-parts&#x53EF;&#x4EE5;&#x53C3;&#x6578;&#x7D66;shell script</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">run-parts /etc/ppp/ip-down.d \</span><br><span class="line">  --arg=&quot;$1&quot; --arg=&quot;$2&quot; --arg=&quot;$3&quot; --arg=&quot;$4&quot; --arg=&quot;$5&quot; --arg=&quot;$6&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="&#x5982;&#x4F55;&#x53D6;&#x5F97;link&#x5BE6;&#x969B;&#x4F4D;&#x7F6E;-readlink"><a href="#u5982_u4F55_u53D6_u5F97link_u5BE6_u969B_u4F4D_u7F6E__28readlink_29" class="headerlink" title="&#x5982;&#x4F55;&#x53D6;&#x5F97;link&#x5BE6;&#x969B;&#x4F4D;&#x7F6E; (readlink)"></a>&#x5982;&#x4F55;&#x53D6;&#x5F97;link&#x5BE6;&#x969B;&#x4F4D;&#x7F6E; (readlink)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># follow any symlink to find the real file</span><br><span class="line">REALRESOLVCONF=$(readlink -f /etc/resolv.conf)</span><br></pre></td></tr></table></figure>
+<h3 id="&#x6AA2;&#x67E5;&#x6A94;&#x6848;&#x662F;&#x5426;&#x5728;&#x5B58;&#x82E5;&#x4E0D;&#x5B58;&#x5728;&#x5247;&#x96E2;&#x958B;script"><a href="#u6AA2_u67E5_u6A94_u6848_u662F_u5426_u5728_u5B58_uFF0C_u82E5_u4E0D_u5B58_u5728_u5247_u96E2_u958Bscript" class="headerlink" title="&#x6AA2;&#x67E5;&#x6A94;&#x6848;&#x662F;&#x5426;&#x5728;&#x5B58;&#xFF0C;&#x82E5;&#x4E0D;&#x5B58;&#x5728;&#x5247;&#x96E2;&#x958B;script"></a>&#x6AA2;&#x67E5;&#x6A94;&#x6848;&#x662F;&#x5426;&#x5728;&#x5B58;&#xFF0C;&#x82E5;&#x4E0D;&#x5B58;&#x5728;&#x5247;&#x96E2;&#x958B;script</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># If pppconfig has been removed we are not supposed to do anything.</span><br><span class="line">test -f /usr/sbin/pppconfig || exit 0</span><br></pre></td></tr></table></figure>
+<h3 id="&#x6E2C;&#x8A66;&#x8B8A;&#x6578;&#x662F;&#x5426;&#x70BA;&#x7A7A;&#x82E5;&#x662F;&#x5247;&#x96E2;&#x958B;script"><a href="#u6E2C_u8A66_u8B8A_u6578_u662F_u5426_u70BA_u7A7A_uFF0C_u82E5_u662F_u5247_u96E2_u958Bscript" class="headerlink" title="&#x6E2C;&#x8A66;&#x8B8A;&#x6578;&#x662F;&#x5426;&#x70BA;&#x7A7A;&#xFF0C;&#x82E5;&#x662F;&#x5247;&#x96E2;&#x958B;script"></a>&#x6E2C;&#x8A66;&#x8B8A;&#x6578;&#x662F;&#x5426;&#x70BA;&#x7A7A;&#xFF0C;&#x82E5;&#x662F;&#x5247;&#x96E2;&#x958B;script</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># If we don&apos;t have a provider we have nothing to do.</span><br><span class="line">test -z &quot;$PPP_IPPARAM&quot; &amp;&amp; exit 0</span><br></pre></td></tr></table></figure>
+<h2 id="busybox-command"><a href="#busybox_command" class="headerlink" title="busybox command"></a>busybox command</h2><h3 id="run-parts-&#x8AAA;&#x660E;"><a href="#run-parts__u8AAA_u660E" class="headerlink" title="run-parts &#x8AAA;&#x660E;"></a>run-parts &#x8AAA;&#x660E;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">BusyBox v1.16.1 (2016-02-19 09:03:37 UTC) multi-call binary.</span><br><span class="line"></span><br><span class="line">Usage: run-parts [-t] [-l] [-a ARG] [-u MASK] DIRECTORY</span><br><span class="line"></span><br><span class="line">Run a bunch of scripts in DIRECTORY</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">        -t      Print what would be run, but don&apos;t actually run anything</span><br><span class="line">        -a ARG  Pass ARG as argument for every program</span><br><span class="line">        -u MASK Set the umask to MASK before running every program</span><br><span class="line">        -l      Print names of all matching files even if they are not executable</span><br></pre></td></tr></table></figure>
+<h3 id="readlink-&#x8AAA;&#x660E;"><a href="#readlink__u8AAA_u660E" class="headerlink" title="readlink &#x8AAA;&#x660E;"></a>readlink &#x8AAA;&#x660E;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: readlink [-fnv] FILE</span><br><span class="line"></span><br><span class="line">Display the value of a symlink</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">        -f      Canonicalize by following all symlinks</span><br><span class="line">        -n      Don&apos;t add newline</span><br><span class="line">        -v      Verbose</span><br></pre></td></tr></table></figure>
+<h3 id="shell-test-&#x7528;&#x6CD5;"><a href="#shell_test__u7528_u6CD5" class="headerlink" title="shell test &#x7528;&#x6CD5;"></a>shell test &#x7528;&#x6CD5;</h3><ul>
+<li><strong>-x</strong> <ul>
+<li>True if file exists and is executable</li>
+<li>[ -x .] : &#x6210;&#x529F;&#x56DE;&#x50B3;0&#xFF0C;&#x5176;&#x5B83;&#x5247;&#x70BA;&#x975E;0</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DAEMON=/usr/sbin/ez-ipupdate</span><br><span class="line">NAME=ez-ipupdate</span><br><span class="line"></span><br><span class="line">[ -x $DAEMON ] || exit 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">test expression</span><br><span class="line"></span><br><span class="line"> [ expression ]</span><br><span class="line">        The test utility evaluates the expression and, if it evaluates to true, returns a zero (true) exit status; otherwise it returns 1 (false).  If there is no expression,</span><br><span class="line">        test also returns 1 (false).</span><br><span class="line"></span><br><span class="line">        All operators and flags are separate arguments to the test utility.</span><br><span class="line"></span><br><span class="line">        The following primaries are used to construct expression:</span><br><span class="line"></span><br><span class="line">        -b file       True if file exists and is a block special file.</span><br><span class="line"></span><br><span class="line">        -c file       True if file exists and is a character special file.</span><br><span class="line"></span><br><span class="line">        -d file       True if file exists and is a directory.</span><br><span class="line"></span><br><span class="line">        -e file       True if file exists (regardless of type).</span><br><span class="line"></span><br><span class="line">        -f file       True if file exists and is a regular file.</span><br><span class="line"></span><br><span class="line">        -g file       True if file exists and its set group ID flag is set.</span><br><span class="line"></span><br><span class="line">        -h file       True if file exists and is a symbolic link.</span><br><span class="line"></span><br><span class="line">        -k file       True if file exists and its sticky bit is set.</span><br><span class="line"></span><br><span class="line">        -n string     True if the length of string is nonzero.</span><br><span class="line"></span><br><span class="line">        -p file       True if file is a named pipe (FIFO).</span><br><span class="line"></span><br><span class="line">        -r file       True if file exists and is readable.</span><br><span class="line"></span><br><span class="line">        -s file       True if file exists and has a size greater than zero.</span><br><span class="line"></span><br><span class="line">        -t file_descriptor</span><br><span class="line">                      True if the file whose file descriptor number is file_descriptor is open and is associated with a terminal.</span><br><span class="line"></span><br><span class="line">        -u file       True if file exists and its set user ID flag is set.</span><br><span class="line"></span><br><span class="line">        -w file       True if file exists and is writable.  True indicates only that the write flag is on.  The file is not writable on a read-only file system even if this</span><br><span class="line">                      test indicates true.</span><br><span class="line"></span><br><span class="line">        -x file       True if file exists and is executable.  True indicates only that the execute flag is on.  If file is a directory, true indicates that file can be</span><br><span class="line">                      searched.</span><br><span class="line"></span><br><span class="line">        -z string     True if the length of string is zero.</span><br><span class="line"></span><br><span class="line">        -L file       True if file exists and is a symbolic link.  This operator is retained for compatibility with previous versions of this program.  Do not rely on its exis&#x2010;</span><br><span class="line">                      tence; use -h instead.</span><br><span class="line"></span><br><span class="line">        -O file       True if file exists and its owner matches the effective user id of this process.</span><br><span class="line"></span><br><span class="line">        -G file       True if file exists and its group matches the effective group id of this process.</span><br><span class="line"></span><br><span class="line">        -S file       True if file exists and is a socket.</span><br><span class="line"></span><br><span class="line">        file1 -nt file2</span><br><span class="line">                      True if file1 and file2 exist and file1 is newer than file2.</span><br><span class="line"></span><br><span class="line">        file1 -ot file2</span><br><span class="line">                      True if file1 and file2 exist and file1 is older than file2.</span><br><span class="line"></span><br><span class="line">        file1 -ef file2</span><br><span class="line">                      True if file1 and file2 exist and refer to the same file.</span><br><span class="line"></span><br><span class="line">        string        True if string is not the null string.</span><br><span class="line"></span><br><span class="line">        s1 = s2       True if the strings s1 and s2 are identical.</span><br><span class="line"></span><br><span class="line">        s1 != s2      True if the strings s1 and s2 are not identical.</span><br><span class="line"></span><br><span class="line">        s1 &lt; s2       True if string s1 comes before s2 based on the ASCII value of their characters.</span><br><span class="line"></span><br><span class="line">        s1 &gt; s2       True if string s1 comes after s2 based on the ASCII value of their characters.</span><br><span class="line"></span><br><span class="line">        n1 -eq n2     True if the integers n1 and n2 are algebraically equal.</span><br><span class="line"></span><br><span class="line">        n1 -ne n2     True if the integers n1 and n2 are not algebraically equal.</span><br><span class="line"></span><br><span class="line">        n1 -gt n2     True if the integer n1 is algebraically greater than the integer n2.</span><br><span class="line"></span><br><span class="line">        n1 -ge n2     True if the integer n1 is algebraically greater than or equal to the integer n2.</span><br><span class="line"></span><br><span class="line">        n1 -lt n2     True if the integer n1 is algebraically less than the integer n2.</span><br><span class="line"></span><br><span class="line">        n1 -le n2     True if the integer n1 is algebraically less than or equal to the integer n2.</span><br><span class="line"></span><br><span class="line">        These primaries can be combined with the following operators:</span><br><span class="line"></span><br><span class="line">        ! expression  True if expression is false.</span><br><span class="line"></span><br><span class="line">        expression1 -a expression2</span><br><span class="line">                      True if both expression1 and expression2 are true.</span><br><span class="line"></span><br><span class="line">        expression1 -o expression2</span><br><span class="line">                      True if either expression1 or expression2 are true.</span><br><span class="line"></span><br><span class="line">        (expression)  True if expression is true.</span><br><span class="line"></span><br><span class="line">        The -a operator has higher precedence than the -o operator.</span><br></pre></td></tr></table></figure>
+<h3 id="busybox-config"><a href="#busybox_config" class="headerlink" title="busybox config"></a>busybox config</h3><p>&#x76EE;&#x524D;embedded&#x662F;&#x4EE5;ash&#x70BA;&#x4E3B;&#xFF0C;&#x4F46;&#x4E5F;&#x65B0;&#x589E;&#x76F8;&#x5BB9;bash&#x90E8;&#x5206;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    Choose your default shell (ash)  ---&gt; </span><br><span class="line">--- ash</span><br><span class="line">[*]   bash-compatible extensions </span><br><span class="line">[*]   Job control</span><br><span class="line">[*]   alias support </span><br><span class="line">[*]   Builtin getopt to parse positional parameters</span><br><span class="line">[*]   Builtin version of &apos;echo&apos;</span><br><span class="line">[*]   Builtin version of &apos;printf&apos;   </span><br><span class="line">[*]   Builtin version of &apos;test&apos; </span><br><span class="line">[*]   &apos;command&apos; command to override shell builtins </span><br><span class="line">[ ]   Check for new mail on interactive shells  </span><br><span class="line">[*]   Optimize for size instead of speed</span><br><span class="line">[*]   Pseudorandom generator and $RANDOM variable </span><br><span class="line">[*]   Expand prompt str</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><h3 id="&#x5982;&#x4F55;&#x53D6;&#x5F97;script&#x81EA;&#x5DF2;&#x7684;pid"><a href="#u5982_u4F55_u53D6_u5F97script_u81EA_u5DF2_u7684pid" class="headerlink" title="&#x5982;&#x4F55;&#x53D6;&#x5F97;script&#x81EA;&#x5DF2;&#x7684;pid"></a>&#x5982;&#x4F55;&#x53D6;&#x5F97;script&#x81EA;&#x5DF2;&#x7684;pid</h3><ul>
+<li><p>&#x4F7F;&#x7528;$$&#x53D6;&#x5F97;pid</p>
+</li>
+<li><p>t1.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo $$</span><br><span class="line">for((i=0; i&lt;11; i=i+1))</span><br><span class="line">do</span><br><span class="line">    echo $i</span><br><span class="line">    sleep 1</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>[root@localhost tt]# ./t1.sh </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">18154</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>check<br>t1.sh pid&#x70BA;18154</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root     18154 18056  0 11:54 pts/2    00:00:00 /bin/bash ./t1.sh</span><br><span class="line">root     18158 18154  0 11:54 pts/2    00:00:00 sleep 1</span><br><span class="line">root     18159 16537  0 11:54 pts/1    00:00:00 ps -ef</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/shell-script/" rel="tag">#shell-script</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/28/smartctl/" rel="next" title="smartctl">
+                <i class="fa fa-chevron-left"></i> smartctl
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/04/routing-tables/" rel="prev" title="routing-tables">
+                routing-tables <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-script"><span class="nav-number">1.</span> <span class="nav-text">shell script</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何執行目錄內所有script-run-parts"><span class="nav-number">1.1.</span> <span class="nav-text">如何執行目錄內所有script (run-parts)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何取得link實際位置-readlink"><span class="nav-number">1.2.</span> <span class="nav-text">如何取得link實際位置 (readlink)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#檢查檔案是否在存若不存在則離開script"><span class="nav-number">1.3.</span> <span class="nav-text">檢查檔案是否在存，若不存在則離開script</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#測試變數是否為空若是則離開script"><span class="nav-number">1.4.</span> <span class="nav-text">測試變數是否為空，若是則離開script</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#busybox-command"><span class="nav-number">2.</span> <span class="nav-text">busybox command</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#run-parts-說明"><span class="nav-number">2.1.</span> <span class="nav-text">run-parts 說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#readlink-說明"><span class="nav-number">2.2.</span> <span class="nav-text">readlink 說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell-test-用法"><span class="nav-number">2.3.</span> <span class="nav-text">shell test 用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#busybox-config"><span class="nav-number">2.4.</span> <span class="nav-text">busybox config</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">3.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何取得script自已的pid"><span class="nav-number">3.1.</span> <span class="nav-text">如何取得script自已的pid</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/07/29/shell-script/';
+      var disqus_title = 'shell-script';
+      var disqus_url = 'http://yoursite.com/2016/07/29/shell-script/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

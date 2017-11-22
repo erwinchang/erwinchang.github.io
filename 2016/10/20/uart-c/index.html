@@ -1,0 +1,979 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,uart," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="uart c example code">
+<meta property="og:type" content="article">
+<meta property="og:title" content="uart-c">
+<meta property="og:url" content="http://yoursite.com/2016/10/20/uart-c/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="uart c example code">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="uart-c">
+<meta name="twitter:description" content="uart c example code">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> uart-c | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                uart-c
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-20T16:02:00+08:00" content="2016-10-20">
+              2016-10-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2016/10/20/uart-c/" class="leancloud_visitors" data-flag-title="uart-c">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>uart c example code</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161020</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#ch341">ch341</a><ul>
+<li><a href="#test-data">test data</a></li>
+<li><a href="#test-code">test code</a></li>
+<li><a href="#log">log</a></li>
+</ul>
+</li>
+<li><a href="#&#x8AAA;&#x660E;">&#x8AAA;&#x660E;</a><ul>
+<li><a href="#&#x540D;&#x7A31;&#x5B9A;&#x7FA9;">&#x540D;&#x7A31;&#x5B9A;&#x7FA9;</a></li>
+<li><a href="#pins-configuration">Pins Configuration</a></li>
+<li><a href="#&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;">&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="ch341"><a href="#ch341" class="headerlink" title="ch341"></a>ch341</h2><p>&#x4F7F;&#x7528;&#x793A;&#x6CE2;&#x5668;&#x67E5;&#x770B;&#xFF0C;&#x7576;&#x6309;&#x4E0B;&#x6642;KB-100&#x6709;&#x7ACB;&#x5373;&#x9001;&#x51FA;&#x8CC7;&#x6599;<br>&#x4F7F;&#x7528;ubuntu&#x6E2C;&#x8A66;&#xFF0C;&#x767C;&#x73FE;&#x5728;&#x53D6;&#x5F97;uart&#x6642;&#xFF0C;&#x9700;&#x8981;&#x7B49;&#x5230;buffer&#x5230;&#x4E00;&#x5B9A;&#x91CF;&#x624D;&#x6703;&#x5728;read&#x8B80;&#x5230;<br>&#x4F46;&#x4E86;&#x89E3;&#x539F;&#x56E0;</p>
+<h3 id="test-data"><a href="#test_data" class="headerlink" title="test data"></a>test data</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">&#x7B2C;&#x4E00;&#x6B21;&#x8A2D;&#x5B9A;CH3,,&#x7121;&#x8F38;&#x51FA;</span><br><span class="line">&#x7B2C;&#x4E8C;&#x6B21;&#x8A2D;&#x5B9A;CH6&#xFF0C;&#x8F38;&#x51FA;&#x5982;&#x4E0B;</span><br><span class="line">$ sudo ./a.out                                                                                                                                                                           </span><br><span class="line">test-1 uart</span><br><span class="line">[0]:ffffffff, size:1</span><br><span class="line">[1]:3, size:1</span><br><span class="line">[2]:0, size:1</span><br><span class="line">[3]:2, size:1</span><br><span class="line">[4]:7, size:1</span><br><span class="line">[5]:0, size:1</span><br><span class="line">[6]:c, size:1</span><br><span class="line">[7]:ffffffff, size:1</span><br><span class="line">[8]:3, size:1</span><br><span class="line">[9]:0, size:1</span><br><span class="line">[10]:2, size:1</span><br><span class="line">[11]:3f, size:1</span><br><span class="line">[12]:0, size:1</span><br><span class="line">[13]:44, size:1</span><br><span class="line">[14]:ffffffff, size:1</span><br><span class="line">[15]:3, size:1</span><br><span class="line">[16]:0, size:1</span><br><span class="line">[17]:2, size:1</span><br><span class="line">[18]:3f, size:1</span><br><span class="line">[19]:0, size:1</span><br><span class="line">[20]:44, size:1</span><br><span class="line">[21]:ffffffff, size:1</span><br><span class="line">[22]:3, size:1</span><br><span class="line">[23]:0, size:1</span><br><span class="line">[24]:0, size:1</span><br><span class="line">[25]:0, size:1</span><br><span class="line">[26]:0, size:1</span><br><span class="line">[27]:3, size:1</span><br><span class="line">[28]:ffffffff, size:1</span><br><span class="line">[29]:6, size:1</span><br><span class="line">[30]:0, size:1</span><br><span class="line">[31]:2, size:1</span><br><span class="line">&#x7B2C;&#x4E8C;&#x6B21;&#x8A2D;&#x5B9A;CH9&#xFF0C;&#x8F38;&#x51FA;&#x5982;&#x4E0B;</span><br><span class="line">...</span><br><span class="line">[11]:3f, size:1</span><br><span class="line">[12]:0, size:1</span><br><span class="line">[13]:44, size:1</span><br><span class="line">[14]:ffffffff, size:1</span><br><span class="line">[15]:3, size:1</span><br><span class="line">[16]:0, size:1</span><br><span class="line">[17]:2, size:1</span><br><span class="line">[18]:3f, size:1</span><br><span class="line">[19]:0, size:1</span><br><span class="line">[20]:44, size:1</span><br><span class="line">[21]:ffffffff, size:1</span><br><span class="line">[22]:3, size:1</span><br><span class="line">[23]:0, size:1</span><br><span class="line">[24]:0, size:1</span><br><span class="line">[25]:0, size:1</span><br><span class="line">[26]:0, size:1</span><br><span class="line">[27]:3, size:1</span><br><span class="line">[28]:ffffffff, size:1</span><br><span class="line">[29]:6, size:1</span><br><span class="line">[30]:0, size:1</span><br><span class="line">[31]:2, size:1</span><br><span class="line">[32]:9, size:1</span><br><span class="line">[33]:0, size:1</span><br><span class="line">[34]:11, size:1</span><br><span class="line">[35]:ffffffff, size:1</span><br><span class="line">[36]:6, size:1</span><br><span class="line">[37]:0, size:1</span><br><span class="line">[38]:2, size:1</span><br><span class="line">[39]:3f, size:1</span><br><span class="line">[40]:0, size:1</span><br><span class="line">[41]:47, size:1</span><br><span class="line">[42]:ffffffff, size:1</span><br><span class="line">[43]:6, size:1</span><br><span class="line">[44]:0, size:1</span><br><span class="line">[45]:2, size:1</span><br><span class="line">[46]:3f, size:1</span><br><span class="line">[47]:0, size:1</span><br><span class="line">[48]:47, size:1</span><br><span class="line">[49]:ffffffff, size:1</span><br><span class="line">[50]:6, size:1</span><br><span class="line">[51]:0, size:1</span><br><span class="line">[52]:0, size:1</span><br><span class="line">[53]:0, size:1</span><br><span class="line">[54]:0, size:1</span><br><span class="line">[55]:6, size:1</span><br><span class="line">[56]:ffffffff, size:1</span><br><span class="line">[57]:9, size:1</span><br><span class="line">[58]:0, size:1</span><br><span class="line">[59]:2, size:1</span><br><span class="line">[60]:a, size:1</span><br><span class="line">[61]:0, size:1</span><br><span class="line">[62]:15, size:1</span><br><span class="line">[63]:ffffffff, size:1</span><br></pre></td></tr></table></figure>
+<h3 id="test-code"><a href="#test_code" class="headerlink" title="test code"></a>test code</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">$ cat ex-1.c </span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">#include &lt;termios.h&gt;</span><br><span class="line"></span><br><span class="line">#define USB_UART &quot;/dev/ttyUSB2&quot;</span><br><span class="line">int uart_fd;</span><br><span class="line"></span><br><span class="line">int uart_init(void){</span><br><span class="line">    int fd;</span><br><span class="line">    struct termios oldtio,newtio;</span><br><span class="line"></span><br><span class="line">    //fd = open((const char *)USB_UART, O_RDWR | O_NOCTTY | O_NDELAY );</span><br><span class="line">    fd = open((const char *)USB_UART, O_RDWR );</span><br><span class="line">    if( fd &lt; 0 ){</span><br><span class="line">        printf(&quot;uart device: %s open fail\n&quot;,USB_UART);</span><br><span class="line">        return -1;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    if(tcgetattr(fd, &amp;oldtio) != 0 ){</span><br><span class="line">        printf(&quot;uart device: %s tcgetattr fail\n&quot;,USB_UART);</span><br><span class="line">        return -1;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    tcgetattr(fd,&amp;oldtio);</span><br><span class="line"></span><br><span class="line">    bzero(&amp;newtio,sizeof(newtio));</span><br><span class="line">    newtio.c_cflag = B2400 | CS8 | CLOCAL | CREAD;</span><br><span class="line">    newtio.c_iflag = IGNPAR;</span><br><span class="line"></span><br><span class="line">    // set input mode (non-canonical)</span><br><span class="line">    newtio.c_oflag = 0;</span><br><span class="line">    newtio.c_cc[VTIME] = 0;</span><br><span class="line">    newtio.c_cc[VMIN] = 1;</span><br><span class="line">    tcflush(fd,TCIFLUSH);</span><br><span class="line">    if(tcsetattr(fd, TCSANOW, &amp;newtio) != 0 ){</span><br><span class="line">        printf(&quot;uart device: %s tcsetattr fail\n&quot;,USB_UART);</span><br><span class="line">        return -1;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    return fd;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">void test_uart(void){</span><br><span class="line">    int i;</span><br><span class="line">    char ch[1];</span><br><span class="line">    int ret;</span><br><span class="line"></span><br><span class="line">    uart_fd = uart_init();</span><br><span class="line">    if( uart_fd &lt; 0) return;</span><br><span class="line"></span><br><span class="line">    i=0;</span><br><span class="line">    while(1){</span><br><span class="line">        ret = read(uart_fd,&amp;ch,sizeof(ch));</span><br><span class="line">        if(ret &gt; 0)</span><br><span class="line">            printf(&quot;[%d]:%x, size:%d\n&quot;,i++,ch[0],ret);</span><br><span class="line">        sleep(0.5);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">void chandler(int s){</span><br><span class="line">    printf(&quot;Caught signal %d\n&quot;,s);</span><br><span class="line"></span><br><span class="line">    if (uart_fd &gt; 0){</span><br><span class="line">        close(uart_fd);</span><br><span class="line">        printf(&quot;close fd\n&quot;);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    exit(1);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">int main(int argc,char** argv){</span><br><span class="line">    struct sigaction sigIntHandler;</span><br><span class="line"></span><br><span class="line">    sigIntHandler.sa_handler = chandler;</span><br><span class="line">    sigemptyset(&amp;sigIntHandler.sa_mask);</span><br><span class="line">    sigIntHandler.sa_flags = 0;</span><br><span class="line">    sigaction(SIGINT, &amp;sigIntHandler, NULL);</span><br><span class="line"></span><br><span class="line">    printf(&quot;test-1 uart\n&quot;);</span><br><span class="line">    uart_fd=-1;</span><br><span class="line"></span><br><span class="line">    test_uart();</span><br><span class="line">    return 0;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="log"><a href="#log" class="headerlink" title="log"></a>log</h3><ul>
+<li><p>log1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">$ lsusb -t</span><br><span class="line">/:  Bus 04.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/3p, 480M</span><br><span class="line">    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/8p, 480M</span><br><span class="line">        |__ Port 5: Dev 3, If 0, Class=Human Interface Device, Driver=usbhid, 12M</span><br><span class="line">        |__ Port 5: Dev 3, If 1, Class=Human Interface Device, Driver=usbhid, 12M</span><br><span class="line">        |__ Port 6: Dev 4, If 0, Class=Human Interface Device, Driver=usbhid, 1.5M</span><br><span class="line">        |__ Port 6: Dev 4, If 1, Class=Human Interface Device, Driver=usbhid, 1.5M</span><br><span class="line">/:  Bus 03.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/3p, 480M</span><br><span class="line">    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/6p, 480M</span><br><span class="line">        |__ Port 1: Dev 3, If 0, Class=Vendor Specific Class, Driver=ftdi_sio, 12M</span><br><span class="line">        |__ Port 5: Dev 8, If 0, Class=Chip/SmartCard, Driver=, 480M</span><br><span class="line">        |__ Port 5: Dev 8, If 1, Class=Mass Storage, Driver=usb-storage, 480M</span><br><span class="line">/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/4p, 5000M</span><br><span class="line">/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/4p, 480M</span><br><span class="line">    |__ Port 2: Dev 5, If 0, Class=Vendor Specific Class, Driver=ftdi_sio, 12M</span><br><span class="line">    |__ Port 3: Dev 4, If 0, Class=Communications, Driver=cdc_ether, 480M</span><br><span class="line">    |__ Port 3: Dev 4, If 1, Class=CDC Data, Driver=cdc_ether, 480M</span><br><span class="line">    |__ Port 4: Dev 6, If 0, Class=Vendor Specific Class, Driver=ch341, 12M</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ sudo lsusb -v -d 1a86:5523</span><br><span class="line">[sudo] password for erwin: </span><br><span class="line"></span><br><span class="line">Bus 001 Device 006: ID 1a86:5523 QinHeng Electronics CH341 in serial mode, usb to serial port converter</span><br><span class="line">Device Descriptor:</span><br><span class="line">  bLength                18</span><br><span class="line">  bDescriptorType         1</span><br><span class="line">  bcdUSB               1.10</span><br><span class="line">  bDeviceClass          255 Vendor Specific Class</span><br><span class="line">  bDeviceSubClass         0 </span><br><span class="line">  bDeviceProtocol         2 </span><br><span class="line">  bMaxPacketSize0         8</span><br><span class="line">  idVendor           0x1a86 QinHeng Electronics</span><br><span class="line">  idProduct          0x5523 CH341 in serial mode, usb to serial port converter</span><br><span class="line">  bcdDevice            3.04</span><br><span class="line">  iManufacturer           0 </span><br><span class="line">  iProduct                0 </span><br><span class="line">  iSerial                 0 </span><br><span class="line">  bNumConfigurations      1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  Configuration Descriptor:</span><br><span class="line">    bLength                 9</span><br><span class="line">    bDescriptorType         2</span><br><span class="line">    wTotalLength           39</span><br><span class="line">    bNumInterfaces          1</span><br><span class="line">    bConfigurationValue     1</span><br><span class="line">    iConfiguration          0 </span><br><span class="line">    bmAttributes         0x80</span><br><span class="line">      (Bus Powered)</span><br><span class="line">    MaxPower               96mA</span><br><span class="line">    Interface Descriptor:</span><br><span class="line">      bLength                 9</span><br><span class="line">      bDescriptorType         4</span><br><span class="line">      bInterfaceNumber        0</span><br><span class="line">      bAlternateSetting       0</span><br><span class="line">      bNumEndpoints           3</span><br><span class="line">      bInterfaceClass       255 Vendor Specific Class</span><br><span class="line">      bInterfaceSubClass      1 </span><br><span class="line">      bInterfaceProtocol      2 </span><br><span class="line">      iInterface              0 </span><br><span class="line">      Endpoint Descriptor:</span><br><span class="line">        bLength                 7</span><br><span class="line">        bDescriptorType         5</span><br><span class="line">        bEndpointAddress     0x82  EP 2 IN</span><br><span class="line">        bmAttributes            2</span><br><span class="line">          Transfer Type            Bulk</span><br><span class="line">          Synch Type               None</span><br><span class="line">          Usage Type               Data</span><br><span class="line">        wMaxPacketSize     0x0020  1x 32 bytes</span><br><span class="line">        bInterval               0</span><br><span class="line">      Endpoint Descriptor:</span><br><span class="line">        bLength                 7</span><br><span class="line">        bDescriptorType         5</span><br><span class="line">        bEndpointAddress     0x02  EP 2 OUT</span><br><span class="line">        bmAttributes            2</span><br><span class="line">          Transfer Type            Bulk</span><br><span class="line">          Synch Type               None</span><br><span class="line">          Usage Type               Data</span><br><span class="line">        wMaxPacketSize     0x0020  1x 32 bytes</span><br><span class="line">        bInterval               0</span><br><span class="line">      Endpoint Descriptor:</span><br><span class="line">        bLength                 7</span><br><span class="line">        bDescriptorType         5</span><br><span class="line">        bEndpointAddress     0x81  EP 1 IN</span><br><span class="line">        bmAttributes            3</span><br><span class="line">          Transfer Type            Interrupt</span><br><span class="line">          Synch Type               None</span><br><span class="line">          Usage Type               Data</span><br><span class="line">        wMaxPacketSize     0x0008  1x 8 bytes</span><br><span class="line">        bInterval               1</span><br><span class="line">Device Status:     0x0000</span><br><span class="line">  (Bus Powered)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>log2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cat driver/usbserial</span><br><span class="line">usbserinfo:1.0 driver:2.0</span><br><span class="line">0: module:ftdi_sio name:&quot;FTDI USB Serial Device&quot; vendor:0403 product:6001 num_ports:1 port:0 path:usb-0000:00:14.0-2</span><br><span class="line">1: module:ftdi_sio name:&quot;FTDI USB Serial Device&quot; vendor:0403 product:6001 num_ports:1 port:0 path:usb-0000:00:1a.0-1.1</span><br><span class="line">2: module:ch341 name:&quot;ch341-uart&quot; vendor:1a86 product:5523 num_ports:1 port:0 path:usb-0000:00:14.0-4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/15543193/retrieving-buffer-packet-payload-sizes-for-usb-serial-write-transfer-in-userspac" target="_blank" rel="external">Retrieving buffer/packet/payload sizes for USB serial write transfer in userspace Linux C code</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="&#x8AAA;&#x660E;"><a href="#u8AAA_u660E" class="headerlink" title="&#x8AAA;&#x660E;"></a>&#x8AAA;&#x660E;</h2><h3 id="&#x540D;&#x7A31;&#x5B9A;&#x7FA9;"><a href="#u540D_u7A31_u5B9A_u7FA9" class="headerlink" title="&#x540D;&#x7A31;&#x5B9A;&#x7FA9;"></a>&#x540D;&#x7A31;&#x5B9A;&#x7FA9;</h3><ul>
+<li><p><a href="https://playmyass.wordpress.com/2010/12/07/%E8%BD%89%E8%B2%BCuart-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E7%AF%87/" target="_blank" rel="external">UART &#x57FA;&#x672C;&#x6982;&#x5FF5;&#x7BC7; </a></p>
+</li>
+<li><p>&#x6578;&#x50B3;&#x6A5F;&#xFF08;DCE&#xFF09;<br>DCE(Data Communication Equipment)<br>&#x662F;&#x6307;Modem&#xFF0C;&#x6BCD;&#x63A5;&#x982D;</p>
+</li>
+<li><p>&#x8CC7;&#x6599;&#x7D42;&#x7AEF;&#xFF08;DTE&#xFF09;<br>DTE(Data Terminal equipment)<br>&#x662F;&#x6307;&#x96FB;&#x8166;,&#x516C;&#x63A5;&#x982D;</p>
+</li>
+<li><p>TX<br>output data (DTE -&gt; DCE)</p>
+</li>
+<li><p>RX<br>input data (DCE -&gt; DTE)</p>
+</li>
+</ul>
+<h3 id="pins-configuration"><a href="#Pins_Configuration" class="headerlink" title="Pins Configuration"></a>Pins Configuration</h3><ul>
+<li>Pins Configuration</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">PIN (9-pin)</th>
+<th style="text-align:left">Signal</th>
+<th style="text-align:left">Source</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">CD</td>
+<td style="text-align:left">DCE</td>
+<td style="text-align:left">Control</td>
+<td style="text-align:left">Carrier detect</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">RX</td>
+<td style="text-align:left">DCE</td>
+<td style="text-align:left">Data</td>
+<td style="text-align:left">Receive data</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">TX</td>
+<td style="text-align:left">DTE</td>
+<td style="text-align:left">Data</td>
+<td style="text-align:left">Transmit data</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">DTR</td>
+<td style="text-align:left">DTE</td>
+<td style="text-align:left">Control</td>
+<td style="text-align:left">Data terminal ready</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">SG</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Signal ground</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">DSR</td>
+<td style="text-align:left">DCE</td>
+<td style="text-align:left">Control</td>
+<td style="text-align:left">Data set ready</td>
+</tr>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">RTS</td>
+<td style="text-align:left">DTE</td>
+<td style="text-align:left">Control</td>
+<td style="text-align:left">Request to send</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:left">CTS</td>
+<td style="text-align:left">DCE</td>
+<td style="text-align:left">Control</td>
+<td style="text-align:left">Clear to send</td>
+</tr>
+<tr>
+<td style="text-align:left">9</td>
+<td style="text-align:left">RI</td>
+<td style="text-align:left">DCE</td>
+<td style="text-align:left">control</td>
+<td style="text-align:left">Ring indicator</td>
+</tr>
+</tbody>
+</table>
+<p><strong>&#x9060;&#x8DDD;&#x96E2;&#x901A;&#x4FE1;</strong></p>
+<p>RTS (request to send) &#x8ACB;&#x6C42;&#x767C;&#x9001;</p>
+<ul>
+<li><p>&#x53EF;&#x7528;CTS/RTS&#x6216;Xon/Xoff&#x6D41;&#x91CF;&#x63A7;&#x5236;(Flow control)</p>
+<ul>
+<li>DTE&#x8207;DCE&#x901F;&#x5EA6;&#x4E4B;&#x9593;&#x5B58;&#x5728;&#x5F88;&#x5927;&#x5DEE;&#x7570;,&#x9019;&#x6A23;&#x5728;&#x8CC7;&#x6599;&#x7684;&#x50B3;&#x9001;&#x8207;&#x63A5;&#x6536;&#x904E;&#x7A0B;&#x7576;&#x4E2D;&#x5F88;&#x53EF;&#x80FD;&#x51FA;&#x73FE;&#x6536;&#x65B9;&#x4F86;&#x4E0D;&#x53CA;&#x63A5;&#x6536;&#x7684;&#x60C5;&#x6CC1;,<br>&#x9019;&#x6642;&#x5C31;&#x9700;&#x8981;&#x5C0D;&#x767C;&#x65B9;&#x9032;&#x884C;&#x63A7;&#x5236;,&#x4EE5;&#x514D;&#x8CC7;&#x6599;&#x4E1F;&#x5931;,&#x9019;&#x500B;&#x904E;&#x7A0B;&#x5C31;&#x662F;&#x6240;&#x8B02;&#x7684;&#x6D41;&#x91CF;&#x63A7;&#x5236;</li>
+<li>CTS(clear to send)/RTS(request to send)&#x5247;&#x662F;&#x901A;&#x904E;&#x96FB;&#x8166;&#x8207;Modem&#x4E4B;&#x9593;&#x7684;&#x4FE1;&#x865F;&#x7DDA;&#x50B3;&#x9001;&#x63A7;&#x5236;&#x4FE1;&#x865F;&#x4F86;&#x5BE6;&#x73FE;&#x6D41;&#x91CF;&#x63A7;&#x5236;&#x7684;&#xFF0C;&#x5373;&#x786C;&#x9AD4;&#x65B9;&#x5F0F; </li>
+<li>&#x8ACB;&#x6C42;&#x767C;&#x9001;&#x4FE1;&#x865F;(RTS)&#x7531;&#x96FB;&#x8166;&#x7522;&#x751F;,&#x901A;&#x77E5;Modem&#x53EF;&#x4EE5;&#x767C;&#x9001;&#x8CC7;&#x6599;</li>
+<li>&#x6E05;&#x9664;&#x767C;&#x9001;&#x4FE1;&#x865F;(CTS)&#x7531;Modem&#x7522;&#x751F;,&#x901A;&#x77E5;&#x96FB;&#x8166;&#x53EF;&#x4EE5;&#x50B3;&#x9001;&#x8CC7;&#x6599;</li>
+</ul>
+</li>
+<li><p>DSR, DTR</p>
+<ul>
+<li>DSR: &#x8868;&#x793A; &#x6578;&#x50B3;&#x6A5F;&#xFF08;DCE&#xFF09;&#x6E96;&#x5099;&#x597D;,  &#x53EA;&#x8868;&#x793A;&#x8A2D;&#x5099;&#x672C;&#x8EAB;&#x53EF;&#x7528;</li>
+<li>DTR:  &#x8868;&#x793A; &#x8CC7;&#x6599;&#x7D42;&#x7AEF;&#xFF08;DTE&#xFF09;&#x6E96;&#x5099;&#x597D;, &#x53EA;&#x8868;&#x793A;&#x8A2D;&#x5099;&#x672C;&#x8EAB;&#x53EF;&#x7528; </li>
+</ul>
+</li>
+</ul>
+<p><strong>&#x8FD1;&#x8DDD;&#x96E2;&#x901A;&#x4FE1;</strong></p>
+<p>&#x96F6;Modem &#x7684;&#x6700;&#x7C21;&#x9023;&#x7DDA;&#xFF08;3&#x7DDA;&#x5236;&#xFF09;<br>&#x5728;&#x901A;&#x4FE1;&#x4E2D;&#x6839;&#x672C;&#x4E0D;&#x9700;&#x8981;RS-232C&#x7684;&#x63A7;&#x5236;&#x806F;&#x7D61;&#x4FE1;&#x865F;&#xFF0C;&#x53EA;&#x9700;&#x4E09;&#x6839;&#x7DDA;&#xFF08;&#x767C;&#x9001;&#x7DDA;&#x3001;&#x63A5;&#x6536;&#x7DDA;&#x3001;&#x4FE1;&#x865F;&#x5730;&#x7DDA;&#xFF09;&#x4FBF;&#x53EF;&#x5BE6;&#x73FE;&#x5168;&#x96D9;&#x5DE5;&#x975E;&#x540C;&#x6B65;&#x4E32;&#x5217;&#x901A;&#x4FE1;</p>
+<h3 id="&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;"><a href="#u7A0B_u5F0F_u6D41_u7A0B" class="headerlink" title="&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;"></a>&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;</h3><ul>
+<li><p>&#x7D42;&#x7AEF;&#x6A5F;&#x4ECB;&#x9762;</p>
+<ul>
+<li>&#x6B63;&#x898F;&#x6A21;&#x5F0F;<br>&#x9019;&#x7A2E;&#x6A21;&#x5F0F;&#x4E2D;&#xFF0C;&#x7D42;&#x7AEF;&#x8A2D;&#x5099;&#x6703;&#x8655;&#x7406;&#x7279;&#x6B8A;&#x5B57;&#x5143;</li>
+<li>&#x975E;&#x6B63;&#x898F;&#x6A21;&#x5F0F; (non-canonical)<br>&#x7A31;&#x70BA;raw&#x6A21;&#x5F0F;&#x3002;&#x5728;&#x9019;&#x7A2E;&#x6A21;&#x5F0F;&#x4E2D;&#xFF0C;&#x7D42;&#x7AEF;&#x8A2D;&#x5099;&#x4E0D;&#x6703;&#x8655;&#x7406;&#x7279;&#x6B8A;&#x5B57;&#x5143; </li>
+</ul>
+</li>
+<li><p>open dev (/dev/ttyUSBx)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//fd = open((const char *)USB_UART, O_RDWR | O_NOCTTY | O_NDELAY );</span><br><span class="line">   fd = open((const char *)USB_UART, O_RDWR );</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x8A2D;&#x5B9A;uart</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">newtio.c_cflag = B2400 | CS8 | CLOCAL | CREAD;</span><br><span class="line">newtio.c_iflag = IGNPAR;</span><br><span class="line"></span><br><span class="line">// set input mode (non-canonical)</span><br><span class="line">newtio.c_oflag = 0;</span><br><span class="line">newtio.c_cc[VTIME] = 0;</span><br><span class="line">newtio.c_cc[VMIN] = 1;</span><br><span class="line">tcflush(fd,TCIFLUSH);</span><br><span class="line">tcsetattr(fd, TCSANOW, &amp;newtio)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="http://shyuanliang.blogspot.tw/2010/09/linux-rs-232.html" target="_blank" rel="external">Linux RS-232 &#x7A0B;&#x5F0F;&#x8A2D;&#x8A08; </a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct termios{</span><br><span class="line">    tcflag_t c_iflag;         //&#x8F38;&#x5165;&#x6A21;&#x5F0F;</span><br><span class="line">    tcflag_t c_oflag;        //&#x8F38;&#x51FA;&#x6A21;&#x5F0F;</span><br><span class="line">    tcflag_t c_cflag;        //&#x63A7;&#x5236;&#x6A21;&#x5F0F;</span><br><span class="line">    tcflag_t c_lflag;         //&#x5C40;&#x90E8;&#x6A21;&#x5F0F;</span><br><span class="line">    cc_t c_cc[NCCS];   //&#x7279;&#x6B8A;&#x63A7;&#x5236;&#x5B57;&#x5143;}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x975E;&#x6B63;&#x898F;&#x6A21;&#x5F0F;&#x7684;&#x7279;&#x6B8A;&#x5B57;&#x5143;TIME&#x548C;MIN&#x5C0D;&#x65BC;&#x8F38;&#x5165;&#x5B57;&#x5143;&#x7684;&#x8655;&#x7406;&#x975E;&#x5E38;&#x91CD;&#x8981;&#xFF0C;&#x6709;&#x4E0B;&#x5217;4&#x7A2E;&#x7D44;&#x5408;&#xFF1A;<br><strong>&#x7531;&#x65BC;&#x5728;read&#x4E4B;&#x5F8C;&#x90FD;&#x6703;return, &#x56E0;&#x70BA;&#x82E5;&#x70BA;while(1)&#xFF0C;&#x8A18;&#x5F97;&#x52A0;&#x5165;sleep(&#x82E5;newtio.c_cc[VTIME]&#x8A2D;&#x5B9A;&#x70BA;0&#xFF0C;&#x4E0D;&#x7136;&#x6703;&#x5403;cpu)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x7D44;&#x5408;	&#x8AAA;&#x660E;</span><br><span class="line">MIN=0, TIME = 0	&#x4EE5;read()&#x51FD;&#x6578;&#x8B80;&#x53D6;&#x4E32;&#x5217;&#x57E0;&#x5F8C;&#x7ACB;&#x5373;&#x8FD4;&#x56DE;&#xFF0C;&#x82E5;&#x8B80;&#x53D6;&#x5230;&#x5B57;&#x5143;&#x5247;&#x50B3;&#x56DE;&#x5B57;&#x5143;&#xFF0C;&#x5426;&#x5247;&#x50B3;&#x56DE;0&#x3002;</span><br><span class="line">MIN=0, TIME &gt; 0	&#x4EE5;read()&#x51FD;&#x6578;&#x8B80;&#x53D6;&#x4E32;&#x5217;&#x57E0;&#x5F8C;&#xFF0C;&#x6703;&#x5728;TIME&#x6642;&#x9593;&#x5167;&#x7B49;&#x5F85;&#x7B2C;&#x4E00;&#x500B;&#x5B57;&#x5143;&#x3002;&#x82E5;&#x6709;&#x5B57;&#x5143;&#x50B3;&#x5165;&#x6216;&#x6642;&#x9593;&#x5230;&#xFF0C;&#x7ACB;&#x5373;&#x8FD4;&#x56DE;&#x3002;&#x82E5;&#x8B80;&#x53D6;&#x5230;&#x5B57;&#x5143;&#x5247;&#x50B3;&#x56DE;&#x5B57;&#x5143;&#xFF0C;&#x5426;&#x5247;&#x50B3;&#x56DE;0&#x3002;</span><br><span class="line">MIN &gt; 0, TIME = 0	&#x4EE5;read()&#x51FD;&#x6578;&#x8B80;&#x53D6;&#x4E32;&#x5217;&#x57E0;&#x5F8C;&#x6703;&#x7B49;&#x5F85;&#x8CC7;&#x6599;&#x50B3;&#x5165;&#xFF0C;&#x82E5;&#x6709;MIN&#x500B;&#x5B57;&#x5143;&#x53EF;&#x8B80;&#x53D6;&#xFF0C;&#x50B3;&#x56DE;&#x8B80;&#x53D6;&#x7684;&#x5B57;&#x5143;&#x6578;&#x3002;</span><br><span class="line">MIN &gt; 0, TIME &gt; 0	&#x4EE5;read()&#x51FD;&#x6578;&#x8B80;&#x53D6;&#x4E32;&#x5217;&#x57E0;&#x5F8C;&#xFF0C;&#x6703;&#x7B49;&#x5F85;&#x8CC7;&#x6599;&#x7684;&#x50B3;&#x5165;&#x3002;&#x82E5;&#x6709;MIN&#x500B;&#x5B57;&#x5143;&#x53EF;&#x8B80;&#x53D6;&#x6642;&#xFF0C;&#x50B3;&#x56DE;&#x8B80;&#x53D6;&#x5230;&#x7684;&#x5B57;&#x5143;&#x6578;&#x3002;&#x82E5;TIME&#x7684;&#x6642;&#x9593;&#x5230;&#xFF0C;&#x5247;read()&#x50B3;&#x56DE;0&#x3002;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="http://training-kits.appspot.com/serial-linux.html" target="_blank" rel="external">Serial Port Programming in Linux</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// Set the timeouts</span><br><span class="line">// VMIN is the minimum amount</span><br><span class="line">// of characters to read.</span><br><span class="line">options.c_cc[VMIN] = 0;</span><br><span class="line"></span><br><span class="line">// The amount of time to wait</span><br><span class="line">// for the amount of data</span><br><span class="line">// specified by VMIN in tenths</span><br><span class="line">// of a second.</span><br><span class="line">optiont.c_cc[VTIME] = 1;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://training-kits.appspot.com/serial-linux.html" target="_blank" rel="external">Serial Port Programming in Linux</a></li>
+<li><a href="http://shyuanliang.blogspot.tw/2010/09/linux-rs-232.html" target="_blank" rel="external">Linux RS-232 &#x7A0B;&#x5F0F;&#x8A2D;&#x8A08; </a></li>
+<li><a href="http://fanli7.net/a/bianchengyuyan/C__/20130214/306444.html" target="_blank" rel="external">linux&#x786C;&#x4EF6;&#x8A2D;&#x5099;&#x64CD;&#x4F5C;&#x51FD;&#x6578; open</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_a3d2fd2d0101elea.html" target="_blank" rel="external">LINUX Socket &#x7F51;&#x7EDC;&#x901A;&#x8BAF;</a></li>
+<li><a href="http://www.lookrs232.com/rs232/lcr.htm" target="_blank" rel="external">Line Control Register (LCR)</a></li>
+<li><a href="https://linux.die.net/man/3/termios" target="_blank" rel="external">termios</a></li>
+<li><a href="https://playmyass.wordpress.com/2010/12/07/%E8%BD%89%E8%B2%BCuart-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E7%AF%87/" target="_blank" rel="external">UART &#x57FA;&#x672C;&#x6982;&#x5FF5;&#x7BC7; </a></li>
+<li><a href="http://ind.ntou.edu.tw/~optp/VB%20CLASS/OPVB10%20RS232.pdf" target="_blank" rel="external">RS232 &#x4ECB;&#x9762;&#x7A0B;&#x5F0F;&#x63A7;&#x5236;</a></li>
+<li>&#x5176;&#x5B83;<ul>
+<li><a href="http://www.deansys.com/doc/ldd3/ch18.html" target="_blank" rel="external">&#x7B2C; 18 &#x7AE0; TTY &#x9A71;&#x52A8;</a></li>
+<li><a href="http://www.makelinux.net/ldd3/" target="_blank" rel="external">18.1. A Small TTY Driver</a></li>
+<li><a href="http://pubs.opengroup.org/onlinepubs/000095399/basedefs/xbd_chap11.html" target="_blank" rel="external">11. General Terminal Interface</a></li>
+<li><a href="https://www.cmrr.umn.edu/~strupp/serial.html#CONTENTS" target="_blank" rel="external">Serial Programming Guide</a></li>
+<li><a href="http://blog.chinaunix.net/uid-20564848-id-73206.html" target="_blank" rel="external">&#x6D45;&#x6790;ttyUSB&#x9A71;&#x52A8;usb_serial_driver-ch341</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/uart/" rel="tag">#uart</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/19/minicom/" rel="next" title="minicom">
+                <i class="fa fa-chevron-left"></i> minicom
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/21/ptz/" rel="prev" title="ptz">
+                ptz <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ch341"><span class="nav-number">3.</span> <span class="nav-text">ch341</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#test-data"><span class="nav-number">3.1.</span> <span class="nav-text">test data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#test-code"><span class="nav-number">3.2.</span> <span class="nav-text">test code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log"><span class="nav-number">3.3.</span> <span class="nav-text">log</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#說明"><span class="nav-number">4.</span> <span class="nav-text">說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#名稱定義"><span class="nav-number">4.1.</span> <span class="nav-text">名稱定義</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pins-configuration"><span class="nav-number">4.2.</span> <span class="nav-text">Pins Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程式流程"><span class="nav-number">4.3.</span> <span class="nav-text">程式流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">5.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/10/20/uart-c/';
+      var disqus_title = 'uart-c';
+      var disqus_url = 'http://yoursite.com/2016/10/20/uart-c/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

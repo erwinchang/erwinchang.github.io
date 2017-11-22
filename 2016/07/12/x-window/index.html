@@ -1,0 +1,1074 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,x-window,x11," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解x window 架構及 過程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="x-window">
+<meta property="og:url" content="http://yoursite.com/2016/07/12/x-window/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解x window 架構及 過程">
+<meta property="og:image" content="http://yoursite.com/2016/07/12/x-window/X_client_server_example.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/12/x-window/324px-Xcore-overview.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/12/x-window/X_Window_System_graphics_stack.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/12/x-window/software_display_servers_and_UI_toolkits.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/12/x-window/GNOME_Shell.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/12/x-window/800px-KDE_4.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/12/x-window/Xfce-4-1.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.595Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="x-window">
+<meta name="twitter:description" content="了解x window 架構及 過程">
+<meta name="twitter:image" content="http://yoursite.com/2016/07/12/x-window/X_client_server_example.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> x-window | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                x-window
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-12T16:00:48+08:00" content="2016-07-12">
+              2016-07-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/12/x-window/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/12/x-window/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/12/x-window/" class="leancloud_visitors" data-flag-title="x-window">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;x window &#x67B6;&#x69CB;&#x53CA; &#x904E;&#x7A0B;</p>
+<img src="/2016/07/12/x-window/X_client_server_example.png" alt="[X11]" title="[X11]">
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160712</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+<tr>
+<td style="text-align:left">20170222</td>
+<td style="text-align:left">&#x589E;&#x52A0;x-windows</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#x-windows">x-windows</a></li>
+<li><a href="#x-window-&#x904E;&#x7A0B;">x window &#x904E;&#x7A0B;</a><ul>
+<li><a href="#x&#x7684;cs&#x6A21;&#x5F0F;">X&#x7684;C/S&#x6A21;&#x5F0F;</a></li>
+</ul>
+</li>
+<li><a href="#x-window-&#x67B6;&#x69CB;">x window &#x67B6;&#x69CB;</a><ul>
+<li><a href="#x-window-system-core-protocol">X Window System core protocol</a></li>
+<li><a href="#x-windows-system-stack">X Windows System Stack</a></li>
+<li><a href="#xlib">Xlib</a></li>
+<li><a href="#xcb">XCB</a></li>
+</ul>
+</li>
+<li><a href="#open-source-dislplay-servers">Open Source Dislplay Servers</a></li>
+<li><a href="#user-interface">User interface</a><ul>
+<li><a href="#gnome-graphical-user-interface">GNOME graphical user interface</a></li>
+<li><a href="#kde-graphical-user-interface">KDE graphical user interface</a></li>
+<li><a href="#xfce-graphical-user-interface">Xfce graphical user interface</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="x-windows"><a href="#x-windows" class="headerlink" title="x-windows"></a>x-windows</h2><p>&#x4F86;&#x6E90;&#xFF1A;<a href="http://www.delightpress.com.tw/bookRead/SKNS00005_read.pdf" target="_blank" rel="external">Linux&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x4E4B;&#x5967;&#x7FA9; X Windows</a></p>
+<ul>
+<li><p>X Windows&#x7531;&#x4E09;&#x500B;&#x90E8;&#x5206;&#x7D44;&#x6210;</p>
+<ul>
+<li>X Server&#xFF1A;&#x4E3B;&#x63A7;&#x53F0;</li>
+<li>X Client: &#x61C9;&#x7528;&#x8EDF;&#x4F53;</li>
+<li>Window Manager&#xFF1A; &#x8996;&#x7A97;&#x7BA1;&#x7406;&#x8EDF;&#x4F53;</li>
+</ul>
+</li>
+<li><p>GNOME&#x53CA;KDE&#x70BA;Desktop Manager</p>
+</li>
+<li><p>X Server</p>
+<ul>
+<li>1&#x500B;Linux&#x4E2D;&#x53EF;&#x4EE5;&#x540C;&#x6642;&#x5B58;&#x5728;&#x597D;&#x5E7E;&#x500B;X Server</li>
+<li>&#x56E0;&#x6B64;&#xFF0C;&#x8981;&#x5148;&#x7D66;&#x6240;&#x57F7;&#x884C;&#x7684;X Server &#x4E00;&#x500B;&#x7DE8;&#x865F;&#xFF0C;&#x50CF;&#x300C;X&#xFF1A;2&#x300D;</li>
+<li>X&#x555F;&#x52D5;&#x6642;&#xFF0C;&#x9810;&#x8A2D;&#x7684;&#x7DE8;&#x865F;&#x6703;&#x5F9E;0&#x958B;&#x59CB;&#x8A08;&#x7B97;(&#x4E26;&#x4EE5;&#x7B2C;7&#x500B;console,&#x4E5F;&#x5C31;&#x662F;Ctrl+Alt+7)&#x7522;&#x751F;&#x7B2C;&#x4E00;&#x500B;X Server</li>
+</ul>
+</li>
+<li><p>X Client</p>
+<ul>
+<li>X Client&#x5C31;&#x6709;&#x975E;&#x5E38;&#x591A;&#x7684;&#x8EDF;&#x9AD4;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x6700;&#x7C21;&#x55AE;&#x7684;&#x5C31;&#x662F;xterm</li>
+<li>xterm &#x2013;display:0&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5C07;&#x8A72;xterm&#x8EDF;&#x9AD4;&#x5728;&#x7DE8;&#x865F;&#x70BA;0&#x7684;X Server&#x4E0A;&#x57F7;&#x884C; </li>
+</ul>
+</li>
+</ul>
+<a href="/2016/07/12/x-window/SKNS00005_read.pdf" title="[&#x672C;&#x5730;&#x9023;&#x7D50;]">[&#x672C;&#x5730;&#x9023;&#x7D50;]</a>
+<hr>
+<h2 id="x-window-&#x904E;&#x7A0B;"><a href="#x_window__u904E_u7A0B" class="headerlink" title="x window &#x904E;&#x7A0B;"></a>x window &#x904E;&#x7A0B;</h2><p>&#x7531;&#x65BC;X&#x53EA;&#x662F;&#x5DE5;&#x5177;&#x5957;&#x4EF6;&#x53CA;&#x67B6;&#x69CB;&#x898F;&#x7BC4;&#xFF0C;&#x672C;&#x8EAB;&#x4E26;&#x7121;&#x5BE6;&#x969B;&#x53C3;&#x8207;&#x904B;&#x4F5C;&#x7684;&#x5BE6;&#x9AD4;&#xFF0C;&#x6240;&#x4EE5;&#x5FC5;&#x9808;&#x6709;&#x4EBA;&#x4F9D;&#x64DA;&#x6B64;&#x6A19;&#x6E96;&#x9032;&#x884C;&#x958B;&#x767C;&#x64B0;&#x5BEB;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1984</td>
+<td style="text-align:left">&#x9EBB;&#x7701;&#x7406;&#x5DE5;&#x5B78;&#x9662; (MIT) &#x8207; DEC(Digital Equipment Corporation) &#x9032;&#x884C; Athena &#x8A08;&#x5283;&#x767C;&#x5C55; X Window System (&#x6839;&#x64DA;&#x53F2;&#x4E39;&#x4F5B;&#x5927;&#x5B78;&#x7684; W &#x8996;&#x7A97;&#x7CFB;&#x7D71;&#x70BA;&#x57FA;&#x790E;)&#xFF1B;&#x540C;&#x5E74;&#x9593;&#xFF0C;&#x7B2C;&#x4E00;&#x500B;&#x7248;&#x672C; X1 &#x767C;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:left">1987</td>
+<td style="text-align:left">X.Org&#x6240;&#x7528;&#x7684;&#x5354;&#x5B9A;&#x7248;&#x672C;&#xFF0C;X11&#xFF0C;&#x662F;&#x5728;1987&#x5E74;9&#x6708;&#x6240;&#x767C;&#x4F48;</td>
+</tr>
+<tr>
+<td style="text-align:left">1995</td>
+<td style="text-align:left">X&#x5354;&#x6703;&#x516C;&#x53F8;&#x63A5;&#x624B;&#x4E86;UNIX&#x7CFB;&#x7EDF;&#x7684;Motif&#x5DE5;&#x5177;&#x7BB1;&#x548C;CDE&#xFF08;Common Desktop Environment&#xFF09;&#x5171;&#x901A;&#x684C;&#x9762;&#x74B0;&#x5883;&#x3002;&#x800C;&#x539F;&#x6709;&#x7684;X&#x5354;&#x6703;&#x5728;&#x53D1;&#x5E03;&#x4E86;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x7684;X11R6.3&#x540E;&#xFF0C;&#x4E8E;1996&#x5E74;&#x672B;&#x89E3;&#x6563;</td>
+</tr>
+<tr>
+<td style="text-align:left">2004</td>
+<td style="text-align:left">&#x6700;&#x5E38;&#x89C1;&#x7684;X&#x53D8;&#x4F53;&#x662F;XFree86 (&#x5B83;&#x6E90;&#x4E8E;X&#x7684;386&#x517C;&#x5BB9;&#x7684;PC&#x673A;&#x7684;&#x79FB;&#x690D;)</td>
+</tr>
+<tr>
+<td style="text-align:left">2012</td>
+<td style="text-align:left">X.Org&#x57FA;&#x91D1;&#x4F1A;&#x6240;&#x9818;&#x5C0E; , &#x6700;&#x65B0;&#x7684;&#x53C3;&#x8003;&#x5BE6;&#x4F5C;&#xFF08;&#x53C3;&#x8003;&#x6027;&#x3001;&#x793A;&#x7BC4;&#x6027;&#x7684;&#x5BE6;&#x4F5C;&#x9AD4;&#xFF09;&#x7248;&#x672C;&#x5247;&#x662F;X11 Release 7.7&#xFF08;&#x7C21;&#x7A31;&#xFF1A;X11R7.7&#xFF09;</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>X11R7.7 : &#x4EE3;&#x8868; X Window &#x7684;&#x7B2C;&#x5341;&#x4E00;&#x7248;&#x4E2D;&#xFF0C;&#x6240;&#x958B;&#x767C;&#x7684;&#x7B2C;&#x4E03;&#x6B21;&#x767C;&#x884C;&#x7B2C;7&#x6B21;&#x4FEE;&#x6B63;&#x7248;&#x672C;</li>
+<li>Microsoft&#x7684;Windows&#x672C;&#x8EAB;&#x4E0D;&#x5305;&#x542B;&#x5BF9;X&#x7684;&#x652F;&#x6301;,  &#x5176;&#x4E2D;&#x6709;&#x81EA;&#x7531;&#x8F6F;&#x4EF6; X&#x5BA2;&#x6237;&#x7AEF;: Cygwin/X&#x3001;Xming, Xmanager</li>
+</ul>
+<h3 id="x&#x7684;cs&#x6A21;&#x5F0F;"><a href="#X_u7684C/S_u6A21_u5F0F" class="headerlink" title="X&#x7684;C/S&#x6A21;&#x5F0F;"></a>X&#x7684;C/S&#x6A21;&#x5F0F;</h3><ul>
+<li>X&#x80FD;&#x70BA;GUI&#x74B0;&#x5883;&#x63D0;&#x4F9B;&#x57FA;&#x672C;&#x7684;&#x6846;&#x67B6;</li>
+<li>X&#x63A1;&#x7528;C/S&#x7684;&#x67B6;&#x69CB;&#x6A21;&#x578B;&#xFF0C;&#x7531;&#x4E00;&#x4E2A;X&#x670D;&#x52A1;&#x5668;&#x4E0E;&#x591A;&#x500B;X&#x5BA2;&#x6237;&#x7AEF;&#x7A0B;&#x5E8F;&#x9032;&#x884C;&#x901A;&#x8BAF;</li>
+</ul>
+<h2 id="x-window-&#x67B6;&#x69CB;"><a href="#x_window__u67B6_u69CB" class="headerlink" title="x window &#x67B6;&#x69CB;"></a>x window &#x67B6;&#x69CB;</h2><h3 id="x-window-system-core-protocol"><a href="#X_Window_System_core_protocol" class="headerlink" title="X Window System core protocol"></a>X Window System core protocol</h3><p>X Window &#x6E90;&#x65BC;1984&#x5E74;&#x7684;&#x9EBB;&#x7701;&#x7406;&#x5DE5;&#x5B78;&#x9662;&#xFF08;&#x76EE;&#x524D;&#x6240;&#x767C;&#x4F48;&#x7684; X11 &#x767C;&#x8868;&#x65BC;1987&#x5E74;9&#x6708;&#xFF09;</p>
+<ul>
+<li>&#x4F86;&#x6E90;:<a href="https://en.wikipedia.org/wiki/X_Window_System_core_protocol" target="_blank" rel="external">X Window System core protocol</a></li>
+<li>The X Window System core protocol is the base protocol of the X Window System, which is a networked windowing system for bitmap displays used to build graphical user interfaces on Unix, Unix-like, and other operating systems.</li>
+<li><p>X Window System</p>
+<ul>
+<li>client&#x2013;server model</li>
+<li>a single server controls the input/output hardware, such as the screen, the keyboard, and the mouse</li>
+<li>all application programs act as clients</li>
+</ul>
+</li>
+<li><p>only four kinds of packets are sent, asynchronously, over the network: <strong>requests</strong>, <strong>replies</strong>, <strong>events</strong>, and <strong>errors</strong> </p>
+</li>
+</ul>
+<img src="/2016/07/12/x-window/324px-Xcore-overview.png" alt="[X11]" title="[X11]">
+<ul>
+<li>X Windows&#x5EFA;&#x7ACB;&#x6A19;&#x6E96;&#x7684;server&#x53CA;clinet&#x6E9D;&#x901A;&#x5354;&#x5B9A;</li>
+<li>&#x5927;&#x90E8;&#x5206;&#x7684;&#x5BA2;&#x6236;&#x7AEF;&#x7A0B;&#x5F0F;&#x85C9;&#x7531; Xlib &#x5BA2;&#x6236;&#x7AEF;&#x7A0B;&#x5F0F;&#x5EAB;&#x8207;&#x4F3A;&#x670D;&#x5668;&#x4EA4;&#x6D41;</li>
+<li>Xaw&#x3001;Motif&#x3001;GTK+&#x3001;Qt &#x4E4B;&#x985E;&#x4F7F;&#x7528;&#x5230; Xlib &#x7684;&#x7A0B;&#x5F0F;&#x5EAB;&#xFF0C;&#x65B9;&#x4FBF;&#x548C;&#x4F3A;&#x670D;&#x5668;&#x4E92;&#x52D5;</li>
+<li>&#x4F7F;&#x7528;&#x8005;&#x7684;&#x671F;&#x9593;&#x8981;&#x5982;&#x4F55;&#x958B;&#x59CB;&#xFF0C;&#x4E5F;&#x662F;&#x6838;&#x5FC3;&#x5354;&#x8B70;&#x672A;&#x80FD;&#x6DB5;&#x84CB;&#x5230;&#x7684;&#x554F;&#x984C;&#xFF0C;&#x9019;&#x90E8;&#x5206;&#x901A;&#x5E38;&#x7531;X&#x986F;&#x793A;&#x7BA1;&#x7406;&#x5668;&#x81EA;&#x52D5;&#x5B8C;&#x6210;</li>
+<li>&#x4F7F;&#x7528;&#x8005;&#x4E5F;&#x53EF;&#x4EE5;&#x57F7;&#x884C;xinit&#x6216;startx&#x7A0B;&#x5F0F;&#xFF0C;&#x4EE5;&#x624B;&#x52D5;&#x7684;&#x65B9;&#x5F0F;&#x958B;&#x59CB;&#x4E00;&#x500B;X&#x4F1A;&#x8BDD;</li>
+</ul>
+<h3 id="x-windows-system-stack"><a href="#X_Windows_System_Stack" class="headerlink" title="X Windows System Stack"></a>X Windows System Stack</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">X server</td>
+<td style="text-align:left">X.Org Server , Cygwin/X , XFree86</td>
+</tr>
+<tr>
+<td style="text-align:left">client &#x53EF;&#x4F7F;&#x7528;&#x7684;library</td>
+<td style="text-align:left">Xlib , XCB</td>
+</tr>
+<tr>
+<td style="text-align:left">X &#x986F;&#x793A;&#x7BA1;&#x7406;&#x5668;</td>
+<td style="text-align:left">&#x986F;&#x793A;&#x7BA1;&#x7406;&#x5668;&#x5728;&#x672C;&#x6A5F;&#x96FB;&#x8166;&#x4E0A;&#x57F7;&#x884C;&#x4E00;&#x500B;&#x6216;&#x591A;&#x500B; X &#x4F3A;&#x670D;&#x5668;&#xFF0C;&#x4E26;&#x63A5;&#x53D7;&#x4F86;&#x81EA;&#x9060;&#x7AEF;&#x96FB;&#x8166;&#x4E0A;&#x57F7;&#x884C;&#x7684; X &#x4F3A;&#x670D;&#x5668;&#x7684;&#x65B0;&#x9023;&#x7DDA;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">1- GNOME&#x663E;&#x793A;&#x7BA1;&#x7406;&#x5668; (GNOME Display Manager&#xFF0C;GDM)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">2- KDE &#x986F;&#x793A;&#x7BA1;&#x7406;&#x5668; (KDM)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">3- LightDM &#x986F;&#x793A;&#x7BA1;&#x7406;&#x5668; (LightDM)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">4- XDM &#x662F; X Window &#x7CFB;&#x7D71;&#x6240;&#x63D0;&#x4F9B;&#x6700;&#x57FA;&#x672C;&#x7684;&#x986F;&#x793A;&#x7BA1;&#x7406;&#x5668;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">5- twm (Tab Window Manager)</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x4F7F;&#x7528;&#x8005;&#x754C;&#x9762;&#x5143;&#x4EF6;</td>
+<td style="text-align:left">1- Motif (CDE)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">2-  GTK+ (&#x7528;&#x65BC;GNOME)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">3-  QT (&#x7528;&#x65BC;KDE)</td>
+</tr>
+</tbody>
+</table>
+<img src="/2016/07/12/x-window/X_Window_System_graphics_stack.png" alt="[X11]" title="[X11]">
+<h3 id="xlib"><a href="#Xlib" class="headerlink" title="Xlib"></a>Xlib</h3><ul>
+<li>Xlib appeared around 1985</li>
+<li>The XCB library is an attempt to replace Xlib</li>
+<li>Xlib (also known as libX11) is an X Window System protocol client library written in the C programming language</li>
+<li><p>Xlib functions to provide widget toolkits</p>
+<ul>
+<li>X Toolkit intrinsics (Xt)</li>
+<li>Athena widget set (Xaw)</li>
+<li>Motif</li>
+<li>FLTK</li>
+<li>GTK+</li>
+<li>QT(X11 version)</li>
+<li>SDL (Simple DirectMedia Layer)</li>
+</ul>
+</li>
+<li><p>Xlib does not provide support for buttons, menus, scrollbars, etc. Such widgets are provided by other libraries , which in turn use Xlib</p>
+<ul>
+<li>libraries built atop of the <strong>X Toolkit</strong> Intrinsics library (Xt), which provides support for widgets</li>
+<li>libraries that provide widget sets using Xlib directly, without the Xt library, such as the X versions of <strong>GTK+</strong>, <strong>Qt</strong>, FLTK and fpGUI.</li>
+</ul>
+</li>
+</ul>
+<h3 id="xcb"><a href="#XCB" class="headerlink" title="XCB"></a>XCB</h3><ul>
+<li>XCB (X protocol C-language Binding) is a library implementing the client-side of the X11 display server protocol </li>
+<li>The project was started in 2001 by Bart Massey and aims to replace Xlib</li>
+<li>The main goals of XCB are to<ul>
+<li>Reduce library size and complexity</li>
+<li>Provide direct access to the X11 protocol</li>
+</ul>
+</li>
+</ul>
+<h2 id="open-source-dislplay-servers"><a href="#Open_Source_Dislplay_Servers" class="headerlink" title="Open Source Dislplay Servers"></a>Open Source Dislplay Servers</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">display server</td>
+<td style="text-align:left">1- libxserver<x-server> : x.org, Xfree86, X-win32</x-server></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">2- libwayland-server: Wayland Compositor</td>
+</tr>
+<tr>
+<td style="text-align:left">system daemons:</td>
+<td style="text-align:left">1- systemd</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">2- D-Bus-Daemon</td>
+</tr>
+<tr>
+<td style="text-align:left">User Interface Toolkits</td>
+<td style="text-align:left">libwaylan-client: GTK+ , QT, SDL</td>
+</tr>
+</tbody>
+</table>
+<img src="/2016/07/12/x-window/software_display_servers_and_UI_toolkits.png" alt="[X11]" title="[X11]">
+<h2 id="user-interface"><a href="#User_interface" class="headerlink" title="User interface"></a>User interface</h2><h3 id="gnome-graphical-user-interface"><a href="#GNOME_graphical_user_interface" class="headerlink" title="GNOME graphical user interface"></a>GNOME graphical user interface</h3><img src="/2016/07/12/x-window/GNOME_Shell.png" alt="[GNOME]" title="[GNOME]">
+<h3 id="kde-graphical-user-interface"><a href="#KDE_graphical_user_interface" class="headerlink" title="KDE graphical user interface"></a>KDE graphical user interface</h3><img src="/2016/07/12/x-window/800px-KDE_4.png" alt="[KDE]" title="[KDE]">
+<h3 id="xfce-graphical-user-interface"><a href="#Xfce_graphical_user_interface" class="headerlink" title="Xfce graphical user interface"></a>Xfce graphical user interface</h3><img src="/2016/07/12/x-window/Xfce-4-1.png" alt="[Xfce]" title="[Xfce]">
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="https://zh.wikipedia.org/wiki/X_Window%E7%B3%BB%E7%B5%B1" target="_blank" rel="external">X Window&#x7CFB;&#x7D71;</a></li>
+<li><a href="https://en.wikipedia.org/wiki/X_Window_System_core_protocol" target="_blank" rel="external">X Window System core protocol</a></li>
+<li><a href="https://en.wikipedia.org/wiki/XCB" target="_blank" rel="external">XCB</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Xlib" target="_blank" rel="external">Xlib</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/X_Window%E7%B3%BB%E7%B5%B1%E7%9A%84%E5%8D%94%E8%AD%B0%E5%92%8C%E6%9E%B6%E6%A7%8B" target="_blank" rel="external">X Window&#x7CFB;&#x7D71;&#x7684;&#x5354;&#x8B70;&#x548C;&#x67B6;&#x69CB;</a></li>
+<li><a href="https://01.org/linuxgraphics?langredirect=1" target="_blank" rel="external">Intel&#xAE; Graphics for Linux</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0590xwindow.php" target="_blank" rel="external">X Window &#x8A2D;&#x5B9A;&#x4ECB;&#x7D39;</a></li>
+<li><a href="http://www.delightpress.com.tw/bookRead/SKNS00005_read.pdf" target="_blank" rel="external">x-windows </a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/x-window/" rel="tag">#x-window</a>
+          
+            <a href="/tags/x11/" rel="tag">#x11</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/07/fedora-system-default-target/" rel="next" title="fedora-system-default-target">
+                <i class="fa fa-chevron-left"></i> fedora-system-default-target
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/13/book-google-mindfulness/" rel="prev" title="book-google-mindfulness">
+                book-google-mindfulness <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x-windows"><span class="nav-number">3.</span> <span class="nav-text">x-windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x-window-過程"><span class="nav-number">4.</span> <span class="nav-text">x window 過程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x的cs模式"><span class="nav-number">4.1.</span> <span class="nav-text">X的C/S模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x-window-架構"><span class="nav-number">5.</span> <span class="nav-text">x window 架構</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x-window-system-core-protocol"><span class="nav-number">5.1.</span> <span class="nav-text">X Window System core protocol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#x-windows-system-stack"><span class="nav-number">5.2.</span> <span class="nav-text">X Windows System Stack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xlib"><span class="nav-number">5.3.</span> <span class="nav-text">Xlib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xcb"><span class="nav-number">5.4.</span> <span class="nav-text">XCB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#open-source-dislplay-servers"><span class="nav-number">6.</span> <span class="nav-text">Open Source Dislplay Servers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#user-interface"><span class="nav-number">7.</span> <span class="nav-text">User interface</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gnome-graphical-user-interface"><span class="nav-number">7.1.</span> <span class="nav-text">GNOME graphical user interface</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kde-graphical-user-interface"><span class="nav-number">7.2.</span> <span class="nav-text">KDE graphical user interface</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xfce-graphical-user-interface"><span class="nav-number">7.3.</span> <span class="nav-text">Xfce graphical user interface</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">8.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/07/12/x-window/';
+      var disqus_title = 'x-window';
+      var disqus_url = 'http://yoursite.com/2016/07/12/x-window/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

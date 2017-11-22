@@ -1,0 +1,879 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,onvif," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解pc onvif程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pc-nvr-onvif">
+<meta property="og:url" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解pc onvif程序">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/pc-GetCapabilities.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/pc-getprofiles.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/GetStreamUriResponse.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/GetSystemDateAndTime.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/GetSystemDateAndTime-Fault.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/SetSystemDateAndTime.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/RTSP-FLOW.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/RTSP-FLOW-OK(22.33).png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/pc-GetProfileResponse.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/ONVIF_recv.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/OnvifDoGetDeviceCapabilities.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/OnvifDoGetMediaProfiles.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/OnvifDoGetStreamUri.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/ldvr_rtp_unpackage.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/nal-type.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/write_frame.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.371Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pc-nvr-onvif">
+<meta name="twitter:description" content="了解pc onvif程序">
+<meta name="twitter:image" content="http://yoursite.com/2017/03/09/pc-nvr-onvif/pc-GetCapabilities.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> pc-nvr-onvif | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pc-nvr-onvif
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-03-09T09:55:02+08:00" content="2017-03-09">
+              2017-03-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2017/03/09/pc-nvr-onvif/" class="leancloud_visitors" data-flag-title="pc-nvr-onvif">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;pc onvif&#x7A0B;&#x5E8F;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170309</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#onvif_recv">ONVIF_recv</a></li>
+<li><a href="#onvif-recv-flow">ONVIF recv flow</a></li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="onvif_recv"><a href="#ONVIF_recv" class="headerlink" title="ONVIF_recv"></a>ONVIF_recv</h2><ul>
+<li><p>GetCapabilities</p>
+<img src="/2017/03/09/pc-nvr-onvif/pc-GetCapabilities.png" alt="[pc-GetCapabilities]" title="[pc-GetCapabilities]">
+</li>
+<li><p>GetProfiles</p>
+<img src="/2017/03/09/pc-nvr-onvif/pc-getprofiles.png" alt="[pc-getprofiles]" title="[pc-getprofiles]">
+</li>
+</ul>
+<ul>
+<li><p>GetStreamUriResponse</p>
+<img src="/2017/03/09/pc-nvr-onvif/GetStreamUriResponse.png" alt="[GetStreamUriResponse]" title="[GetStreamUriResponse]">
+</li>
+<li><p>GetSystemDateAndTime</p>
+<img src="/2017/03/09/pc-nvr-onvif/GetSystemDateAndTime.png" alt="[GetSystemDateAndTime]" title="[GetSystemDateAndTime]">
+</li>
+<li><p>GetSystemDateAndTime-Fault.png</p>
+<img src="/2017/03/09/pc-nvr-onvif/GetSystemDateAndTime-Fault.png" alt="[GetSystemDateAndTime]" title="[GetSystemDateAndTime]">
+</li>
+<li><p>SetSystemDateAndTime</p>
+<img src="/2017/03/09/pc-nvr-onvif/SetSystemDateAndTime.png" alt="[SetSystemDateAndTime]" title="[SetSystemDateAndTime]">
+</li>
+<li><p>RTSP-FLOW</p>
+<img src="/2017/03/09/pc-nvr-onvif/RTSP-FLOW.png" alt="[RTSP-FLOW]" title="[RTSP-FLOW]">
+</li>
+<li><p>RTSP-FLOW-OK(22.33)</p>
+<img src="/2017/03/09/pc-nvr-onvif/RTSP-FLOW-OK(22.33).png" alt="[RTSP-FLOW]" title="[RTSP-FLOW]">
+</li>
+<li><p>GetProfileResopnse<br>&#x7531;&#x65BC;&#x662F;4CH DTV&#xFF0C;&#x6BCF;CH&#x6709;&#x5927;&#x5C0F;&#x78BC;&#x6D41;&#xFF0C;&#x56E0;&#x6B64;&#x6703;&#x6709;8&#x500B;profile</p>
+<img src="/2017/03/09/pc-nvr-onvif/pc-GetProfileResponse.png" alt="[GetProfileResponse]" title="[GetProfileResponse]">
+</li>
+</ul>
+<h2 id="onvif-recv-flow"><a href="#ONVIF_recv_flow" class="headerlink" title="ONVIF recv flow"></a>ONVIF recv flow</h2><ul>
+<li><p>ONVIF_recv<br>RTCP&#x4EE5;0xC9&#x56DE;&#x61C9;<br>buffer<a href="http://gentlelogic.blogspot.tw/2011/11/exploring-h264-part-2-h264-bitstream.html" target="_blank" rel="external">1</a> == 0xC8 /<em> RTCP SR </em>/<br>buffer<a href="http://gentlelogic.blogspot.tw/2011/11/exploring-h264-part-2-h264-bitstream.html" target="_blank" rel="external">1</a> == 0xC9 /<em> RTCP RR </em>/</p>
+<img src="/2017/03/09/pc-nvr-onvif/ONVIF_recv.png" alt="[ONVIF_recv]" title="[ONVIF_recv]">
+</li>
+<li><p>OnvifDoGetDeviceCapabilities<br>&#x53D6;&#x5F97;device/image/media&#x7684;path</p>
+<img src="/2017/03/09/pc-nvr-onvif/OnvifDoGetDeviceCapabilities.png" alt="[OnvifDoGetDeviceCapabilities]" title="[OnvifDoGetDeviceCapabilities]">
+</li>
+<li><p>OnvifDoGetMediaProfiles<br>&#x53D6;&#x5F97;&#x5404;&#x983B;&#x9053;profile token&#x53CA;&#x89E3;&#x6790;&#x5EA6;</p>
+<img src="/2017/03/09/pc-nvr-onvif/OnvifDoGetMediaProfiles.png" alt="[OnvifDoGetMediaProfiles]" title="[OnvifDoGetMediaProfiles]">
+</li>
+<li><p>OnvifDoGetStreamUri<br>&#x53D6;&#x5F97;rtps port&#x53CA;stream_uri</p>
+<img src="/2017/03/09/pc-nvr-onvif/OnvifDoGetStreamUri.png" alt="[OnvifDoGetStreamUri]" title="[OnvifDoGetStreamUri]">
+</li>
+<li><p>ldvr_rtp_unpackage</p>
+<img src="/2017/03/09/pc-nvr-onvif/ldvr_rtp_unpackage.png" alt="[ldvr_rtp_unpackage]" title="[ldvr_rtp_unpackage]">
+<ul>
+<li>&#x7A0B;&#x5F0F;&#x7121;&#x8655;&#x7406;type6,7,8,9?<br>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="http://gentlelogic.blogspot.tw/2011/11/exploring-h264-part-2-h264-bitstream.html" target="_blank" rel="external">Exploring H.264. Part 2: H.264 Bitstream format </a><img src="/2017/03/09/pc-nvr-onvif/nal-type.png" alt="[nal-type]" title="[nal-type]">
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>write_frame<img src="/2017/03/09/pc-nvr-onvif/write_frame.png" alt="[write_frame]" title="[write_frame]">
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://gentlelogic.blogspot.tw/2011/11/exploring-h264-part-2-h264-bitstream.html" target="_blank" rel="external">Exploring H.264. Part 2: H.264 Bitstream format </a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/onvif/" rel="tag">#onvif</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/08/sscanf/" rel="next" title="sscanf">
+                <i class="fa fa-chevron-left"></i> sscanf
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/10/rtsp/" rel="prev" title="rtsp">
+                rtsp <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#onvif_recv"><span class="nav-number">3.</span> <span class="nav-text">ONVIF_recv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#onvif-recv-flow"><span class="nav-number">4.</span> <span class="nav-text">ONVIF recv flow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">5.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/03/09/pc-nvr-onvif/';
+      var disqus_title = 'pc-nvr-onvif';
+      var disqus_url = 'http://yoursite.com/2017/03/09/pc-nvr-onvif/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

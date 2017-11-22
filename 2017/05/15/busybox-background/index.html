@@ -1,0 +1,1081 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,busybox,daemon," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解process daemond定義了解busybox的background帶起的方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="busybox-background">
+<meta property="og:url" content="http://yoursite.com/2017/05/15/busybox-background/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解process daemond定義了解busybox的background帶起的方式">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.211Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="busybox-background">
+<meta name="twitter:description" content="了解process daemond定義了解busybox的background帶起的方式">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> busybox-background | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                busybox-background
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-05-15T14:00:00+08:00" content="2017-05-15">
+              2017-05-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/15/busybox-background/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/15/busybox-background/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/05/15/busybox-background/" class="leancloud_visitors" data-flag-title="busybox-background">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;process daemond&#x5B9A;&#x7FA9;<br>&#x4E86;&#x89E3;busybox&#x7684;background&#x5E36;&#x8D77;&#x7684;&#x65B9;&#x5F0F;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170513</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x7E3D;&#x7D50;">&#x7E3D;&#x7D50;</a></li>
+<li><a href="#daemon">Daemon</a><ul>
+<li><a href="#daemon&#x7A0B;&#x5E8F;">Daemon&#x7A0B;&#x5E8F;</a></li>
+<li><a href="#github-daemon">github daemon</a></li>
+</ul>
+</li>
+<li><a href="#daemon-example">daemon example</a><ul>
+<li><a href="#&#x95DC;&#x9589;tty&#x5C07;&#x6703;&#x7522;&#x751F;sighup&#x8A0A;&#x606F;&#x95DC;&#x9589;&#x76F8;&#x540C;sid&#x7684;process">&#x95DC;&#x9589;tty&#x5C07;&#x6703;&#x7522;&#x751F;SIGHUP&#x8A0A;&#x606F;&#xFF0C;&#x95DC;&#x9589;&#x76F8;&#x540C;sid&#x7684;process</a></li>
+<li><a href="#&#x4F7F;&#x7528;nohup&#x4E0D;&#x6703;&#x53D7;&#x5230;sighup&#x5F71;&#x97FF;">&#x4F7F;&#x7528;nohup&#x4E0D;&#x6703;&#x53D7;&#x5230;SIGHUP&#x5F71;&#x97FF;</a></li>
+<li><a href="#&#x4F7F;&#x7528;background&#x65B9;&#x5F0F;&#x5373;busybox">&#x4F7F;&#x7528;background&#x65B9;&#x5F0F;(&#x5373;busybox &amp;)</a></li>
+<li><a href="#session-id">session id</a></li>
+</ul>
+</li>
+<li><a href="#busybox">busybox</a><ul>
+<li><a href="#background">background</a></li>
+<li><a href="#telnetd">telnetd</a></li>
+<li><a href="#busybox-daemon">busybox daemon</a></li>
+<li><a href="#nohup">nohup</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x7E3D;&#x7D50;"><a href="#u7E3D_u7D50" class="headerlink" title="&#x7E3D;&#x7D50;"></a>&#x7E3D;&#x7D50;</h2><ul>
+<li><p>tty&#x95DC;&#x9589;, &#x76F8;&#x540C;sid&#x7684;prcoess&#x7522;&#x751F;&#x7D42;&#x7D50;<br>&#x7531;SIGHUP&#x4F86;&#x901A;&#x77E5;<br>&#x4E0D;&#x6703;&#x901A;&#x77E5;backgroud</p>
+</li>
+<li><p>session id<br>The session ID of a process is the process group ID of the session leader.<br>&#x82E5;&#x662F;&#x958B;&#x4E00;&#x500B;tty&#x767B;&#x5165;&#xFF0C;&#x518D;&#x5E36;&#x7A0B;&#x5F0F;&#xFF0C;&#x6B64;&#x6642;&#x5E36;&#x8D77;&#x7684;&#x7A0B;&#x5F0F;&#x7686;&#x70BA;&#x76F8;&#x540C;&#x7684;sid</p>
+</li>
+<li><p>busybox &amp;(&#x5373;backgroud)<br><strong>&#x540C; daemon</strong>&#xFF1A;&#x4F7F;&#x7528;fork,close stdin/stdout/stderr<br><strong>&#x4E0D;&#x540C; daemon</strong>&#xFF1A;&#x5E36;&#x8D77;&#x4E4B;&#x5F8C;&#x7684;ppid&#x9084;&#x662F;&#x6B64;tty&#xFF0C;&#x7576;tty&#x95DC;&#x9589;&#x5F8C;&#x6703;&#x88AB;init&#x63A5;&#x53D7;&#xFF0C;&#x4E0D;&#x6703;&#x8655;&#x7406;&#x76F8;&#x95DC;SIG</p>
+</li>
+<li><p>daemon<br><strong>fork</strong> : &#x7522;&#x751F;&#x65B0;&#x7684;process<br><strong>setsid</strong>:  &#x7522;&#x751F;&#x65B0;&#x7684;session id(&#x5206;&#x96E2;&#x76EE;&#x524D;&#x7684;tty&#xFF0C;&#x9632;&#x6B62;SIGHUP&#x8A0A;&#x606F;)<br><strong>catch signal</strong>: &#x81EA;&#x884C;&#x8655;&#x7406;SIGCHILD/SIGPIPE&#x7B49;&#x8A0A;&#x606F;<br><strong>for again</strong>: &#x8B93;process&#x76F4;&#x63A5;&#x7531;init&#x63A5;&#x7BA1;(&#x6B64;&#x6642;ppid&#x70BA;1)<br><strong>chdir</strong>: &#x5207;&#x63DB;&#x9810;&#x671F;&#x5DE5;&#x4F5C;&#x76EE;&#x9304;<br><strong>umask</strong>: &#x8A2D;&#x5B9A;&#x6A94;&#x6848;&#x6B0A;&#x9650;<br><strong>close</strong>: &#x95DC;&#x95DC;stdin/stdout/stderr&#xFF0C;&#x6539;&#x7531;&#x6A94;&#x6848;&#x4F86;log</p>
+<hr>
+</li>
+</ul>
+<h2 id="daemon"><a href="#Daemon" class="headerlink" title="Daemon"></a>Daemon</h2><h3 id="daemon&#x7A0B;&#x5E8F;"><a href="#Daemon_u7A0B_u5E8F" class="headerlink" title="Daemon&#x7A0B;&#x5E8F;"></a>Daemon&#x7A0B;&#x5E8F;</h3><p>&#x4F86;&#x6E90;&#xFF1A;<a href="http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html" target="_blank" rel="external">Linux Daemon Writing HOWTO</a>,<a href="http://felix-lin.com/linux/%E5%89%B5%E5%BB%BA-daemon-%E7%A8%8B%E5%BC%8F/" target="_blank" rel="external">&#x5275;&#x5EFA; Daemon &#x7A0B;&#x5F0F;</a></p>
+<ul>
+<li>daemon starts up<ul>
+<li>Fork off the parent process : fork&#x51FA;&#x65B0;&#x7684;processs</li>
+<li>Change file mode mask (umask)</li>
+<li>Open any logs for writing</li>
+<li>Create a unique Session ID (SID)  : setsid()</li>
+<li>Change the current working directory to a safe place</li>
+<li>Close standard file descriptors : close std in, std out and std err</li>
+<li>Enter actual daemon code</li>
+</ul>
+</li>
+</ul>
+<p>&#x4F86;&#x6E90;&#xFF1A;<a href="http://www.developerq.com/article/1500304636" target="_blank" rel="external">Linux&#x4E2D;&#x521B;&#x5EFA;&#x5B88;&#x62A4;&#x7A0B;&#x5E8F;</a></p>
+<ul>
+<li>busybox&#x7684;daemon (&#x5373;&amp;)</li>
+<li>&#x8207;&#x4E00;&#x822C;daemon&#x7A0B;&#x5E8F;&#x6BD4;&#x8F03;&#x4F86;&#x5C11;&#x4E86;<ul>
+<li>fork agin (?)<br>&#x5728;tty&#x95DC;&#x9589;&#x4E4B;&#x5F8C;&#x6703;&#x88AB;init&#x63A5;&#x6536;</li>
+<li>catch signal</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">daemon</th>
+<th style="text-align:left">busybox &amp;</th>
+<th style="text-align:left">telnetd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">fork</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">V</td>
+</tr>
+<tr>
+<td style="text-align:left">setsid</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">V</td>
+</tr>
+<tr>
+<td style="text-align:left">Catch signals</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">V</td>
+</tr>
+<tr>
+<td style="text-align:left">fork again</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">X?</td>
+<td style="text-align:left">X?</td>
+</tr>
+<tr>
+<td style="text-align:left">chdir</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">X</td>
+</tr>
+<tr>
+<td style="text-align:left">umask</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">X</td>
+</tr>
+<tr>
+<td style="text-align:left">close</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">V</td>
+<td style="text-align:left">V</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fork</strong> off the parent process &amp; let it terminate if forking was successful. -&gt; Because the parent process has terminated, the child process now runs in the background.</li>
+<li><strong>setsid</strong> - Create a new session. The calling process becomes the leader of the new session and the process group leader of the new process group. The process is now detached from its controlling terminal (CTTY).</li>
+<li><strong>Catch signals</strong> - Ignore and/or handle signals.</li>
+<li><strong>fork again</strong> let the parent process terminate to ensure that you get rid of the session leading process. (Only session leaders may get a TTY again.)<br>fork&#x5169;&#x6B21;&#xFF0C;&#x9019;&#x6A23;&#x8B93;&#x5B50;&#x9032;&#x7A0B;&#x76F4;&#x63A5;&#x9000;&#x51FA;&#xFF0C;&#x5B6B;&#x9032;&#x7A0B;&#x7D50;&#x675F;&#x5F8C;&#x5C31;&#x6210;&#x4E86;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#xFF0C;&#x6703;&#x88AB;init&#x63A5;&#x7BA1;&#xFF0C;&#x76F4;&#x63A5;&#x56DE;&#x6536;&#xFF0C;&#x4E0D;&#x7528;&#x7956;&#x7236;&#x9032;&#x7A0B;&#x7BA1;&#x4E86;</li>
+<li><strong>chdir</strong> Change the working directory of the daemon</li>
+<li><strong>umask</strong> - Change the file mode mask according to the needs of the daemon.</li>
+<li><strong>close</strong> - Close all open file descriptors that may be inherited from the parent process.</li>
+</ul>
+<p>telnetd : &#x8655;&#x7406;SIGPIPE/SIGCHLD&#x4FE1;&#x865F;</p>
+<h3 id="github-daemon"><a href="#github_daemon" class="headerlink" title="github daemon"></a>github daemon</h3><ul>
+<li><a href="https://github.com/bmc/daemonize" target="_blank" rel="external">bmc/daemonize</a><ul>
+<li><a href="https://raw.githubuserconatent.com/bmc/daemonize/master/daemon.c" target="_blank" rel="external">https://raw.githubusercontent.com/bmc/daemonize/master/daemon.c</a> </li>
+</ul>
+</li>
+<li><a href="https://github.com/jirihnidek/daemon" target="_blank" rel="external">jirihnidek/daemon</a></li>
+</ul>
+<hr>
+<h2 id="daemon-example"><a href="#daemon_example" class="headerlink" title="daemon example"></a>daemon example</h2><h3 id="&#x95DC;&#x9589;tty&#x5C07;&#x6703;&#x7522;&#x751F;sighup&#x8A0A;&#x606F;&#x95DC;&#x9589;&#x76F8;&#x540C;sid&#x7684;process"><a href="#u95DC_u9589tty_u5C07_u6703_u7522_u751FSIGHUP_u8A0A_u606F_uFF0C_u95DC_u9589_u76F8_u540Csid_u7684process" class="headerlink" title="&#x95DC;&#x9589;tty&#x5C07;&#x6703;&#x7522;&#x751F;SIGHUP&#x8A0A;&#x606F;&#xFF0C;&#x95DC;&#x9589;&#x76F8;&#x540C;sid&#x7684;process"></a>&#x95DC;&#x9589;tty&#x5C07;&#x6703;&#x7522;&#x751F;SIGHUP&#x8A0A;&#x606F;&#xFF0C;&#x95DC;&#x9589;&#x76F8;&#x540C;sid&#x7684;process</h3><ul>
+<li><p>&#x4F7F;&#x7528;telnet&#x767B;&#x5165;&#xFF0C;&#x677F;&#x7AEF;</p>
+<ul>
+<li>login[1399]: root login on &#x2018;pts/0&#x2019;</li>
+<li>1399&#x5373;telnet</li>
+<li>1403&#x70BA;a.out&#x7684;process<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> 1399 root      3180 S    -sh</span><br><span class="line"> 1403 root      1732 S    ./a.out</span><br><span class="line"> 1404 root      3180 R    ps</span><br><span class="line"># cat /tmp/showppid.1403.txt </span><br><span class="line">cnt:3, getppid = 1399</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>&#x95DC;&#x9589;telnet, &#x56E0;&#x6B64;a.out&#x6536;&#x5230;SIGHUP&#x8A0A;&#x606F;&#x95DC;&#x9589;</p>
+<ul>
+<li>pid 1399 (&#x5373;telnet)&#xFF0C;1403(&#x5373;a.out)&#x7686;&#x88AB;&#x7D42;&#x7D50;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 1221 root      3508 S    telnetd</span><br><span class="line"> 1346 root      3180 S    -sh</span><br><span class="line"> 1407 root      3180 R    ps</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>showppid.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/* showppid.c */</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main(void)</span><br><span class="line">{</span><br><span class="line">    int cnt=0;</span><br><span class="line">    FILE *fp;</span><br><span class="line">    char path[80];</span><br><span class="line"></span><br><span class="line">    //sleep(30);</span><br><span class="line">    snprintf(path, sizeof(path) - 1, &quot;/tmp/showppid.%d.txt&quot;, getpid());</span><br><span class="line">    fp = fopen(path, &quot;w+&quot;);</span><br><span class="line">    if(fp == 0){</span><br><span class="line">        return 0;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    fprintf(fp, &quot;getppid = %d\n&quot;, getppid());</span><br><span class="line">    fclose(fp);</span><br><span class="line">    while(1){</span><br><span class="line">        printf(&quot;showip\n&quot;);</span><br><span class="line">        fp = fopen(path, &quot;w+&quot;);</span><br><span class="line">        if(fp != 0){</span><br><span class="line">                fprintf(fp, &quot;cnt:%d, getppid = %d\n&quot;,cnt++,getppid());</span><br><span class="line">                fclose(fp);</span><br><span class="line">        }</span><br><span class="line">        sleep(3);</span><br><span class="line">    }</span><br><span class="line">    return 0;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x4F7F;&#x7528;nohup&#x4E0D;&#x6703;&#x53D7;&#x5230;sighup&#x5F71;&#x97FF;"><a href="#u4F7F_u7528nohup_u4E0D_u6703_u53D7_u5230SIGHUP_u5F71_u97FF" class="headerlink" title="&#x4F7F;&#x7528;nohup&#x4E0D;&#x6703;&#x53D7;&#x5230;SIGHUP&#x5F71;&#x97FF;"></a>&#x4F7F;&#x7528;nohup&#x4E0D;&#x6703;&#x53D7;&#x5230;SIGHUP&#x5F71;&#x97FF;</h3><ul>
+<li><p>nohup ./a.out </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> 1346 root      3180 S    -sh</span><br><span class="line"> 1408 root      3180 S    -sh</span><br><span class="line"> 1410 root      1732 S    ./a.out</span><br><span class="line"> 1411 root      3180 R    ps</span><br><span class="line"># cat /tmp/showppid.1410.txt </span><br><span class="line">cnt:4, getppid = 1408</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pid 1410(&#x5373;a.out)&#x9084;&#x5728;&#x5B58;&#xFF0C;pid 1408(telnet)&#x95DC;&#x9589;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> 1346 root      3180 S    -sh</span><br><span class="line"> 1410 root      1732 S    ./a.out</span><br><span class="line"> 1413 root      3180 R    ps</span><br><span class="line"># cat /tmp/showppid.1410.txt </span><br><span class="line">cnt:22, getppid = 1</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x4F7F;&#x7528;background&#x65B9;&#x5F0F;&#x5373;busybox"><a href="#u4F7F_u7528background_u65B9_u5F0F_28_u5373busybox__26amp_3B_29" class="headerlink" title="&#x4F7F;&#x7528;background&#x65B9;&#x5F0F;(&#x5373;busybox &amp;)"></a>&#x4F7F;&#x7528;background&#x65B9;&#x5F0F;(&#x5373;busybox &amp;)</h3><ul>
+<li><p>./a.out&amp;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> 1419 root      3180 S    -sh</span><br><span class="line"> 1420 root      1732 S    ./a.out</span><br><span class="line"> 1421 root      3180 R    ps</span><br><span class="line"># cat /tmp/showppid.1420.txt </span><br><span class="line">cnt:2, getppid = 1419</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x95DC;&#x9589;telnet(&#x5373;pid 1419)&#xFF0C;&#x6B64;&#x6642;a.out&#x9084;&#x5728;&#x5B58;(&#x5373;pid 1420)&#xFF0C;&#x4F46;&#x7531;init&#x63A5;&#x6536;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> 1346 root      3180 S    -sh</span><br><span class="line"> 1420 root      1732 S    ./a.out</span><br><span class="line"> 1423 root      3180 R    ps</span><br><span class="line"># cat /tmp/showppid.1420.txt </span><br><span class="line">cnt:12, getppid = 1</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="session-id"><a href="#session_id" class="headerlink" title="session id"></a>session id</h3><ul>
+<li><p>getsid - get session ID<br>The session ID of a process is the process group ID of the session leader.</p>
+</li>
+<li><p>session&#x5373;&#x70BA;tty&#x7684;pid</p>
+</li>
+<li><p>&#x4F7F;&#x7528;&amp;&#x5E36;&#x8D77;<br>sid&#x61C9;&#x8A72;&#x8981;&#x4E0D;&#x540C;&#xFF0C;&#x56E0;&#x70BA;setsid()?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a2.out&amp;</span><br><span class="line"></span><br><span class="line"> 1443 root      3180 S    -sh</span><br><span class="line"> 1445 root      1732 S    ./a2.out</span><br><span class="line"> 1446 root      3180 R    ps</span><br><span class="line"># cat /tmp/showppid.1445.txt </span><br><span class="line">cnt:3, getppid = 1443, getsid(0):1443</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x4F7F;&#x7528;nohup&#x5E36;&#x8D77;&#xFF0C;&#x4E4B;&#x5F8C;&#x95DC;&#x9589;tty</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">nohup a2.out</span><br><span class="line"></span><br><span class="line"> 1346 root      3180 S    -sh</span><br><span class="line"> 1465 root      3180 S    -sh</span><br><span class="line"> 1469 root      1732 S    ./a2.out</span><br><span class="line"> 1470 root      3180 R    ps</span><br><span class="line"># cat /tmp/showppid.1469.txt </span><br><span class="line">cnt:3, getppid = 1465, getsid(0):1465</span><br><span class="line"># </span><br><span class="line"></span><br><span class="line"> 1346 root      3180 S    -sh</span><br><span class="line"> 1469 root      1732 S    ./a2.out</span><br><span class="line"> 1473 root      3180 R    ps</span><br><span class="line"># cat /tmp/showppid.1469.txt </span><br><span class="line">cnt:12, getppid = 1, getsid(0):1465</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="busybox"><a href="#busybox" class="headerlink" title="busybox"></a>busybox</h2><p>&#x4F86;&#x6E90;&#xFF1A;<a href="http://goodspeedlee.blogspot.tw/2017/05/linux-note-daemon-background-process.html" target="_blank" rel="external">daemon &#x8207; background process &#x7684;&#x5DEE;&#x7570; </a></p>
+<h3 id="background"><a href="#background" class="headerlink" title="background"></a>background</h3><ul>
+<li>&#x5728;ash&#x74B0;&#x5883;&#x4E0B;&#x4F7F;&#x7528;a.out&amp; (&#x5373;&#x5E36;&amp;:&#x8868;&#x793A;background)</li>
+<li><p>&#x6CE8;&#x610F;&#xFF0C;&#x672A;&#x8A2D;&#x5B9A;: &#x5FFD;&#x7565;SIGHUP&#x4FE1;&#x865F;<br>  &#x6B64;&#x8A0A;&#x606F;&#x70BA;&#x95DC;&#x9589;console/tty&#x6642;&#x6703;&#xFF0C;&#x767C;&#x7D66;&#x6240;&#x6709;&#x76F8;&#x540C;session id&#x7684;prcoess</p>
+</li>
+<li><p>busybox&#x4E0B;&#x4F7F;&#x7528;&amp;, &#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;&#xFF1A; (ex. ./a.out&amp;)</p>
+</li>
+<li>bb_daemonize(DAEMON_DEVNULL_STDIO + DAEMON_CLOSE_EXTRA_FDS);</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">debianutils/start_stop_daemon.c</span><br><span class="line"></span><br><span class="line"> 400     *--argv = startas;                                                   </span><br><span class="line"> 401     if (opt &amp; OPT_BACKGROUND) {                                                                                                                                                                                                                 </span><br><span class="line"> 403         bb_daemonize(DAEMON_DEVNULL_STDIO + DAEMON_CLOSE_EXTRA_FDS);     </span><br><span class="line"> 404         /* DAEMON_DEVNULL_STDIO is superfluous -                         </span><br><span class="line"> 405          * it&apos;s always done by bb_daemonize() */                                                                                           </span><br><span class="line">xxx</span><br><span class="line"> 425     }</span><br></pre></td></tr></table></figure>
+<h3 id="telnetd"><a href="#telnetd" class="headerlink" title="telnetd"></a>telnetd</h3><ul>
+<li>telnetd&#x8655;&#x7406;SIGPIPE/SIGCHLD&#x4FE1;&#x865F;</li>
+<li>busybox telnetd&#x5982;&#x4E0B;<ul>
+<li>bb_daemonize_or_rexec()</li>
+<li>signal(SIGPIPE, SIG_IGN);</li>
+<li>signal(SIGCHLD, SIG_IGN); </li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> busybox-1.16.1/networking/telnetd.c</span><br><span class="line"></span><br><span class="line">470         if (!(opt &amp; OPT_FOREGROUND)) {                                   </span><br><span class="line">471             /* DAEMON_CHDIR_ROOT was giving inconsistent                 </span><br><span class="line">472              * behavior with/without -F, -i */                           </span><br><span class="line">473             bb_daemonize_or_rexec(0 /*was DAEMON_CHDIR_ROOT*/, argv);    </span><br><span class="line">474         }</span><br><span class="line">... </span><br><span class="line">503     /* We don&apos;t want to die if just one session is broken */             </span><br><span class="line">504     signal(SIGPIPE, SIG_IGN);</span><br><span class="line">...</span><br><span class="line">509         signal(SIGCHLD, SIG_IGN);</span><br></pre></td></tr></table></figure>
+<h3 id="busybox-daemon"><a href="#busybox_daemon" class="headerlink" title="busybox daemon"></a>busybox daemon</h3><ul>
+<li>bb_daemonize(DAEMON_DEVNULL_STDIO + DAEMON_CLOSE_EXTRA_FDS);</li>
+<li>FAST_FUNC bb_daemonize_or_rexec(int flags, char **argv)<ul>
+<li>DAEMON_DEVNULL_STDIO: &#x95DC;&#x9589;&#x6A19;&#x6E96;&#x8F38;&#x5165;/&#x8F38;&#x51FA;/&#x932F;&#x8AA4;&#x5224;&#x9762;&#xFF0C;&#x5C07;&#x9019;&#x4E9B;&#x5C0E;&#x5230;/dev/null</li>
+<li>fork_or_rexec(): fork&#x51FA;1&#x500B;thread</li>
+<li>setsid   </li>
+</ul>
+</li>
+</ul>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">include/libbb.h</span><br><span class="line">847 enum {                                                                   </span><br><span class="line">848     DAEMON_CHDIR_ROOT = 1,</span><br><span class="line">849     DAEMON_DEVNULL_STDIO = 2,                                            </span><br><span class="line">850     DAEMON_CLOSE_EXTRA_FDS = 4,                                          </span><br><span class="line">851     DAEMON_ONLY_SANITIZE = 8, /* internal use */                         </span><br><span class="line">852 };  </span><br><span class="line"></span><br><span class="line">856 # define fork_or_rexec(argv)                fork_or_rexec()              </span><br><span class="line">857 # define bb_daemonize_or_rexec(flags, argv) bb_daemonize_or_rexec(flags) </span><br><span class="line">858 # define bb_daemonize(flags)                bb_daemonize_or_rexec(flags, bogus)</span><br><span class="line"></span><br><span class="line">libbb/vfork_daemon_rexec.c</span><br><span class="line"></span><br><span class="line">283 /* Due to a #define in libbb.h on MMU systems we actually have 1 argument -</span><br><span class="line">284  * char **argv &quot;vanishes&quot; */                                             </span><br><span class="line">285 void FAST_FUNC bb_daemonize_or_rexec(int flags, char **argv)             </span><br><span class="line">286 {                                                                        </span><br><span class="line">287     int fd;                                                              </span><br><span class="line">288                                                                          </span><br><span class="line">289     if (flags &amp; DAEMON_CHDIR_ROOT)                                       </span><br><span class="line">290         xchdir(&quot;/&quot;);                                                     </span><br><span class="line">291                                                                          </span><br><span class="line">292     if (flags &amp; DAEMON_DEVNULL_STDIO) {                                  </span><br><span class="line">293         close(0);                                                        </span><br><span class="line">294         close(1);                                                        </span><br><span class="line">295         close(2);                                                        </span><br><span class="line">296     }                                                                    </span><br><span class="line">297                                                                          </span><br><span class="line">298     fd = open(bb_dev_null, O_RDWR);                                      </span><br><span class="line">299     if (fd &lt; 0) {                                                        </span><br><span class="line">300         /* NB: we can be called as bb_sanitize_stdio() from init         </span><br><span class="line">301          * or mdev, and there /dev/null may legitimately not (yet) exist!</span><br><span class="line">302          * Do not use xopen above, but obtain _ANY_ open descriptor,     </span><br><span class="line">303          * even bogus one as below. */                                   </span><br><span class="line">304         fd = xopen(&quot;/&quot;, O_RDONLY); /* don&apos;t believe this can fail */     </span><br><span class="line">305     }                                                                    </span><br><span class="line">306                                                                          </span><br><span class="line">307     while ((unsigned)fd &lt; 2)                                             </span><br><span class="line">308         fd = dup(fd); /* have 0,1,2 open at least to /dev/null */        </span><br><span class="line">309                                                                          </span><br><span class="line">310     if (!(flags &amp; DAEMON_ONLY_SANITIZE)) {                               </span><br><span class="line">311         if (fork_or_rexec(argv))                                         </span><br><span class="line">312             exit(EXIT_SUCCESS); /* parent */                             </span><br><span class="line">313         /* if daemonizing, make sure we detach from stdio &amp; ctty */      </span><br><span class="line">314         setsid();                                                        </span><br><span class="line">315         dup2(fd, 0);                                                     </span><br><span class="line">316         dup2(fd, 1);                                                     </span><br><span class="line">317         dup2(fd, 2);                                                     </span><br><span class="line">318     }                                                                    </span><br><span class="line">319     while (fd &gt; 2) {                                                     </span><br><span class="line">320         close(fd--);                                                     </span><br><span class="line">321         if (!(flags &amp; DAEMON_CLOSE_EXTRA_FDS))                                                                                                                                      </span><br><span class="line">322             return;                                                      </span><br><span class="line">323         /* else close everything after fd#2 */                           </span><br><span class="line">324     }                                                                    </span><br><span class="line">325 }  </span><br><span class="line"></span><br><span class="line">272 pid_t FAST_FUNC fork_or_rexec(void)                                      </span><br><span class="line">273 {                                                                        </span><br><span class="line">274     pid_t pid;                                                           </span><br><span class="line">275     pid = fork();                                                        </span><br><span class="line">276     if (pid &lt; 0) /* wtf? */                                              </span><br><span class="line">277         bb_perror_msg_and_die(&quot;fork&quot;);                                   </span><br><span class="line">278     return pid;                                                          </span><br><span class="line">279 }</span><br></pre></td></tr></table></figure>
+<h3 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h3><p>nohup - run a command immune to hangups, with output to a non-tty</p>
+<ul>
+<li>&#x95DC;&#x9589;stdin</li>
+<li>&#x5C07;stdout/stderr&#xFF0C;&#x5C0E;&#x5230;/root/nohup.out</li>
+<li>signal(SIGHUP, SIG_IGN)&#xFF0C;&#x4E0D;&#x7406;SIGHUP&#x8A0A;&#x606F;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">coreutils/nohup.c</span><br><span class="line"></span><br><span class="line">int nohup_main</span><br><span class="line">  46     /* If stdin is a tty, detach from it. */                             </span><br><span class="line">  47     if (isatty(STDIN_FILENO)) {                                          </span><br><span class="line">  48         /* bb_error_msg(&quot;ignoring input&quot;); */                            </span><br><span class="line">  49         close(STDIN_FILENO);                                             </span><br><span class="line">  50         xopen(bb_dev_null, O_RDONLY); /* will be fd 0 (STDIN_FILENO) */  </span><br><span class="line">  51     }</span><br><span class="line">...</span><br><span class="line">  53     nohupout = &quot;nohup.out&quot;;                                              </span><br><span class="line">  54     /* Redirect stdout to nohup.out, either in &quot;.&quot; or in &quot;$HOME&quot;. */     </span><br><span class="line">  55     if (isatty(STDOUT_FILENO)) {                                         </span><br><span class="line">  56         close(STDOUT_FILENO);                                            </span><br><span class="line">  57         if (open(nohupout, O_CREAT|O_WRONLY|O_APPEND, S_IRUSR|S_IWUSR) &lt; 0) {</span><br><span class="line">...</span><br><span class="line">  69     /* If we have a tty on stderr, redirect to stdout. */                </span><br><span class="line">  70     if (isatty(STDERR_FILENO)) {                                         </span><br><span class="line">  71         /* if (stdout_wasnt_a_tty)                                       </span><br><span class="line">  72             bb_error_msg(&quot;redirecting stderr to stdout&quot;); */             </span><br><span class="line">  73         dup2(STDOUT_FILENO, STDERR_FILENO);                              </span><br><span class="line">  74     } </span><br><span class="line">...</span><br><span class="line">  76     signal(SIGHUP, SIG_IGN);</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html" target="_blank" rel="external">Linux Daemon Writing HOWTO</a></li>
+<li><a href="http://www.informit.com/articles/article.aspx?p=397655&amp;seqNum=6" target="_blank" rel="external">The Process Model of Linux Application Development</a><ul>
+<li>Sessions<br>When a user logs out of a system, the kernel needs to terminate all the processes the user had running (otherwise, users would leave a slew of old processes sitting around waiting for input that can never arrive)</li>
+</ul>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/6548823/use-and-meaning-of-session-and-process-group-in-unix" target="_blank" rel="external">use-and-meaning-of-session-and-process-group-in-unix</a><br>  A session is a collection of process groups, which are either attached to a single terminal device (known as the controlling terminal) or not attached to any terminal.</p>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/32780706/does-linux-kill-background-processes-if-we-close-the-terminal-from-which-it-has" target="_blank" rel="external">Who should kill jobs</a><br>&#x7576;&#x95DC;&#x9589;tty&#x6216;console&#x6642;&#xFF0C;<br>kernel&#x5C07;&#x6703;&#x9001;&#x51FA;&#x8A0A;&#x606F;&#x7D66;&#x76F8;&#x540C;session id&#x4E0B;&#x7684;&#x6240;&#x6709;&#x7684;process SIGHUP&#x8A0A;&#x865F;&#xFF0C;&#x7D42;&#x7D50;procss<br>(&#x5728;hi3535 ash&#x88E1;&#x9762;&#x662F;&#x4E0D;&#x6703;&#x9001;&#x51FA;SIGHUP&#x7D66;backgroud process)</p>
+</li>
+<li><p><a href="https://fcamel-life.blogspot.tw/2012/01/signal.html" target="_blank" rel="external">signal&#x5C0F;&#x77E5;&#x8B58;</a><br>terminal &#x65B7;&#x7DDA; (hangup) &#x6642;, terminal &#x7684;&#x4E3B;&#x63A7; process &#x6703;&#x6536;&#x5230; SIGHUP&#x3002;&#x800C;&#x5B83;&#x7684;&#x9810;&#x8A2D;&#x884C;&#x70BA;&#x662F;&#x7D42;&#x7D50;&#x7A0B;&#x5F0F;, &#x6240;&#x4EE5;&#x95DC;&#x6389; terminal &#x6642;, &#x88E1;&#x9762;&#x7684;&#x7A0B;&#x5F0F;&#x6703;&#x76F4;&#x63A5;&#x7D50;&#x675F;</p>
+</li>
+<li><p><a href="http://goodspeedlee.blogspot.tw/2017/05/linux-note-daemon-background-process.html" target="_blank" rel="external">daemon &#x8207; background process &#x7684;&#x5DEE;&#x7570; </a></p>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/8319484/regarding-background-processes-using-fork-and-child-processes-in-my-dummy-shel" target="_blank" rel="external">regarding-background-processes-using-fork-and-child-processes-in-my-dummy-shel</a><br>You do not want to use the double-fork() method in a shell<br>(that is for writing daemons that specifically want to escape from supervision by the shell that ran them)</p>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/10932592/why-fork-twice" target="_blank" rel="external">why-fork-twice</a></p>
+</li>
+<li><a href="http://jyhshin.pixnet.net/blog/post/26588108-%E9%98%B2%E6%AD%A2%E6%AE%AD%E5%B1%8D%E8%A1%8C%E7%A8%8B%E7%94%A2%E7%94%9F" target="_blank" rel="external">&#x9632;&#x6B62;&#x6BAD;&#x5C4D;&#x884C;&#x7A0B;&#x7522;&#x751F;</a></li>
+</ul>
+<p>&#x7576;&#x7A0B;&#x5E8F;&#x7D93;&#x7531;&#x7CFB;&#x7D71;&#x547C;&#x53EB; fork() &#x7522;&#x751F;&#x53E6;&#x4E00;&#x500B; &#x7A0B;&#x5E8F;&#x6642;&#xFF0C;&#x9019;&#x5169;&#x500B;&#x7A0B;&#x5E8F;&#x9593;&#x5C31;&#x5B58;&#x5728;&#x4E86;&#x7236;&#x5B50;&#x95DC;&#x4FC2;</p>
+<ul>
+<li>&#x7576;&#x5B50;&#x7A0B;&#x5E8F;&#x7D50;&#x675F;&#x6642;&#xFF0C;&#x7CFB;&#x7D71;&#x6703;&#x5C07;&#x5B50;&#x7A0B;&#x5E8F;&#x7684;&#x7D50;&#x675F;&#x72C0;&#x614B;&#x4FDD;&#x5B58;&#x8D77;&#x4F86;&#xFF0C;&#x63A5;&#x8457;&#x767C;&#x51FA;&#x8A0A;&#x865F; SIGCHLD &#x901A; &#x77E5;&#x7236;&#x7A0B;&#x5E8F;&#x4F86;&#x53D6;&#x5B50;&#x7A0B;&#x5E8F;&#x7684;&#x7D50;&#x675F;&#x72C0;&#x614B;&#x78BC;</li>
+<li>&#x5982;&#x679C;&#x7236;&#x7A0B;&#x5E8F;&#x6BD4;&#x5B50;&#x7A0B;&#x5E8F;&#x65E9;&#x7D50;&#x675F;&#x7684;&#x8A71;&#xFF0C;&#x5247;&#x5B50;&#x7A0B;&#x5E8F;&#x5C07;&#x6210;&#x70BA;&#x5B64;&#x5152;&#xFF0C;&#x90A3;&#x9EBC;&#x7CFB;&#x7D71;&#x6703;&#x5C07;&#x6B64;&#x5B64;&#x5152;&#x4EA4;&#x7D66; &#x7A0B;&#x5E8F; init (pid = 0) </li>
+<li>&#x7236;&#x7A0B;&#x5E8F;&#x6839;&#x672C;&#x5FD8;&#x4E86;&#x8981;&#x8655;&#x7406;&#x7684;&#x8A71;&#xFF0C;&#x90A3;&#x9EBC;&#x5C31;&#x6703;&#x5F62;&#x6210;&#x4E00;&#x500B; zombie &#x7A0B;&#x5E8F;&#xFF0C;&#x5DF2;&#x7D93;&#x5B8C;&#x5168;&#x6C92;&#x6709;&#x6D3B; &#x52D5;&#xFF0C;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x8CC7;&#x6E90;&#x4E5F;&#x90FD;&#x88AB;&#x7CFB;&#x7D71;&#x56DE;&#x6536;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x4ECD;&#x7136;&#x4F54;&#x4E86;&#x8655;&#x7406;&#x7A0B;&#x5E8F;&#x8868;&#x7684;&#x4E00;&#x7B46;&#x8A18;&#x9304;</li>
+<li>&#x56E0;&#x70BA;&#x7CFB;&#x7D71;&#x5C0D;&#x65BC; SIGCHLD &#x8A0A;&#x865F;&#x7684;&#x8655;&#x7406;&#x65B9;&#x5F0F;&#xFF0C;&#x9810;&#x8A2D;&#x662F;&#x4E0D;&#x7406;&#x6703;&#xFF0C;&#x5982;&#x679C;&#x7236;&#x7A0B;&#x5E8F;&#x5FD8;&#x4E86;&#x8A2D;&#x5B9A;&#x6355;&#x6349; SIGCHLD &#x8A0A;&#x865F;</li>
+</ul>
+<p>&#x5728;&#x4E00;&#x822C;&#x7684;daemon&#x4E2D;&#x6703;&#x770B;&#x5230;fork&#x4E8C;&#x6B21;&#xFF0C;&#x4F86;&#x7522;&#x751F;&#x5B64;&#x5152;&#xFF0C;&#x56E0;&#x6B64;&#x81EA;&#x7136;&#x7531;init&#x63A5;&#x7BA1;</p>
+<ul>
+<li>&#x5229;&#x7528;&#x5169;&#x6B21; fork() &#xFF0C;&#x5F62;&#x6210;&#x7956;&#x5B6B;&#x95DC;&#x4FC2;&#xFF0C;&#x7531;&#x65BC;&#x7CFB;&#x7D71;&#x53EA;&#x627F;&#x8A8D;&#x7A0B;&#x5E8F;&#x9593;&#x7684;&#x7236;&#x5B50;&#x95DC;&#x4FC2;&#xFF0C;&#x4E26;&#x4E0D;&#x627F;&#x8A8D; &#x7956;&#x5B6B;&#x95DC;&#x4FC2;&#xFF0C;&#x9019;&#x6A23;&#x53EF;&#x8B93;&#x65B0;&#x751F;&#x7684;&#x7A0B;&#x5E8F;&#x5728;&#x7D50;&#x675F;&#x6642;&#xFF0C;&#x81EA;&#x7136;&#x5730;&#x5F62;&#x6210;&#x5B64;&#x5152;&#xFF0C;&#x7531;&#x7CFB;&#x7D71;&#x4EA4;&#x7D66; init &#x7A0B; &#x5E8F;&#x57F7;&#x884C;</li>
+</ul>
+<ul>
+<li><a href="https://read01.com/ADo73o.html" target="_blank" rel="external">zombie&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;&#x3001;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#x548C;&#x5B88;&#x8B77;&#x9032;&#x7A0B;</a></li>
+<li><p>&#x5982;&#x4F55;&#x907F;&#x514D;&#x6BAD;&#x5C4D;&#x9032;&#x7A0B;<br>fork&#x5169;&#x6B21;&#xFF0C;&#x9019;&#x6A23;&#x8B93;&#x5B50;&#x9032;&#x7A0B;&#x76F4;&#x63A5;&#x9000;&#x51FA;&#xFF0C;&#x5B6B;&#x9032;&#x7A0B;&#x7D50;&#x675F;&#x5F8C;&#x5C31;&#x6210;&#x4E86;&#x5B64;&#x5152;&#x9032;&#x7A0B;&#xFF0C;&#x6703;&#x88AB;init&#x63A5;&#x7BA1;&#xFF0C;&#x76F4;&#x63A5;&#x56DE;&#x6536;&#xFF0C;&#x4E0D;&#x7528;&#x7956;&#x7236;&#x9032;&#x7A0B;&#x7BA1;&#x4E86;</p>
+</li>
+<li><p><a href="http://bluelove1968.pixnet.net/blog/post/222281413-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D-zombie-process-%E7%9A%84%E7%94%A2%E7%94%9F%EF%BC%9F" target="_blank" rel="external">&#x5982;&#x4F55;&#x907F;&#x514D;-zombie-process-&#x7684;&#x7522;&#x751F;</a></p>
+</li>
+<li><p><a href="http://www.developerq.com/article/1500304636" target="_blank" rel="external">Linux&#x4E2D;&#x521B;&#x5EFA;&#x5B88;&#x62A4;&#x7A0B;&#x5E8F;</a></p>
+</li>
+<li><p>Github</p>
+<ul>
+<li><a href="https://github.com/bmc/daemonize" target="_blank" rel="external">bmc/daemonize</a></li>
+<li><a href="https://github.com/jirihnidek/daemon" target="_blank" rel="external">jirihnidek/daemon</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/busybox/" rel="tag">#busybox</a>
+          
+            <a href="/tags/daemon/" rel="tag">#daemon</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/11/lithium-ion-battery/" rel="next" title="lithium-ion-battery">
+                <i class="fa fa-chevron-left"></i> lithium-ion-battery
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/18/ulimit/" rel="prev" title="ulimit">
+                ulimit <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#總結"><span class="nav-number">3.</span> <span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#daemon"><span class="nav-number">4.</span> <span class="nav-text">Daemon</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#daemon程序"><span class="nav-number">4.1.</span> <span class="nav-text">Daemon程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-daemon"><span class="nav-number">4.2.</span> <span class="nav-text">github daemon</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#daemon-example"><span class="nav-number">5.</span> <span class="nav-text">daemon example</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#關閉tty將會產生sighup訊息關閉相同sid的process"><span class="nav-number">5.1.</span> <span class="nav-text">關閉tty將會產生SIGHUP訊息，關閉相同sid的process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用nohup不會受到sighup影響"><span class="nav-number">5.2.</span> <span class="nav-text">使用nohup不會受到SIGHUP影響</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用background方式即busybox"><span class="nav-number">5.3.</span> <span class="nav-text">使用background方式(即busybox &)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-id"><span class="nav-number">5.4.</span> <span class="nav-text">session id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#busybox"><span class="nav-number">6.</span> <span class="nav-text">busybox</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#background"><span class="nav-number">6.1.</span> <span class="nav-text">background</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#telnetd"><span class="nav-number">6.2.</span> <span class="nav-text">telnetd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#busybox-daemon"><span class="nav-number">6.3.</span> <span class="nav-text">busybox daemon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nohup"><span class="nav-number">6.4.</span> <span class="nav-text">nohup</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">7.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/05/15/busybox-background/';
+      var disqus_title = 'busybox-background';
+      var disqus_url = 'http://yoursite.com/2017/05/15/busybox-background/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

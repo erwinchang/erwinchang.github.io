@@ -1,0 +1,1505 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,書籍閱讀,lua," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description">
+<meta property="og:type" content="article">
+<meta property="og:title" content="programming-in-lua-1st-t01">
+<meta property="og:url" content="http://yoursite.com/2016/08/17/programming-in-lua-1st-t01/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description">
+<meta property="og:image" content="http://yoursite.com/2016/08/17/programming-in-lua-1st-t01/lua-2st.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/17/programming-in-lua-1st-t01/chapter-9-2.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.387Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="programming-in-lua-1st-t01">
+<meta name="twitter:description">
+<meta name="twitter:image" content="http://yoursite.com/2016/08/17/programming-in-lua-1st-t01/lua-2st.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> programming-in-lua-1st-t01 | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                programming-in-lua-1st-t01
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-08-17T10:23:42+08:00" content="2016-08-17">
+              2016-08-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/book/" itemprop="url" rel="index">
+                    <span itemprop="name">book</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/17/programming-in-lua-1st-t01/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/17/programming-in-lua-1st-t01/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/17/programming-in-lua-1st-t01/" class="leancloud_visitors" data-flag-title="programming-in-lua-1st-t01">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2016/08/17/programming-in-lua-1st-t01/lua-2st.png" width="220">
+<a id="more"></a>
+<p>&#x4F86;&#x6E90;&#xFF1A; <a href="/2016/08/17/programming-in-lua-1st-t01/programming-in-lua-2ed.pdf" title="programming-in-lua-2ed.pdf">programming-in-lua-2ed.pdf</a></p>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160817</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#chapter-1">Chapter 1</a><ul>
+<li><a href="#chunks">Chunks</a></li>
+<li><a href="#some-lexical-conventions-&#x8BCD;&#x6CD5;&#x7EA6;&#x5B9A;">Some Lexical Conventions (&#x8BCD;&#x6CD5;&#x7EA6;&#x5B9A;)</a></li>
+<li><a href="#global-variables">Global Variables</a></li>
+</ul>
+</li>
+<li><a href="#types-and-values">Types and Values</a><ul>
+<li><a href="#basic-types">basic types</a></li>
+</ul>
+</li>
+<li><a href="#string">String</a><ul>
+<li><a href="#&#x4F7F;&#x7528;-&#x53CA;-&#x5B9A;&#x7FA9;&#x591A;&#x884C;&#x5B57;&#x4E32;&#x5167;&#x5BB9;">&#x4F7F;&#x7528; [[ &#x53CA; ]] &#x5B9A;&#x7FA9;&#x591A;&#x884C;&#x5B57;&#x4E32;&#x5167;&#x5BB9;</a></li>
+<li><a href="#concatenation-operator&#x9023;&#x63A5;&#x904B;&#x7B97;&#x7B26;&#x865F;">concatenation operator(&#x9023;&#x63A5;&#x904B;&#x7B97;&#x7B26;&#x865F;)</a></li>
+<li><a href="#&#x53D6;&#x5F97;&#x5B57;&#x4E32;&#x9577;&#x5EA6;">&#x53D6;&#x5F97;&#x5B57;&#x4E32;&#x9577;&#x5EA6;</a></li>
+</ul>
+</li>
+<li><a href="#table">Table</a></li>
+<li><a href="#chapter-3-expressions">Chapter 3 Expressions</a><ul>
+<li><a href="#&#x512A;&#x5148;&#x9806;&#x5E8F;">&#x512A;&#x5148;&#x9806;&#x5E8F;</a></li>
+<li><a href="#36-table-constructors">3.6 Table Constructors</a></li>
+</ul>
+</li>
+<li><a href="#chapter-4-statement">Chapter 4 Statement</a><ul>
+<li><a href="#4-1-assignment">4-1 Assignment</a></li>
+<li><a href="#4-2-local-variables-and-blocks">4-2 Local Variables and Blocks</a></li>
+</ul>
+</li>
+<li><a href="#4-3-control-structures">4-3 Control Structures</a><ul>
+<li><a href="#if-then-else">if then else</a></li>
+<li><a href="#the-for-statement">The for statement</a></li>
+<li><a href="#4-4-break-and-return">4-4 break and return</a></li>
+</ul>
+</li>
+<li><a href="#chapter5-function">Chapter5 Function</a><ul>
+<li><a href="#function">function</a></li>
+<li><a href="#function-parameter">function parameter</a></li>
+<li><a href="#&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x7D66;&#x51FD;&#x6578;&#x9810;&#x8A2D;&#x53C3;&#x6578;&#x503C;">&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x7D66;&#x51FD;&#x6578;&#x9810;&#x8A2D;&#x53C3;&#x6578;&#x503C;</a></li>
+</ul>
+</li>
+<li><a href="#chapter-6-more-about-function">Chapter 6 -More About Function</a><ul>
+<li><a href="#closure&#x9589;&#x5408;&#x51FD;&#x6578;">Closure(&#x9589;&#x5408;&#x51FD;&#x6578;)</a></li>
+<li><a href="#&#x975E;&#x5168;&#x57DF;&#x7684;&#x51FD;&#x6578;non-global-function">&#x975E;&#x5168;&#x57DF;&#x7684;&#x51FD;&#x6578;(non-global function)</a></li>
+<li><a href="#&#x63D0;&#x524D;&#x5BA3;&#x544A;">&#x63D0;&#x524D;&#x5BA3;&#x544A;</a></li>
+<li><a href="#&#x51FD;&#x6578;&#x5141;&#x8A31;&#x591A;&#x500B;&#x56DE;&#x50B3;&#x503C;5-1-multiple-results">&#x51FD;&#x6578;&#x5141;&#x8A31;&#x591A;&#x500B;&#x56DE;&#x50B3;&#x503C;(5-1 Multiple Results)</a></li>
+<li><a href="#proper-tail-calls">Proper Tail Calls</a></li>
+</ul>
+</li>
+<li><a href="#chapter7-iterator-and-the-generic-for">Chapter7 Iterator and the Generic for</a><ul>
+<li><a href="#&#x5982;&#x4F55;&#x4F7F;&#x7528;closure&#x5EFA;&#x7ACB;itera">&#x5982;&#x4F55;&#x4F7F;&#x7528;Closure&#x5EFA;&#x7ACB;itera</a></li>
+<li><a href="#chapter-7-2-the-semantics-of-the-generic-for">Chapter 7-2 The Semantics of the Generic for</a></li>
+<li><a href="#chapter-7-3-&#x7121;&#x9700;&#x5132;&#x5B58;&#x72C0;&#x614B;&#x7684;iterator-stateless-iterators">Chapter 7-3 &#x7121;&#x9700;&#x5132;&#x5B58;&#x72C0;&#x614B;&#x7684;iterator (Stateless Iterators)</a></li>
+<li><a href="#chapter-7-4-iterators-with-complex-state">Chapter 7-4 Iterators with Complex State</a></li>
+<li><a href="#chapter-7-5-true-iterators-allword-iterator">Chapter 7-5 True Iterators (allword iterator)</a></li>
+</ul>
+</li>
+<li><a href="#chapter8-compilationexcutionand-errors">Chapter8 Compilation,Excution,and Errors</a><ul>
+<li><a href="#chapter8-1-compilation">Chapter8-1 Compilation</a></li>
+<li><a href="#loadfile-example">loadfile example</a></li>
+<li><a href="#chapter82-code-&#x5982;&#x4F55;&#x8F09;&#x5165;c&#x5B9A;&#x7FA9;&#x7684;lua-library">Chapter8.2 Code (&#x5982;&#x4F55;&#x8F09;&#x5165;C&#x5B9A;&#x7FA9;&#x7684;lua library )</a></li>
+<li><a href="#chapter83-error-&#x5982;&#x4F55;&#x53D6;&#x5F97;&#x7A0B;&#x5F0F;&#x7684;&#x932F;&#x8AA4;&#x8A0A;&#x606F;">Chapter8.3 Error (&#x5982;&#x4F55;&#x53D6;&#x5F97;&#x7A0B;&#x5F0F;&#x7684;&#x932F;&#x8AA4;&#x8A0A;&#x606F;)</a></li>
+<li><a href="#chapter8-4-error-handling-and-exceptions">Chapter8-4 Error Handling and Exceptions</a></li>
+</ul>
+</li>
+<li><a href="#chapter9-coroutines-&#x5354;&#x540C;&#x7A0B;&#x5E8F;">Chapter9 Coroutines (&#x5354;&#x540C;&#x7A0B;&#x5E8F;)</a><ul>
+<li><a href="#coroutine-manipulation">Coroutine Manipulation</a></li>
+<li><a href="#&#x901A;&#x904E;resume-yield&#x4EA4;&#x63DB;&#x6578;&#x64DA;">&#x901A;&#x904E;resume-yield&#x4EA4;&#x63DB;&#x6578;&#x64DA;</a></li>
+<li><a href="#chapter9-2-producer-consumer-problem">chapter9-2 producer-consumer problem</a></li>
+<li><a href="#chapter-9-2-filter">chapter 9-2 filter</a></li>
+</ul>
+</li>
+<li><a href="#chapter-11-data-structures">Chapter 11 Data Structures</a><ul>
+<li><a href="#chapter-11-1-arrays">Chapter 11-1 Arrays</a></li>
+<li><a href="#chapter-11-2-matrix&#x77E9;&#x9663;">Chapter 11-2 matrix(&#x77E9;&#x9663;)</a></li>
+<li><a href="#chapter-11-4-queues">Chapter 11-4 Queues</a></li>
+</ul>
+</li>
+<li><a href="#partiii-the-standard-library-&#x5F85;&#x589E;&#x52A0;">PARTIII; The Standard Library (&#x5F85;&#x589E;&#x52A0;)</a></li>
+<li><a href="#partiv-the-c-api-&#x5F85;&#x589E;&#x52A0;">PARTIV; The C API (&#x5F85;&#x589E;&#x52A0;)</a></li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a><ul>
+<li><a href="#pairs&#x53CA;ipairs&#x5DEE;&#x7570;">pairs&#x53CA;ipairs&#x5DEE;&#x7570;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="chapter-1"><a href="#Chapter_1" class="headerlink" title="Chapter 1"></a>Chapter 1</h2><h3 id="chunks"><a href="#Chunks" class="headerlink" title="Chunks"></a>Chunks</h3><ul>
+<li>Each piece of code that Lua executes, such as a file or a single line in interac-tive mode, is called a chunk.</li>
+<li>A chunk is simply a sequence of commands (or statements).</li>
+<li>&#x55AE;&#x884C;&#x7684;&#x7A0B;&#x5F0F;<br>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5206;&#x865F;(semicolon)&#x4E5F;&#x53EF;&#x4EE5;&#x4E0D;&#x4F7F;&#x7528;&#x5206;&#x865F;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">1</span></span><br><span class="line">b = a*<span class="number">2</span></span><br><span class="line">a = <span class="number">1</span>;</span><br><span class="line">b = a*<span class="number">2</span>;</span><br><span class="line">a = <span class="number">1</span>; b = a*<span class="number">2</span></span><br><span class="line">a = <span class="number">1</span> b = a*<span class="number">2</span> -- ugly, but valid</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="some-lexical-conventions-&#x8BCD;&#x6CD5;&#x7EA6;&#x5B9A;"><a href="#Some_Lexical_Conventions__28_u8BCD_u6CD5_u7EA6_u5B9A_29" class="headerlink" title="Some Lexical Conventions (&#x8BCD;&#x6CD5;&#x7EA6;&#x5B9A;)"></a>Some Lexical Conventions (&#x8BCD;&#x6CD5;&#x7EA6;&#x5B9A;)</h3><ul>
+<li>&#x8B8A;&#x6578;&#x5B9A;&#x7FA9;&#x4E0D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6578;&#x5B57;&#x958B;&#x982D;</li>
+<li>&#x8B8A;&#x6578;&#x5B9A;&#x7FA9;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4F4E;&#x7DDA;(_)&#x958B;&#x982D;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i j i10 _ij</span><br><span class="line">aSomewhatLongName _INPUT</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="global-variables"><a href="#Global_Variables" class="headerlink" title="Global Variables"></a>Global Variables</h3><ul>
+<li>&#x9810;&#x8A2D;&#x5B9A;&#x7FA9;&#x70BA;&#x5168;&#x57DF;&#x8B8A;&#x6578;</li>
+<li>&#x6C92;&#x6709;&#x5B9A;&#x7FA9;&#x7684;&#x8B8A;&#x6578;&#x4F7F;&#x7528;&#x6642;&#x5C07;&#x6703;&#x56DE;&#x50B3;nil<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(b) --&gt; nil</span><br><span class="line">b = <span class="number">10</span></span><br><span class="line">print(b) --&gt; <span class="number">10</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="types-and-values"><a href="#Types_and_Values" class="headerlink" title="Types and Values"></a>Types and Values</h2><h3 id="basic-types"><a href="#basic_types" class="headerlink" title="basic types"></a>basic types</h3><p>eight basic types in Lua: </p>
+<ul>
+<li><em>nil</em> : &#x8868;&#x793A;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x8B8A;&#x6578;<br><em>&#x8B8A;&#x6578;&#x82E5;&#x8A2D;&#x5B9A;&#x70BA;nil&#xFF0C;&#x5373;&#x70BA;&#x522A;&#x9664;&#x8B8A;&#x6578;</em></li>
+<li><em>boolean</em> :  false or true<br>&#x53EA;&#x6709;false&#x53CA;nil&#x6703;&#x56DE;&#x50B3;false, &#x5176;&#x5B83;&#x70BA;true</li>
+<li><em>number</em> : &#x6578;&#x5B57;<br>ex. 4 0.4 4.57e-3 0.3e12 5e+20</li>
+<li><em>string</em> : &#x5B57;&#x4E32;</li>
+<li><em>userdata</em>,</li>
+<li><em>function</em></li>
+<li><em>thread</em></li>
+<li><p><em>table</em>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(type(<span class="string">&quot;Hello world&quot;</span>)) --&gt; string</span><br><span class="line">print(type(<span class="number">10.4</span>*<span class="number">3</span>)) --&gt; number</span><br><span class="line">print(type(print)) --&gt; <span class="function"><span class="keyword">function</span></span><br><span class="line"><span class="title">print</span>(<span class="params">type(type</span>)) --&gt; <span class="title">function</span></span><br><span class="line"><span class="title">print</span>(<span class="params">type(true</span>)) --&gt; <span class="title">boolean</span></span><br><span class="line"><span class="title">print</span>(<span class="params">type(nil</span>)) --&gt; <span class="title">nil</span></span><br><span class="line"><span class="title">print</span>(<span class="params">type(type(X</span>))) --&gt; <span class="title">string</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>type(x)&#x56DE;&#x50B3;&#x70BA;&#x5B57;&#x4E32;</p>
+</li>
+</ul>
+<hr>
+<h2 id="string"><a href="#String" class="headerlink" title="String"></a>String</h2><ul>
+<li>Strings in Lua are immutable values<br>&#x8868;&#x793A;&#x4E0D;&#x80FD;&#x53BB;&#x4FEE;&#x6539;&#x5B57;&#x4E32;&#x5167;&#x5BB9;&#xFF0C;&#x9700;&#x8981;&#x7522;&#x751F;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x5B57;&#x4E32;&#x5167;&#x5BB9;&#x4EE5;&#x7B26;&#x5408;&#x9700;&#x6C42;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">&quot;one string&quot;</span></span><br><span class="line">b = string.gsub(a, <span class="string">&quot;one&quot;</span>, <span class="string">&quot;another&quot;</span>) -- change string parts</span><br><span class="line">print(a) --&gt; one string</span><br><span class="line">print(b) --&gt; another string</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x4F7F;&#x7528;-&#x53CA;-&#x5B9A;&#x7FA9;&#x591A;&#x884C;&#x5B57;&#x4E32;&#x5167;&#x5BB9;"><a href="#u4F7F_u7528__5B_5B__u53CA__5D_5D__u5B9A_u7FA9_u591A_u884C_u5B57_u4E32_u5167_u5BB9" class="headerlink" title="&#x4F7F;&#x7528; [[ &#x53CA; ]] &#x5B9A;&#x7FA9;&#x591A;&#x884C;&#x5B57;&#x4E32;&#x5167;&#x5BB9;"></a>&#x4F7F;&#x7528; [[ &#x53CA; ]] &#x5B9A;&#x7FA9;&#x591A;&#x884C;&#x5B57;&#x4E32;&#x5167;&#x5BB9;</h3><ul>
+<li>&#x4F7F;&#x7528; [[ &#x53CA; ]] &#x5B9A;&#x7FA9;&#x591A;&#x884C;&#x5B57;&#x4E32;&#x5167;&#x5BB9;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">page = [[</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;An HTML Page&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;a href=&quot;http://www.lua.org&quot;&gt;Lu</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">]]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="concatenation-operator&#x9023;&#x63A5;&#x904B;&#x7B97;&#x7B26;&#x865F;"><a href="#concatenation_operator_28_u9023_u63A5_u904B_u7B97_u7B26_u865F_29" class="headerlink" title="concatenation operator(&#x9023;&#x63A5;&#x904B;&#x7B97;&#x7B26;&#x865F;)"></a>concatenation operator(&#x9023;&#x63A5;&#x904B;&#x7B97;&#x7B26;&#x865F;)</h3><ul>
+<li>The <strong>..</strong> is the string concatenation operator in Lua<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">10</span> .. <span class="number">20</span>) --&gt; <span class="number">1020</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x53D6;&#x5F97;&#x5B57;&#x4E32;&#x9577;&#x5EA6;"><a href="#u53D6_u5F97_u5B57_u4E32_u9577_u5EA6" class="headerlink" title="&#x53D6;&#x5F97;&#x5B57;&#x4E32;&#x9577;&#x5EA6;"></a>&#x53D6;&#x5F97;&#x5B57;&#x4E32;&#x9577;&#x5EA6;</h3><ul>
+<li>In Lua 5.1, you can get the length of a string using the  operator `#&#x2019;<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a = &quot;hello&quot;</span><br><span class="line">print(#a) --&gt; 5</span><br><span class="line">print(#&quot;good\0bye&quot;) --&gt; 8</span><br><span class="line"></span><br><span class="line">for i=1, #a do</span><br><span class="line">print(a[i])</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="table"><a href="#Table" class="headerlink" title="Table"></a>Table</h2><ul>
+<li><p>table <strong>{</strong> <strong>}</strong> &#x5BE6;&#x73FE;&#x4E00;&#x500B;array&#xFF0C;&#x6B64;array&#x53EF;&#x4EE5;&#x5B58;&#x653E;number,string&#x6216;&#x5176;&#x5B83;&#xFF0C;&#x4F46;&#x4E0D;&#x53EF;&#x4EE5;&#x662F;nil</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = {} -- create a table and store its reference <span class="keyword">in</span> <span class="string">&apos;a&apos;</span></span><br><span class="line">k = <span class="string">&quot;x&quot;</span></span><br><span class="line">a[k] = <span class="number">10</span> -- <span class="keyword">new</span> entry, <span class="keyword">with</span> key=<span class="string">&quot;x&quot;</span> and value=<span class="number">10</span></span><br><span class="line">a[<span class="number">20</span>] = <span class="string">&quot;great&quot;</span> -- <span class="keyword">new</span> entry, <span class="keyword">with</span> key=<span class="number">20</span> and value=<span class="string">&quot;great&quot;</span></span><br><span class="line">print(a[<span class="string">&quot;x&quot;</span>]) --&gt; <span class="number">10</span></span><br><span class="line">k = <span class="number">20</span></span><br><span class="line">print(a[k]) --&gt; <span class="string">&quot;great&quot;</span></span><br><span class="line">a[<span class="string">&quot;x&quot;</span>] = a[<span class="string">&quot;x&quot;</span>] + <span class="number">1</span> -- increments entry <span class="string">&quot;x&quot;</span></span><br><span class="line">print(a[<span class="string">&quot;x&quot;</span>]) --&gt; <span class="number">11</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>providing a.name as syntactic sugar for a[&#x201C;name&#x201D;]</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.x = <span class="number">10</span> -- same <span class="keyword">as</span> a[<span class="string">&quot;x&quot;</span>] = <span class="number">10</span></span><br><span class="line">print(a.x) -- same <span class="keyword">as</span> print(a[<span class="string">&quot;x&quot;</span>])</span><br><span class="line">print(a.y) -- same <span class="keyword">as</span> print(a[<span class="string">&quot;y&quot;</span>])</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="chapter-3-expressions"><a href="#Chapter_3_Expressions" class="headerlink" title="Chapter 3 Expressions"></a>Chapter 3 Expressions</h2><h3 id="&#x512A;&#x5148;&#x9806;&#x5E8F;"><a href="#u512A_u5148_u9806_u5E8F" class="headerlink" title="&#x512A;&#x5148;&#x9806;&#x5E8F;"></a>&#x512A;&#x5148;&#x9806;&#x5E8F;</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">seq</th>
+<th style="text-align:left">item</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">^</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">not # - (unary)</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">* / %</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">+ -</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">..</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">&lt; &gt; &lt;= &gt;= ~= ==</td>
+</tr>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">and</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:left">or</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>ex<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a+i &lt; b/<span class="number">2</span>+<span class="number">1</span> &lt;--&gt; (a+i) &lt; ((b/<span class="number">2</span>)+<span class="number">1</span>)</span><br><span class="line"><span class="number">5</span>+x^<span class="number">2</span>*<span class="number">8</span> &lt;--&gt; <span class="number">5</span>+((x^<span class="number">2</span>)*<span class="number">8</span>)</span><br><span class="line">a &lt; y and y &lt;= z &lt;--&gt; (a &lt; y) and (y &lt;= z)</span><br><span class="line">-x^<span class="number">2</span> &lt;--&gt; -(x^<span class="number">2</span>)</span><br><span class="line">x^y^z &lt;--&gt; x^(y^z)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="36-table-constructors"><a href="#3-6_Table_Constructors" class="headerlink" title="3.6 Table Constructors"></a>3.6 Table Constructors</h3><ul>
+<li><p>ex1</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = {x=<span class="number">10</span>, y=<span class="number">20</span>}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>This previous line is equivalent to these commands:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = {}; a.x=<span class="number">10</span>; a.y=<span class="number">20</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>We can mix record-style and list-style initializations in the same constructor:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">polyline = {color=<span class="string">&quot;blue&quot;</span>, thickness=<span class="number">2</span>, npoints=<span class="number">4</span>,</span><br><span class="line">{x=<span class="number">0</span>, y=<span class="number">0</span>},</span><br><span class="line">{x=<span class="number">-10</span>, y=<span class="number">0</span>},</span><br><span class="line">{x=<span class="number">-10</span>, y=<span class="number">1</span>},</span><br><span class="line">{x=<span class="number">0</span>, y=<span class="number">1</span>}</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Each of the elements polyline[i] is a table representing a record:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(polyline[<span class="number">2</span>].x) --&gt; <span class="number">-10</span></span><br><span class="line">print(polyline[<span class="number">4</span>].y) --&gt; <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter-4-statement"><a href="#Chapter_4_Statement" class="headerlink" title="Chapter 4 Statement"></a>Chapter 4 Statement</h2><h3 id="4-1-assignment"><a href="#4-1_Assignment" class="headerlink" title="4-1 Assignment"></a>4-1 Assignment</h3><ul>
+<li><p>Assignment is the basic means of changing the value<br>a = &#x201C;hello&#x201D; .. &#x201C;world&#x201D;<br>multiple assignment</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a, b = <span class="number">10</span>, <span class="number">2</span>*x</span><br><span class="line">x, y = y, x -- swap <span class="string">&apos;x&apos;</span> <span class="keyword">for</span> <span class="string">&apos;y&apos;</span></span><br><span class="line">a[i], a[j] = a[j], a[i] -- swap <span class="string">&apos;a[i]&apos;</span> <span class="keyword">for</span> <span class="string">&apos;a[j]&apos;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7121;&#x76F8;&#x5C0D;&#x61C9;&#x5230;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x5C07;&#x6703;&#x8A2D;&#x5B9A;&#x70BA;nil(&#x5373;&#x9664;&#x522A;)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> a, b, c = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">print(a, b, c) --&gt; <span class="number">0</span> <span class="number">1</span> nil</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-2-local-variables-and-blocks"><a href="#4-2_Local_Variables_and_Blocks" class="headerlink" title="4-2 Local Variables and Blocks"></a>4-2 Local Variables and Blocks</h3><ul>
+<li><p>Besides global variables, Lua supports local variables</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">j = <span class="number">10</span> -- global variable</span><br><span class="line">local i = <span class="number">1</span> -- local variable</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Unlike global variables, local variables have their scope limited to the <strong>block</strong></p>
+</li>
+<li>It is good programming style to use local variables whenever possible<br>Local variables help you avoid cluttering the global environment with unnecessary names.<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">local a, b = <span class="number">1</span>, <span class="number">10</span></span><br><span class="line"><span class="keyword">if</span> a &lt; b then</span><br><span class="line">    print(a)     --&gt; <span class="number">1</span></span><br><span class="line">    local a       -- <span class="string">&apos;= nil&apos;</span> is implicit</span><br><span class="line">    print(a)     --&gt; nil</span><br><span class="line">end               -- ends the block started at <span class="string">&apos;then&apos;</span></span><br><span class="line">print(a, b)     --&gt; <span class="number">1</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="4-3-control-structures"><a href="#4-3_Control_Structures" class="headerlink" title="4-3 Control Structures"></a>4-3 Control Structures</h2><ul>
+<li>if,while,repeat,for &#x7B49;&#x9700;&#x8981;end&#x8868;&#x793A;&#x7D50;&#x675F;(terminates)</li>
+<li>Lua treats as true all values different from <strong>false</strong> and <strong>nil</strong></li>
+</ul>
+<h3 id="if-then-else"><a href="#if_then_else" class="headerlink" title="if then else"></a>if then else</h3><ul>
+<li><p>ex1</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> a &lt; <span class="number">0</span> then a = <span class="number">0</span> end</span><br><span class="line"><span class="keyword">if</span> a &lt; b then <span class="keyword">return</span> a <span class="keyword">else</span> <span class="keyword">return</span> b end</span><br><span class="line"><span class="keyword">if</span> line &gt; MAXLINES then</span><br><span class="line">   showpage()</span><br><span class="line">   line = <span class="number">0</span></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ex2</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> op == <span class="string">&quot;+&quot;</span> then</span><br><span class="line">    r = a + b</span><br><span class="line">elseif op == <span class="string">&quot;-&quot;</span> then</span><br><span class="line">    r = a - b</span><br><span class="line">elseif op == <span class="string">&quot;*&quot;</span> then</span><br><span class="line">    r = a*b</span><br><span class="line">elseif op == <span class="string">&quot;/&quot;</span> then</span><br><span class="line">    r = a/b</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    error(<span class="string">&quot;invalid operation&quot;</span>)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="the-for-statement"><a href="#The_for_statement" class="headerlink" title="The for statement"></a>The for statement</h3><ul>
+<li><p>&#x7531;exp1&#x5230;exp2, &#x6BCF;&#x6B21;&#x589E;&#x52A0;exp3(&#x82E5;&#x7121;exp3&#x5247;&#x9810;&#x8A2D;&#x503C;&#x70BA;1)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="keyword">var</span>=exp1,exp2,exp3 <span class="keyword">do</span></span><br><span class="line">&lt;something&gt;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ex.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i=<span class="number">1</span>,f(x) <span class="keyword">do</span> print(i) end</span><br><span class="line"><span class="keyword">for</span> i=<span class="number">10</span>,<span class="number">1</span>,<span class="number">-1</span> <span class="keyword">do</span> print(i) end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>If you want to end a for loop before its normal termination, use <strong>break</strong></p>
+</li>
+<li>The generic for loop traverses all values returned by an iterator function:<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- print all values <span class="keyword">of</span> array <span class="string">&apos;a&apos;</span></span><br><span class="line"><span class="keyword">for</span> i,v <span class="keyword">in</span> ipairs(a) <span class="keyword">do</span> print(v) end</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-4-break-and-return"><a href="#4-4_break_and_return" class="headerlink" title="4-4 break and return"></a>4-4 break and return</h3><ul>
+<li>The <strong>break</strong> and <strong>return</strong> statements allow us to jump out of a block.</li>
+<li>This statement breaks the inner loop (for, repeat, or while) that contains it<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">local i = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> a[i] <span class="keyword">do</span></span><br><span class="line"><span class="keyword">if</span> a[i] == v then <span class="keyword">break</span> end</span><br><span class="line">    i = i + <span class="number">1</span></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter5-function"><a href="#Chapter5_Function" class="headerlink" title="Chapter5 Function"></a>Chapter5 Function</h2><h3 id="function"><a href="#function" class="headerlink" title="function"></a>function</h3><ul>
+<li>function&#x5B9A;&#x7FA9;&#x65B9;&#x5F0F;<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a={[1]=11,[2]=12,[3]=10}                                                                                                               </span><br><span class="line">                                                                                                                                       </span><br><span class="line">function add (a)                                                                                                                       </span><br><span class="line">        local sum = 0                                                                                                                  </span><br><span class="line">        for i,v in ipairs(a) do                                                                                                        </span><br><span class="line">                sum = sum + v                                                                                                          </span><br><span class="line">        end                                                                                                                            </span><br><span class="line">        return sum                                                                                                                     </span><br><span class="line">end                                                                                                                                    </span><br><span class="line">                                                                                                                                       </span><br><span class="line">print(add(a))</span><br><span class="line"></span><br><span class="line">xx :[/tmp/tt]# lua t1.lua </span><br><span class="line">33</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="function-parameter"><a href="#function_parameter" class="headerlink" title="function parameter"></a>function parameter</h3><p>function f(a, b) return a or b end</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">CALL</th>
+<th style="text-align:left">PARAMETERS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">f(3)</td>
+<td style="text-align:left">a=3, b=nil</td>
+</tr>
+<tr>
+<td style="text-align:left">f(3, 4)</td>
+<td style="text-align:left">a=3, b=4</td>
+</tr>
+<tr>
+<td style="text-align:left">f(3, 4, 5)</td>
+<td style="text-align:left">a=3, b=4 (5 is discarded)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x7D66;&#x51FD;&#x6578;&#x9810;&#x8A2D;&#x53C3;&#x6578;&#x503C;"><a href="#u5982_u4F55_u8A2D_u5B9A_u7D66_u51FD_u6578_u9810_u8A2D_u53C3_u6578_u503C" class="headerlink" title="&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x7D66;&#x51FD;&#x6578;&#x9810;&#x8A2D;&#x53C3;&#x6578;&#x503C;"></a>&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x7D66;&#x51FD;&#x6578;&#x9810;&#x8A2D;&#x53C3;&#x6578;&#x503C;</h3><ul>
+<li>&#x672A;&#x7D66;&#x9810;&#x53C3;&#x6578;&#x503C;n, &#x5247;&#x6B64;&#x6642;&#x70BA;nil</li>
+<li>&#x7576;&#x672A;&#x4EE3;&#x5165;&#x53C3;&#x6578;&#xFF0C;&#x5247;&#x8A2D;&#x5B9A;&#x9810;&#x8A2D;&#x503C;n&#x70BA;1<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">incCount</span> (<span class="params">n</span>)</span><br><span class="line">    <span class="title">n</span> = <span class="title">n</span> <span class="title">or</span> 1</span><br><span class="line">    <span class="title">count</span> = <span class="title">count</span> + <span class="title">n</span></span><br><span class="line"><span class="title">end</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter-6-more-about-function"><a href="#Chapter_6_-More_About_Function" class="headerlink" title="Chapter 6 -More About Function"></a>Chapter 6 -More About Function</h2><p>Lua&#x70BA;<a href="https://zh.wikipedia.org/wiki/%E7%AC%AC%E4%B8%80%E9%A1%9E%E7%89%A9%E4%BB%B6" target="_blank" rel="external">First Class Value</a><br>&#x6307;&#x4EFB;&#x4F55;&#x7A0B;&#x5F0F;&#x4E2D;&#x7684;&#x5BE6;&#x9AD4;(ex. function,object,..)<br>&#x5373;&#x8868;&#x793A;&#xFF1A;function&#x53EF;&#x4EE5;&#x88AB;&#x7576;&#x6210;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x6216;&#x56DE;&#x50B3;<br>&#x7D55;&#x5927;&#x591A;&#x6578;&#x8A9E;&#x8A00;&#x4E2D;&#xFF0C;&#x6578;&#x503C;&#x8207;&#x57FA;&#x790E;&#x578B;&#x5225;&#x90FD;&#x662F;&#x7B2C;&#x4E00;&#x985E;&#x7269;&#x4EF6;&#xFF0C;&#x7136;&#x800C;&#x4E0D;&#x540C;&#x8A9E;&#x8A00;&#x4E2D;&#x5C0D;&#x51FD;&#x6578;&#x7684;&#x5340;&#x5225;&#x5F88;&#x5927;</p>
+<ul>
+<li>C&#x8A9E;&#x8A00;&#x8207;C++&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x4E0D;&#x662F;&#x7B2C;&#x4E00;&#x985E;&#x7269;&#x4EF6;&#xFF0C;&#x56E0;&#x70BA;&#x5728;&#x9019;&#x4E9B;&#x8A9E;&#x8A00;&#x4E2D;&#x51FD;&#x6578;&#x4E0D;&#x80FD;&#x5728;&#x57F7;&#x884C;&#x671F;&#x5275;&#x9020;&#xFF0C;&#x800C;&#x5FC5;&#x9808;&#x5728;&#x8A2D;&#x8A08;&#x6642;&#x5168;&#x90E8;&#x5BEB;&#x597D;</li>
+<li>Scheme&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x662F;&#x7B2C;&#x4E00;&#x985E;&#x7269;&#x4EF6;&#xFF0C;&#x56E0;&#x70BA;&#x53EF;&#x4EE5;&#x7528;lambda&#x8A9E;&#x53E5;&#x4F86;&#x5275;&#x9020;&#x533F;&#x540D;&#x51FD;&#x6578;&#x4E26;&#x4F5C;&#x70BA;&#x7B2C;&#x4E00;&#x985E;&#x7269;&#x4EF6;&#x4F86;&#x64CD;&#x4F5C;</li>
+</ul>
+<h3 id="closure&#x9589;&#x5408;&#x51FD;&#x6578;"><a href="#Closure_28_u9589_u5408_u51FD_u6578_29" class="headerlink" title="Closure(&#x9589;&#x5408;&#x51FD;&#x6578;)"></a>Closure(&#x9589;&#x5408;&#x51FD;&#x6578;)</h3><p>&#x5C07;&#x51FD;&#x6578;&#x5BEB;&#x5728;&#x53E6;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x88E1;&#x9762;&#xFF0C;&#x5167;&#x90E8;&#x51FD;&#x6578;&#x53EF;&#x4EE5;&#x53D6;&#x5F97;&#x5916;&#x90E8;&#x8B8A;&#x6578;&#x4E2D;&#x7684;&#x5340;&#x57DF;&#x8B8A;&#x6578;</p>
+<ul>
+<li><p>&#x7BC4;&#x4F8B;&#x5167;&#x5BB9;<br>c1&#x53CA;c2&#x662F;&#x540C;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x5275;&#x5EFA;&#x5169;&#x500B;&#x4E0D;&#x540C;&#x7684;Closure<br>&#x500B;&#x81EA;&#x64C1;&#x6709;&#x5340;&#x57DF;&#x8B8A;&#x6578;i</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newCounter</span>(<span class="params"></span>)</span><br><span class="line"><span class="title">local</span> <span class="title">i</span> = 0</span><br><span class="line">        <span class="title">return</span> <span class="title">function</span> (<span class="params"></span>)</span><br><span class="line">                <span class="title">i</span> = <span class="title">i</span> + 1</span><br><span class="line">                <span class="title">return</span> <span class="title">i</span></span><br><span class="line">        <span class="title">end</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">c1</span> = <span class="title">newCounter</span>(<span class="params"></span>)</span><br><span class="line"><span class="title">print</span>(<span class="params">c1(</span>))</span><br><span class="line"><span class="title">print</span>(<span class="params">c1(</span>))</span><br><span class="line"></span><br><span class="line"><span class="title">c2</span> = <span class="title">newCounter</span>(<span class="params"></span>)</span><br><span class="line"><span class="title">print</span>(<span class="params">c2(</span>))</span><br><span class="line"><span class="title">print</span>(<span class="params">c1(</span>))</span><br><span class="line"><span class="title">print</span>(<span class="params">c2(</span>))</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x57F7;&#x884C;&#x7D50;&#x679C;</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[/tmp/tt]# lua t2.lua </span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">1</span><br><span class="line">3</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x975E;&#x5168;&#x57DF;&#x7684;&#x51FD;&#x6578;non-global-function"><a href="#u975E_u5168_u57DF_u7684_u51FD_u6578_28non-global_function_29" class="headerlink" title="&#x975E;&#x5168;&#x57DF;&#x7684;&#x51FD;&#x6578;(non-global function)"></a>&#x975E;&#x5168;&#x57DF;&#x7684;&#x51FD;&#x6578;(non-global function)</h3><ul>
+<li>When we store a function into a local variable, we get a local function</li>
+<li>&#x6B64;local function&#x6703;&#x88AB;&#x9650;&#x5236;&#x5728;&#x67D0;&#x4E9B;&#x505A;&#x7528;&#x5340;&#x4F7F;&#x7528;</li>
+<li><p>package can use these local functions:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local f = <span class="function"><span class="keyword">function</span>(<span class="params">&lt;param&gt;</span>)</span><br><span class="line">  &lt;<span class="title">body</span>&gt;</span><br><span class="line"><span class="title">end</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6B63;&#x78BA;&#x65B9;&#x5F0F;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">local fact</span><br><span class="line">fact = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>)</span><br><span class="line">        <span class="title">if</span> <span class="title">n</span> == 0 <span class="title">then</span> <span class="title">return</span> 1</span><br><span class="line">        <span class="title">else</span> <span class="title">return</span> <span class="title">n</span>*<span class="title">fact</span>(<span class="params">n<span class="number">-1</span></span>)</span><br><span class="line">        <span class="title">end</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">print</span>(<span class="params">fact(<span class="number">3</span></span>))</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x932F;&#x8AA4;&#x7684;&#x65B9;&#x5F0F;<br>&#x5728;recursive funtion&#x6642;&#xFF0C;lua&#x8B8A;&#x6578;&#x9700;&#x8981;&#x63D0;&#x524D;&#x5BA3;&#x544A;<br><strong>&#x5728;fact(n-1)&#x6642;fact&#x5C1A;&#x672A;&#x5B9A;&#x7FA9;&#xFF0C;&#x770B;&#x4F86;lua&#x662F;&#x7121;js&#x7684;variable hositing&#x65B9;&#x5F0F;</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">local fact = function (n)</span><br><span class="line">        if n == 0 then return 1</span><br><span class="line">        else return n*fact(n-1)</span><br><span class="line">        end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">print(fact(3))</span><br><span class="line"></span><br><span class="line"># lua local-fu.lua </span><br><span class="line">lua: local-fu.lua:3: attempt to call global &apos;fact&apos; (a nil value)</span><br><span class="line">stack traceback:</span><br><span class="line">        local-fu.lua:3: in function &apos;fact&apos;</span><br><span class="line">        local-fu.lua:7: in main chunk</span><br><span class="line">        [C]: ?</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6B64;&#x65B9;&#x5F0F;&#x7684;&#x5BEB;&#x6CD5;&#x5728;node js&#x662F;&#x6C92;&#x554F;&#x984C;&#xFF0C;&#x770B;&#x4F86;lua&#x53CA;node js&#x9084;&#x6709;&#x4E9B;&#x4E0D;&#x540C;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat local-t1.js </span><br><span class="line"><span class="keyword">var</span> fact = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>{</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">0</span>){</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">        <span class="keyword">return</span> n*fact(n<span class="number">-1</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;tt&quot;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(fact(<span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">$ node local-t1.js </span><br><span class="line">tt</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x63D0;&#x524D;&#x5BA3;&#x544A;"><a href="#u63D0_u524D_u5BA3_u544A" class="headerlink" title="&#x63D0;&#x524D;&#x5BA3;&#x544A;"></a>&#x63D0;&#x524D;&#x5BA3;&#x544A;</h3><p>&#x5728;indirect recursive funtion&#x6642;&#xFF0C;lua&#x8B8A;&#x6578;&#x9700;&#x8981;&#x63D0;&#x524D;&#x5BA3;&#x544A;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">local f,g   -- <span class="string">&apos; forwared decalartions&apos;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">g</span> (<span class="params"></span>)</span><br><span class="line">	&lt;<span class="title">some</span> <span class="title">code</span>&gt;  <span class="title">f</span>(<span class="params"></span>)  &lt;<span class="title">some</span> <span class="title">code</span>&gt;</span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">f</span> (<span class="params"></span>)</span><br><span class="line">	&lt;<span class="title">some</span> <span class="title">code</span>&gt;  <span class="title">g</span>(<span class="params"></span>)  &lt;<span class="title">some</span> <span class="title">code</span>&gt;</span><br><span class="line"><span class="title">end</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="&#x51FD;&#x6578;&#x5141;&#x8A31;&#x591A;&#x500B;&#x56DE;&#x50B3;&#x503C;5-1-multiple-results"><a href="#u51FD_u6578_u5141_u8A31_u591A_u500B_u56DE_u50B3_u503C_285-1_Multiple_Results_29" class="headerlink" title="&#x51FD;&#x6578;&#x5141;&#x8A31;&#x591A;&#x500B;&#x56DE;&#x50B3;&#x503C;(5-1 Multiple Results)"></a>&#x51FD;&#x6578;&#x5141;&#x8A31;&#x591A;&#x500B;&#x56DE;&#x50B3;&#x503C;(5-1 Multiple Results)</h3><ul>
+<li><p>&#x5B9A;&#x7FA9;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo0</span> (<span class="params"></span>) <span class="title">end</span> -- <span class="title">returns</span> <span class="title">no</span> <span class="title">results</span></span><br><span class="line"><span class="title">function</span> <span class="title">foo1</span> (<span class="params"></span>) <span class="title">return</span> &quot;<span class="title">a</span>&quot; <span class="title">end</span> -- <span class="title">returns</span> 1 <span class="title">result</span></span><br><span class="line"><span class="title">function</span> <span class="title">foo2</span> (<span class="params"></span>) <span class="title">return</span> &quot;<span class="title">a</span>&quot;,&quot;<span class="title">b</span>&quot; <span class="title">end</span> -- <span class="title">returns</span> 2 <span class="title">results</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7528;&#x6CD5;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x,y = foo2() -- x=<span class="string">&quot;a&quot;</span>, y=<span class="string">&quot;b&quot;</span></span><br><span class="line">x = foo2() -- x=<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span> is discar</span><br><span class="line">x,y,z = <span class="number">10</span>,foo2() -- x=<span class="number">10</span>, y=<span class="string">&quot;a&quot;</span>, z=<span class="string">&quot;b&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="proper-tail-calls"><a href="#Proper_Tail_Calls" class="headerlink" title="Proper Tail Calls"></a>Proper Tail Calls</h3><ul>
+<li><p>Lua does tail-call elimination</p>
+</li>
+<li><p>Tail Calls &#x6A21;&#x5F0F;<br>&#x5728;&#x64B0;&#x5BEB;&#x905E;&#x8FF4;&#x6642;&#xFF0C;&#x6BCF;&#x6B21;&#x7684;&#x905E;&#x8FF4;&#x547C;&#x53EB;&#x90FD;&#x6703;&#x5C0E;&#x81F4;&#x65B0;&#x7684;Stack frame&#x7522;&#x751F;,&#x5C0E;&#x81F4;&#x6574;&#x500B;&#x547C;&#x53EB;&#x6240;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;Call Stack&#x904E;&#x5927;<br>Tail Call&#x7B97;&#x662F;&#x4E00;&#x7A2E;&#x6F14;&#x7B97;&#x6CD5;&#xFF0C;&#x6307;&#x7684;&#x662F;&#x5728;&#x8A72;&#x5B50;&#x7A0B;&#x5F0F;&#x7684;&#x5C3E;&#x7AEF;&#x518D;&#x9032;&#x884C;&#x905E;&#x8FF4;&#x547C;&#x53EB;<br>&#x76EE;&#x7684;&#x662F;&#x5E0C;&#x671B;&#x85C9;&#x6B64;&#x4E0D;&#x5FC5;&#x518D;&#x984D;&#x5916;&#x7522;&#x751F;&#x65B0;&#x7684;Stack frame&#xFF1B;&#x4E0D;&#x904E;&#x5FC5;&#x975E;&#x6240;&#x6709;&#x7684;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x90FD;&#x6709;&#x652F;&#x63F4;&#x9019;&#x6A23;&#x7279;&#x6027;<br>&#x51FA;&#x8655;&#xFF1A;<a href="http://www.syscom.com.tw/ePaper_New_Content.aspx?id=419&amp;EPID=204&amp;TableName=sgEPArticle" target="_blank" rel="external">&#x521D;&#x63A2;ECMAScript 6</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//es6</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fact</span>(<span class="params">n,acc=<span class="number">1</span></span>)</span>{</span><br><span class="line"><span class="meta">	&apos;use strict&apos;</span></span><br><span class="line">	<span class="keyword">if</span> (n &lt;=<span class="number">1</span>) <span class="keyword">return</span> acc;</span><br><span class="line">	<span class="keyword">return</span> factorial(n<span class="number">-1</span>,n*acc);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(fact(<span class="number">10000</span>));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7BC4;&#x4F8B;<br>&#x623F;&#x9593;&#x79FB;&#x52D5;&#x7BC4;&#x4F8B;&#xFF0C;&#x76EE;&#x524D;&#x6709;4&#x9593;&#x5982;&#x4E0B;<br>&#x4F7F;&#x7528;tail calls&#x5BEB;&#x6CD5;&#xFF0C;&#x8B93;&#x7A0B;&#x5F0F;&#x66F4;&#x7C21;&#x55AE;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| room1 | room2 |</span><br><span class="line">-------------------------</span><br><span class="line">| room3 | room4 |</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F;<br>xx :[~]# cat room.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">room1</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">print</span>(<span class="params"><span class="string">&quot;entry room1&quot;</span></span>)</span><br><span class="line">    <span class="title">local</span> <span class="title">move</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">if</span> <span class="title">move</span> == &quot;<span class="title">south</span>&quot; <span class="title">then</span> <span class="title">return</span> <span class="title">room3</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">elseif</span> <span class="title">move</span> == &quot;<span class="title">east</span>&quot; <span class="title">then</span> <span class="title">return</span> <span class="title">room2</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">else</span></span><br><span class="line">        <span class="title">print</span>(<span class="params"><span class="string">&quot;invaild move&quot;</span></span>)</span><br><span class="line">        <span class="title">return</span> <span class="title">room1</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">end</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">room2</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">print</span>(<span class="params"><span class="string">&quot;entry room2&quot;</span></span>)</span><br><span class="line">    <span class="title">local</span> <span class="title">move</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">if</span> <span class="title">move</span> == &quot;<span class="title">south</span>&quot; <span class="title">then</span> <span class="title">return</span> <span class="title">room4</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">elseif</span> <span class="title">move</span> == &quot;<span class="title">west</span>&quot; <span class="title">then</span> <span class="title">return</span> <span class="title">room1</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">else</span></span><br><span class="line">        <span class="title">print</span>(<span class="params"><span class="string">&quot;invaild move&quot;</span></span>)</span><br><span class="line">        <span class="title">return</span> <span class="title">room2</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">end</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">room3</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">print</span>(<span class="params"><span class="string">&quot;entry room3&quot;</span></span>)</span><br><span class="line">    <span class="title">local</span> <span class="title">move</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">if</span> <span class="title">move</span> == &quot;<span class="title">north</span>&quot; <span class="title">then</span> <span class="title">return</span> <span class="title">room1</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">elseif</span> <span class="title">move</span> == &quot;<span class="title">east</span>&quot; <span class="title">then</span> <span class="title">return</span> <span class="title">room4</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">else</span></span><br><span class="line">        <span class="title">print</span>(<span class="params"><span class="string">&quot;invaild move&quot;</span></span>)</span><br><span class="line">        <span class="title">return</span> <span class="title">room3</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">end</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">room4</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">print</span>(<span class="params"><span class="string">&quot;entry room4&quot;</span></span>)</span><br><span class="line">    <span class="title">print</span> (<span class="params"><span class="string">&quot;congratulations!&quot;</span></span>);</span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">room1</span>(<span class="params"></span>)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6E2C;&#x8A66;<br>:[~]# lua room.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">entry room1</span><br><span class="line">north</span><br><span class="line">invaild move</span><br><span class="line">entry room1</span><br><span class="line">sorth</span><br><span class="line">invaild move</span><br><span class="line">entry room1</span><br><span class="line">south</span><br><span class="line">entry room3</span><br><span class="line">north</span><br><span class="line">entry room1</span><br><span class="line">east</span><br><span class="line">entry room2</span><br><span class="line">south</span><br><span class="line">entry room4</span><br><span class="line">congratulations!</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter7-iterator-and-the-generic-for"><a href="#Chapter7_Iterator_and_the_Generic_for" class="headerlink" title="Chapter7 Iterator and the Generic for"></a>Chapter7 Iterator and the Generic for</h2><h3 id="&#x5982;&#x4F55;&#x4F7F;&#x7528;closure&#x5EFA;&#x7ACB;itera"><a href="#u5982_u4F55_u4F7F_u7528Closure_u5EFA_u7ACBitera" class="headerlink" title="&#x5982;&#x4F55;&#x4F7F;&#x7528;Closure&#x5EFA;&#x7ACB;itera"></a>&#x5982;&#x4F55;&#x4F7F;&#x7528;Closure&#x5EFA;&#x7ACB;itera</h3><ul>
+<li><p>iter = values(t)<br>&#x6B64;&#x6642;&#x5EFA;&#x7ACB;Closure&#x51FD;&#x6578; (&#x597D;&#x8655;&#xFF0C;&#x4E0D;&#x6703;&#x97FF;&#x5F71;&#x5176;&#x5B83;&#x7684;&#x8B8A;&#x6578;)<br>&#x56DE;&#x50B3;nil&#x5247;&#x8868;&#x793A;&#x7D50;&#x675F;<br>$ cat chapter7-for.lua </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function values (t)</span><br><span class="line">    local i = 0</span><br><span class="line">    return function () i = i + 1; return t[i] end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">t = {10, 20, 30}</span><br><span class="line">iter = values(t)</span><br><span class="line">print(iter())</span><br><span class="line">print(iter())</span><br><span class="line">print(iter())</span><br><span class="line">print(iter())</span><br><span class="line"></span><br><span class="line">xx :[~]# lua chapter7-for.lua </span><br><span class="line">10</span><br><span class="line">20</span><br><span class="line">30</span><br><span class="line">nil</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>iterator: &#x8207;while&#x4E00;&#x8D77;&#x4F7F;&#x7528;</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function values (t)</span><br><span class="line">    local i = 0</span><br><span class="line">    return function () i = i + 1; return t[i] end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">t = {10, 20, 30}</span><br><span class="line">iter = values(t)</span><br><span class="line"></span><br><span class="line">while true do</span><br><span class="line">    local element = iter()</span><br><span class="line">    if element == nil then break end</span><br><span class="line">    print(element)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx :[~]# lua chapter7-while.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">20</span></span><br><span class="line"><span class="number">30</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>iterator: &#x8207;for&#x4E00;&#x8D77;&#x4F7F;&#x7528;<br>&#x7528;&#x66F4;&#x5C11;&#x8B8A;&#x6578;&#xFF0C;&#x7A0B;&#x5F0F;&#x8B8A;&#x66F4;&#x7C21;&#x55AE; (&#x4E0D;&#x9700;&#x8981;iter&#x8B8A;&#x6578;)<br>The generate <strong>for</strong> does all the bookkeeping for an iteration loop<br>it keeps the iterator function interanlly, so we do not need the itera variable<br>$ cat chapter7-for-t1.lua </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function values (t)</span><br><span class="line">    local i = 0</span><br><span class="line">    return function () i = i + 1; return t[i] end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">t = {10, 20, 30}</span><br><span class="line">for element in values(t) do</span><br><span class="line">    print(element)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx :[~]# lua chapter7-for-t1.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">20</span></span><br><span class="line"><span class="number">30</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>&#x5C07;&#x76EE;&#x524D;&#x8F38;&#x5165;&#x7684;&#x55AE;&#x5B50;&#x627E;&#x51FA;&#x4F86;(&#x53EA;&#x5141;&#x8A9E;&#x6578;&#x5B57;&#x53CA;&#x5B57;&#x6BCD;), &#x4E14;&#x56DE;&#x50B3;&#x6BCF;&#x500B;&#x627E;&#x5230;&#x7684;&#x55AE;&#x5B57;</strong><br>&#x4F7F;&#x7528;itera closure&#x65B9;&#x5F0F;&#xFF0C;&#x5C07;&#x6574;&#x500B;&#x529F;&#x80FD;&#x7368;&#x7ACB;&#x5206;&#x958B;(&#x4E0D;&#x6703;&#x5F71;&#x97FF;&#x4E3B;&#x7A0B;&#x5F0F;&#x8B8A;&#x6578;)<br>$ cat chapter7-words.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">allwords</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">local</span> <span class="title">line</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">print</span>(<span class="params"><span class="string">&apos;&lt;1&gt;line:&apos;</span>,line</span>) -- <span class="title">debug</span> <span class="title">print</span></span><br><span class="line">    <span class="title">local</span> <span class="title">pos</span> = 1</span><br><span class="line">    <span class="title">return</span> <span class="title">function</span> (<span class="params"></span>)</span><br><span class="line">        <span class="title">print</span>(<span class="params"><span class="string">&apos;&lt;2&gt;line:&apos;</span>,line,<span class="string">&apos; ,pos:&apos;</span>,pos</span>) -- <span class="title">debug</span> <span class="title">print</span></span><br><span class="line">        <span class="title">while</span> <span class="title">line</span> <span class="title">do</span></span><br><span class="line">            <span class="title">local</span> <span class="title">s</span>, <span class="title">e</span> = <span class="title">string</span>.<span class="title">find</span>(<span class="params">line,<span class="string">&quot;%w+&quot;</span>, pos</span>)  -- <span class="title">string</span>.<span class="title">find</span>: &#x6703;&#x56DE;&#x627E;&#x5230;&#x7684;<span class="title">s</span>,<span class="title">e</span></span><br><span class="line">            <span class="title">if</span> <span class="title">s</span> <span class="title">then</span></span><br><span class="line">                <span class="title">pos</span> = <span class="title">e</span> + 1</span><br><span class="line">                <span class="title">return</span> <span class="title">string</span>.<span class="title">sub</span>(<span class="params">line, s, e</span>)</span><br><span class="line">            <span class="title">else</span></span><br><span class="line">                <span class="title">line</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">                <span class="title">print</span>(<span class="params"><span class="string">&apos;&lt;3&gt;line:&apos;</span>,line</span>) -- <span class="title">debug</span> <span class="title">print</span></span><br><span class="line">                <span class="title">pos</span> = 1</span><br><span class="line">            <span class="title">end</span></span><br><span class="line">        <span class="title">end</span></span><br><span class="line">        <span class="title">return</span> <span class="title">nil</span></span><br><span class="line">    <span class="title">end</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">for</span> <span class="title">word</span> <span class="title">in</span> <span class="title">allwords</span>(<span class="params"></span>) <span class="title">do</span></span><br><span class="line">    <span class="title">print</span>(<span class="params">word</span>)</span><br><span class="line"><span class="title">end</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx :[~]# lua chapter7-words.lua<br>string.find: &#x6703;&#x56DE;&#x627E;&#x5230;&#x7684;s,e<br>pattern <strong>%w: represents all alphanumeric characters.</strong><br><a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank" rel="external">5.4.1 &#x2013; Patterns</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">t11 t22 t33</span><br><span class="line">&lt;1&gt;line:        t11 t22 t33</span><br><span class="line">&lt;2&gt;line:        t11 t22 t33      ,pos:  1</span><br><span class="line">t11</span><br><span class="line">&lt;2&gt;line:        t11 t22 t33      ,pos:  4</span><br><span class="line">t22</span><br><span class="line">&lt;2&gt;line:        t11 t22 t33      ,pos:  8</span><br><span class="line">t33</span><br><span class="line">&lt;2&gt;line:        t11 t22 t33      ,pos:  12</span><br><span class="line">taa tbb tcc</span><br><span class="line">&lt;3&gt;line:        taa tbb tcc</span><br><span class="line">taa</span><br><span class="line">&lt;2&gt;line:        taa tbb tcc      ,pos:  4</span><br><span class="line">tbb</span><br><span class="line">&lt;2&gt;line:        taa tbb tcc      ,pos:  8</span><br><span class="line">tcc</span><br><span class="line">&lt;2&gt;line:        taa tbb tcc      ,pos:  12</span><br><span class="line"><span class="comment">##!!@@aa%%^^ ^^&amp;&amp; **((11</span></span><br><span class="line">&lt;3&gt;line:        <span class="comment">##!!@@aa%%^^ ^^&amp;&amp; **((11</span></span><br><span class="line">aa</span><br><span class="line">&lt;2&gt;line:        <span class="comment">##!!@@aa%%^^ ^^&amp;&amp; **((11         ,pos:  9</span></span><br><span class="line">11</span><br><span class="line">&lt;2&gt;line:        <span class="comment">##!!@@aa%%^^ ^^&amp;&amp; **((11         ,pos:  25</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter-7-2-the-semantics-of-the-generic-for"><a href="#Chapter_7-2_The_Semantics_of_the_Generic_for" class="headerlink" title="Chapter 7-2 The Semantics of the Generic for"></a>Chapter 7-2 The Semantics of the Generic for</h3><ul>
+<li>lua&#x5167;&#x90E8;for&#x8A9E;&#x6CD5;&#x52D5;&#x4F5C;&#x7A0B;&#x5E8F;</li>
+<li>use the generic for itself to keep the iteration state</li>
+<li>In this section we will see the facilities that the generic for offers to hold state</li>
+<li><p>The syntax for the generic for is as follows</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> &lt;<span class="keyword">var</span>-list&gt; <span class="keyword">in</span> &lt;exp-list&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>for&#x5BE6;&#x969B;&#x7BC4;&#x4F8B;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> k,v <span class="keyword">in</span> piars(t) <span class="keyword">do</span> print(k,v) end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>for&#x5167;&#x90E8;&#x6703;&#x4FDD;&#x5B58;3&#x500B;&#x8B8A;&#x6578;</p>
+<ul>
+<li>iterator function ( _f )</li>
+<li>invariant state    ( _s )</li>
+<li>a control variable( _var )</li>
+</ul>
+</li>
+<li><p>More precisely, a construction like</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var_1,...,var_n <span class="keyword">in</span> &lt;explist&gt; <span class="keyword">do</span> &lt;block&gt; end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>is equivalen to the following code:<br>&#x5BE6;&#x969B;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;&#xFF0C;&#x5167;&#x90E8;&#x6703;&#x4FDD;&#x5B58;3&#x500B;&#x8B8A;&#x6578;(_f,_s,_var)<br><explist>&#x9700;&#x8981;&#x56DE;&#x50B3;(_f,_s,_var)<br>&#x6B64;&#x6642;&#x4EE5;for&#x800C;&#x8A00;&#x5167;&#x90E8;&#x53EA;&#x5141;&#x4E86;&#xFF0C;&#x5132;&#x5B58;1&#x72C0;&#x614B;&#x8B8A;&#x6578;<br>(&#x82E5;_f&#x88E1;&#x9762;&#x9700;&#x8981;&#x7531;&#x5916;&#x90E8;&#x5E36;&#x5165;&#xFF0C;&#x5169;&#x500B;&#x4EE5;&#x4E0A;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x8981;&#x5982;&#x4F55;&#x505A;?)</explist></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line">	local _f, _s, _var = &lt;explist&gt;</span><br><span class="line">	while true do</span><br><span class="line">		local var_1..., var_n = _f( _s, _var )</span><br><span class="line">		_var = _var_1</span><br><span class="line">		if _var == nil then break end</span><br><span class="line">	end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter-7-3-&#x7121;&#x9700;&#x5132;&#x5B58;&#x72C0;&#x614B;&#x7684;iterator-stateless-iterators"><a href="#Chapter_7-3__u7121_u9700_u5132_u5B58_u72C0_u614B_u7684iterator__28Stateless_Iterators_29" class="headerlink" title="Chapter 7-3 &#x7121;&#x9700;&#x5132;&#x5B58;&#x72C0;&#x614B;&#x7684;iterator (Stateless Iterators)"></a>Chapter 7-3 &#x7121;&#x9700;&#x5132;&#x5B58;&#x72C0;&#x614B;&#x7684;iterator (Stateless Iterators)</h3><p>&#x8868;&#x793A;&#x81EA;&#x8EAB;&#x4E0D;&#x4FDD;&#x5B58;&#x4EFB;&#x53EF;&#x72C0;&#x614B;&#x7684;&#x9078;&#x4EE3;&#x5668;(iterator)</p>
+<ul>
+<li><p>$cat chapter7-3-ipairs.lua </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">local function iter (a,i)</span><br><span class="line">    i = i + 1</span><br><span class="line">    local v = a[i]</span><br><span class="line">    if v then</span><br><span class="line">        return i,v</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function myipairs(a)</span><br><span class="line">    return iter, a, 0</span><br><span class="line">end</span><br><span class="line">a = {&quot;one&quot;, &quot;two&quot;, &quot;three&quot;}</span><br><span class="line">for i,v in myipairs(a) do</span><br><span class="line">    print(i,v)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx :[~]# lua chapter7-3-ipairs.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>       one</span><br><span class="line"><span class="number">2</span>       two</span><br><span class="line"><span class="number">3</span>       three</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter-7-4-iterators-with-complex-state"><a href="#Chapter_7-4_Iterators_with_Complex_State" class="headerlink" title="Chapter 7-4 Iterators with Complex State"></a>Chapter 7-4 Iterators with Complex State</h3><ul>
+<li>&#x901A;&#x5E38;&#xFF0C;Iteration&#x9700;&#x8981;&#x4FDD;&#x5B58;&#x8A31;&#x591A;&#x72C0;&#x614B;&#xFF0C;&#x4F46;for&#x53EA;&#x63D0;&#x4F9B;1&#x500B;(invariant state)&#x53CA;1&#x500B;&#x63A7;&#x5236;&#x8B8A;&#x91CF;(a control variable)&#x7528;&#x65BC;&#x72C0;&#x614B;&#x7684;&#x4FDD;&#x5B58;</li>
+<li><p>&#x89E3;&#x6C7A;&#x65B9;&#x5F0F;</p>
+<ul>
+<li>1.&#x4F7F;&#x7528;clousre</li>
+<li>2.&#x6216;&#x662F;&#x5C07;&#x6240;&#x6709;&#x72C0;&#x614B;&#x6253;&#x5305;&#x70BA;1&#x500B;table&#xFF0C;&#x4FDD;&#x5B58;&#x5728;(invariant state) -&gt; &#x70BA;&#x6B64;&#x7BC0;&#x8981;&#x793A;&#x7BC4;&#x7684;&#x4F8B;</li>
+</ul>
+</li>
+<li><p>$ cat chapter7-4-itra.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">local iterator</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">allword</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">local</span> <span class="title">state</span> = </span>{line = io.read(), pos = <span class="number">1</span>}</span><br><span class="line">    <span class="keyword">return</span> iterator, state</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">iterator</span> (<span class="params">state</span>)</span><br><span class="line">    <span class="title">while</span> <span class="title">state</span>.<span class="title">line</span> <span class="title">do</span></span><br><span class="line">        <span class="title">local</span> <span class="title">s</span>, <span class="title">e</span> = <span class="title">string</span>.<span class="title">find</span>(<span class="params">state.line, <span class="string">&quot;%w+&quot;</span>, state.pos</span>)</span><br><span class="line">        <span class="title">if</span> <span class="title">s</span> <span class="title">then</span></span><br><span class="line">            <span class="title">state</span>.<span class="title">pos</span> = <span class="title">e</span> + 1</span><br><span class="line">            <span class="title">return</span> <span class="title">string</span>.<span class="title">sub</span>(<span class="params">state.line, s, e</span>)</span><br><span class="line">        <span class="title">else</span></span><br><span class="line">            <span class="title">state</span>.<span class="title">line</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">            <span class="title">state</span>.<span class="title">pos</span> = 1</span><br><span class="line">        <span class="title">end</span></span><br><span class="line">    <span class="title">end</span></span><br><span class="line">    <span class="title">return</span> <span class="title">nil</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">for</span> <span class="title">word</span> <span class="title">in</span> <span class="title">allword</span>(<span class="params"></span>) <span class="title">do</span></span><br><span class="line">    <span class="title">print</span>(<span class="params">word</span>)</span><br><span class="line"><span class="title">end</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx:[~]# lua chapter7-4-itra.lua </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t11 t22 t33</span><br><span class="line">t11</span><br><span class="line">t22</span><br><span class="line">t33</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter-7-5-true-iterators-allword-iterator"><a href="#Chapter_7-5_True_Iterators__28allword_iterator_29" class="headerlink" title="Chapter 7-5 True Iterators (allword iterator)"></a>Chapter 7-5 True Iterators (allword iterator)</h3><ul>
+<li><p>$ cat chapter7-5-allword.lua </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function allwords(f)</span><br><span class="line">    for line in io.lines() do</span><br><span class="line">        for word in string.gmatch(line, &quot;%w+&quot;) do</span><br><span class="line">            f(word)</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line">allwords(print)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx :[~]# lua chapter7-5-allword.lua </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t11 t22 t33</span><br><span class="line">t11</span><br><span class="line">t22</span><br><span class="line">t33</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x4F7F;&#x7528;&#x533F;&#x540D;&#x51FD;&#x6578;&#x505A;&#x70BA;&#x53C3;&#x6578;&#x8F38;&#x5165;</p>
+<ul>
+<li><p>$ cat chapter7-5-allword-t2.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">allwords</span>(<span class="params">f</span>)</span><br><span class="line">    <span class="title">line</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">for</span> <span class="title">word</span> <span class="title">in</span> <span class="title">string</span>.<span class="title">gmatch</span>(<span class="params">line, <span class="string">&quot;%w+&quot;</span></span>) <span class="title">do</span></span><br><span class="line">        <span class="title">f</span>(<span class="params">word</span>)</span><br><span class="line">    <span class="title">end</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">local</span> <span class="title">count</span> = 0</span><br><span class="line"><span class="title">allwords</span>(<span class="params">function (w</span>)</span><br><span class="line">    <span class="title">if</span> <span class="title">w</span> == &quot;<span class="title">hello</span>&quot; <span class="title">then</span> <span class="title">count</span> = <span class="title">count</span> +1 <span class="title">end</span></span><br><span class="line"><span class="title">end</span>)</span><br><span class="line"><span class="title">print</span>(<span class="params">count</span>)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx :[~]# lua chapter7-5-allword-t2.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t11 hello t22 hello t33</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter8-compilationexcutionand-errors"><a href="#Chapter8_Compilation_2CExcution_2Cand_Errors" class="headerlink" title="Chapter8 Compilation,Excution,and Errors"></a>Chapter8 Compilation,Excution,and Errors</h2><p>Lua&#x5141;&#x8A9E;&#x7531;&#x5916;&#x90E8;&#x8F09;&#x5165;precompiles source code(ex. dofile )</p>
+<h3 id="chapter8-1-compilation"><a href="#Chapter8-1_Compilation" class="headerlink" title="Chapter8-1 Compilation"></a>Chapter8-1 Compilation</h3><ul>
+<li>dofile as a kind of primitive operation to run chunks of Lua code</li>
+<li>dofile is actually an auxiliary function<ul>
+<li>loadfile does the hard work</li>
+<li>loadfile loads a Lua chunk from a file, but it does not run the chunk</li>
+</ul>
+</li>
+<li>loadfile&#x53EA;&#x662F;&#x5C07;&#x4EE3;&#x78BC;&#x7DE8;&#x8B6F;&#xFF0C;&#x4F46;&#x4E0D;&#x6703;&#x57F7;&#x884C;&#xFF0C;&#x4E26;&#x4E14;&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x8FD4;&#x56DE; </li>
+<li>loadfile&#x4E0D;&#x6703;&#x5F15;&#x767C;&#x932F;&#x8AA4;(&#x5B83;&#x662F;&#x8FD4;&#x56DE;&#x932F;&#x8AA4;&#x4E26;&#x4E0D;&#x8655;&#x7406;&#x932F;&#x8AA4;)</li>
+<li><p>dofile&#x53EF;&#x4EE5;&#x770B;&#x6210;&#x4E0B;&#x4F8B;&#x529F;&#x80FD;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dofile</span> (<span class="params">filename</span>)</span><br><span class="line">	<span class="title">local</span> <span class="title">f</span> = <span class="title">assert</span> (<span class="params">loadfile(filename</span>))</span><br><span class="line">	<span class="title">return</span> <span class="title">f</span>(<span class="params"></span>)</span><br><span class="line"><span class="title">end</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dofile ([filename])<br>Opens the named file and executes its contents as a Lua chunk. </p>
+</li>
+<li><p>load (func [, chunkname])<br>Loads a chunk using function func to get its pieces.</p>
+</li>
+<li><p>loadfile ([filename])<br>Similar to load, but gets the chunk from file filename or from the standard input, if no file name is given. </p>
+</li>
+</ul>
+<h3 id="loadfile-example"><a href="#loadfile_example" class="headerlink" title="loadfile example"></a>loadfile example</h3><ul>
+<li><p>loadfile(&#x201C;foo.lua&#x201D;)<br>&#x4E4B;&#x5F8C;&#xFF0C;&#x51FD;&#x6578;foo&#x5B8C;&#x6210;&#x7DE8;&#x8B6F;&#xFF0C;&#x4F46;&#x9084;&#x6C92;&#x5B9A;&#x7FA9;</p>
+</li>
+<li><p>f()<br>&#x5B9A;&#x7FA9;&#x6B64;foo function</p>
+</li>
+<li><p>$ cat foo.lua </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo (x)</span><br><span class="line">    print(x)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>$ cat chapter8-2-loadfile.lua </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">f = loadfile(&quot;foo.lua&quot;)</span><br><span class="line">print(foo)</span><br><span class="line">f()</span><br><span class="line">print(foo)</span><br><span class="line">foo(&quot;ok&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>gk350a :[~]# lua chapter8-2-loadfile.lua </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nil</span><br><span class="line">function: 0xd6bcc0</span><br><span class="line">ok</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter82-code-&#x5982;&#x4F55;&#x8F09;&#x5165;c&#x5B9A;&#x7FA9;&#x7684;lua-library"><a href="#Chapter8-2_Code__28_u5982_u4F55_u8F09_u5165C_u5B9A_u7FA9_u7684lua_library__29" class="headerlink" title="Chapter8.2 Code (&#x5982;&#x4F55;&#x8F09;&#x5165;C&#x5B9A;&#x7FA9;&#x7684;lua library )"></a>Chapter8.2 Code (&#x5982;&#x4F55;&#x8F09;&#x5165;C&#x5B9A;&#x7FA9;&#x7684;lua library )</h3><ul>
+<li><p><a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank" rel="external">package.loadlib (libname, funcname)</a><br>Dynamically links the host program with the C library libname.<br>funcname must follow the protocol (see <a href="https://www.lua.org/manual/5.1/manual.html#lua_CFunction" target="_blank" rel="external">lua_CFunction</a>)</p>
+</li>
+<li><p>$ cat chapter8-2-loadlib.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">local path = <span class="string">&quot;/usr/local/lib/lua/5.1/socket/core.so&quot;</span></span><br><span class="line">local f = package.loadlib(path,<span class="string">&quot;luaopen_socket&quot;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter83-error-&#x5982;&#x4F55;&#x53D6;&#x5F97;&#x7A0B;&#x5F0F;&#x7684;&#x932F;&#x8AA4;&#x8A0A;&#x606F;"><a href="#Chapter8-3_Error__28_u5982_u4F55_u53D6_u5F97_u7A0B_u5F0F_u7684_u932F_u8AA4_u8A0A_u606F_29" class="headerlink" title="Chapter8.3 Error (&#x5982;&#x4F55;&#x53D6;&#x5F97;&#x7A0B;&#x5F0F;&#x7684;&#x932F;&#x8AA4;&#x8A0A;&#x606F;)"></a>Chapter8.3 Error (&#x5982;&#x4F55;&#x53D6;&#x5F97;&#x7A0B;&#x5F0F;&#x7684;&#x932F;&#x8AA4;&#x8A0A;&#x606F;)</h3><p>&#x901A;&#x904E;error()&#x51FD;&#x6578;&#x50B3;&#x5165;&#x932F;&#x8AA4;&#x8A0A;&#x606F;</p>
+<ul>
+<li><p><a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank" rel="external">error (message [, level])</a></p>
+<ul>
+<li>Terminates the last protected function called and returns message as the error message. Function error never returns. </li>
+<li>Usually, error adds some information about the error position at the beginning of the message</li>
+<li>With level 1 (the default), the error position is where the error function was called</li>
+<li>Level 2 points the error to where the function that called error was called</li>
+</ul>
+</li>
+<li><p>$ cat chapter8-3-err.lua</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print <span class="string">&quot;enter a number:&quot;</span></span><br><span class="line">n = io.read(<span class="string">&quot;*number&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> not n then error(<span class="string">&quot;invaild input&quot;</span>) end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx :[~]# lua chapter8-3-err.lua</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">enter a number:</span><br><span class="line">dd</span><br><span class="line">lua: chapter8-3-err.lua:3: invaild input</span><br><span class="line">stack traceback:</span><br><span class="line">        [C]: in function &apos;error&apos;</span><br><span class="line">        chapter8-3-err.lua:3: in main chunk</span><br><span class="line">        [C]: ?</span><br><span class="line">gk350a :[~]# lua chapter8-3-err.lua </span><br><span class="line">enter a number:</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x4F7F;&#x7528;assert()&#x529F;&#x80FD;&#x4F86;&#x5BE6;&#x73FE;</p>
+<ul>
+<li><p><a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank" rel="external">assert (v [, message])</a><br>Issues an error when the value of its argument v is false (i.e., nil or false); otherwise, returns all its arguments.<br>message is an error message; when absent, it defaults to &#x201C;assertion failed!&#x201D; </p>
+</li>
+<li><p>$ cat chapter8-3-err2.lua</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print <span class="string">&quot;enter a number:&quot;</span></span><br><span class="line">n = assert(io.read(<span class="string">&quot;*nubmer&quot;</span>),<span class="string">&quot;invaild input&quot;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter8-4-error-handling-and-exceptions"><a href="#Chapter8-4_Error_Handling_and_Exceptions" class="headerlink" title="Chapter8-4 Error Handling and Exceptions"></a>Chapter8-4 Error Handling and Exceptions</h3><p>&#x82E5;&#x9700;&#x8981;lua&#x4E2D;&#x8655;&#x7406;&#x932F;&#x8AA4;&#xFF0C;&#x5247;&#x5FC5;&#x9700;&#x4F7F;&#x7528;pcall&#x51FD;&#x6578;&#x4F86;&#x5305;&#x88DD;&#x8981;&#x57F7;&#x884C;&#x7684;&#x4EE3;&#x78BC;</p>
+<ul>
+<li><p><a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank" rel="external">pcall (f, arg1, &#xB7;&#xB7;&#xB7;)</a><br>Calls function f with the given arguments in protected mode.</p>
+</li>
+<li><p>$ cat chapter8-4-pcall.lua</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> cat chapter8<span class="number">-4</span>-pcall.lua </span><br><span class="line">local status,err = pcall(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) <span class="title">error</span>(<span class="params">{code=<span class="number">121</span>}</span>) <span class="title">end</span>)</span><br><span class="line"><span class="title">print</span>(<span class="params">status,err.code</span>)</span><br><span class="line"><span class="title">local</span> <span class="title">status</span>,<span class="title">err</span> = <span class="title">pcall</span>(<span class="params">function (</span>) <span class="title">error</span>(<span class="params"><span class="string">&quot;my error&quot;</span></span>) <span class="title">end</span>)</span><br><span class="line"><span class="title">print</span>(<span class="params">status,err</span>)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>gk350a :[~]# lua chapter8-4-pcall.lua</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">false</span>   <span class="number">121</span></span><br><span class="line"><span class="literal">false</span>   chapter8<span class="number">-4</span>-pcall.lua:<span class="number">3</span>: my error</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter9-coroutines-&#x5354;&#x540C;&#x7A0B;&#x5E8F;"><a href="#Chapter9_Coroutines__28_u5354_u540C_u7A0B_u5E8F_29" class="headerlink" title="Chapter9 Coroutines (&#x5354;&#x540C;&#x7A0B;&#x5E8F;)"></a>Chapter9 Coroutines (&#x5354;&#x540C;&#x7A0B;&#x5E8F;)</h2><ul>
+<li>A coroutine is similar to a thread (in the sense of multithreading)<ul>
+<li>it is a line of execution, with its own stack, its own local variables, and its own instruction pointer;</li>
+<li>but sharing global variables and mostly anything else with other coroutines</li>
+</ul>
+</li>
+<li>&#x591A;thead&#xFF0C;&#x662F;&#x6307;&#x540C;&#x6642;&#x591A;&#x500B;&#x7A0B;&#x5E8F;&#x4E00;&#x8D77;&#x8DD1;</li>
+<li>&#x4F46;coroutine&#xFF0C;&#x4E3B;&#x8981;&#x5F37;&#x8ABF;&#x5728;&#x591A;&#x500B;thead&#x4E2D;&#x5982;&#x4F55;&#x5354;&#x540C;&#x8655;&#x7406; </li>
+</ul>
+<h3 id="coroutine-manipulation"><a href="#Coroutine_Manipulation" class="headerlink" title="Coroutine Manipulation"></a>Coroutine Manipulation</h3><ul>
+<li><a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank" rel="external">2.11 &#x2013; Coroutines</a><ul>
+<li>Lua supports coroutines, also called collaborative multithreading.</li>
+<li>A coroutine in Lua represents an independent thread of execution</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">func</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>coroutine.create</strong></td>
+<td style="text-align:left">create a coroutine , it does not start the coroutine execution.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>coroutine.resume</strong></td>
+<td style="text-align:left">passing as its first argument a thread, the coroutine starts its execution</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>A coroutine can terminate its execution in two ways:<br>normally, when its main function returns (<strong>coroutine.resume</strong> returns true)<br>and abnormally</p>
+</li>
+<li><p><a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank" rel="external">5.2 &#x2013; Coroutine Manipulation</a><br>The operations related to coroutines comprise a sub-library of the basic library and come inside the table coroutine.</p>
+</li>
+<li><p>coroutine&#x6709;&#x4E0B;&#x4F8B;&#x72C0;&#x614B;</p>
+<ul>
+<li><strong>suspended</strong><br>coroutine.create&#x4E4B;&#x5F8C;&#x5247;&#x70BA;suspened</li>
+<li><strong>running</strong><br>coroutine.resume&#x4E4B;&#x5F8C;&#x5247;&#x70BA;running&#xFF0C;&#x82E5;&#x7A0B;&#x5F0F;&#x8DF3;&#x5B8C;&#x96E2;&#x958B;&#x5247;&#x8B8A;&#x6210;dead</li>
+<li><strong>dead</strong></li>
+<li><strong>normal</strong></li>
+</ul>
+</li>
+<li><p>coroutine.yield()&#x6703;&#x8B93;&#x4E00;&#x500B;&#x904B;&#x884C;&#x4E2D;&#x7684;coroutine&#x8B8A;&#x6210;suspended&#x72C0;&#x614B;(&#x5373;&#x6B64;&#x6642;&#xFF0C;&#x7A0B;&#x5F0F;&#x505C;&#x6B62;)</p>
+</li>
+<li><p>$cat chapter9-yield.lua</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">co = coroutine.create(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span><br><span class="line">        <span class="title">for</span> <span class="title">i</span>=1,5 <span class="title">do</span></span><br><span class="line">            <span class="title">print</span>(<span class="params"><span class="string">&quot;co&quot;</span>,i</span>)</span><br><span class="line">            <span class="title">coroutine</span>.<span class="title">yield</span>(<span class="params"></span>)</span><br><span class="line">        <span class="title">end</span></span><br><span class="line">    <span class="title">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">co</span>)</span><br><span class="line"><span class="title">print</span>(<span class="params"><span class="string">&quot;t1&quot;</span>,coroutine.status(co</span>))</span><br><span class="line"><span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">co</span>)</span><br><span class="line"><span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">co</span>)</span><br><span class="line"><span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">co</span>)</span><br><span class="line"><span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">co</span>)</span><br><span class="line"><span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">co</span>)</span><br><span class="line"><span class="title">print</span>(<span class="params"><span class="string">&quot;t2&quot;</span>,coroutine.status(co</span>))</span><br><span class="line"><span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">co</span>)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx:[~]# lua chapter9-yield.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">co      <span class="number">1</span></span><br><span class="line">t1      suspended</span><br><span class="line">co      <span class="number">2</span></span><br><span class="line">co      <span class="number">3</span></span><br><span class="line">co      <span class="number">4</span></span><br><span class="line">co      <span class="number">5</span></span><br><span class="line">t2      dead</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x901A;&#x904E;resume-yield&#x4EA4;&#x63DB;&#x6578;&#x64DA;"><a href="#u901A_u904Eresume-yield_u4EA4_u63DB_u6578_u64DA" class="headerlink" title="&#x901A;&#x904E;resume-yield&#x4EA4;&#x63DB;&#x6578;&#x64DA;"></a>&#x901A;&#x904E;resume-yield&#x4EA4;&#x63DB;&#x6578;&#x64DA;</h3><ul>
+<li><p>$cat chapter9-2-data.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">co = coroutine.create( <span class="function"><span class="keyword">function</span> (<span class="params">a,b,c</span>)</span><br><span class="line">        <span class="title">print</span>(<span class="params"><span class="string">&quot;co&quot;</span>,a,b,c</span>)</span><br><span class="line">        <span class="title">coroutine</span>.<span class="title">yield</span>(<span class="params">a+<span class="number">10</span>,b+<span class="number">10</span>,c+<span class="number">10</span></span>)</span><br><span class="line"><span class="title">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="title">print</span>(<span class="params">coroutine.resume(co,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span></span>))</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx:[~]# lua chapter9-2-data.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">co      <span class="number">1</span>       <span class="number">2</span>       <span class="number">3</span></span><br><span class="line"><span class="literal">true</span>    <span class="number">11</span>      <span class="number">12</span>      <span class="number">13</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter9-2-producer-consumer-problem"><a href="#chapter9-2_producer-consumer_problem" class="headerlink" title="chapter9-2 producer-consumer problem"></a>chapter9-2 producer-consumer problem</h3><ul>
+<li>&#x7531;coroutine.yield(x)&#x56DE;&#x50B3;&#x503C;x</li>
+<li>&#x6B64;&#x8655;&#x70BA;consumer-driver design<ul>
+<li>&#x7531;consumer&#x555F;&#x52D5;</li>
+<li>&#x7576;consumber&#x9700;&#x8981;&#x65B0;&#x503C;&#x6642;&#xFF0C;&#x559A;&#x9192;producer</li>
+<li>producer&#x7522;&#x751F;1&#x500B;&#x65B0;&#x7684;&#x503C;&#xFF0C;&#x505C;&#x6B62;&#x904B;&#x884C;&#xFF0C;&#x7B49;&#x5F85;consumer</li>
+</ul>
+</li>
+<li><p>$ cat chapter9-2-pipe.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">local producer</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">receive</span>(<span class="params"></span>)</span><br><span class="line">    <span class="title">local</span> <span class="title">status</span>, <span class="title">value</span> = <span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">producer</span>)</span><br><span class="line">    <span class="title">return</span> <span class="title">value</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">send</span>(<span class="params">x</span>)</span><br><span class="line">    <span class="title">coroutine</span>.<span class="title">yield</span>(<span class="params">x</span>)</span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title">producer</span> = <span class="title">coroutine</span>.<span class="title">create</span>(<span class="params"></span><br><span class="line">    function(</span>)</span><br><span class="line">        <span class="title">while</span> <span class="title">true</span> <span class="title">do</span></span><br><span class="line">            <span class="title">local</span> <span class="title">x</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">            <span class="title">send</span>(<span class="params">x</span>)</span><br><span class="line">        <span class="title">end</span></span><br><span class="line">    <span class="title">end</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="title">print</span>(<span class="params">receive(</span>))</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx:[~]# lua chapter9-2-pipe.lua </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test</span><br><span class="line">test</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter-9-2-filter"><a href="#chapter_9-2_filter" class="headerlink" title="chapter 9-2 filter"></a>chapter 9-2 filter</h3><ul>
+<li>filter example<ul>
+<li>&#x7531;filter&#x4F86;&#x8655;&#x7406;&#x904E;&#x7A0B;&#x7684;&#x8CC7;&#x6599;</li>
+<li>&#x6C7A;&#x5B9A;&#x662F;&#x5426;&#x6253;&#x7528;producer&#x8CC7;&#x6599;</li>
+<li>&#x662F;&#x5426;&#x5C07;&#x50B3;&#x7D66;consumer&#x8CC7;&#x6599;&#x505A;&#x683C;&#x5F0F;&#x8F49;&#x63DB;</li>
+</ul>
+</li>
+</ul>
+<img src="/2016/08/17/programming-in-lua-1st-t01/chapter-9-2.png" alt="chapter-9-2.png" title="">
+<ul>
+<li><p>$cat chapter9-2-filter.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">receive</span> (<span class="params">prod</span>)</span><br><span class="line">    <span class="title">local</span> <span class="title">status</span>, <span class="title">value</span> = <span class="title">coroutine</span>.<span class="title">resume</span>(<span class="params">prod</span>)</span><br><span class="line">    <span class="title">return</span> <span class="title">value</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">send</span>(<span class="params">x</span>)</span><br><span class="line">    <span class="title">coroutine</span>.<span class="title">yield</span>(<span class="params">x</span>)</span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">producer</span>(<span class="params">x</span>)</span><br><span class="line">    <span class="title">return</span> <span class="title">coroutine</span>.<span class="title">create</span>(<span class="params">function (</span>)</span><br><span class="line">        <span class="title">while</span> <span class="title">true</span> <span class="title">do</span></span><br><span class="line">            <span class="title">print</span>(<span class="params"><span class="string">&quot;producer:&quot;</span></span>)</span><br><span class="line">            <span class="title">local</span> <span class="title">x</span> = <span class="title">io</span>.<span class="title">read</span>(<span class="params"></span>)</span><br><span class="line">            <span class="title">send</span>(<span class="params">x</span>)</span><br><span class="line">        <span class="title">end</span></span><br><span class="line">    <span class="title">end</span>)</span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">filter</span> (<span class="params">prod</span>)</span><br><span class="line">    <span class="title">return</span> <span class="title">coroutine</span>.<span class="title">create</span>(<span class="params"> function(</span>)</span><br><span class="line">        <span class="title">for</span> <span class="title">line</span> = 1, <span class="title">math</span>.<span class="title">huge</span> <span class="title">do</span></span><br><span class="line">            <span class="title">local</span> <span class="title">x</span> = <span class="title">receive</span> (<span class="params">prod</span>)</span><br><span class="line">            <span class="title">x</span> = <span class="title">string</span>.<span class="title">format</span>(<span class="params"><span class="string">&quot;filter: %5d %s&quot;</span>,line,x</span>)</span><br><span class="line">            <span class="title">send</span>(<span class="params">x</span>)</span><br><span class="line">        <span class="title">end</span></span><br><span class="line">    <span class="title">end</span>)</span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">function</span> <span class="title">consumer</span> (<span class="params">prod</span>)</span><br><span class="line">    <span class="title">while</span> <span class="title">true</span> <span class="title">do</span></span><br><span class="line">        <span class="title">local</span> <span class="title">x</span> = <span class="title">receive</span>(<span class="params">prod</span>)</span><br><span class="line">        <span class="title">io</span>.<span class="title">write</span>(<span class="params"><span class="string">&quot;cosumer:&quot;</span>,x,<span class="string">&quot;\n&quot;</span></span>);</span><br><span class="line">    <span class="title">end</span></span><br><span class="line"><span class="title">end</span></span><br><span class="line"></span><br><span class="line"><span class="title">p</span> = <span class="title">producer</span>(<span class="params"></span>)</span><br><span class="line"><span class="title">f</span> = <span class="title">filter</span>(<span class="params">p</span>)</span><br><span class="line"><span class="title">consumer</span>(<span class="params">f</span>)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xxx :[~]# lua chapter9-2-filter.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">producer:</span><br><span class="line">test11</span><br><span class="line">cosumer:filter:     <span class="number">1</span> test11</span><br><span class="line">producer:</span><br><span class="line">aabb</span><br><span class="line">cosumer:filter:     <span class="number">2</span> aabb</span><br><span class="line">producer:</span><br><span class="line">ccdd</span><br><span class="line">cosumer:filter:     <span class="number">3</span> ccdd</span><br><span class="line">producer:</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter-11-data-structures"><a href="#Chapter_11_Data_Structures" class="headerlink" title="Chapter 11 Data Structures"></a>Chapter 11 Data Structures</h2><ul>
+<li>all structure that other language offer<ul>
+<li>arrays, records, lists, queues, sets</li>
+</ul>
+</li>
+</ul>
+<h3 id="chapter-11-1-arrays"><a href="#Chapter_11-1_Arrays" class="headerlink" title="Chapter 11-1 Arrays"></a>Chapter 11-1 Arrays</h3><ul>
+<li><p>&#x6CE8;&#x610F;lua&#x5167;&#x90E8;library&#x7684;array&#x7686;&#x70BA;1&#x958B;&#x59CB;</p>
+</li>
+<li><p>$cat chapter11-1-array.lua </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = {}</span><br><span class="line">for j=1, 1000 do</span><br><span class="line">    a[j] = 0</span><br><span class="line">end</span><br><span class="line">print(#a)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>gk350a :[~]# lua chapter11-1-array.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1000</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x4E5F;&#x53EF;&#x4EE5;&#x5EFA;&#x7ACB;&#x975E;&#x96F6;&#x958B;&#x59CB;&#x7684;index</p>
+</li>
+<li>$cat chapter11-1-array2.lua <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = {}</span><br><span class="line"><span class="keyword">for</span> i=<span class="number">-5</span>, <span class="number">5</span> <span class="keyword">do</span></span><br><span class="line">    a[i] = <span class="number">0</span></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter-11-2-matrix&#x77E9;&#x9663;"><a href="#Chapter_11-2_matrix_28_u77E9_u9663_29" class="headerlink" title="Chapter 11-2 matrix(&#x77E9;&#x9663;)"></a>Chapter 11-2 matrix(&#x77E9;&#x9663;)</h3><ul>
+<li><p>$cat chapter11-2-matrix.lua </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mt = {}</span><br><span class="line"></span><br><span class="line">N = 3</span><br><span class="line">M = 4</span><br><span class="line">for i=1,N do</span><br><span class="line">    mt [i] = {}</span><br><span class="line">    for j=1,M do</span><br><span class="line">        mt[i][j] = 0</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line">print(#mt)</span><br><span class="line">print(#mt[1])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx :[~]# lua chapter11-2-matrix.lua </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="chapter-11-4-queues"><a href="#Chapter_11-4_Queues" class="headerlink" title="Chapter 11-4 Queues"></a>Chapter 11-4 Queues</h3><ul>
+<li>&#x7531;List.New&#x521D;&#x59CB;&#x5316;&#x8B8A;&#x6578;<br>first: &#x6307;&#x5411;list&#x982D;<br>last: &#x6307;&#x5411;list&#x5C3E;</li>
+<li>pushfist: &#x7531;first&#x65B0;&#x589E;</li>
+<li>popfist: &#x7531;first&#x53D6;&#x51FA;</li>
+<li>pushlast: &#x7531;last&#x65B0;&#x589E;</li>
+<li>poplast: &#x7531;last&#x53D6;&#x51FA;</li>
+<li><p>$cat chapter11-4-queues.lua</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">List = {}</span><br><span class="line">function List.new ()</span><br><span class="line">  return {first = 0, last = -1}</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function List.pushfirst(list, value)</span><br><span class="line">    local first = list.first - 1</span><br><span class="line">    list.first = first</span><br><span class="line">    list[first] = value</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function List.pushlast (list, value)</span><br><span class="line">    local last = list.last + 1</span><br><span class="line">    list.last = last</span><br><span class="line">    list[last] = value</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function List.popfirst (list)</span><br><span class="line">    local first = list.first</span><br><span class="line">    if first &gt; list.last then error (&quot;list is empty&quot;) end</span><br><span class="line">    local value = list[first]</span><br><span class="line">    list[first]=nil</span><br><span class="line">    list.first = first +1</span><br><span class="line">    return value</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function List.poplast (list)</span><br><span class="line">    local last = list.last</span><br><span class="line">    if list.first &gt; last then error(&quot;list is empty&quot;) end</span><br><span class="line">    local value = list[last]</span><br><span class="line">    list[last] = nil</span><br><span class="line">    list.last = last -1</span><br><span class="line">    return value</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>test code</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">tt = {}</span><br><span class="line">tt = List.new()</span><br><span class="line">print(tt.first,tt.last)</span><br><span class="line">List.pushfirst(tt,<span class="string">&quot;11&quot;</span>)</span><br><span class="line">print(<span class="string">&quot;pushfirst 11&quot;</span>,tt.first,tt.last)</span><br><span class="line">List.pushfirst(tt,<span class="string">&quot;21&quot;</span>)</span><br><span class="line">print(<span class="string">&quot;pushfirst 21&quot;</span>,tt.first,tt.last)</span><br><span class="line">List.pushfirst(tt,<span class="string">&quot;31&quot;</span>)</span><br><span class="line">print(<span class="string">&quot;pushfirst 31&quot;</span>,tt.first,tt.last)</span><br><span class="line">print(tt[<span class="number">-1</span>],tt[<span class="number">-2</span>],tt[<span class="number">-3</span>])</span><br><span class="line">print(tt[<span class="number">-2</span>])</span><br><span class="line">print(tt[<span class="number">-3</span>])</span><br><span class="line">print(<span class="string">&quot;poplast value:&quot;</span>,List.poplast(tt))</span><br><span class="line">print(<span class="string">&quot;poplast&quot;</span>,tt.first,tt.last)</span><br><span class="line">print(tt[<span class="number">-1</span>],tt[<span class="number">-2</span>],tt[<span class="number">-3</span>])</span><br><span class="line">print(tt[<span class="number">-2</span>])</span><br><span class="line">print(tt[<span class="number">-3</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xx:[~]# lua chapter11-4-queues.lua </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>       <span class="number">-1</span></span><br><span class="line">pushfirst <span class="number">11</span>    <span class="number">-1</span>      <span class="number">-1</span></span><br><span class="line">pushfirst <span class="number">21</span>    <span class="number">-2</span>      <span class="number">-1</span></span><br><span class="line">pushfirst <span class="number">31</span>    <span class="number">-3</span>      <span class="number">-1</span></span><br><span class="line"><span class="number">11</span>      <span class="number">21</span>      <span class="number">31</span></span><br><span class="line"><span class="number">21</span></span><br><span class="line"><span class="number">31</span></span><br><span class="line">poplast value:  <span class="number">11</span></span><br><span class="line">poplast <span class="number">-3</span>      <span class="number">-2</span></span><br><span class="line">nil     <span class="number">21</span>      <span class="number">31</span></span><br><span class="line"><span class="number">21</span></span><br><span class="line"><span class="number">31</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="partiii-the-standard-library-&#x5F85;&#x589E;&#x52A0;"><a href="#PARTIII_3B_The_Standard_Library__28_u5F85_u589E_u52A0_29" class="headerlink" title="PARTIII; The Standard Library (&#x5F85;&#x589E;&#x52A0;)"></a>PARTIII; The Standard Library (&#x5F85;&#x589E;&#x52A0;)</h2><hr>
+<h2 id="partiv-the-c-api-&#x5F85;&#x589E;&#x52A0;"><a href="#PARTIV_3B_The_C_API__28_u5F85_u589E_u52A0_29" class="headerlink" title="PARTIV; The C API (&#x5F85;&#x589E;&#x52A0;)"></a>PARTIV; The C API (&#x5F85;&#x589E;&#x52A0;)</h2><hr>
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><h3 id="pairs&#x53CA;ipairs&#x5DEE;&#x7570;"><a href="#pairs_u53CAipairs_u5DEE_u7570" class="headerlink" title="pairs&#x53CA;ipairs&#x5DEE;&#x7570;"></a>pairs&#x53CA;ipairs&#x5DEE;&#x7570;</h3><ul>
+<li><p>pairs&#xFF1A;&#x4F9D;table&#x5167;&#x7684;&#x9806;&#x5E8F;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x627E;&#x51FA;&#x4F86;<br>&#x6703;&#x627E;&#x5230;&#x5168;&#x90E8;</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a={[<span class="number">1</span>]=<span class="number">11</span>,[<span class="number">2</span>]=<span class="number">22</span>,[<span class="number">5</span>]=<span class="number">55</span>,[<span class="string">&quot;erwin&quot;</span>]=<span class="number">90</span>, [<span class="string">&quot;peter&quot;</span>]=<span class="number">92</span>}                                                                                    </span><br><span class="line"><span class="keyword">for</span> i,v in pairs(a) <span class="keyword">do</span> print(i,v) end</span><br><span class="line"></span><br><span class="line">xx :[/tmp/tt]# lua t1.lua </span><br><span class="line"><span class="number">2</span>       <span class="number">22</span></span><br><span class="line"><span class="number">1</span>       <span class="number">11</span></span><br><span class="line">p       <span class="number">92</span></span><br><span class="line"><span class="number">5</span>       <span class="number">55</span></span><br><span class="line">e       <span class="number">90</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ipairs<br>pairs&#x9032;&#x968E;&#x7684;&#x627E;&#x6CD5;&#xFF0C;&#x53EA;&#x4F9D;<a href="https://www.lua.org/docs.html" target="_blank" rel="external">1</a>,<a href="https://www.lua.org/manual/5.1/" target="_blank" rel="external">2</a>,&#x4F9D;&#x9806;&#x627E;&#xFF0C;&#x7576;&#x6C92;&#x6709;&#x627E;&#x5230;&#x5247;&#x96E2;&#x958B;</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a={[1]=11,[2]=22,[5]=55,[&quot;erwin&quot;]=90, [&quot;peter&quot;]=92}                                                                                    </span><br><span class="line">for i,v in ipairs(a) do print(i,v) end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xx :[/tmp/tt]# lua t1.lua </span><br><span class="line">1       11</span><br><span class="line">2       22</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="https://www.lua.org/docs.html" target="_blank" rel="external">Documentation </a></li>
+<li><a href="https://www.lua.org/manual/5.1/" target="_blank" rel="external">Lua 5.1 Reference Manual </a><ul>
+<li><a href="https://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank" rel="external">5.4.1 &#x2013; Patterns</a></li>
+<li><a href="https://www.lua.org/manual/5.1/manual.html#lua_CFunction" target="_blank" rel="external">lua_CFunction</a></li>
+</ul>
+</li>
+<li><a href="http://www.syscom.com.tw/ePaper_New_Content.aspx?id=419&amp;EPID=204&amp;TableName=sgEPArticle" target="_blank" rel="external">&#x521D;&#x63A2;ECMAScript 6</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E7%AC%AC%E4%B8%80%E9%A1%9E%E7%89%A9%E4%BB%B6" target="_blank" rel="external">&#x7B2C;&#x4E00;&#x985E;&#x7269;&#x4EF6;</a></li>
+<li>pdf<ul>
+<li><a href="/2016/08/17/programming-in-lua-1st-t01/programming-in-lua-2ed.pdf" title="programming-in-lua-2ed.pdf">programming-in-lua-2ed.pdf</a></li>
+<li><a href="/2016/08/17/programming-in-lua-1st-t01/LUA&#x7B2C;&#x4E00;&#x7248;&#x4E2D;&#x6587;&#x7248;.pdf" title="LUA&#x7B2C;&#x4E00;&#x7248;&#x4E2D;&#x6587;&#x7248;.pdf">LUA&#x7B2C;&#x4E00;&#x7248;&#x4E2D;&#x6587;&#x7248;.pdf</a></li>
+<li><a href="/2016/08/17/programming-in-lua-1st-t01/Lua&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;(&#x7B2C;&#x4E8C;&#x7248;).pdf" title="Lua&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;(&#x7B2C;&#x4E8C;&#x7248;).pdf">Lua&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;(&#x7B2C;&#x4E8C;&#x7248;).pdf</a>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/書籍閱讀/" rel="tag">#書籍閱讀</a>
+          
+            <a href="/tags/lua/" rel="tag">#lua</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/16/ez-ipupdate/" rel="next" title="ez-ipupdate">
+                <i class="fa fa-chevron-left"></i> ez-ipupdate
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/17/function-programming/" rel="prev" title="function-programming">
+                function-programming <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-1"><span class="nav-number">3.</span> <span class="nav-text">Chapter 1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#chunks"><span class="nav-number">3.1.</span> <span class="nav-text">Chunks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#some-lexical-conventions-词法约定"><span class="nav-number">3.2.</span> <span class="nav-text">Some Lexical Conventions (词法约定)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#global-variables"><span class="nav-number">3.3.</span> <span class="nav-text">Global Variables</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#types-and-values"><span class="nav-number">4.</span> <span class="nav-text">Types and Values</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#basic-types"><span class="nav-number">4.1.</span> <span class="nav-text">basic types</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string"><span class="nav-number">5.</span> <span class="nav-text">String</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-及-定義多行字串內容"><span class="nav-number">5.1.</span> <span class="nav-text">使用 [[ 及 ]] 定義多行字串內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#concatenation-operator連接運算符號"><span class="nav-number">5.2.</span> <span class="nav-text">concatenation operator(連接運算符號)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#取得字串長度"><span class="nav-number">5.3.</span> <span class="nav-text">取得字串長度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#table"><span class="nav-number">6.</span> <span class="nav-text">Table</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-3-expressions"><span class="nav-number">7.</span> <span class="nav-text">Chapter 3 Expressions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#優先順序"><span class="nav-number">7.1.</span> <span class="nav-text">優先順序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36-table-constructors"><span class="nav-number">7.2.</span> <span class="nav-text">3.6 Table Constructors</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-4-statement"><span class="nav-number">8.</span> <span class="nav-text">Chapter 4 Statement</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-assignment"><span class="nav-number">8.1.</span> <span class="nav-text">4-1 Assignment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-local-variables-and-blocks"><span class="nav-number">8.2.</span> <span class="nav-text">4-2 Local Variables and Blocks</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-control-structures"><span class="nav-number">9.</span> <span class="nav-text">4-3 Control Structures</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#if-then-else"><span class="nav-number">9.1.</span> <span class="nav-text">if then else</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-for-statement"><span class="nav-number">9.2.</span> <span class="nav-text">The for statement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-break-and-return"><span class="nav-number">9.3.</span> <span class="nav-text">4-4 break and return</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter5-function"><span class="nav-number">10.</span> <span class="nav-text">Chapter5 Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#function"><span class="nav-number">10.1.</span> <span class="nav-text">function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#function-parameter"><span class="nav-number">10.2.</span> <span class="nav-text">function parameter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何設定給函數預設參數值"><span class="nav-number">10.3.</span> <span class="nav-text">如何設定給函數預設參數值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-6-more-about-function"><span class="nav-number">11.</span> <span class="nav-text">Chapter 6 -More About Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#closure閉合函數"><span class="nav-number">11.1.</span> <span class="nav-text">Closure(閉合函數)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非全域的函數non-global-function"><span class="nav-number">11.2.</span> <span class="nav-text">非全域的函數(non-global function)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提前宣告"><span class="nav-number">11.3.</span> <span class="nav-text">提前宣告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函數允許多個回傳值5-1-multiple-results"><span class="nav-number">11.4.</span> <span class="nav-text">函數允許多個回傳值(5-1 Multiple Results)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proper-tail-calls"><span class="nav-number">11.5.</span> <span class="nav-text">Proper Tail Calls</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter7-iterator-and-the-generic-for"><span class="nav-number">12.</span> <span class="nav-text">Chapter7 Iterator and the Generic for</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用closure建立itera"><span class="nav-number">12.1.</span> <span class="nav-text">如何使用Closure建立itera</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-7-2-the-semantics-of-the-generic-for"><span class="nav-number">12.2.</span> <span class="nav-text">Chapter 7-2 The Semantics of the Generic for</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-7-3-無需儲存狀態的iterator-stateless-iterators"><span class="nav-number">12.3.</span> <span class="nav-text">Chapter 7-3 無需儲存狀態的iterator (Stateless Iterators)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-7-4-iterators-with-complex-state"><span class="nav-number">12.4.</span> <span class="nav-text">Chapter 7-4 Iterators with Complex State</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-7-5-true-iterators-allword-iterator"><span class="nav-number">12.5.</span> <span class="nav-text">Chapter 7-5 True Iterators (allword iterator)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter8-compilationexcutionand-errors"><span class="nav-number">13.</span> <span class="nav-text">Chapter8 Compilation,Excution,and Errors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter8-1-compilation"><span class="nav-number">13.1.</span> <span class="nav-text">Chapter8-1 Compilation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loadfile-example"><span class="nav-number">13.2.</span> <span class="nav-text">loadfile example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter82-code-如何載入c定義的lua-library"><span class="nav-number">13.3.</span> <span class="nav-text">Chapter8.2 Code (如何載入C定義的lua library )</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter83-error-如何取得程式的錯誤訊息"><span class="nav-number">13.4.</span> <span class="nav-text">Chapter8.3 Error (如何取得程式的錯誤訊息)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter8-4-error-handling-and-exceptions"><span class="nav-number">13.5.</span> <span class="nav-text">Chapter8-4 Error Handling and Exceptions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter9-coroutines-協同程序"><span class="nav-number">14.</span> <span class="nav-text">Chapter9 Coroutines (協同程序)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#coroutine-manipulation"><span class="nav-number">14.1.</span> <span class="nav-text">Coroutine Manipulation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通過resume-yield交換數據"><span class="nav-number">14.2.</span> <span class="nav-text">通過resume-yield交換數據</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter9-2-producer-consumer-problem"><span class="nav-number">14.3.</span> <span class="nav-text">chapter9-2 producer-consumer problem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-9-2-filter"><span class="nav-number">14.4.</span> <span class="nav-text">chapter 9-2 filter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter-11-data-structures"><span class="nav-number">15.</span> <span class="nav-text">Chapter 11 Data Structures</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-11-1-arrays"><span class="nav-number">15.1.</span> <span class="nav-text">Chapter 11-1 Arrays</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-11-2-matrix矩陣"><span class="nav-number">15.2.</span> <span class="nav-text">Chapter 11-2 matrix(矩陣)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter-11-4-queues"><span class="nav-number">15.3.</span> <span class="nav-text">Chapter 11-4 Queues</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partiii-the-standard-library-待增加"><span class="nav-number">16.</span> <span class="nav-text">PARTIII; The Standard Library (待增加)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partiv-the-c-api-待增加"><span class="nav-number">17.</span> <span class="nav-text">PARTIV; The C API (待增加)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">18.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pairs及ipairs差異"><span class="nav-number">18.1.</span> <span class="nav-text">pairs及ipairs差異</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">19.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/08/17/programming-in-lua-1st-t01/';
+      var disqus_title = 'programming-in-lua-1st-t01';
+      var disqus_url = 'http://yoursite.com/2016/08/17/programming-in-lua-1st-t01/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

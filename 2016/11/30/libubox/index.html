@@ -1,0 +1,1019 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,libubox," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解openwrt libubox library及測試範例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="libubox">
+<meta property="og:url" content="http://yoursite.com/2016/11/30/libubox/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解openwrt libubox library及測試範例">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/run_server.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/server_cb.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/uloop_init.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/uloop_fd_add.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/uloop_run.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/uloop_get_next_timeout.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/uloop_run_events.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/ustream_fd_init.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/ustream_st.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/30/libubox/ustream_state_change_cb.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="libubox">
+<meta name="twitter:description" content="了解openwrt libubox library及測試範例">
+<meta name="twitter:image" content="http://yoursite.com/2016/11/30/libubox/run_server.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> libubox | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                libubox
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-11-30T16:41:21+08:00" content="2016-11-30">
+              2016-11-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/30/libubox/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/30/libubox/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/30/libubox/" class="leancloud_visitors" data-flag-title="libubox">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;openwrt libubox library<br>&#x53CA;&#x6E2C;&#x8A66;&#x7BC4;&#x4F8B;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161130</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#openwrt-libubox">openwrt libubox</a><ul>
+<li><a href="#libuboxso&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;&#x5DE5;&#x5177;">libubox.so&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;&#x5DE5;&#x5177;</a></li>
+</ul>
+</li>
+<li><a href="#example">example</a><ul>
+<li><a href="#ustream-example-&#x6E2C;&#x8A66;">ustream-example &#x6E2C;&#x8A66;</a></li>
+<li><a href="#ustream-example-&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;">ustream-example &#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;</a></li>
+</ul>
+</li>
+<li><a href="#libubox">libubox</a><ul>
+<li><a href="#uloop">uloop</a></li>
+<li><a href="#uloop&#x7A0B;&#x5E8F;">uloop&#x7A0B;&#x5E8F;</a></li>
+<li><a href="#uloop_init">uloop_init</a></li>
+<li><a href="#uloop_fd_add">uloop_fd_add</a></li>
+<li><a href="#uloop_run">uloop_run</a></li>
+<li><a href="#uloop_get_next_timeout">uloop_get_next_timeout</a></li>
+<li><a href="#uloop_run_events">uloop_run_events</a></li>
+<li><a href="#ustream">ustream</a></li>
+<li><a href="#ustream_fd_init">ustream_fd_init</a></li>
+<li><a href="#ustream_uloop_cb">ustream_uloop_cb</a></li>
+<li><a href="#ustream_state_change_cb">ustream_state_change_cb</a></li>
+</ul>
+</li>
+<li><a href="#epoll">epoll</a></li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="openwrt-libubox"><a href="#openwrt_libubox" class="headerlink" title="openwrt libubox"></a>openwrt libubox</h2><blockquote><p>libubox&#x4E3B;&#x8981;&#x63D0;&#x4F9B;&#x4E00;&#x4E0B;&#x4E24;&#x79CD;&#x529F;&#x80FD;&#xFF1A;<br>    1&#x3001;&#x63D0;&#x4F9B;&#x4E00;&#x5957;&#x57FA;&#x4E8E;&#x4E8B;&#x4EF6;&#x9A71;&#x52A8;&#x7684;&#x673A;&#x5236;&#x3002;<br>    2&#x3001;&#x63D0;&#x4F9B;&#x591A;&#x79CD;&#x5F00;&#x53D1;&#x652F;&#x6301;&#x63A5;&#x53E3;&#x3002;&#xFF08;&#x5982;&#xFF1A;&#x94FE;&#x8868;&#x3001;kv&#x94FE;&#x8868;&#x3001;&#x5E73;&#x8861;&#x67E5;&#x627E;&#x4E8C;&#x53C9;&#x6811;&#x3001;md5&#x3001;json&#xFF09;</p>
+<p>&#x4F7F;&#x7528;libubox&#x5F00;&#x53D1;&#x7684;&#x597D;&#x5904;&#x6709;&#x5982;&#x4E0B;&#x51E0;&#x70B9;&#xFF1A;<br>    1&#x3001;&#x53EF;&#x4EE5;&#x4F7F;&#x7A0B;&#x5E8F;&#x57FA;&#x4E8E;&#x4E8B;&#x4EF6;&#x9A71;&#x52A8;&#xFF0C;&#x4ECE;&#x800C;&#x53EF;&#x5B9E;&#x73B0;&#x5728;&#x5355;&#x7EBF;&#x7A0B;&#x4E2D;&#x5904;&#x7406;&#x591A;&#x4E2A;&#x4EFB;&#x52A1;&#x3002;<br>    2&#x3001;&#x57FA;&#x4E8E;libubox&#x63D0;&#x4F9B;&#x7684;&#x5F00;&#x53D1;API&#x53EF;&#x4EE5;&#x52A0;&#x5FEB;&#x5F00;&#x53D1;&#x8FDB;&#x5EA6;&#x7684;&#x540C;&#x4E8B;&#x63D0;&#x9AD8;&#x7A0B;&#x5E8F;&#x7684;&#x7A33;&#x5B9A;&#x6027;&#x3002;<br>    3&#x3001;&#x80FD;&#x66F4;&#x597D;&#x7684;&#x5C06;&#x7A0B;&#x5E8F;&#x878D;&#x5165;openwrt&#x7684;&#x67B6;&#x6784;&#x4E2D;&#xFF0C;&#x56E0;&#x4E3A;&#x65B0;&#x7684;openwrt&#x7684;&#x5F88;&#x591A;&#x5E94;&#x7528;&#x548C;&#x5E93;&#x90FD;&#x57FA;&#x4E8E;libubox&#x5F00;&#x53D1;&#x7684;</p>
+<footer><strong>openwrt-libubox-&#x5F00;&#x53D1;&#x7B80;&#x4ECB;</strong><cite><a href="http://gofly.blog.51cto.com/4344767/1685191" target="_blank" rel="external">gofly.blog.51cto.com/4344767/1685191</a></cite></footer></blockquote>
+<h3 id="libuboxso&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;&#x5DE5;&#x5177;"><a href="#libubox-so_u63D0_u4F9B_u4E0B_u4F8B_u5DE5_u5177" class="headerlink" title="libubox.so&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;&#x5DE5;&#x5177;"></a>libubox.so&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;&#x5DE5;&#x5177;</h3><ul>
+<li><a href="https://wiki.openwrt.org/doc/techref/libubox" target="_blank" rel="external">openwrt libubox</a></li>
+<li><p>utils - misc libubox utility functions</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> - calloc_a(size_t len, [void **addr, size_t len,...], NULL)</span><br><span class="line">allocate a block of memory big enough to hold multiple aligned objects.</span><br><span class="line"> - b64_encode</span><br><span class="line"> - b64_decode</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>usock - socket helper functions</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usock(int type, const char *host, const char *service);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>uloop - event loop implementation</p>
+<ul>
+<li>Uloop is a loop runner for i/o.</li>
+<li>The fd management part is set up with the uloop_fd struct, just adding the fd and the callback function you want called when an event arises. </li>
+<li>The timeout management part is mostly prepared to do simple things,<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">typedef void (*uloop_fd_handler)(struct uloop_fd *u, unsigned int events);</span><br><span class="line">typedef void (*uloop_timeout_handler)(struct uloop_timeout *t);</span><br><span class="line">typedef void (*uloop_process_handler)(struct uloop_process *c, int ret);</span><br><span class="line"></span><br><span class="line">int uloop_fd_add(struct uloop_fd *sock, unsigned int flags);</span><br><span class="line">int uloop_fd_delete(struct uloop_fd *sock);</span><br><span class="line"></span><br><span class="line">int uloop_timeout_add(struct uloop_timeout *timeout);</span><br><span class="line">int uloop_timeout_set(struct uloop_timeout *timeout, int msecs);</span><br><span class="line">int uloop_timeout_cancel(struct uloop_timeout *timeout);</span><br><span class="line">int uloop_timeout_remaining(struct uloop_timeout *timeout);</span><br><span class="line"></span><br><span class="line">int uloop_process_add(struct uloop_process *p);</span><br><span class="line">int uloop_process_delete(struct uloop_process *p);</span><br><span class="line"></span><br><span class="line">int uloop_init(void);</span><br><span class="line">void uloop_run(void);</span><br><span class="line">void uloop_done(void);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>blob ,library for generating/parsing tagged binary data</p>
+</li>
+</ul>
+<hr>
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><h3 id="ustream-example-&#x6E2C;&#x8A66;"><a href="#ustream-example__u6E2C_u8A66" class="headerlink" title="ustream-example &#x6E2C;&#x8A66;"></a>ustream-example &#x6E2C;&#x8A66;</h3><ul>
+<li><p>&#x5E36;&#x8D77;ustream-example</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~ # netstat -tpl</span><br><span class="line">Active Internet connections (only servers)</span><br><span class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    </span><br><span class="line">tcp        0      0 127.0.0.1:10000         0.0.0.0:*               LISTEN      908/ustream-example</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6E2C;&#x8A66;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#cat t1</span><br><span class="line">111</span><br><span class="line">#nc 127.0.0.1 10000 &lt; t1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/test # ./ustream-example</span><br><span class="line">New connection</span><br><span class="line">eof!, pending: 0, total: 4</span><br><span class="line">Connection closed</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="ustream-example-&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;"><a href="#ustream-example__u7A0B_u5F0F_u6D41_u7A0B" class="headerlink" title="ustream-example &#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;"></a>ustream-example &#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;</h3><ul>
+<li><p>run_server</p>
+<img src="/2016/11/30/libubox/run_server.png" alt="[run_server]" title="[run_server]">
+</li>
+<li><p>server_cb</p>
+<img src="/2016/11/30/libubox/server_cb.png" alt="[server_cb]" title="[server_cb]">
+</li>
+</ul>
+<hr>
+<h2 id="libubox"><a href="#libubox" class="headerlink" title="libubox"></a>libubox</h2><h3 id="uloop"><a href="#uloop" class="headerlink" title="uloop"></a>uloop</h3><p>uloop&#x4E3B;&#x8981;&#x5DE5;&#x80FD;&#x6709;&#x4E0B;&#x4F8B;3&#x500B;</p>
+<ul>
+<li>&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x89F8;&#x767C;&#x4E8B;&#x4EF6;&#x7684;&#x76E3;&#x63A7; (&#x5373;uloop_run_events)<br>&#x5FAA;&#x74B0;&#x8ABF;&#x7528;epoll_wait &#x76E3;&#x76F8;&#x61C9;&#x7684;&#x89F8;&#x767C;&#x4E8B;&#x4EF6;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;fd</li>
+<li>timeout&#x5B9A;&#x6642;&#x5668;&#x8655;&#x7406;(&#x5373;uloop_process_timeouts)</li>
+<li>&#x7576;&#x524D;&#x9032;&#x7A0B;&#x7684;&#x5B50;&#x9032;&#x7A0B;&#x7684;&#x7DAD;&#x8B77;(&#x5373;uloop_handle_processes)</li>
+</ul>
+<p>&#x7576;&#x67D0;&#x4E00;&#x500B;&#x9032;&#x7A0B;&#x7B2C;&#x4E00;&#x6B21;&#x8ABF;&#x7528;uloop_run&#x6642;&#xFF0C;&#x8A3B;&#x518A;sigchld&#x548C;sigint&#x4FE1;&#x865F;</p>
+<ul>
+<li><p>uloop_timeout<br>&#x5FAA;&#x74B0;&#x7372;&#x53D6;&#x7576;&#x524D;&#x6642;&#x9593;&#xFF0C;&#x628A;&#x8D85;&#x6642;&#x7684;timeout&#x8655;&#x7406;&#x6389;&#xFF0C;<br>&#x6709;&#x4E00;&#x689D;timeout&#x934A;&#x8868;&#x5728;&#x7DAD;&#x8B77;(&#x5373;static struct list_head timeouts)</p>
+</li>
+<li><p>uloop_process<br>&#x5FAA;&#x74B0;&#x6AA2;&#x6E2C;&#x662F;&#x5426;&#x6536;&#x5230;&#x4E00;&#x500B;sigchld&#x4FE1;&#x865F;&#xFF0C;&#x5982;&#x679C;&#x6536;&#x5230;&#xFF0C;&#x522A;&#x9664;&#x5C0D;&#x61C9;&#x7684;&#x5B50;&#x9032;&#x7A0B;&#xFF0C;<br>&#x6709;&#x4E00;&#x689D;process&#x5B50;&#x9032;&#x7A0B;&#x934A;&#x8868;&#x5728;&#x7DAD;&#x8B77;(&#x5373;static struct list_head processes )</p>
+</li>
+<li><p>libubox function</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">uloop_fd_add</span><br><span class="line"> &#x8A3B;&#x518A;&#x4E00;&#x500B;&#x65B0;&#x63CF;&#x8FF0;&#x7B26;&#x5230;&#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x5FAA;&#x74B0;</span><br><span class="line"></span><br><span class="line">uloop_fd_delete</span><br><span class="line"> &#x5F9E;&#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x5FAA;&#x74B0;&#x4E2D;&#x92B7;&#x6BC0;&#x6307;&#x5B9A;&#x63CF;&#x8FF0;&#x7B26;</span><br><span class="line"></span><br><span class="line">uloop_timeout_add</span><br><span class="line"> &#x8A3B;&#x518A;&#x4E00;&#x500B;&#x65B0;&#x5B9A;&#x6642;&#x5668;</span><br><span class="line"></span><br><span class="line">uloop_timeout_set</span><br><span class="line"> &#x8A2D;&#x7F6E;&#x5B9A;&#x6642;&#x5668;&#x8D85;&#x6642;&#x6642;&#x9593;(&#x6BEB;&#x79D2;)&#xFF0C;&#x4E26;&#x6DFB;&#x52A0;</span><br><span class="line"></span><br><span class="line">uloop_timeout_cancel</span><br><span class="line"> &#x92B7;&#x6BC0;&#x6307;&#x5B9A;&#x5B9A;&#x6642;&#x5668; </span><br><span class="line"></span><br><span class="line">uloop_timeout_remaining</span><br><span class="line"> &#x7372;&#x53D6;&#x5B9A;&#x6642;&#x5668;&#x9084;&#x5269;&#x591A;&#x9577;&#x6642;&#x9593;&#x8D85;&#x6642; </span><br><span class="line"></span><br><span class="line">uloop_process_add</span><br><span class="line"> &#x8A3B;&#x518A;&#x65B0;&#x9032;&#x7A0B;&#x5230;&#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x5FAA;&#x74B0;</span><br><span class="line"></span><br><span class="line">uloop_process_delete</span><br><span class="line"> &#x5F9E;&#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x5FAA;&#x74B0;&#x4E2D;&#x92B7;&#x6BC0;&#x6307;&#x5B9A;&#x9032;&#x7A0B;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="uloop&#x7A0B;&#x5E8F;"><a href="#uloop_u7A0B_u5E8F" class="headerlink" title="uloop&#x7A0B;&#x5E8F;"></a>uloop&#x7A0B;&#x5E8F;</h3><blockquote><p>uloop &#x662F; libubox &#x7684;&#x4E00;&#x90E8;&#x4EFD;&#xFF0C;&#x5176;&#x529F;&#x80FD;&#x5305;&#x62EC;<br>    timeout&#xFF1A;&#x518D;&#x591A;&#x4E45;&#x57F7;&#x884C;&#x6307;&#x5B9A;&#x51FD;&#x6578;<br>    &#x57F7;&#x884C; child process&#xFF0C;&#x7D50;&#x675F;&#x6642;&#x57F7;&#x884C;&#x6307;&#x5B9A;&#x7684;&#x51FD;&#x6578;<br>    fd &#x4E8B;&#x4EF6;&#x767C;&#x751F;&#x6642;&#x57F7;&#x884C;&#x6307;&#x5B9A;&#x51FD;&#x6578;&#x3002;(&#x4F7F;&#x7528; kqueue &#x6216; epoll)</p>
+<footer><strong>libubox-uloop</strong><cite><a href="http://lirobo.blogspot.tw/2014/07/libubox-uloop.html" target="_blank" rel="external">lirobo.blogspot.tw/2014/07/libubox-uloop.html</a></cite></footer></blockquote>
+<ul>
+<li><p>uloop_init<br>&#x5EFA;&#x7ACB;poll_fd<br>epoll_create(32)</p>
+</li>
+<li><p>uloop_fd_add<br>&#x8A3B;&#x518A;&#x4E00;&#x500B;&#x65B0;&#x63CF;&#x8FF0;&#x7B26;&#x5230;&#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x5FAA;&#x74B0;</p>
+</li>
+<li><p>uloop_run<br>&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x89F8;&#x767C;&#x4E8B;&#x4EF6;&#x7684;&#x76E3;&#x63A7; (&#x5373;uloop_run_events)</p>
+</li>
+</ul>
+<h3 id="uloop_init"><a href="#uloop_init" class="headerlink" title="uloop_init"></a>uloop_init</h3><ul>
+<li><p>uloop_init</p>
+<img src="/2016/11/30/libubox/uloop_init.png" alt="[run_server]" title="[run_server]">
+</li>
+<li><p>FD_CLOEXEC</p>
+<ul>
+<li><a href="http://kaivy2001.pixnet.net/blog/post/32726732-%5Bc-c%2B%2B%5D-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dfd-%E8%A2%AB%E5%A4%9A%E5%80%8B%E5%AD%90%E8%A1%8C%E7%A8%8B%E7%B9%BC%E6%89%BF" target="_blank" rel="external">&#x5982;&#x4F55;&#x907F;&#x514D;fd &#x88AB;&#x591A;&#x500B;&#x5B50;&#x884C;&#x7A0B;&#x7E7C;&#x627F;</a><br>&#x82E5;&#x7A0B;&#x5F0F;&#x4E2D;&#x6709;exec(&#x5373;fork&#x7B49;&#x884C;&#x70BA;)&#x7522;&#x751F;&#x5B50;&#x7A0B;&#x5E8F;,&#x6B64;&#x6642;&#x5B50;&#x7A0B;&#x5E8F;&#x958B;&#x555F;&#x7684;fd&#x91CF;&#x6703;&#x591A;1&#x500B;(&#x5373;&#x7236;&#x7A0B;&#x5E8F;)<br>&#x5728;&#x7236;&#x7A0B;&#x5E8F;&#x4E2D;&#x8A2D;&#x5B9A;FD_CLOEXEC&#xFF0C;&#x8868;&#x793A;&#x7576;exec&#x6642;&#x8A2D;&#x5B9A;&#x7236;&#x7A0B;&#x5E8F;&#x7684;fd&#x70BA;close<br>It sets the close-on-exec flag for the file descriptor, which causes the file descriptor to be automatically (and atomically) closed when any of the exec-family functions succeed.</li>
+</ul>
+</li>
+</ul>
+<h3 id="uloop_fd_add"><a href="#uloop_fd_add" class="headerlink" title="uloop_fd_add"></a>uloop_fd_add</h3><ul>
+<li><p>uloop_fd_add<br>&#x8A3B;&#x518A;&#x4E00;&#x500B;&#x65B0;&#x63CF;&#x8FF0;&#x7B26;&#x5230;&#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x5FAA;&#x74B0;</p>
+</li>
+<li><p>uloop_fd_delete<br>&#x5F9E;&#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x5FAA;&#x74B0;&#x4E2D;&#x92B7;&#x6BC0;&#x6307;&#x5B9A;&#x63CF;&#x8FF0;&#x7B26;</p>
+</li>
+</ul>
+<img src="/2016/11/30/libubox/uloop_fd_add.png" alt="[uloop_fd_add]" title="[uloop_fd_add]">
+<h3 id="uloop_run"><a href="#uloop_run" class="headerlink" title="uloop_run"></a>uloop_run</h3><ul>
+<li>uloop_run<img src="/2016/11/30/libubox/uloop_run.png" alt="[uloop_run]" title="[uloop_run]">
+</li>
+</ul>
+<h3 id="uloop_get_next_timeout"><a href="#uloop_get_next_timeout" class="headerlink" title="uloop_get_next_timeout"></a>uloop_get_next_timeout</h3><ul>
+<li>&#x53D6;&#x5F97;timeout&#x6642;&#x9593;<img src="/2016/11/30/libubox/uloop_get_next_timeout.png" alt="[uloop_get_next_timeout]" title="[uloop_get_next_timeout]">
+</li>
+</ul>
+<h3 id="uloop_run_events"><a href="#uloop_run_events" class="headerlink" title="uloop_run_events"></a>uloop_run_events</h3><ul>
+<li>&#x8A2D;&#x5B9A;epoll_wait&#x53CA;timeout</li>
+<li>&#x78BA;&#x8A8D;&#x662F;&#x5426;&#x6709;fd&#x8981;&#x57F7;&#x884C;<img src="/2016/11/30/libubox/uloop_run_events.png" alt="[uloop_run_events]" title="[uloop_run_events]">
+</li>
+</ul>
+<hr>
+<h3 id="ustream"><a href="#ustream" class="headerlink" title="ustream"></a>ustream</h3><ul>
+<li><p>ustream - library for stream buffer management</p>
+</li>
+<li><p>ustream_fd_init(struct ustream_fd *s, int fd);<br>ustream_fd_init: create a file descriptor ustream (uses uloop)</p>
+</li>
+</ul>
+<h3 id="ustream_fd_init"><a href="#ustream_fd_init" class="headerlink" title="ustream_fd_init"></a>ustream_fd_init</h3><ul>
+<li>ustream_fd_init<img src="/2016/11/30/libubox/ustream_fd_init.png" alt="[ustream_fd_init]" title="[ustream_fd_init]">
+<img src="/2016/11/30/libubox/ustream_st.png" alt="[ustream_st]" title="[ustream_st]">
+</li>
+</ul>
+<h3 id="ustream_uloop_cb"><a href="#ustream_uloop_cb" class="headerlink" title="ustream_uloop_cb"></a>ustream_uloop_cb</h3><ul>
+<li>ustream_fd_read_pending<ul>
+<li>while(1)</li>
+<li>read(sf-&gt;fd.fd,</li>
+<li>if (!s-&gt;eof) ustream_state_change(s) &amp;&amp; return</li>
+<li>ustream_fill_read<ul>
+<li>if (s-&gt;notify_read) s-&gt;notify_read(s, n);</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="ustream_state_change_cb"><a href="#ustream_state_change_cb" class="headerlink" title="ustream_state_change_cb"></a>ustream_state_change_cb</h3><ul>
+<li>ustream_state_change_cb<img src="/2016/11/30/libubox/ustream_state_change_cb.png" alt="[ustream_state_change_cb]" title="[ustream_state_change_cb]">
+</li>
+</ul>
+<hr>
+<h2 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h2><ul>
+<li><p>epoll</p>
+<ul>
+<li>epoll - I/O event notification facility </li>
+<li>Three system calls are provided to set up and control an epoll set: epoll_create, epoll_ctl, epoll_wait<blockquote><p>epoll&#x4E4B;&#x6240;&#x4EE5;&#x9AD8;&#x6548;&#xFF0C;&#x662F;&#x56E0;&#x70BA;epoll&#x5C07;&#x7528;&#x6236;&#x95DC;&#x5FC3;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x653E;&#x5230;&#x5167;&#x6838;&#x91CC;&#x7684;&#x4E00;&#x500B;&#x4E8B;&#x4EF6;&#x8868;&#x4E2D;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x50CF;select/poll&#x6BCF;&#x6B21;&#x8ABF;&#x7528;&#x90FD;&#x9700;&#x8981;&#x91CD;&#x8907;&#x50B3;&#x5165;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x96C6;&#x6216;&#x4E8B;&#x4EF6;&#x96C6;&#x3002;&#x6BD4;&#x5982;&#x7576;&#x4E00;&#x500B;&#x4E8B;&#x4EF6;&#x767C;&#x751F;&#xFF08;&#x6BD4;&#x5982;&#x8AAA;&#x8B80;&#x4E8B;&#x4EF6;&#xFF09;&#xFF0C;epoll&#x7121;&#x9808;&#x904D;&#x6B77;&#x6574;&#x500B;&#x88AB;&#x5075;&#x807D;&#x7684;&#x63CF;&#x8FF0;&#x7B26;&#x96C6;&#xFF0C;&#x53EA;&#x8981;&#x904D;&#x6B77;&#x90A3;&#x4E9B;&#x88AB;&#x5167;&#x6838;IO&#x4E8B;&#x4EF6;&#x7570;&#x6B65;&#x559A;&#x9192;&#x800C;&#x52A0;&#x5165;&#x5C31;&#x7DD2;&#x968A;&#x5217;&#x7684;&#x63CF;&#x8FF0;&#x7B26;&#x96C6;&#x5408;&#x5C31;&#x884C;&#x4E86;</p>
+<footer><strong>epoll&#x804A;&#x5929;&#x5BA4;&#x7684;&#x5BE6;&#x73FE;</strong><cite><a href="https://kknews.cc/other/rqpq8x.html" target="_blank" rel="external">kknews.cc/other/rqpq8x.html</a></cite></footer></blockquote>
+</li>
+</ul>
+</li>
+<li><p><a href="https://read01.com/8PPBO0.html" target="_blank" rel="external">epoll&#x6A21;&#x578B;&#x7684;EPOLLLT&#x6A21;&#x5F0F;&#x548C;EPOLLET&#x6A21;&#x5F0F;&#x6BD4;&#x8F03;</a></p>
+<ul>
+<li>epoll&#x662F;linux&#x7CFB;&#x7D71;&#x6700;&#x65B0;&#x7684;&#x8655;&#x7406;&#x591A;&#x9023;&#x63A5;&#x7684;&#x9AD8;&#x6548;&#x7387;&#x6A21;&#x578B;</li>
+<li>&#x5DE5;&#x4F5C;&#x5728;&#x5169;&#x7A2E;&#x65B9;&#x5F0F;</li>
+<li>EPOLLLT&#x65B9;&#x5F0F; (level-triggered&#x6A21;&#x5F0F;),EPOLLLT&#x662F;&#x7CFB;&#x7D71;&#x9ED8;&#x8A8D;<br>&#x65BC;level-triggered&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;epoll_wait&#x5728;&#x4E8B;&#x4EF6;&#x72C0;&#x614B;&#x672A;&#x8B8A;&#x66F4;&#x524D;&#x5C07;&#x4E0D;&#x65B7;&#x88AB;&#x89F8;&#x767C;</li>
+<li>EPOLLET&#x65B9;&#x5F0F; (edge-triggered&#x6A21;&#x5F0F;)<br>epoll_wait&#x50C5;&#x6703;&#x5728;&#x65B0;&#x7684;&#x4E8B;&#x4EF6;&#x9996;&#x6B21;&#x88AB;&#x52A0;&#x5165;epoll &#x7269;&#x4EF6;&#x6642;&#x8FD4;&#x56DE;</li>
+</ul>
+</li>
+<li><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">wiki epoll</a><br>&#x8209;&#x4F8B;&#x4F86;&#x8AAA;&#xFF0C;&#x5018;&#x82E5;&#x6709;&#x4E00;&#x500B;&#x5DF2;&#x7D93;&#x65BC;epoll&#x8A3B;&#x518A;&#x4E4B;&#x7BA1;&#x7DDA;&#x63A5;&#x7372;&#x8CC7;&#x6599;&#xFF0C;epoll_wait&#x5C07;&#x8FD4;&#x56DE;&#xFF0C;&#x4E26;&#x767C;&#x51FA;&#x8CC7;&#x6599;&#x8B80;&#x53D6;&#x7684;&#x4FE1;&#x865F;&#x3002;&#x73FE;&#x5047;&#x8A2D;&#x7DE9;&#x885D;&#x5340;&#x7684;&#x8CC7;&#x6599;&#x50C5;&#x6709;&#x90E8;&#x4EFD;&#x88AB;&#x8B80;&#x53D6;&#x4E26;&#x8655;&#x7406;&#xFF0C;&#x5728;level-triggered&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x4EFB;&#x4F55;&#x5C0D;epoll_wait&#x4E4B;&#x547C;&#x53EB;&#x90FD;&#x5C07;&#x5373;&#x523B;&#x8FD4;&#x56DE;&#xFF0C;&#x76F4;&#x5230;&#x7DE9;&#x885D;&#x5340;&#x4E2D;&#x7684;&#x8CC7;&#x6599;&#x5168;&#x90E8;&#x88AB;&#x8B80;&#x53D6;&#xFF1B;&#x7136;&#x800C;&#xFF0C;&#x5728;edge-triggered&#x7684;&#x60C5;&#x5883;&#x4E0B;&#xFF0C;epoll_wait&#x50C5;&#x6703;&#x65BC;&#x518D;&#x6B21;&#x63A5;&#x6536;&#x5230;&#x65B0;&#x8CC7;&#x6599;(&#x4EA6;&#x5373;&#xFF0C;&#x65B0;&#x8CC7;&#x6599;&#x88AB;&#x5BEB;&#x5165;&#x7BA1;&#x7DDA;)&#x6642;&#x8FD4;&#x56DE;&#x3002;</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="https://wiki.openwrt.org/doc/techref/libubox" target="_blank" rel="external">openwrt libubox</a></li>
+<li><a href="http://kaivy2001.pixnet.net/blog/post/32726732-%5Bc-c%2B%2B%5D-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dfd-%E8%A2%AB%E5%A4%9A%E5%80%8B%E5%AD%90%E8%A1%8C%E7%A8%8B%E7%B9%BC%E6%89%BF" target="_blank" rel="external">&#x5982;&#x4F55;&#x907F;&#x514D;fd &#x88AB;&#x591A;&#x500B;&#x5B50;&#x884C;&#x7A0B;&#x7E7C;&#x627F;</a></li>
+<li><a href="http://stackoverflow.com/questions/6125068/what-does-the-fd-cloexec-fcntl-flag-do" target="_blank" rel="external">What does the FD_CLOEXEC fcntl() flag do?</a></li>
+<li><a href="https://linux.die.net/man/4/epoll" target="_blank" rel="external">epoll(4) - Linux man page</a></li>
+<li><a href="http://kovyrin.net/2006/04/13/epoll-asynchronous-network-programming/" target="_blank" rel="external">Using epoll() For Asynchronous Network Programming </a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Epoll" target="_blank" rel="external">wiki epoll</a></li>
+<li><a href="https://read01.com/8PPBO0.html" target="_blank" rel="external">epoll&#x6A21;&#x578B;&#x7684;EPOLLLT&#x6A21;&#x5F0F;&#x548C;EPOLLET&#x6A21;&#x5F0F;&#x6BD4;&#x8F03;</a></li>
+</ul>
+<p>libubox&#x8AAA;&#x660E;&#x6587;&#x7AE0;</p>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000002391979" target="_blank" rel="external">uloop runqueue ustream</a></li>
+<li><a href="https://segmentfault.com/a/1190000002391970" target="_blank" rel="external">BLOB BLOGMSG</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/libubox/" rel="tag">#libubox</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/24/remote-play/" rel="next" title="remote-play">
+                <i class="fa fa-chevron-left"></i> remote-play
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/05/video-recv/" rel="prev" title="video-recv">
+                video-recv <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#openwrt-libubox"><span class="nav-number">3.</span> <span class="nav-text">openwrt libubox</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#libuboxso提供下例工具"><span class="nav-number">3.1.</span> <span class="nav-text">libubox.so提供下例工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example"><span class="nav-number">4.</span> <span class="nav-text">example</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ustream-example-測試"><span class="nav-number">4.1.</span> <span class="nav-text">ustream-example 測試</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ustream-example-程式流程"><span class="nav-number">4.2.</span> <span class="nav-text">ustream-example 程式流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#libubox"><span class="nav-number">5.</span> <span class="nav-text">libubox</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#uloop"><span class="nav-number">5.1.</span> <span class="nav-text">uloop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uloop程序"><span class="nav-number">5.2.</span> <span class="nav-text">uloop程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uloop_init"><span class="nav-number">5.3.</span> <span class="nav-text">uloop_init</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uloop_fd_add"><span class="nav-number">5.4.</span> <span class="nav-text">uloop_fd_add</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uloop_run"><span class="nav-number">5.5.</span> <span class="nav-text">uloop_run</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uloop_get_next_timeout"><span class="nav-number">5.6.</span> <span class="nav-text">uloop_get_next_timeout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uloop_run_events"><span class="nav-number">5.7.</span> <span class="nav-text">uloop_run_events</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ustream"><span class="nav-number">5.8.</span> <span class="nav-text">ustream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ustream_fd_init"><span class="nav-number">5.9.</span> <span class="nav-text">ustream_fd_init</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ustream_uloop_cb"><span class="nav-number">5.10.</span> <span class="nav-text">ustream_uloop_cb</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ustream_state_change_cb"><span class="nav-number">5.11.</span> <span class="nav-text">ustream_state_change_cb</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll"><span class="nav-number">6.</span> <span class="nav-text">epoll</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">7.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/11/30/libubox/';
+      var disqus_title = 'libubox';
+      var disqus_url = 'http://yoursite.com/2016/11/30/libubox/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

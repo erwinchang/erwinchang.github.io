@@ -1,0 +1,1002 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="書籍閱讀,ldd3書籍," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解 Linux Kernel Driver">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ldd3-chapter2">
+<meta property="og:url" content="http://yoursite.com/2016/06/08/ldd3-chapter2/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解 Linux Kernel Driver">
+<meta property="og:image" content="https://lwn.net/Kernel/LDD3/cover.gif">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ldd3-chapter2">
+<meta name="twitter:description" content="了解 Linux Kernel Driver">
+<meta name="twitter:image" content="https://lwn.net/Kernel/LDD3/cover.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ldd3-chapter2 | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ldd3-chapter2
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-06-08T17:11:20+08:00" content="2016-06-08">
+              2016-06-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/book/" itemprop="url" rel="index">
+                    <span itemprop="name">book</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/08/ldd3-chapter2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/06/08/ldd3-chapter2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/06/08/ldd3-chapter2/" class="leancloud_visitors" data-flag-title="ldd3-chapter2">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="https://lwn.net/Kernel/LDD3/cover.gif">
+<p>&#x4E86;&#x89E3; Linux Kernel Driver</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160608</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#linux-kernel">Linux Kernel</a><ul>
+<li><a href="#&#x6838;&#x5FC3;&#x6E90;&#x78BC;">&#x6838;&#x5FC3;&#x6E90;&#x78BC;</a></li>
+<li><a href="#kernel-source-tree">kernel source tree</a></li>
+<li><a href="#&#x5BEB;&#x6838;&#x5FC3;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x9805;&#x4E8B;">&#x5BEB;&#x6838;&#x5FC3;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x9805;&#x4E8B;</a></li>
+</ul>
+</li>
+<li><a href="#gcc">GCC</a><ul>
+<li><a href="#language-standards-supported-by-gcc1"><a href="https://gcc.gnu.org/onlinedocs/gcc/Standards.html" target="_blank" rel="external">Language Standards Supported by GCC</a></a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="linux-kernel"><a href="#Linux_Kernel" class="headerlink" title="Linux Kernel"></a>Linux Kernel</h2><h3 id="&#x6838;&#x5FC3;&#x6E90;&#x78BC;"><a href="#u6838_u5FC3_u6E90_u78BC" class="headerlink" title="&#x6838;&#x5FC3;&#x6E90;&#x78BC;"></a>&#x6838;&#x5FC3;&#x6E90;&#x78BC;</h3><ul>
+<li>&#x4E00;&#x822C;&#x6838;&#x5FC3;&#x6E90;&#x78BC;&#x5B89;&#x88DD;&#x65BC; /usr/src/linux</li>
+<li>Linux&#x6838;&#x5FC3;&#x50C5;&#x4F7F;&#x4F7F;&#x7528;&#x4E86;C99&#x529F;&#x80FD;&#x7684;&#x4E00;&#x500B;&#x5B50;&#x96C6;</li>
+</ul>
+<h3 id="kernel-source-tree"><a href="#kernel_source_tree" class="headerlink" title="kernel source tree"></a>kernel source tree</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">&#x76EE;&#x9304;</th>
+<th style="text-align:left">&#x8AAA;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">arch</td>
+<td style="text-align:left">&#x7279;&#x5B9A;&#x67B6;&#x69CB;&#x7684;&#x6E90;&#x78BC;</td>
+</tr>
+<tr>
+<td style="text-align:left">block</td>
+<td style="text-align:left">&#x5340;&#x584A;I/O&#x5C64;</td>
+</tr>
+<tr>
+<td style="text-align:left">crypto</td>
+<td style="text-align:left">Crypto API</td>
+</tr>
+<tr>
+<td style="text-align:left">Documentation</td>
+<td style="text-align:left">&#x6838;&#x5FC3;&#x539F;&#x78BC;&#x6587;&#x4EF6;</td>
+</tr>
+<tr>
+<td style="text-align:left">drivers</td>
+<td style="text-align:left">&#x88DD;&#x7F6E;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;</td>
+</tr>
+<tr>
+<td style="text-align:left">firwmare</td>
+<td style="text-align:left">&#x7279;&#x5B9A;&#x9A45;&#x52D5;&#x5F0F;&#x9700;&#x8981;&#x7528;&#x5230;&#x7684;&#x97CC;&#x4F53;</td>
+</tr>
+<tr>
+<td style="text-align:left">fs</td>
+<td style="text-align:left">VFS&#x548C;&#x5404;&#x7A2E;&#x7684;&#x6A94;&#x6848;&#x7CFB;&#x7D71;</td>
+</tr>
+<tr>
+<td style="text-align:left">include</td>
+<td style="text-align:left">&#x6838;&#x5FC3;&#x6A19;&#x982D;&#x6A94;</td>
+</tr>
+<tr>
+<td style="text-align:left">init</td>
+<td style="text-align:left">&#x6838;&#x5FC3;&#x7684;&#x555F;&#x52D5;&#x548C;&#x521D;&#x59CB;&#x5316;</td>
+</tr>
+<tr>
+<td style="text-align:left">ipc</td>
+<td style="text-align:left">&#x884C;&#x7A0B;&#x9593;&#x901A;&#x8A0A;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;</td>
+</tr>
+<tr>
+<td style="text-align:left">kernel</td>
+<td style="text-align:left">&#x57FA;&#x790E;(core)&#x5B50;&#x7CFB;&#x7D71;&#xFF0C;&#x50CF;&#x662F;&#x6392;&#x7A0B;&#x5668;</td>
+</tr>
+<tr>
+<td style="text-align:left">mm</td>
+<td style="text-align:left">&#x8A18;&#x61B6;&#x4F53;&#x7BA1;&#x7406;&#x5B50;&#x7CFB;&#x7D71;&#x548C;VM</td>
+</tr>
+<tr>
+<td style="text-align:left">net</td>
+<td style="text-align:left">&#x7DB2;&#x8DEF;&#x5B50;&#x7CFB;&#x7D71;</td>
+</tr>
+<tr>
+<td style="text-align:left">samples</td>
+<td style="text-align:left">&#x6A23;&#x672C;&#x3001;&#x7BC4;&#x4F8B;&#x7A0B;&#x5F0F;&#x78BC;</td>
+</tr>
+<tr>
+<td style="text-align:left">scripts</td>
+<td style="text-align:left">&#x7528;&#x65BC;&#x5EFA;&#x7ACB;&#x6838;&#x5FC3;&#x7684;&#x547D;&#x4EE4;&#x7A3F;</td>
+</tr>
+<tr>
+<td style="text-align:left">security</td>
+<td style="text-align:left">linux &#x5B89;&#x5168;&#x6A21;&#x7D44;</td>
+</tr>
+<tr>
+<td style="text-align:left">sound</td>
+<td style="text-align:left">&#x97F3;&#x6548;&#x5B50;&#x7CFB;&#x7D71;</td>
+</tr>
+<tr>
+<td style="text-align:left">usr</td>
+<td style="text-align:left">&#x958B;&#x59CB;&#x968E;&#x6BB5;&#x7684;&#x7528;&#x6236;&#x7A7A;&#x9593;&#x7A0B;&#x5F0F;&#x78BC;(initramfs)</td>
+</tr>
+<tr>
+<td style="text-align:left">tools</td>
+<td style="text-align:left">&#x5C0D;Linux&#x958B;&#x767C;&#x6709;&#x7528;&#x7684;&#x5DE5;&#x5177;</td>
+</tr>
+<tr>
+<td style="text-align:left">virt</td>
+<td style="text-align:left">&#x865B;&#x64EC;&#x5316;&#x57FA;&#x790E;&#x67B6;&#x69CB;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="&#x5BEB;&#x6838;&#x5FC3;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x9805;&#x4E8B;"><a href="#u5BEB_u6838_u5FC3_u9700_u8981_u6CE8_u610F_u9805_u4E8B" class="headerlink" title="&#x5BEB;&#x6838;&#x5FC3;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x9805;&#x4E8B;"></a>&#x5BEB;&#x6838;&#x5FC3;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x9805;&#x4E8B;</h3><ul>
+<li>&#x6C92;&#x6709;&#x8A18;&#x61B6;&#x4F53;&#x4FDD;&#x8B22;&#x6A5F;&#x5236;<ul>
+<li>ex. &#x7576;&#x4F60;&#x64CD;&#x4F5C;NULL&#x7684;&#x6307;&#x6A19;&#xFF0C;&#x5C07;&#x6703;&#x5C0E;&#x81F4;oops&#x7684;&#x7D50;&#x679C;</li>
+</ul>
+</li>
+<li>&#x5BB9;&#x91CF;&#x5C0F;&#x800C;&#x9577;&#x5EA6;&#x56FA;&#x5B9A;&#x7684;&#x5806;&#x758A;<ul>
+<li>32bit CPU &#x7684;stack&#x53EA;&#x6709;2&#x500B;&#x5206;&#x9801;&#x5373;8K&#x7684;&#x5927;&#x5C0F;</li>
+</ul>
+</li>
+<li>Linux&#x70BA;preemptivve multitasking(&#x62A2;&#x5360;&#x5F0F;&#x591A;&#x4EFB;&#x52A1;&#x5904;&#x7406;)&#xFF0C;&#x56E0;&#x70BA;&#x5728;&#x8655;&#x7406;spinlock(&#x81EA;&#x65CB;&#x9396;)&#x6216;seamphore(&#x865F;&#x8A8C;)&#x8981;&#x7279;&#x5225;&#x5C0F;&#x5FC3;</li>
+</ul>
+<h2 id="gcc"><a href="#GCC" class="headerlink" title="GCC"></a>GCC</h2><h3 id="language-standards-supported-by-gcclanguage-standards-supported-by-gcc"><a href="#Language_Standards_Supported_by_GCC" class="headerlink" title="&lt;a href=" https:="" gcc.gnu.org="" onlinedocs="" gcc="" standards.html"="">Language Standards Supported by GCC</a>&quot;&gt;<a href="https://gcc.gnu.org/onlinedocs/gcc/Standards.html" target="_blank" rel="external">Language Standards Supported by GCC</a></h3><ul>
+<li>The original ANSI C standard (X3.159-1989) was ratified in 1989 and published in 1990</li>
+<li>ANSIC &#x6A19;&#x6E96;&#x6709;&#x4E0B;&#x4F8B;3&#x7A2E;</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">ANSIC C</th>
+<th style="text-align:left">Description</th>
+<th>library</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">C89 ,C90</td>
+<td style="text-align:left">-ansi, -std=c90 or -std=iso9899:1990</td>
+<td><float.h> <stdarg.h> <stddef.h></stddef.h></stdarg.h></float.h></td>
+</tr>
+<tr>
+<td style="text-align:left">C99</td>
+<td style="text-align:left">-std=c99 or -std=iso9899:1999</td>
+<td><stdbool.h> <stdint.h></stdint.h></stdbool.h></td>
+</tr>
+<tr>
+<td style="text-align:left">C11</td>
+<td style="text-align:left">-std=c11 or -std=iso9899:2011</td>
+<td><stdalign.h> <stdnoreturn.h></stdnoreturn.h></stdalign.h></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>By default, GCC provides some extensions to the C language that, on rare occasions conflict with the C standard</li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html#C-Extensions" target="_blank" rel="external">Extensions to the C Language Family</a></li>
+<li>The default, if no C language dialect options are given, is -std=gnu11. </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">GCC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-std=gnu90 (for C90 with GNU extensions</td>
+</tr>
+<tr>
+<td style="text-align:left">-std=gnu99 (for C99 with GNU extensions)</td>
+</tr>
+<tr>
+<td style="text-align:left">-std=gnu11 (for C11 with GNU extensions)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Standards.html" target="_blank" rel="external">Language Standards Supported by GCC</a></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html#C-Extensions" target="_blank" rel="external">Extensions to the C Language Family</a></li>
+<li><a href="http://www.crifan.com/summary_c_language_version_c89_amd1_c99_c11/" target="_blank" rel="external">&#x3010;&#x6574;&#x7406;&#x3011;C&#x8BED;&#x8A00;&#x7684;&#x5404;&#x79CD;&#x7248;&#x672C;&#xFF1A;C89&#xFF0C;AMD1&#xFF0C;C99&#xFF0C;C11</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/ANSI_C" target="_blank" rel="external">WIKI ANSI C</a></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/index.html#Top" target="_blank" rel="external"> This file documents the use of the GNU compilers</a></li>
+<li><a href="https://gcc.gnu.org/wiki/C11Status" target="_blank" rel="external">C11Status</a></li>
+<li><a href="https://gcc.gnu.org/projects/cxx-status.html#cxx11" target="_blank" rel="external">C++11 Support in GCC</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/書籍閱讀/" rel="tag">#書籍閱讀</a>
+          
+            <a href="/tags/ldd3書籍/" rel="tag">#ldd3書籍</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/17/libuv-thread-example/" rel="next" title="libuv-thread-example">
+                <i class="fa fa-chevron-left"></i> libuv-thread-example
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/13/ldd3-chapter5-syscall/" rel="prev" title="ldd3-chapter5-syscall">
+                ldd3-chapter5-syscall <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux-kernel"><span class="nav-number">3.</span> <span class="nav-text">Linux Kernel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心源碼"><span class="nav-number">3.1.</span> <span class="nav-text">核心源碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kernel-source-tree"><span class="nav-number">3.2.</span> <span class="nav-text">kernel source tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寫核心需要注意項事"><span class="nav-number">3.3.</span> <span class="nav-text">寫核心需要注意項事</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gcc"><span class="nav-number">4.</span> <span class="nav-text">GCC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#language-standards-supported-by-gcclanguage-standards-supported-by-gcc"><span class="nav-number">4.1.</span> <span class="nav-text">Language Standards Supported by GCC">Language Standards Supported by GCC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">5.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/06/08/ldd3-chapter2/';
+      var disqus_title = 'ldd3-chapter2';
+      var disqus_url = 'http://yoursite.com/2016/06/08/ldd3-chapter2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

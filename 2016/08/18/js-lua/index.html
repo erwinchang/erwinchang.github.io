@@ -1,0 +1,988 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,javascript,lua," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="記錄js跟lua基本語法用法比較">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js-lua">
+<meta property="og:url" content="http://yoursite.com/2016/08/18/js-lua/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="記錄js跟lua基本語法用法比較">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js-lua">
+<meta name="twitter:description" content="記錄js跟lua基本語法用法比較">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> js-lua | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                js-lua
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-08-18T15:15:19+08:00" content="2016-08-18">
+              2016-08-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/18/js-lua/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/18/js-lua/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/18/js-lua/" class="leancloud_visitors" data-flag-title="js-lua">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x8A18;&#x9304;js&#x8DDF;lua&#x57FA;&#x672C;&#x8A9E;&#x6CD5;&#x7528;&#x6CD5;&#x6BD4;&#x8F03;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160818</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x8B8A;&#x6578;">&#x8B8A;&#x6578;</a><ul>
+<li><a href="#&#x8B8A;&#x6578;&#x578B;&#x614B;">&#x8B8A;&#x6578;&#x578B;&#x614B;</a></li>
+<li><a href="#&#x5B9A;&#x7FA9;&#x8B8A;&#x6578;">&#x5B9A;&#x7FA9;&#x8B8A;&#x6578;</a></li>
+<li><a href="#&#x529F;&#x80FD;">&#x529F;&#x80FD;</a></li>
+<li><a href="#control-structures">Control Structures</a></li>
+<li><a href="#function">Function</a></li>
+<li><a href="#object">Object</a></li>
+<li><a href="#variable-hositing">Variable Hositing</a></li>
+<li><a href="#&#x5982;&#x4F55;&#x5B9A;&#x7FA9;-&#x8A3B;&#x89E3;">&#x5982;&#x4F55;&#x5B9A;&#x7FA9;-&#x8A3B;&#x89E3;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x8B8A;&#x6578;"><a href="#u8B8A_u6578" class="headerlink" title="&#x8B8A;&#x6578;"></a>&#x8B8A;&#x6578;</h2><h3 id="&#x8B8A;&#x6578;&#x578B;&#x614B;"><a href="#u8B8A_u6578_u578B_u614B" class="headerlink" title="&#x8B8A;&#x6578;&#x578B;&#x614B;"></a>&#x8B8A;&#x6578;&#x578B;&#x614B;</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">lua</th>
+<th style="text-align:left">javascript</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">eight basic types in Lua</td>
+<td style="text-align:left">1-&#x57FA;&#x672C;&#xFF08;Primitive&#xFF09;&#x8CC7;&#x6599;&#x578B;&#x614B; (number&#x3001;string&#x3001;boolean)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">nil, boolean, number, string, userdata, function, thread, table</td>
+<td style="text-align:left">2- &#x8907;&#x5408;&#xFF08;Composite&#xFF09;&#x8CC7;&#x6599;&#x578B;&#x614B;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">3-&#x5169;&#x500B;&#x7279;&#x6B8A;&#x7684;&#x503C; null &#x8207; undefined</td>
+</tr>
+<tr>
+<td style="text-align:left">arrar index</td>
+<td style="text-align:left">&#x7531;1&#x958B;&#x59CB;</td>
+<td style="text-align:left">&#x7531;0&#x958B;&#x59CB;</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>lua arrary</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat array-t1.lua </span><br><span class="line">local t = {10, 20, 30}</span><br><span class="line">print(#t)</span><br><span class="line">print(t[1])</span><br><span class="line">print(t[2])</span><br><span class="line">print(t[3])</span><br><span class="line"></span><br><span class="line">xx :[~]# lua array-t1.lua </span><br><span class="line">3</span><br><span class="line">10</span><br><span class="line">20</span><br><span class="line">30</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>js array<br><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="external">JS Array</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat array-t1.js </span><br><span class="line"><span class="keyword">var</span> t = <span class="built_in">Array</span>(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>);</span><br><span class="line"><span class="built_in">console</span>.log(t.length)</span><br><span class="line"><span class="built_in">console</span>.log(t[<span class="number">0</span>]);</span><br><span class="line"><span class="built_in">console</span>.log(t[<span class="number">1</span>]);</span><br><span class="line"><span class="built_in">console</span>.log(t[<span class="number">2</span>]);</span><br><span class="line"></span><br><span class="line">$ node array-t1.js </span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">20</span></span><br><span class="line"><span class="number">30</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5B9A;&#x7FA9;&#x8B8A;&#x6578;"><a href="#u5B9A_u7FA9_u8B8A_u6578" class="headerlink" title="&#x5B9A;&#x7FA9;&#x8B8A;&#x6578;"></a>&#x5B9A;&#x7FA9;&#x8B8A;&#x6578;</h3><p>js: &#x6C38;&#x9060;&#x61C9;&#x8A72;&#x52A0;&#x4E0A;&#x5206;&#x865F;&#xFF0C;&#x5373;&#x4FBF;JavaScript&#x89E3;&#x6790;&#x5668;&#x6703;&#x96B1;&#x542B;&#x7684;&#x88DC;&#x4E0A;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">lua</th>
+<th style="text-align:left">javascript</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">a = &#x201C;hello&#x201D;</td>
+<td style="text-align:left">a = &#x201C;hello&#x201D;</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">a = &#x201C;hello&#x201D;;</td>
+<td style="text-align:left">a = &#x201C;hello&#x201D;;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5206;&#x865F;(semicolon)&#x4E5F;&#x53EF;&#x4EE5;&#x4E0D;&#x4F7F;&#x7528;&#x5206;&#x865F;</td>
+<td style="text-align:left">JavaScrpt&#x5141;&#x8A9E;&#x4F60;&#x5728;&#x884C;&#x5C3E;&#x907A;&#x6F0F;&#x5206;&#x865F;&#xFF0C;&#x9084;&#x6703;&#x81EA;&#x52D5;&#x5E6B;&#x4F60;&#x52A0;&#x4E00;&#x500B;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x5168;&#x57DF;/&#x5340;&#x57DF;&#x8B8A;&#x6578;</td>
+<td style="text-align:left">&#x9810;&#x8A2D;&#x70BA;&#x5168;&#x57DF;&#x8B8A;&#x6578;</td>
+<td style="text-align:left">&#x5168;&#x57DF;&#x8B8A;&#x6578; - &#x82E5;&#x8B8A;&#x6578;&#x662F;&#x5728;&#x51FD;&#x6578;&#x4E4B;&#x5916;&#x5BA3;&#x544A;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">&#x5340;&#x57DF;&#x8B8A;&#x6578; - &#x82E5;&#x8B8A;&#x6578;&#x662F;&#x5728;&#x51FD;&#x6578;&#x4E4B;&#x5167;&#x5BA3;&#x544A;</td>
+</tr>
+<tr>
+<td style="text-align:left">3.</td>
+<td style="text-align:left"><strong>local</strong> a = &#x201C;hello&#x201D;;</td>
+<td style="text-align:left"><strong>var</strong> a = &#x201C;hello&#x201D;;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">lua&#x7528;local&#x5B9A;&#x7FA9;&#x5340;&#x57DF;&#x8B8A;&#x6578;</td>
+<td style="text-align:left">var&#x5B9A;&#x7FA9;&#x5168;&#x57DF;&#x8B8A;&#x4E0D;&#x53EF;&#x4EE5;&#x522A;&#x9664;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">&#x4E0D;&#x4F7F;&#x7528;var&#x5B9A;&#x7FA9;&#x5168;&#x57DF;&#x8B8A;&#x6578;(&#x5373;&#x4E0D;&#x5C0F;&#x5FC3;&#x5728;&#x51FD;&#x6578;&#x4E2D;&#x7522;&#x751F;)&#x53EF;&#x4EE5;&#x522A;&#x9664;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="&#x529F;&#x80FD;"><a href="#u529F_u80FD" class="headerlink" title="&#x529F;&#x80FD;"></a>&#x529F;&#x80FD;</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">lua</th>
+<th style="text-align:left">javascript</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">&#x6253;&#x5370;</td>
+<td style="text-align:left">print(a)</td>
+<td style="text-align:left">console.log(a)</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x8A3B;&#x89E3;</td>
+<td style="text-align:left">- -</td>
+<td style="text-align:left">//</td>
+</tr>
+</tbody>
+</table>
+<h3 id="control-structures"><a href="#Control_Structures" class="headerlink" title="Control Structures"></a>Control Structures</h3><ul>
+<li><p>lua</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> a &lt; <span class="number">0</span> then a = <span class="number">0</span> end</span><br><span class="line"><span class="keyword">if</span> a &lt; b then <span class="keyword">return</span> a <span class="keyword">else</span> <span class="keyword">return</span> b end</span><br><span class="line"><span class="keyword">if</span> line &gt; MAXLINES then</span><br><span class="line">   showpage()</span><br><span class="line">   line = <span class="number">0</span></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i=<span class="number">10</span>,<span class="number">1</span>,<span class="number">-1</span> <span class="keyword">do</span> print(i) end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>javascript</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) {</span><br><span class="line">	alert(<span class="string">&quot;It&apos;s TRUE!&quot;</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) {</span><br><span class="line">	alert(<span class="number">1</span>);</span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">	alert(<span class="number">2</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i += <span class="number">1</span>) {</span><br><span class="line">	alert(<span class="number">1</span>);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="function"><a href="#Function" class="headerlink" title="Function"></a>Function</h3><ul>
+<li><p>lua</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">a</span>)                                                                                                                       </span><br><span class="line">        <span class="title">local</span> <span class="title">sum</span> = 0                                                                                                                  </span><br><span class="line">        <span class="title">for</span> <span class="title">i</span>,<span class="title">v</span> <span class="title">in</span> <span class="title">ipairs</span>(<span class="params">a</span>) <span class="title">do</span>                                                                                                        </span><br><span class="line">                <span class="title">sum</span> = <span class="title">sum</span> + <span class="title">v</span>                                                                                                          </span><br><span class="line">        <span class="title">end</span>                                                                                                                            </span><br><span class="line">        <span class="title">return</span> <span class="title">sum</span>                                                                                                                     </span><br><span class="line"><span class="title">end</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>javascript</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isWinner</span>(<span class="params">player, others</span>) </span>{</span><br><span class="line">	<span class="keyword">var</span> highest = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, n = other.length; i &lt; n; i++){</span><br><span class="line">		<span class="keyword">var</span> player = other[i];</span><br><span class="line">		<span class="keyword">if</span>(player.score &gt; highest){</span><br><span class="line">			highest = player.score;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> player.score &gt; highest;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="object"><a href="#Object" class="headerlink" title="Object"></a>Object</h3><ul>
+<li>javascript<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> apple = {</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&quot;macintosh&quot;</span>,</span><br><span class="line">    <span class="attr">color</span>: <span class="string">&quot;red&quot;</span>,</span><br><span class="line">    <span class="attr">getInfo</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.color + <span class="string">&apos; &apos;</span> + <span class="keyword">this</span>.type + <span class="string">&apos; apple&apos;</span>;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="variable-hositing"><a href="#Variable_Hositing" class="headerlink" title="Variable Hositing"></a>Variable Hositing</h3><ul>
+<li><p>lua&#x932F;&#x8AA4;<br><strong>&#x5728;fact(n-1)&#x6642;fact&#x5C1A;&#x672A;&#x5B9A;&#x7FA9;&#xFF0C;&#x770B;&#x4F86;lua&#x662F;&#x7121;js&#x7684;variable hositing&#x65B9;&#x5F0F;</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">local fact = function (n)</span><br><span class="line">        if n == 0 then return 1</span><br><span class="line">        else return n*fact(n-1)</span><br><span class="line">        end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">print(fact(3))</span><br><span class="line"></span><br><span class="line"># lua local-fu.lua </span><br><span class="line">lua: local-fu.lua:3: attempt to call global &apos;fact&apos; (a nil value)</span><br><span class="line">stack traceback:</span><br><span class="line">        local-fu.lua:3: in function &apos;fact&apos;</span><br><span class="line">        local-fu.lua:7: in main chunk</span><br><span class="line">        [C]: ?</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6B64;&#x65B9;&#x5F0F;&#x7684;&#x5BEB;&#x6CD5;&#x5728;node js&#x662F;&#x6C92;&#x554F;&#x984C;&#xFF0C;&#x770B;&#x4F86;lua&#x53CA;node js&#x9084;&#x6709;&#x4E9B;&#x4E0D;&#x540C;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat local-t1.js </span><br><span class="line"><span class="keyword">var</span> fact = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>{</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">0</span>){</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">        <span class="keyword">return</span> n*fact(n<span class="number">-1</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;tt&quot;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(fact(<span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">$ node local-t1.js </span><br><span class="line">tt</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5982;&#x4F55;&#x5B9A;&#x7FA9;-&#x8A3B;&#x89E3;"><a href="#u5982_u4F55_u5B9A_u7FA9-_u8A3B_u89E3" class="headerlink" title="&#x5982;&#x4F55;&#x5B9A;&#x7FA9;-&#x8A3B;&#x89E3;"></a>&#x5982;&#x4F55;&#x5B9A;&#x7FA9;-&#x8A3B;&#x89E3;</h3><ul>
+<li><p>lua &#x55AE;&#x884C;&#x8A3B;&#x89E3;<br>Lua &#x7684;&#x5355;&#x884C;&#x6CE8;&#x91CA;&#x8BED;&#x53E5;&#x4EE5;&#x53CC;&#x8FDE;&#x63A5;&#x7B26; <strong>- -</strong> &#x958B;&#x982D;</p>
+</li>
+<li><p>lua &#x591A;&#x884C;&#x8A3B;&#x89E3;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--[[ </span><br><span class="line">print(10)      -- no action (comment) </span><br><span class="line">--]]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>js &#x55AE;&#x884C;&#x8A3B;&#x89E3;<br>js &#x7684;&#x5355;&#x884C;&#x6CE8;&#x91CA;&#x8BED;&#x53E5;&#x4EE5;&#x53CC;&#x8FDE;&#x63A5;&#x7B26; <strong>//</strong> &#x958B;&#x982D;</p>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="external">JS Array</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/javascript/" rel="tag">#javascript</a>
+          
+            <a href="/tags/lua/" rel="tag">#lua</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/17/function-programming/" rel="next" title="function-programming">
+                <i class="fa fa-chevron-left"></i> function-programming
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/22/foundations-of-gtk-development/" rel="prev" title="foundations-of-gtk-development">
+                foundations-of-gtk-development <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#變數"><span class="nav-number">3.</span> <span class="nav-text">變數</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#變數型態"><span class="nav-number">3.1.</span> <span class="nav-text">變數型態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定義變數"><span class="nav-number">3.2.</span> <span class="nav-text">定義變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#功能"><span class="nav-number">3.3.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#control-structures"><span class="nav-number">3.4.</span> <span class="nav-text">Control Structures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#function"><span class="nav-number">3.5.</span> <span class="nav-text">Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#object"><span class="nav-number">3.6.</span> <span class="nav-text">Object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#variable-hositing"><span class="nav-number">3.7.</span> <span class="nav-text">Variable Hositing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何定義-註解"><span class="nav-number">3.8.</span> <span class="nav-text">如何定義-註解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">4.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/08/18/js-lua/';
+      var disqus_title = 'js-lua';
+      var disqus_url = 'http://yoursite.com/2016/08/18/js-lua/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

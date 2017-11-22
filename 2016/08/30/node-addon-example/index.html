@@ -1,0 +1,924 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,cross-compile,node.js,nvm,sqlite," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="遇到node-sqlit需要使用到arm上面這邊了解一下nvm及node的c++如何compile">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node-addon-example">
+<meta property="og:url" content="http://yoursite.com/2016/08/30/node-addon-example/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="遇到node-sqlit需要使用到arm上面這邊了解一下nvm及node的c++如何compile">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.359Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node-addon-example">
+<meta name="twitter:description" content="遇到node-sqlit需要使用到arm上面這邊了解一下nvm及node的c++如何compile">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> node-addon-example | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                node-addon-example
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-08-30T15:21:19+08:00" content="2016-08-30">
+              2016-08-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/30/node-addon-example/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/30/node-addon-example/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/30/node-addon-example/" class="leancloud_visitors" data-flag-title="node-addon-example">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x9047;&#x5230;node-sqlit&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5230;arm&#x4E0A;&#x9762;<br>&#x9019;&#x908A;&#x4E86;&#x89E3;&#x4E00;&#x4E0B;nvm&#x53CA;node&#x7684;c++&#x5982;&#x4F55;compile</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160830</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#nvm">NVM</a><ul>
+<li><a href="#&#x5982;&#x4F55;&#x5B89;&#x88DD;">&#x5982;&#x4F55;&#x5B89;&#x88DD;</a></li>
+<li><a href="#&#x4F7F;&#x7528;nvm&#x5B89;&#x88DD;node&#x7279;&#x5B9A;&#x7248;&#x672C;">&#x4F7F;&#x7528;nvm&#x5B89;&#x88DD;node&#x7279;&#x5B9A;&#x7248;&#x672C;</a></li>
+</ul>
+</li>
+<li><a href="#&#x5982;&#x4F55;build-addon-c">&#x5982;&#x4F55;build addon c++</a><ul>
+<li><a href="#example-1_hello_world">example / 1_hello_world</a></li>
+<li><a href="#bindinggyp">binding.gyp</a></li>
+<li><a href="#&#x5982;&#x4F55;cross-compile-arm">&#x5982;&#x4F55;cross compile arm</a></li>
+</ul>
+</li>
+<li><a href="#&#x9047;&#x5230;&#x554F;&#x984C;">&#x9047;&#x5230;&#x554F;&#x984C;</a><ul>
+<li><a href="#&#x76EE;&#x524D;&#x4F7F;&#x7528;docker-ubuntu-1204-32bit">&#x76EE;&#x524D;&#x4F7F;&#x7528;docker ubuntu 12.04 32bit</a></li>
+<li><a href="#&#x6539;&#x70BA;&#x4F7F;&#x7528;docker-ubuntu-1404-64bit">&#x6539;&#x70BA;&#x4F7F;&#x7528;docker ubuntu 14.04 64bit</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x53C3;&#x8003;&#x8CC7;&#x6599;">&#x5176;&#x5B83;&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="nvm"><a href="#NVM" class="headerlink" title="NVM"></a>NVM</h2><ul>
+<li><a href="https://github.com/creationix/nvm" target="_blank" rel="external">Node Version Manage</a><br>&#x9700;&#x8981;&#x5728;&#x540C;&#x4E00;&#x96FB;&#x8166;&#x4E0A;&#x9762;&#x505A;&#x4E0D;&#x540C;&#x677F;&#x672C;&#x7684;node&#x5207;&#x63DB;&#xFF0C;&#x6B64;&#x6642;&#x5C31;&#x9700;&#x8981;&#x7528;&#x5230;nvm</li>
+</ul>
+<h3 id="&#x5982;&#x4F55;&#x5B89;&#x88DD;"><a href="#u5982_u4F55_u5B89_u88DD" class="headerlink" title="&#x5982;&#x4F55;&#x5B89;&#x88DD;"></a>&#x5982;&#x4F55;&#x5B89;&#x88DD;</h3><ul>
+<li><p>&#x4F7F;&#x7528;wget&#x5982;&#x4E0B;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.6/install.sh | bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5B89;&#x88DD;&#x5B8C;&#x6210;&#x6703;&#x5728;&#x4F7F;&#x7528;&#x8005;&#x76EE;&#x9304;&#x7522;&#x751F;.nvm&#x76EE;&#x9304;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@dc030135983a:~<span class="comment"># ls -la</span></span><br><span class="line">total 32</span><br><span class="line">drwx------   5 root root 4096 Aug 30 06:53 .</span><br><span class="line">drwxr-xr-x  65 root root 4096 Aug 30 05:40 ..</span><br><span class="line">-rw-r--r--   1 root root 3301 Aug 30 06:53 .bashrc</span><br><span class="line">-rw-rw-r--   1 root root  196 Mar 30 02:39 .gitconfig</span><br><span class="line">drwxr-xr-x   3 root root 4096 Aug 30 05:45 .node-gyp</span><br><span class="line">drwxr-xr-x 123 root root 4096 Aug 30 05:40 .npm</span><br><span class="line">drwxr-xr-x   4 root root 4096 Aug 30 06:53 .nvm</span><br><span class="line">-rw-r--r--   1 root root  140 Apr 19  2012 .profile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x82E5;&#x5EFA;&#x5165;nvm&#x7121;&#x53CD;&#x61C9;&#xFF0C;&#x5247;&#x5148;source .nvm/nvm.sh&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;nvm&#x6307;&#x4EE4;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. .nvm/nvm.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>example</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Example:</span><br><span class="line">  nvm install v0.10.32                  Install a specific version number</span><br><span class="line">  nvm use 0.10                          Use the latest available 0.10.x release</span><br><span class="line">  nvm run 0.10.32 app.js                Run app.js using node v0.10.32</span><br><span class="line">  nvm <span class="built_in">exec</span> 0.10.32 node app.js          Run `node app.js` with the PATH pointing to node v0.10.32</span><br><span class="line">  nvm <span class="built_in">alias</span> default 0.10.32             Set default node version on a shell</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x4F7F;&#x7528;nvm&#x5B89;&#x88DD;node&#x7279;&#x5B9A;&#x7248;&#x672C;"><a href="#u4F7F_u7528nvm_u5B89_u88DDnode_u7279_u5B9A_u7248_u672C" class="headerlink" title="&#x4F7F;&#x7528;nvm&#x5B89;&#x88DD;node&#x7279;&#x5B9A;&#x7248;&#x672C;"></a>&#x4F7F;&#x7528;nvm&#x5B89;&#x88DD;node&#x7279;&#x5B9A;&#x7248;&#x672C;</h3><ul>
+<li><p>nvm ls-remote<br>List remote versions available for install<br>&#x67E5;&#x770B;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;node&#x7248;&#x672C;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@dc030135983a:~<span class="comment"># nvm ls-remote</span></span><br><span class="line">xxx</span><br><span class="line">       v0.10.43  </span><br><span class="line">       v0.10.44  </span><br><span class="line">       v0.10.45  </span><br><span class="line">       v0.10.46  </span><br><span class="line">        v0.11.0  </span><br><span class="line">        v0.11.1  </span><br><span class="line">        v0.11.16  </span><br><span class="line">        v0.12.0  </span><br><span class="line">        v0.12.1  </span><br><span class="line">        v0.12.2 </span><br><span class="line">xx</span><br><span class="line">         v4.1.2  </span><br><span class="line">         v4.2.0   (LTS: Argon)</span><br><span class="line">         v4.2.1   (LTS: Argon)</span><br><span class="line">xx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5B89;&#x88DD;&#x7279;&#x5B9A;&#x7248;&#x672C;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install v0.10.43</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>test</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@db7e2830c910:~<span class="comment"># nvm list</span></span><br><span class="line">       v0.10.43  </span><br><span class="line">-&gt;      v0.12.1  </span><br><span class="line">default -&gt; v0.10.43</span><br><span class="line">node -&gt; stable (-&gt; v0.12.1) (default)</span><br><span class="line">stable -&gt; 0.12 (-&gt; v0.12.1) (default)</span><br><span class="line">iojs -&gt; N/A (default)</span><br><span class="line">lts/* -&gt; lts/argon (-&gt; N/A)</span><br><span class="line">lts/argon -&gt; v4.5.0 (-&gt; N/A)</span><br><span class="line">root@db7e2830c910:~<span class="comment"># node -v</span></span><br><span class="line">v0.12.1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5207;&#x63DB;&#x5230;&#x5176;&#x5B83;&#x7248;&#x672C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@db7e2830c910:~# nvm use v0.10.43</span><br><span class="line">xx</span><br><span class="line">root@db7e2830c910:~# node -v</span><br><span class="line">v0.10.43</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x5982;&#x4F55;build-addon-c"><a href="#u5982_u4F55build_addon_c++" class="headerlink" title="&#x5982;&#x4F55;build addon c++"></a>&#x5982;&#x4F55;build addon c++</h2><h3 id="example-1_hello_world"><a href="#example_/_1_hello_world" class="headerlink" title="example / 1_hello_world"></a>example / 1_hello_world</h3><ul>
+<li><a href="https://github.com/nodejs/node-addon-examples" target="_blank" rel="external">node-addon-examples</a></li>
+<li>&#x65BC;1_hello_world/node_0.10&#x76EE;&#x9304;&#x5167;</li>
+<li><p>&#x5B89;&#x88DD;build code&#x9700;&#x8981;&#x7684;gyp&#x5DE5;&#x5177;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install node-gyp -g</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5B89;&#x88DD;&#x6B64;package&#x9700;&#x8981;&#x7684;&#x76F8;&#x95DC;&#x5957;&#x4EF6;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>node-gyp rebuild</p>
+</li>
+</ul>
+<h3 id="bindinggyp"><a href="#binding-gyp" class="headerlink" title="binding.gyp"></a>binding.gyp</h3><ul>
+<li><a href="https://nodejs.org/docs/latest/api/addons.html" target="_blank" rel="external">Node.js v6.5.0 Documentation - Addons</a></li>
+<li>&#x7576;&#x4F7F;&#x7528;node-gyp configure&#xFF0C;&#x5373;&#x53C3;&#x8003;binding.gyp&#x6A94;&#x6848;&#x751F;&#x6210;makefile</li>
+<li>node-gyp build&#xFF0C;&#x5C07;&#x6703;&#x7522;&#x751F;build/Release&#x76F8;&#x95DC;&#x76EE;&#x9304;&#x53CA;&#x6A94;&#x6848;</li>
+</ul>
+<h3 id="&#x5982;&#x4F55;cross-compile-arm"><a href="#u5982_u4F55cross_compile_arm" class="headerlink" title="&#x5982;&#x4F55;cross compile arm"></a>&#x5982;&#x4F55;cross compile arm</h3><ul>
+<li><p>&#x9700;&#x8981;&#x5148;export&#x7528;&#x5230;&#x7684;env</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export AR=/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin/arm-hisiv200-linux-ar</span><br><span class="line">export CC=/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin/arm-hisiv200-linux-gcc</span><br><span class="line">export CXX=/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin/arm-hisiv200-linux-g++</span><br><span class="line">export LINK=/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin/arm-hisiv200-linux-g++</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6307;&#x5B9A;cpu&#x70BA;arch&#x70BA;arm&#x4E14;build</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node-gyp --arch arm configure build</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x9047;&#x5230;&#x554F;&#x984C;"><a href="#u9047_u5230_u554F_u984C" class="headerlink" title="&#x9047;&#x5230;&#x554F;&#x984C;"></a>&#x9047;&#x5230;&#x554F;&#x984C;</h2><h3 id="&#x76EE;&#x524D;&#x4F7F;&#x7528;docker-ubuntu-1204-32bit"><a href="#u76EE_u524D_u4F7F_u7528docker_ubuntu_12-04_32bit" class="headerlink" title="&#x76EE;&#x524D;&#x4F7F;&#x7528;docker ubuntu 12.04 32bit"></a>&#x76EE;&#x524D;&#x4F7F;&#x7528;docker ubuntu 12.04 32bit</h3><ul>
+<li><p>&#x4F7F;&#x7528;nvm install v0.10.43&#x4E4B;&#x5F8C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@01da8dacc643:~# nvm install v0.10.43</span><br><span class="line">######################################################################## 100.0%</span><br><span class="line">/root/.nvm/v0.10.43/bin/npm: line 2: /root/.nvm/v0.10.43/bin/node: No such file or directory</span><br><span class="line">nvm is not compatible with the npm config &quot;prefix&quot; option: currently set to &quot;&quot;</span><br><span class="line">Run `npm config delete prefix` or `nvm use --delete-prefix v0.10.43` to unset it.</span><br><span class="line">root@01da8dacc643:~# ls -l /root/.nvm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x767C;&#x73FE;nvm&#x5B89;&#x88DD;64bit node,,&#x602A;&#x602A;&#x7684;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@db7e2830c910:~# file .nvm/v0.10.43/bin/node</span><br><span class="line">.nvm/v0.10.43/bin/node: ELF 64-bit LSB  executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.9, not stripped</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x6539;&#x70BA;&#x4F7F;&#x7528;docker-ubuntu-1404-64bit"><a href="#u6539_u70BA_u4F7F_u7528docker_ubuntu_14-04_64bit" class="headerlink" title="&#x6539;&#x70BA;&#x4F7F;&#x7528;docker ubuntu 14.04 64bit"></a>&#x6539;&#x70BA;&#x4F7F;&#x7528;docker ubuntu 14.04 64bit</h3><ul>
+<li>docker 64bit os<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">root@db7e2830c910:~# nvm install v0.10.43                                                                                                                     </span><br><span class="line">                           </span><br><span class="line">--2016-08-30 08:35:07--  https://nodejs.org/dist/v0.10.43/node-v0.10.43-linux-x64.tar.gz</span><br><span class="line">Resolving nodejs.org (nodejs.org)... 104.20.22.46, 104.20.23.46, 2400:cb00:2048:1::6814:172e, ...</span><br><span class="line">Connecting to nodejs.org (nodejs.org)|104.20.22.46|:443... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: 6085592 (5.8M) [application/gzip]</span><br><span class="line">Saving to: &apos;/root/.nvm/bin/node-v0.10.43-linux-x64/node-v0.10.43-linux-x64.tar.gz&apos;</span><br><span class="line"></span><br><span class="line">100%[===============================================================================================================================================&gt;] 6,085,5</span><br><span class="line">92   1.10MB/s   in 7.4s   </span><br><span class="line"></span><br><span class="line">2016-08-30 08:35:15 (803 KB/s) - &apos;/root/.nvm/bin/node-v0.10.43-linux-x64/node-v0.10.43-linux-x64.tar.gz&apos; saved [6085592/6085592]</span><br><span class="line"></span><br><span class="line">npm WARN deprecated This version of npm lacks support for important features,</span><br><span class="line">npm WARN deprecated such as scoped packages, offered by the primary npm</span><br><span class="line">npm WARN deprecated registry. Consider upgrading to at least npm@2, if not the</span><br><span class="line">npm WARN deprecated latest stable version. To upgrade to npm@2, run:</span><br><span class="line">npm WARN deprecated </span><br><span class="line">npm WARN deprecated   npm -g install npm@latest-2</span><br><span class="line">npm WARN deprecated </span><br><span class="line">npm WARN deprecated To upgrade to the latest stable version, run:</span><br><span class="line">npm WARN deprecated </span><br><span class="line">npm WARN deprecated   npm -g install npm@latest</span><br><span class="line">npm WARN deprecated </span><br><span class="line">npm WARN deprecated (Depending on how Node.js was installed on your system, you</span><br><span class="line">npm WARN deprecated may need to prefix the preceding commands with `sudo`, or if</span><br><span class="line">npm WARN deprecated on Windows, run them from an Administrator prompt.)</span><br><span class="line">npm WARN deprecated </span><br><span class="line">npm WARN deprecated If you&apos;re running the version of npm bundled with</span><br><span class="line">npm WARN deprecated Node.js 0.10 LTS, be aware that the next version of 0.10 LTS</span><br><span class="line">npm WARN deprecated will be bundled with a version of npm@2, which has some small</span><br><span class="line">npm WARN deprecated backwards-incompatible changes made to `npm run-script` and</span><br><span class="line">npm WARN deprecated semver behavior.</span><br><span class="line">Now using node v0.10.43 (npm v1.4.29)</span><br><span class="line">Creating default alias: default -&gt; v0.10.43</span><br><span class="line">root@db7e2830c910:~# ls -la</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x5176;&#x5B83;&#x53C3;&#x8003;&#x8CC7;&#x6599;"><a href="#u5176_u5B83_u53C3_u8003_u8CC7_u6599" class="headerlink" title="&#x5176;&#x5B83;&#x53C3;&#x8003;&#x8CC7;&#x6599;"></a>&#x5176;&#x5B83;&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2><ul>
+<li><a href="https://github.com/creationix/nvm" target="_blank" rel="external">Node Version Manage</a></li>
+<li><a href="http://icarus4.logdown.com/posts/175092-nodejs-installation-guide" target="_blank" rel="external">Node.js &#x5B89;&#x88DD;&#x8207;&#x7248;&#x672C;&#x5207;&#x63DB;&#x6559;&#x5B78; (for MAC)</a></li>
+<li><a href="https://github.com/mapbox/node-sqlite3" target="_blank" rel="external">mapbox/node-sqlite3</a></li>
+<li><a href="https://yulun.me/2014/npm-install-build-from-source-cross-compile/" target="_blank" rel="external">Node.js npm &#x5B89;&#x88DD; node-sqlite3 &#x5957;&#x4EF6;&#x5728;&#x4E0D;&#x540C;&#x5E73;&#x53F0; </a></li>
+<li><a href="https://nodejs.org/docs/latest/api/addons.html" target="_blank" rel="external">Node.js v6.5.0 Documentation - Addons</a></li>
+<li><a href="https://github.com/nodejs/node-addon-examples" target="_blank" rel="external">node-addon-examples</a></li>
+<li><a href="http://stackabuse.com/how-to-create-c-cpp-addons-in-node/" target="_blank" rel="external">How to Create C/C++ Addons in Node</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/cross-compile/" rel="tag">#cross-compile</a>
+          
+            <a href="/tags/node-js/" rel="tag">#node.js</a>
+          
+            <a href="/tags/nvm/" rel="tag">#nvm</a>
+          
+            <a href="/tags/sqlite/" rel="tag">#sqlite</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/29/shell-trap/" rel="next" title="shell-trap">
+                <i class="fa fa-chevron-left"></i> shell-trap
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/31/fedora-pppoe/" rel="prev" title="fedora-pppoe">
+                fedora-pppoe <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nvm"><span class="nav-number">3.</span> <span class="nav-text">NVM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何安裝"><span class="nav-number">3.1.</span> <span class="nav-text">如何安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用nvm安裝node特定版本"><span class="nav-number">3.2.</span> <span class="nav-text">使用nvm安裝node特定版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何build-addon-c"><span class="nav-number">4.</span> <span class="nav-text">如何build addon c++</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#example-1_hello_world"><span class="nav-number">4.1.</span> <span class="nav-text">example / 1_hello_world</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bindinggyp"><span class="nav-number">4.2.</span> <span class="nav-text">binding.gyp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何cross-compile-arm"><span class="nav-number">4.3.</span> <span class="nav-text">如何cross compile arm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到問題"><span class="nav-number">5.</span> <span class="nav-text">遇到問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目前使用docker-ubuntu-1204-32bit"><span class="nav-number">5.1.</span> <span class="nav-text">目前使用docker ubuntu 12.04 32bit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改為使用docker-ubuntu-1404-64bit"><span class="nav-number">5.2.</span> <span class="nav-text">改為使用docker ubuntu 14.04 64bit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它參考資料"><span class="nav-number">6.</span> <span class="nav-text">其它參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/08/30/node-addon-example/';
+      var disqus_title = 'node-addon-example';
+      var disqus_url = 'http://yoursite.com/2016/08/30/node-addon-example/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

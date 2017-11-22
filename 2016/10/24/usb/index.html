@@ -1,0 +1,1192 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,usb," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解USB: Specifications, Protocols, transfer/endpoint type">
+<meta property="og:type" content="article">
+<meta property="og:title" content="usb">
+<meta property="og:url" content="http://yoursite.com/2016/10/24/usb/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解USB: Specifications, Protocols, transfer/endpoint type">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/usb-topology.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/usb-bus.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/connection.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/usb-connect.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/USB-Implementation-Area.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/usb-host-device-view.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/pid_type.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/usb-functions.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/control-tranfer-setup-stage.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/control-tranfer-data-stage.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/control-tranfer-status-stage.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/control-sequences.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/setup-pkt-format.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/interrupt-transfer.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/isochronous-transfer.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/24/usb/bulk-transfer.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.571Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="usb">
+<meta name="twitter:description" content="了解USB: Specifications, Protocols, transfer/endpoint type">
+<meta name="twitter:image" content="http://yoursite.com/2016/10/24/usb/usb-topology.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> usb | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                usb
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T16:49:12+08:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/24/usb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/24/usb/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/10/24/usb/" class="leancloud_visitors" data-flag-title="usb">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;USB: Specifications, Protocols, transfer/endpoint type</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161024</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#usb">USB</a><ul>
+<li><a href="#usb-device-speed">USB Device Speed</a></li>
+<li><a href="#usb-specifications">USB Specifications</a></li>
+<li><a href="#usb-architectural-configuration">USB Architectural Configuration</a></li>
+<li><a href="#usb-implementation-area">USB Implementation Area</a></li>
+<li><a href="#usb-hostdevice-detail-view">USB Host/Device Detail View</a></li>
+</ul>
+</li>
+<li><a href="#usb-protocols">USB Protocols</a><ul>
+<li><a href="#common-usb-packet-fields">Common USB Packet Fields</a></li>
+<li><a href="#usb-packet-types">USB Packet Types</a></li>
+<li><a href="#usb-functions">USB Functions</a></li>
+<li><a href="#endpoints">Endpoints</a></li>
+<li><a href="#pipes">Pipes</a></li>
+<li><a href="#endpoint-types">Endpoint Types</a></li>
+</ul>
+</li>
+<li><a href="#usb&#x50B3;&#x8F38;">USB&#x50B3;&#x8F38;</a><ul>
+<li><a href="#usb-control-transfer-usb&#x63A7;&#x5236;&#x50B3;&#x8F38;">USB Control Transfer (USB&#x63A7;&#x5236;&#x50B3;&#x8F38;)</a></li>
+<li><a href="#&#x63A7;&#x5236;&#x50B3;&#x8F38;&#x9700;&#x7D93;&#x904E;&#x4E0B;&#x4F8B;3&#x500B;&#x968E;&#x6BB5;">&#x63A7;&#x5236;&#x50B3;&#x8F38;&#x9700;&#x7D93;&#x904E;&#x4E0B;&#x4F8B;3&#x500B;&#x968E;&#x6BB5;</a><ul>
+<li><a href="#the-setup-packet">The Setup Packet</a></li>
+</ul>
+</li>
+<li><a href="#interrupt-transfers">Interrupt Transfers</a></li>
+<li><a href="#isochronous-transfers-&#x540C;&#x6B65;&#x50B3;&#x8F38;">Isochronous Transfers (&#x540C;&#x6B65;&#x50B3;&#x8F38;)</a></li>
+<li><a href="#bulk-transfers">Bulk Transfers</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="usb"><a href="#USB" class="headerlink" title="USB"></a>USB</h2><ul>
+<li>USB Univeral Serial Bus (&#x901A;&#x7528;&#x4E32;&#x5217;&#x532F;&#x6D41;&#x6392;)&#xFF0C;&#x652F;&#x63F4;&#x71B1;&#x63D2;&#x62D4;(hot plugable)</li>
+<li>Supports up to 127 physical devices</li>
+<li>There is only one host in any USB system.</li>
+</ul>
+<p>usb host&#x6703;&#x53BB;poll bus&#x4E0A;&#x9762;&#x7684;&#x5404;&#x500B;device&#xFF0C;&#x6BCF;&#x500B;device&#x63A5;&#x4E0A;bus&#xFF0C;<br>usb&#x4E3B;&#x63A7;&#x5668;&#x6703;&#x5206;&#x914D;&#x4E00;&#x500B;&#x4EE3;&#x78BC;&#x7D66;device&#xFF0C;&#x4E26;&#x4E14;&#x8B80;&#x53D6;&#x63CF;&#x8FF0;&#x8868;(device descriptors),&#x4EE5;&#x4FBF;&#x5F97;&#x5230;&#x786C;&#x4F53;&#x8CC7;&#x8A0A;</p>
+<img src="/2016/10/24/usb/usb-topology.png" alt="[USB Physical Bus Topology]" title="[USB Physical Bus Topology]">
+<h3 id="usb-device-speed"><a href="#USB_Device_Speed" class="headerlink" title="USB Device Speed"></a>USB Device Speed</h3><ul>
+<li>USB interface consists of 4 wires.<br><strong>Power</strong>, <strong>Ground</strong>, Data Plus (<strong>USBDP</strong>) and Data Minus (<strong>USBDM</strong>)</li>
+</ul>
+<img src="/2016/10/24/usb/usb-bus.png" alt="[USB BUS]" title="[USB BUS]">
+<ul>
+<li>There are three data rates:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">low speed USB</td>
+<td style="text-align:left">1.5Mbps</td>
+</tr>
+<tr>
+<td style="text-align:left">full speed USB</td>
+<td style="text-align:left">12Mbps</td>
+</tr>
+<tr>
+<td style="text-align:left">high speed USB</td>
+<td style="text-align:left">480Mbps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="usb-specifications"><a href="#USB_Specifications" class="headerlink" title="USB Specifications"></a>USB Specifications</h3><ul>
+<li><p>USB 1.1  Host Controller Interface Specifications</p>
+<ul>
+<li><strong>UHCI</strong> (Universal Host Controller Interface)<br>developed by Intel</li>
+<li><strong>OHCI</strong> (Open Host Controller Interface)<br>developed by Compaq, Microsoft and National Semiconductor </li>
+</ul>
+</li>
+<li><p>USB 2.0   Host Controller Interface Specifications</p>
+<ul>
+<li>EHCI (Enhanced Host Controller Interface)</li>
+</ul>
+</li>
+<li><p>NRZI (Non Return to Zero Invert) encoding scheme</p>
+</li>
+<li><p>USB supports plug&#x2019;n&#x2019;plug with dynamically loadable and unloadable drivers</p>
+</li>
+<li><p>sender (&#x9001;&#x7AEF;&#x96FB;&#x6027;)</p>
+<ul>
+<li>&#x201C;1&#x201D; : D+ over 2.8V , D- under 0.3V</li>
+<li>&#x201C;0&#x201D; : D- greater than 2.8V , D+ less than 0.3V</li>
+</ul>
+</li>
+<li><p>receiver (&#x6536;&#x7AEF;&#x96FB;&#x6027;)</p>
+<ul>
+<li>&#x201C;1&#x201D; : D+ 200mV greater than D- </li>
+<li><p>&#x201C;0&#x201D; : D+ 200mV less than D-</p>
+</li>
+<li><p><a href="http://www.ftdichip.com/Support/Documents/TechnicalNotes/TN_113_Simplified%20Description%20of%20USB%20Device%20Enumeration.pdf" target="_blank" rel="external"> FTDI: Simplified Description of USB Device Enumeration, TN_113</a></p>
+</li>
+</ul>
+</li>
+<li><p>Host&#x5982;&#x4F55;&#x5224;&#x65B7;low speed/full speed device<br>USB Host DP&#x53CA;DM&#x9810;&#x8A2D;&#x5982;&#x4E0B;&#xFF0C;&#x7576;&#x6C92;&#x6709;&#x63A5;device&#x6642;&#x8A0A;&#x606F;&#x7686;&#x70BA;low<br>&#x7576;&#x63A5;&#x4E0A;low speed&#x6642;USBDM&#x70BA;high<br>&#x7576;&#x63A5;&#x4E0A;high speed&#x6642;USBDP&#x70BA;high<br>&#x7576;&#x540C;&#x6642;&#x63A5;&#x4E0A;low speed&#x53CA;high speed&#x5982;&#x4F55;&#x5224;&#x65B7;?</p>
+<img src="/2016/10/24/usb/connection.png" alt="[USB Connect]" title="[USB Connect]"> 
+<p>Some devices have this resistor built into its silicon, which can be turned on and off under firmware control, others require an external resistor.<br>&#x6BD4;&#x8F03;&#x65B0;&#x7684;&#x96FB;&#x963B;&#x53EF;&#x4EE5;&#x7531;&#x8EDF;&#x4F53;&#x63A7;&#x5236;&#xFF0C;&#x56E0;&#x6B64;&#x6709;&#x7684;usb&#x53EF;&#x4EE5;&#x7576;&#x6210;HOST&#x53CA;Device</p>
+</li>
+</ul>
+<h3 id="usb-architectural-configuration"><a href="#USB_Architectural_Configuration" class="headerlink" title="USB Architectural Configuration"></a>USB Architectural Configuration</h3><p> USB&#x63A5;&#x7DDA;&#x4E0A;&#x53EA;&#x5141;&#x8A31;1&#x500B;host&#xFF0C;&#x5176;&#x9918;&#x70BA;device<br>device&#x53EF;&#x5206;&#x70BA;&#xFF1A;USB Hub&#x53CA;USB function device&#x5169;&#x7A2E;<br><img src="/2016/10/24/usb/usb-connect.png" alt="[USB Connect]" title="[USB Connect]"> </p>
+<h3 id="usb-implementation-area"><a href="#USB_Implementation_Area" class="headerlink" title="USB Implementation Area"></a>USB Implementation Area</h3><img src="/2016/10/24/usb/USB-Implementation-Area.png" alt="USB-Implementation-Area.png" title=""> 
+<ul>
+<li>The USB <strong>Bus Interface layer</strong> provides physical/signaling/packet connectivity between the host and a device.</li>
+<li>The USB <strong>Device layer</strong> is the view the USB System Software has for performing generic USB operations with a device</li>
+<li>The <strong>Function layer</strong> provides additional capabilities to the host via an appropriate matched client software layer</li>
+</ul>
+<h3 id="usb-hostdevice-detail-view"><a href="#USB_Host/Device_Detail_View" class="headerlink" title="USB Host/Device Detail View"></a>USB Host/Device Detail View</h3><img src="/2016/10/24/usb/usb-host-device-view.png" alt="usb-host-device-view.png" title=""> 
+<ul>
+<li>USB Bus Interface Layer&#xFF1A;&#x70BA;chip layer (&#x7686;&#x7531;chip ic&#x5BE6;&#x73FE;)</li>
+<li>USB Device Layer&#x53CA;Function Layer: &#x7531;kernel driver&#x5BE6;&#x73FE;</li>
+</ul>
+<h2 id="usb-protocols"><a href="#USB_Protocols" class="headerlink" title="USB Protocols"></a>USB Protocols</h2><p><a href="http://www.beyondlogic.org/usbnutshell/usb3.shtml" target="_blank" rel="external">USB Protocols</a></p>
+<ul>
+<li><p>USB transaction consists of a<br><strong>Token Packet</strong> (Header defining what it expects to follow)<br>Optional <strong>Data Packet</strong>, (Containing the payload)<br><strong>Status Packet</strong> (Used to acknowledge transactions and to provide a means of error correction)</p>
+</li>
+<li><p>The first packet, also called a token is generated by the host to describe</p>
+</li>
+<li>The next packet is generally a data packet carrying the payload and is followed by an handshaking packet, reporting</li>
+</ul>
+<h3 id="common-usb-packet-fields"><a href="#Common_USB_Packet_Fields" class="headerlink" title="Common USB Packet Fields"></a>Common USB Packet Fields</h3><p>Data on the USBus is transmitted LSBit first. USB packets consist of the following fields,<br>&#x4F4E;&#x4F4D;&#x5143;&#x5148;&#x50B3;&#x9001;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">bit</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Sync</td>
+<td style="text-align:left">8bit / 32bit(high speed)</td>
+<td style="text-align:left">All packets must start with a sync field</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">10000000B</td>
+</tr>
+<tr>
+<td style="text-align:left">PID</td>
+<td style="text-align:left">8bit</td>
+<td style="text-align:left">PID stands for Packet ID</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">&#x53EA;&#x6709;4bit &#x8CC7;&#x6599;</td>
+</tr>
+<tr>
+<td style="text-align:left">ADDR</td>
+<td style="text-align:left">7bit</td>
+<td style="text-align:left">&#x6307;&#x660E;USB&#x7E3D;&#x7DDA;&#x4E0A;1&#x500B;&#x8A2D;1&#x5099;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">The address field specifies which device the packet is designated for.</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Being 7 bits in length allows for 127 devices (Address 0 is not valid)</td>
+</tr>
+<tr>
+<td style="text-align:left">ENDP</td>
+<td style="text-align:left">4bit</td>
+<td style="text-align:left">&#x6307;&#x660E;USB&#x7684;&#x7AEF;&#x9EDE;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">The endpoint field is made up of 4 bits, allowing 16 possible endpoints.</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Low speed devices, however can only have 2 additional endpoints on top of the default pipe. (4 endpoints max)</td>
+</tr>
+<tr>
+<td style="text-align:left">CRC</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Cyclic Redundancy Checks are performed on the data within the packet payload</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">&#x6709;&#x5169;&#x7A2E;&#xFF1A; Token pkt(CRC5) , Data pkt(CRC16)</td>
+</tr>
+<tr>
+<td style="text-align:left">EOP</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">End of packet</td>
+</tr>
+</tbody>
+</table>
+<h3 id="usb-packet-types"><a href="#USB_Packet_Types" class="headerlink" title="USB Packet Types"></a>USB Packet Types</h3><p>&#x6709;&#x56DB;&#x7A2E;&#x4E0D;&#x540C;package type: {Token, Data, Handshake, SOF} packets</p>
+<img src="/2016/10/24/usb/pid_type.png" alt="[PID Group]" title="[PID Group]"> 
+<table>
+<thead>
+<tr>
+<th style="text-align:left">type</th>
+<th style="text-align:left">format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Token</td>
+<td style="text-align:left">Sync, PID, ADDR, ENDP, CRC5, EOP</td>
+</tr>
+<tr>
+<td style="text-align:left">Data</td>
+<td style="text-align:left">Sync, PID, Data, CRC16, EOP</td>
+</tr>
+<tr>
+<td style="text-align:left">Handshake</td>
+<td style="text-align:left">Sync, PID. EOP</td>
+</tr>
+<tr>
+<td style="text-align:left">Start of Frame</td>
+<td style="text-align:left">Sync, PID, FrameNum(11bit), CRC5, EOP</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>Token Packets<br>OUT PID: host &#x767C;&#x9001;&#x5230; deivce<br>IN PID: device &#x767C;&#x9001;&#x5230; host<br>Setup PID: host &#x5411;device&#x767C;&#x9001;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+</li>
+<li><p>Data Packets<br>low speed&#x53EA;&#x6709;DATA0&#x53CA;DATA1<br>Maximum data payload size for low-speed devices is 8 bytes<br>Maximum data payload size for full-speed devices is 1023 bytes.<br>Maximum data payload size for high-speed devices is 1024 bytes.</p>
+</li>
+<li><p>Handshake Packets<br>ACK PID: &#x8AAA;&#x660E;&#x63A5;&#x6536;&#x5DF2;&#x7D93;&#x6B63;&#x78BA;&#x63A5;&#x6536;&#x5230;&#x6578;&#x64DA;<br>Acknowledgment that the packet has been successfully received.<br>NAK PID: Reports that the device temporary cannot send or received data<br>STALL : &#x8868;&#x793A;&#x6B64;&#x7AEF;&#x9EDE;&#x5DF2;&#x88AB;&#x6302;&#x8D77;</p>
+</li>
+<li><p>Start of Frame Packets<br>The SOF packet consisting of an <strong>11-bit frame number</strong> is sent by the host<br>every 1ms &#xB1; 500ns on a full speed bus<br>every 125 &#xB5;s &#xB1; 0.0625 &#xB5;s on a high speed bus.</p>
+</li>
+</ul>
+<h3 id="usb-functions"><a href="#USB_Functions" class="headerlink" title="USB Functions"></a>USB Functions</h3><img src="/2016/10/24/usb/usb-functions.png" alt="[USB Function]" title="[USB Function]"> 
+<p>host&#x50B3;&#x9001;pkt&#xFF0C;&#x88E1;&#x9762;&#x6703;&#x6307;&#x5B9A;addr=2,endpoint=1,direction=OUT<br>&#x6BCF;&#x500B;device&#xFF0C;&#x4F4E;&#x5C64;&#x6703;&#x4F9D;&#x9019;&#x4E9B;&#x8A0A;&#x606F;&#xFF0C;&#x4F86;&#x6C7A;&#x5B9A;&#x6B64;frame&#x662F;&#x8981;&#x9001;&#x7D66;&#x8AB0;<br>&#x82E5;&#x662F;&#x50B3;&#x9001;&#x7D66;&#x6B64;device, &#x6B64;&#x6642;&#x6703;&#x5C07;pkt&#xFF0C;&#x4E26;&#x4E14;copy&#x5230;endpointer buffer&#xFF0C;&#x7522;&#x751F;&#x4E2D;&#x65B7;</p>
+<h3 id="endpoints"><a href="#Endpoints" class="headerlink" title="Endpoints"></a>Endpoints</h3><ul>
+<li>Endpoints can be described as sources or sinks of data</li>
+<li>&#x7576;EP1 Out&#x6536;&#x5230;host&#x50B3;&#x4F86;&#x7684;buffer<br>&#x82E5;&#x8981;&#x56DE;&#x50B3;&#x8CC7;&#x6599;,&#x9700;&#x8981;&#x7B49;&#x5F85;host&#x50B3;&#x4F86;EP1 IN&#xFF0C;&#x6B64;&#x6642;&#x624D;&#x80FD;&#x56DE;&#x50B3;&#x8CC7;&#x6599;</li>
+<li>All devices must support endpoint zero. (&#x5373;EP0)<ul>
+<li>receives all of the devices control and status requests</li>
+<li>&#x70BA;&#x4F55;CH341&#x53CA;FT232&#x6C92;&#x6709;EP0 ?</li>
+</ul>
+</li>
+</ul>
+<h3 id="pipes"><a href="#Pipes" class="headerlink" title="Pipes"></a>Pipes</h3><p>While the device sends and receives data on a series of endpoints, the client software transfers data through pipes.<br>A pipe is a logical connection between the host and endpoint(s)<br>pipe transfer type: Control, Bulk, Iso, Interrupt</p>
+<ul>
+<li>USB defines two types of pipes <ul>
+<li>Stream Pipes<br>have no defined USB format<br>that is you can send any type of data down a stream pipe</li>
+<li>Message Pipes<br>have a defined USB format<br>They are host controlled</li>
+</ul>
+</li>
+</ul>
+<h3 id="endpoint-types"><a href="#Endpoint_Types" class="headerlink" title="Endpoint Types"></a>Endpoint Types</h3><ul>
+<li>&#x6709;&#x4E0B;&#x4F8B;&#x56DB;&#x7A2E;&#xFF0C;transfer/endpoint type<ul>
+<li>Control Transfer</li>
+<li>Interrupt Transfer</li>
+<li>Isochronous Transfer</li>
+<li>Bulk Transfer</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="usb&#x50B3;&#x8F38;"><a href="#USB_u50B3_u8F38" class="headerlink" title="USB&#x50B3;&#x8F38;"></a>USB&#x50B3;&#x8F38;</h2><h3 id="usb-control-transfer-usb&#x63A7;&#x5236;&#x50B3;&#x8F38;"><a href="#USB_Control_Transfer__28USB_u63A7_u5236_u50B3_u8F38_29" class="headerlink" title="USB Control Transfer (USB&#x63A7;&#x5236;&#x50B3;&#x8F38;)"></a>USB Control Transfer (USB&#x63A7;&#x5236;&#x50B3;&#x8F38;)</h3><ul>
+<li><p>&#x4F86;&#x6E90;&#xFF1A;<a href="http://www.beyondlogic.org/usbnutshell/usb4.shtml" target="_blank" rel="external">Control Transfers</a></p>
+</li>
+<li><p>&#x63A7;&#x5236;&#x50B3;&#x8F38;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x50B3;&#x8F38;&#x5C11;&#x91CF;&#x7684;&#xFF0C;&#x5C0D;&#x50B3;&#x8F38;&#x7121;&#x901F;&#x7387;&#x8981;&#x6C42;&#xFF0C;&#x4F46;&#x5FC5;&#x9806;&#x4FDD;&#x8B49;&#x50B3;&#x8F38;&#x7684;&#x6578;&#x64DA;</p>
+</li>
+<li>&#x7528;&#x65BC;host&#x8207;device&#x4E4B;&#x9593;&#x7684;&#x914D;&#x7F6E;&#x901A;&#x4FE1;(device descriptor)</li>
+<li>&#x4EFB;&#x4F55;device&#x9806;&#x5728;EP0&#x4E2D;&#x652F;&#x6301;control trasnfer (usb&#x8EDF;&#x4F53;&#x901A;&#x904E;EP0&#x4F86;&#x8A2A;&#x554F;device&#x72C0;&#x614B;)</li>
+<li>&#x9664;&#x4E86;&#x7AEF;&#x9EDE;0&#x4EE5;&#x5916;&#xFF0C;&#x5176;&#x5B83;&#x7AEF;&#x9EDE;&#x4E5F;&#x901A;&#x4EE5;&#x652F;&#x6301;&#x63A7;&#x5236;&#x50B3;&#x8F38;</li>
+<li>the packet length of control transfers in low speed devices must be 8 bytes</li>
+<li>high speed devices allow a packet size of 8, 16, 32 or 64 bytes</li>
+</ul>
+<h3 id="&#x63A7;&#x5236;&#x50B3;&#x8F38;&#x9700;&#x7D93;&#x904E;&#x4E0B;&#x4F8B;3&#x500B;&#x968E;&#x6BB5;"><a href="#u63A7_u5236_u50B3_u8F38_u9700_u7D93_u904E_u4E0B_u4F8B3_u500B_u968E_u6BB5" class="headerlink" title="&#x63A7;&#x5236;&#x50B3;&#x8F38;&#x9700;&#x7D93;&#x904E;&#x4E0B;&#x4F8B;3&#x500B;&#x968E;&#x6BB5;"></a>&#x63A7;&#x5236;&#x50B3;&#x8F38;&#x9700;&#x7D93;&#x904E;&#x4E0B;&#x4F8B;3&#x500B;&#x968E;&#x6BB5;</h3><ul>
+<li>Setup Stage</li>
+<li>Data Stage</li>
+<li>Status Stage</li>
+</ul>
+<p><strong>Setup Stage</strong><br>setup token is sent first which contains the address and endpoint number<br>&#x7531;3&#x500B;pkt&#x7D44;&#x6210;<br>&#x7B2C;&#x4E00;&#x500B;Setup pkt(&#x6B64;&#x542B;ADDR&#x53CA;ENDP)<br>&#x7B2C;&#x4E8C;&#x500B;DATA0 pkt(&#x6B64;&#x5167;&#x542B;Device Descriptor Requst&#x8CC7;&#x6599;&#x683C;&#x5F0F;)<br>&#x7B2C;&#x4E09;&#x500B;H/S pkt</p>
+<img src="/2016/10/24/usb/control-tranfer-setup-stage.png" alt="[Setup Stage]" title="[Setup Stage]"> 
+<p><strong>Data Stage</strong> (optional Data Stage)<br>&#x70BA;&#x975E;&#x5FC5;&#x8981;&#xFF0C;&#x7576;&#x7121;DATA&#x6642;&#xFF0C;&#x5247;&#x7121;&#x6B64;stage<br>&#x518D;&#x4F86;&#x5C31;&#x662F;&#x63A5;&#x6536;&#x6216;&#x50B3;&#x9001;&#x6578;&#x500B;Data<br>&#x901A;&#x5E38;&#x90FD;&#x8981;&#x56DE;&#x50B3;Device Descriptor(&#x82E5;&#x525B;&#x525B;&#x6536;&#x5230;Device Descriptor Requst)<br><img src="/2016/10/24/usb/control-tranfer-data-stage.png" alt="[Data Stage]" title="[Data Stage]"> </p>
+<p><strong>Status Stage</strong><br>reports the status of the overall request and this once again varies due to direction of transfer.<br><img src="/2016/10/24/usb/control-tranfer-status-stage.png" alt="[Status Stage]" title="[Status Stage]"> </p>
+<ul>
+<li>Control Read and Write Sequences<br>&#x5982;usb 2.0&#x8AAA;&#x660E;(8.5.3 Control Transfer)<br>A SETUP always uses a DATA0 PID for the data field of the SETUP transaction<br>The Status stage of a control transfer is the last transaction in the sequence.<br>A Status stage is delineated by a change in direction of data flow from the previous stage and always uses a <strong>DATA1 PID</strong>. <img src="/2016/10/24/usb/control-sequences.png" alt="control-sequences.png" title=""> 
+</li>
+</ul>
+<h4 id="the-setup-packet"><a href="#The_Setup_Packet" class="headerlink" title="The Setup Packet"></a>The Setup Packet</h4><ul>
+<li>Every USB device must respond to setup packets on the default pipe.</li>
+<li>&#x5728;Control Transfer&#x5728;Setup Stage&#x4E2D;&#x8981;&#x586B;&#x5165;Data0&#x88E1;&#x9762;&#x6578;&#x64DA;&#x683C;&#x5F0F;&#x5982;&#x4E0B;<img src="/2016/10/24/usb/setup-pkt-format.png" alt="[Setup Format]" title="[Setup Format]"> 
+</li>
+</ul>
+<h3 id="interrupt-transfers"><a href="#Interrupt_Transfers" class="headerlink" title="Interrupt Transfers"></a>Interrupt Transfers</h3><p>An Interrupt request is queued by the device until the host polls the USB device asking for data.</p>
+<ul>
+<li>The maximum data payload size for low-speed devices is 8 bytes. </li>
+<li>Maximum data payload size for full-speed devices is 64 bytes. </li>
+<li>Maximum data payload size for high-speed devices is 1024 bytes. </li>
+</ul>
+<img src="/2016/10/24/usb/interrupt-transfer.png" alt="[Interrupt Transfer]" title="[Interrupt Transfer]"> 
+<p>The above diagram shows the format of an Interrupt IN and Interrupt OUT transaction. </p>
+<ul>
+<li><p><strong>IN</strong>: </p>
+<ul>
+<li>The host will periodically poll the interrupt endpoint. </li>
+<li>This rate of polling is specified in the endpoint descriptor which is covered later.</li>
+<li>&#x5728;<a href="http://www.beyondlogic.org/usbnutshell/usb5.shtml#EndpointDescriptors" target="_blank" rel="external">Endpointer Descript</a>&#x4E2D;&#x6703;&#x5B9A;&#x7FA9;bInterval&#x6578;&#x63A5;</li>
+</ul>
+</li>
+<li><p><strong>OUT:</strong></p>
+<ul>
+<li>When the host wants to send the device interrupt data, </li>
+<li>it issues an OUT token followed by a data packet containing the interrupt data.</li>
+</ul>
+</li>
+</ul>
+<p>&#x7576;host&#x6E96;&#x5099;&#x63A5;&#x53D7;&#x4E2D;&#x65B7;&#x6578;&#x64DA;&#x6642;&#xFF0C;&#x5B83;&#x5C07;&#x6703;&#x9001;&#x51FA;IN pkt&#xFF0C;&#x800C;device&#x5C07;&#x53CD;&#x56DE;Datax<br>&#x7576;host&#x6E96;&#x5099;&#x9001;&#x51FA;&#x4E2D;&#x65B7;&#x6578;&#x64DA;&#x6642;, &#x5B83;&#x6703;&#x9001;&#x51FA;OUT pkt&#x53CA;Datax</p>
+<h3 id="isochronous-transfers-&#x540C;&#x6B65;&#x50B3;&#x8F38;"><a href="#Isochronous_Transfers__28_u540C_u6B65_u50B3_u8F38_29" class="headerlink" title="Isochronous Transfers (&#x540C;&#x6B65;&#x50B3;&#x8F38;)"></a>Isochronous Transfers (&#x540C;&#x6B65;&#x50B3;&#x8F38;)</h3><p>&#x9069;&#x7528;&#x65BC;&#x50B3;&#x8F38;&#x5927;&#x91CF;&#xFF0C;&#x901F;&#x7387;&#x56FA;&#x5B9A;&#x4E14;&#x5C0D;&#x670D;&#x52D9;&#x9031;&#x671F;&#x6709;&#x8981;&#x6C42;&#x7684;<br>Isochronous transactions have a token and data phase, but no handshake phase</p>
+<p>Isochronous Transfers provide</p>
+<ul>
+<li>Guaranteed access to USB bandwidth.</li>
+<li>Bounded latency.</li>
+<li>Stream Pipe - Unidirectional</li>
+<li>Error detection via CRC, but no retry or guarantee of delivery.</li>
+<li>Full &amp; high speed modes only.</li>
+<li>No data toggling.</li>
+</ul>
+<img src="/2016/10/24/usb/isochronous-transfer.png" alt="isochronous-transfer.png" title=""> 
+<p>The above diagram shows the format of an Isochronous IN and OUT transaction</p>
+<p>&#x6700;&#x5927;padload size&#x5B9A;&#x7FA9;&#x65BC;endpoint descriptor</p>
+<ul>
+<li>maximum of 1023 bytes for a full speed device</li>
+<li>maximum 1024 bytes for a high speed device</li>
+</ul>
+<h3 id="bulk-transfers"><a href="#Bulk_Transfers" class="headerlink" title="Bulk Transfers"></a>Bulk Transfers</h3><p>Bulk transfers can be used for large bursty data.<br>Bulk transfers provide error correction in the form of a CRC16 field on the data payload<br>and error detection/re-transmission mechanisms ensuring data is transmitted and received without error. </p>
+<p>Bulk Transfers</p>
+<ul>
+<li>Used to transfer large bursty data.</li>
+<li>Error detection via CRC, with guarantee of delivery.</li>
+<li>No guarantee of bandwidth or minimum latency.</li>
+<li>Stream Pipe - Unidirectional</li>
+<li>Full &amp; high speed modes only.</li>
+</ul>
+<img src="/2016/10/24/usb/bulk-transfer.png" alt="bulk-transfer.png" title=""> 
+<p>The above diagram shows the format of a bulk IN and OUT transaction. </p>
+<p>Bulk transfers are only supported by <strong>full and high speed devices</strong><br>full speed endpoints, the maximum bulk packet size is either 8, 16, 32 or 64 bytes long<br>high speed endpoints, the maximum packet size can be up to 512 bytes long</p>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://www.ftdichip.com/Support/Documents/TechnicalNotes/TN_113_Simplified%20Description%20of%20USB%20Device%20Enumeration.pdf" target="_blank" rel="external"> FTDI: Simplified Description of USB Device Enumeration, TN_113</a></li>
+<li><a href="http://www.beyondlogic.org/usbnutshell/usb3.shtml" target="_blank" rel="external">USB Protocols</a></li>
+<li><a href="http://www.beyondlogic.org/usbnutshell/usb4.shtml" target="_blank" rel="external">Control Transfers</a></li>
+<li><a href="http://www.beyondlogic.org/usbnutshell/usb5.shtml#EndpointDescriptors" target="_blank" rel="external">Endpoint Descriptors</a></li>
+<li><a href="http://kezeodsnx.pixnet.net/blog/post/27794098-%5B%E8%BD%89%E8%B2%BC%5D-linux-%E4%BD%BF%E7%94%A8-usb-%E8%A3%9D%E7%BD%AE%E7%AD%86%E8%A8%98-" target="_blank" rel="external">linux-&#x4F7F;&#x7528;-usb-&#x88DD;&#x7F6E;&#x7B46;&#x8A18;</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/usb/" rel="tag">#usb</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/24/kernel/" rel="next" title="kernel">
+                <i class="fa fa-chevron-left"></i> kernel
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/26/usb-test/" rel="prev" title="usb-test">
+                usb-test <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#usb"><span class="nav-number">3.</span> <span class="nav-text">USB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-device-speed"><span class="nav-number">3.1.</span> <span class="nav-text">USB Device Speed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-specifications"><span class="nav-number">3.2.</span> <span class="nav-text">USB Specifications</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-architectural-configuration"><span class="nav-number">3.3.</span> <span class="nav-text">USB Architectural Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-implementation-area"><span class="nav-number">3.4.</span> <span class="nav-text">USB Implementation Area</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-hostdevice-detail-view"><span class="nav-number">3.5.</span> <span class="nav-text">USB Host/Device Detail View</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#usb-protocols"><span class="nav-number">4.</span> <span class="nav-text">USB Protocols</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#common-usb-packet-fields"><span class="nav-number">4.1.</span> <span class="nav-text">Common USB Packet Fields</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-packet-types"><span class="nav-number">4.2.</span> <span class="nav-text">USB Packet Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-functions"><span class="nav-number">4.3.</span> <span class="nav-text">USB Functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#endpoints"><span class="nav-number">4.4.</span> <span class="nav-text">Endpoints</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pipes"><span class="nav-number">4.5.</span> <span class="nav-text">Pipes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#endpoint-types"><span class="nav-number">4.6.</span> <span class="nav-text">Endpoint Types</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#usb傳輸"><span class="nav-number">5.</span> <span class="nav-text">USB傳輸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-control-transfer-usb控制傳輸"><span class="nav-number">5.1.</span> <span class="nav-text">USB Control Transfer (USB控制傳輸)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制傳輸需經過下例3個階段"><span class="nav-number">5.2.</span> <span class="nav-text">控制傳輸需經過下例3個階段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#the-setup-packet"><span class="nav-number">5.2.1.</span> <span class="nav-text">The Setup Packet</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#interrupt-transfers"><span class="nav-number">5.3.</span> <span class="nav-text">Interrupt Transfers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#isochronous-transfers-同步傳輸"><span class="nav-number">5.4.</span> <span class="nav-text">Isochronous Transfers (同步傳輸)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bulk-transfers"><span class="nav-number">5.5.</span> <span class="nav-text">Bulk Transfers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">6.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/10/24/usb/';
+      var disqus_title = 'usb';
+      var disqus_url = 'http://yoursite.com/2016/10/24/usb/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,887 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,mbr," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="記錄MBR內容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mbr">
+<meta property="og:url" content="http://yoursite.com/2017/01/26/mbr/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="記錄MBR內容">
+<meta property="og:image" content="http://yoursite.com/2017/01/26/mbr/grub.png">
+<meta property="og:image" content="http://yoursite.com/2017/01/26/mbr/grub_on_mbr.png">
+<meta property="og:image" content="http://yoursite.com/2017/01/26/mbr/grub_on_gpt.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.347Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mbr">
+<meta name="twitter:description" content="記錄MBR內容">
+<meta name="twitter:image" content="http://yoursite.com/2017/01/26/mbr/grub.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> mbr | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mbr
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-01-26T11:31:08+08:00" content="2017-01-26">
+              2017-01-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/26/mbr/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/26/mbr/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/26/mbr/" class="leancloud_visitors" data-flag-title="mbr">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x8A18;&#x9304;MBR&#x5167;&#x5BB9;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170126</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#mbr">MBR</a></li>
+<li><a href="#&#x96FB;&#x8166;&#x958B;&#x6A5F;&#x7A0B;&#x5E8F;">&#x96FB;&#x8166;&#x958B;&#x6A5F;&#x7A0B;&#x5E8F;</a><ul>
+<li><a href="#gpt&#x8DDF;mbr&#x7684;&#x5DEE;&#x5225;">GPT&#x8DDF;MBR&#x7684;&#x5DEE;&#x5225;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="mbr"><a href="#MBR" class="headerlink" title="MBR"></a>MBR</h2><ul>
+<li>&#x786C;&#x789F;&#x5167;&#x5BB9;&#x5206;&#x90E8;&#x5982;&#x4E0B;<img src="/2017/01/26/mbr/grub.png" alt="[disk layout]" title="[disk layout]">
+&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="http://www.pixelbeat.org/docs/disk/" target="_blank" rel="external">disk</a></li>
+</ul>
+<p>The first sector (512 bytes) is the MBR and consists of</p>
+<ul>
+<li>446 bytes bootloader</li>
+<li>64 bytes partition table</li>
+<li>2 byte signature (0xAA55)</li>
+</ul>
+<ul>
+<li><p>parted</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# parted -s /dev/sda print</span><br><span class="line">Model: ATA OCZ-ARC100 (scsi)</span><br><span class="line">Disk /dev/sda: 120GB</span><br><span class="line">Sector size (logical/physical): 512B/512B</span><br><span class="line">Partition Table: msdos</span><br><span class="line">Disk Flags: </span><br><span class="line"></span><br><span class="line">Number  Start   End     Size    Type     File system  Flags</span><br><span class="line"> 1      1049kB  1117MB  1116MB  primary  ext4         boot</span><br><span class="line"> 2      1117MB  64.1GB  63.0GB  primary  ext4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mbr</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# dd bs=512 count=1 if=/dev/sda | od -Ax -tx1z -v</span><br><span class="line">1+0 records in</span><br><span class="line">1+0 records out</span><br><span class="line">512 bytes copied, 3.8772e-05 s, 13.2 MB/s</span><br><span class="line">000000 eb 63 90 10 8e d0 bc 00 b0 b8 00 00 8e d8 8e c0  &gt;.c..............&lt;</span><br><span class="line">000010 fb be 00 7c bf 00 06 b9 00 02 f3 a4 ea 21 06 00  &gt;...|.........!..&lt;</span><br><span class="line">000020 00 be be 07 38 04 75 0b 83 c6 10 81 fe fe 07 75  &gt;....8.u........u&lt;</span><br><span class="line">000030 f3 eb 16 b4 02 b0 01 bb 00 7c b2 80 8a 74 01 8b  &gt;.........|...t..&lt;</span><br><span class="line">000040 4c 02 cd 13 ea 00 7c 00 00 eb fe 00 00 00 00 00  &gt;L.....|.........&lt;</span><br><span class="line">000050 00 00 00 00 00 00 00 00 00 00 00 80 01 00 00 00  &gt;................&lt;</span><br><span class="line">000060 00 00 00 00 ff fa 90 90 f6 c2 80 74 05 f6 c2 70  &gt;...........t...p&lt;</span><br><span class="line">000070 74 02 b2 80 ea 79 7c 00 00 31 c0 8e d8 8e d0 bc  &gt;t....y|..1......&lt;</span><br><span class="line">000080 00 20 fb a0 64 7c 3c ff 74 02 88 c2 52 be 05 7c  &gt;. ..d|&lt;.t...R..|&lt;</span><br><span class="line">000090 b4 41 bb aa 55 cd 13 5a 52 72 3d 81 fb 55 aa 75  &gt;.A..U..ZRr=..U.u&lt;</span><br><span class="line">0000a0 37 83 e1 01 74 32 31 c0 89 44 04 40 88 44 ff 89  &gt;7...t21..D.@.D..&lt;</span><br><span class="line">0000b0 44 02 c7 04 10 00 66 8b 1e 5c 7c 66 89 5c 08 66  &gt;D.....f..\|f.\.f&lt;</span><br><span class="line">0000c0 8b 1e 60 7c 66 89 5c 0c c7 44 06 00 70 b4 42 cd  &gt;..`|f.\..D..p.B.&lt;</span><br><span class="line">0000d0 13 72 05 bb 00 70 eb 76 b4 08 cd 13 73 0d 5a 84  &gt;.r...p.v....s.Z.&lt;</span><br><span class="line">0000e0 d2 0f 83 de 00 be 85 7d e9 82 00 66 0f b6 c6 88  &gt;.......}...f....&lt;</span><br><span class="line">0000f0 64 ff 40 66 89 44 04 0f b6 d1 c1 e2 02 88 e8 88  &gt;d.@f.D..........&lt;</span><br><span class="line">000100 f4 40 89 44 08 0f b6 c2 c0 e8 02 66 89 04 66 a1  &gt;.@.D.......f..f.&lt;</span><br><span class="line">000110 60 7c 66 09 c0 75 4e 66 a1 5c 7c 66 31 d2 66 f7  &gt;`|f..uNf.\|f1.f.&lt;</span><br><span class="line">000120 34 88 d1 31 d2 66 f7 74 04 3b 44 08 7d 37 fe c1  &gt;4..1.f.t.;D.}7..&lt;</span><br><span class="line">000130 88 c5 30 c0 c1 e8 02 08 c1 88 d0 5a 88 c6 bb 00  &gt;..0........Z....&lt;</span><br><span class="line">000140 70 8e c3 31 db b8 01 02 cd 13 72 1e 8c c3 60 1e  &gt;p..1......r...`.&lt;</span><br><span class="line">000150 b9 00 01 8e db 31 f6 bf 00 80 8e c6 fc f3 a5 1f  &gt;.....1..........&lt;</span><br><span class="line">000160 61 ff 26 5a 7c be 80 7d eb 03 be 8f 7d e8 34 00  &gt;a.&amp;Z|..}....}.4.&lt;</span><br><span class="line">000170 be 94 7d e8 2e 00 cd 18 eb fe 47 52 55 42 20 00  &gt;..}.......GRUB .&lt;</span><br><span class="line">000180 47 65 6f 6d 00 48 61 72 64 20 44 69 73 6b 00 52  &gt;Geom.Hard Disk.R&lt;</span><br><span class="line">000190 65 61 64 00 20 45 72 72 6f 72 0d 0a 00 bb 01 00  &gt;ead. Error......&lt;</span><br><span class="line">0001a0 b4 0e cd 10 ac 3c 00 75 f4 c3 00 00 00 00 00 00  &gt;.....&lt;.u........&lt;</span><br><span class="line">0001b0 00 00 00 00 00 00 00 00 9d 35 b3 27 00 00 80 20  &gt;.........5.&apos;... &lt;</span><br><span class="line">0001c0 21 00 83 c3 3c 87 00 08 00 00 00 40 21 00 00 c3  &gt;!...&lt;......@!...&lt;</span><br><span class="line">0001d0 3d 87 83 fe ff ff 00 48 21 00 00 00 55 07 00 00  &gt;=......H!...U...&lt;</span><br><span class="line">0001e0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;</span><br><span class="line">0001f0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 aa  &gt;..............U.&lt;</span><br><span class="line">000200</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x96FB;&#x8166;&#x958B;&#x6A5F;&#x7A0B;&#x5E8F;"><a href="#u96FB_u8166_u958B_u6A5F_u7A0B_u5E8F" class="headerlink" title="&#x96FB;&#x8166;&#x958B;&#x6A5F;&#x7A0B;&#x5E8F;"></a>&#x96FB;&#x8166;&#x958B;&#x6A5F;&#x7A0B;&#x5E8F;</h2><p>&#x96FB;&#x8166;&#x958B;&#x6A5F;&#x7A0B;&#x5E8F;</p>
+<ul>
+<li><p>&#x7576;&#x96FB;&#x8166;&#x7684;&#x96FB;&#x6E90;&#x958B;&#x555F;&#xFF0C;BIOS&#x5C31;&#x6703;&#x7531;&#x4E3B;&#x6A5F;&#x677F;&#x4E0A;&#x7684;&#x5FEB;&#x9583;&#x8A18;&#x61B6;&#x9AD4;&#xFF08;flash memory&#xFF09;&#x57F7;&#x884C;</p>
+<ul>
+<li>BIOS&#x6703;&#x628A;&#x81EA;&#x5DF1;&#x5F9E;&#x5FEB;&#x9583;&#x8A18;&#x61B6;&#x9AD4;&#x4E2D;&#xFF0C;&#x89E3;&#x58D3;&#x7E2E;&#x5230;&#x7CFB;&#x7D71;&#x7684;&#x4E3B;&#x8A18;&#x61B6;&#x9AD4;</li>
+<li>bios: ex. <a href="https://www.openfirmware.info/Welcome_to_OpenBIOS" target="_blank" rel="external">openbios</a></li>
+</ul>
+</li>
+<li><p>BIOS&#x5C06;&#x5BFB;&#x627E;&#x7B2C;&#x4E00;&#x4E2A;&#x53EF;&#x542F;&#x52A8;&#x7684;&#x8BBE;&#x5907;&#xFF08;&#x901A;&#x5E38;&#x4E3A;&#x786C;&#x76D8;&#xFF09;&#xFF0C;&#x800C;&#x540E;&#x4ECE;MBR&#x4E2D;&#x8F7D;&#x5165;&#x542F;&#x52A8;&#x7A0B;&#x5E8F;&#xFF0C;&#x7136;&#x540E;&#x628A;&#x63A7;&#x5236;&#x4EA4;&#x7ED9;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;</p>
+</li>
+<li><p>BIOS&#x958B;&#x6A5F;&#x5B8C;&#x6210;&#x5F8C;&#xFF0C;bootloader&#x5C31;&#x63A5;&#x624B;&#x521D;&#x59CB;&#x5316;&#x786C;&#x9AD4;&#x8A2D;&#x5099;&#x3001;&#x5EFA;&#x7ACB;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x7684;&#x6620;&#x5C04;&#xFF0C;&#x4EE5;&#x4FBF;&#x70BA;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x5167;&#x6838;&#x6E96;&#x5099;&#x597D;&#x6B63;&#x78BA;&#x7684;&#x8EDF;&#x786C;&#x9AD4;&#x74B0;</p>
+<ul>
+<li>&#x7B2C;&#x4E00;&#x9636;&#x6BB5;&#x5F15;&#x5BFC;&#x7A0B;&#x5E8F;&#x4F4D;&#x4E8E;&#x4E3B;&#x5F15;&#x5BFC;&#x8BB0;&#x5F55;&#xFF08;MBR&#xFF09;&#xFF0C;&#x7528;&#x4EE5;&#x5F15;&#x5BFC;&#x4F4D;&#x4E8E;&#x67D0;&#x4E2A;&#x5206;&#x533A;&#x4E0A;&#x7684;&#x7B2C;&#x4E8C;&#x9636;&#x6BB5;&#x5F15;&#x5BFC;&#x7A0B;&#x5E8F;</li>
+<li>bootloader: ex. NTLDR&#x3001;BOOTMGR&#x548C;GNU GRUB&#x7B49;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<h3 id="gpt&#x8DDF;mbr&#x7684;&#x5DEE;&#x5225;"><a href="#GPT_u8DDFMBR_u7684_u5DEE_u5225" class="headerlink" title="GPT&#x8DDF;MBR&#x7684;&#x5DEE;&#x5225;"></a>GPT&#x8DDF;MBR&#x7684;&#x5DEE;&#x5225;</h3><p><a href="http://www.techbang.com/posts/14126-gpt-mbr-non-destructive-easily-split-format-conversion-between" target="_blank" rel="external">GPT&#x8DDF;MBR&#x7684;&#x5DEE;&#x5225;</a></p>
+<ul>
+<li><p>BIOS&#x6240;&#x63A1;&#x7528;&#x7684;&#x78C1;&#x789F;&#x5206;&#x5272;&#x65B9;&#x5F0F;&#x70BA;&#x300C;MBR&#x300D;&#xFF08;Master Boot Record&#xFF09;&#xFF0C;MBR&#x53EA;&#x80FD;&#x5B9A;&#x5740;&#x7D04;2TB&#x5DE6;&#x53F3;&#x7684;&#x5927;&#x5C0F;&#xFF08;2.2 &#xD7; 1012&#x4F4D;&#x5143;&#x7D44;&#xFF09;&#xFF0C;<br>&#x800C;&#x4E14;&#x4E5F;&#x53EA;&#x652F;&#x63F4;&#x6700;&#x5927;4&#x500B;&#x4E3B;&#x5206;&#x5272;&#x5340;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5982;&#x679C;&#x4F60;&#x6709;&#x4E00;&#x9846;3TB&#x4EE5;&#x4E0A;&#x7684;&#x786C;&#x789F;&#xFF0C;&#x4E00;&#x5B9A;&#x7121;&#x6CD5;&#x53EA;&#x5206;&#x5272;&#x70BA;&#x4E00;&#x500B;&#x5206;&#x5272;&#x5340;&#x800C;&#x80FD;&#x7528;&#x5B8C;&#x5168;&#x90E8;&#x5BB9;&#x91CF;</p>
+</li>
+<li><p>GPT&#xFF08;GUID Partition Table&#xFF09;&#x5F9E;&#x7279;&#x6027;&#x4E0A;&#x770B;&#x4F86;&#xFF0C;&#x78BA;&#x5BE6;&#x6BD4;MBR&#x512A;&#x79C0;&#x4E0D;&#x5C11;&#xFF0C;&#x5149;&#x662F;&#x53EF;&#x4EE5;&#x652F;&#x63F4;&#x6700;&#x5927;&#x5BB9;&#x91CF;&#x5230;18EB&#xFF08;&#x7D04;&#x70BA;1887&#x842C;TB&#xFF09;&#xFF0C;<br>&#x4EE5;&#x53CA;&#x5206;&#x5272;&#x5340;&#x6700;&#x5927;&#x53EF;&#x4EE5;&#x5230;128&#x500B;&#xFF0C;&#x5C31;&#x8DB3;&#x5920;&#x6253;&#x5230;MBR&#x7AD9;&#x4E0D;&#x8D77;&#x4F86;&#x4E86;</p>
+</li>
+<li><p>GRUB on MBR<br>partition table number: 4</p>
+<img src="/2017/01/26/mbr/grub_on_mbr.png" alt="[GRUB on MBR]" title="[GRUB on MBR]">
+</li>
+<li><p>GRUB on GPT</p>
+<img src="/2017/01/26/mbr/grub_on_gpt.png" alt="[GRUB on MBR]" title="[GRUB on MBR]">
+<p>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="https://zh.wikipedia.org/wiki/GNU_GRUB" target="_blank" rel="external">GNU GRUB wiki</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://www.pixelbeat.org/docs/disk/" target="_blank" rel="external">disk</a></li>
+<li><a href="http://www.techbang.com/posts/14126-gpt-mbr-non-destructive-easily-split-format-conversion-between" target="_blank" rel="external">GPT&#x8DDF;MBR&#x7684;&#x5DEE;&#x5225;</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/GNU_GRUB" target="_blank" rel="external">GNU GRUB wiki</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/mbr/" rel="tag">#mbr</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/23/hisi-dram/" rel="next" title="hisi-dram">
+                <i class="fa fa-chevron-left"></i> hisi-dram
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/08/ubus-listen/" rel="prev" title="ubus-listen">
+                ubus-listen <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mbr"><span class="nav-number">3.</span> <span class="nav-text">MBR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#電腦開機程序"><span class="nav-number">4.</span> <span class="nav-text">電腦開機程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gpt跟mbr的差別"><span class="nav-number">4.1.</span> <span class="nav-text">GPT跟MBR的差別</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">5.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/01/26/mbr/';
+      var disqus_title = 'mbr';
+      var disqus_url = 'http://yoursite.com/2017/01/26/mbr/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1141 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,sscanf," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解sscanf用法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sscanf">
+<meta property="og:url" content="http://yoursite.com/2017/03/08/sscanf/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解sscanf用法">
+<meta property="og:image" content="http://yoursite.com/2017/03/08/sscanf/sscanf.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sscanf">
+<meta name="twitter:description" content="了解sscanf用法">
+<meta name="twitter:image" content="http://yoursite.com/2017/03/08/sscanf/sscanf.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> sscanf | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                sscanf
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-03-08T10:12:43+08:00" content="2017-03-08">
+              2017-03-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/08/sscanf/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/08/sscanf/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/08/sscanf/" class="leancloud_visitors" data-flag-title="sscanf">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;sscanf&#x7528;&#x6CD5;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170308</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#sscanfc">sscanf.c</a></li>
+<li><a href="#sscanf-format">sscanf format</a></li>
+<li><a href="#&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;">&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;</a><ul>
+<li><a href="#sscanf-example-1">sscanf example 1</a></li>
+<li><a href="#sscanf-example-2">sscanf example 2</a></li>
+<li><a href="#sscanf-example-3">sscanf example 3</a></li>
+<li><a href="#sscanf-example-4">sscanf example 4</a></li>
+<li><a href="#sscanf-example-5">sscanf example 5</a></li>
+<li><a href="#sscanf-example">sscanf example</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x7BC4;&#x4F8B;">&#x5176;&#x5B83;&#x7BC4;&#x4F8B;</a></li>
+<li><a href="#&#x6B63;&#x898F;&#x8868;&#x793A;&#x8A66;&#x8AAA;&#x660E;">&#x6B63;&#x898F;&#x8868;&#x793A;&#x8A66;&#x8AAA;&#x660E;</a></li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="sscanfc"><a href="#sscanf-c" class="headerlink" title="sscanf.c"></a>sscanf.c</h2><ul>
+<li><a href="http://stackoverflow.com/questions/14873542/use-scanf-with-regular-expressions" target="_blank" rel="external">Use scanf with Regular Expressions</a><br>The short answer: scanf does not handle regular expressions literally speaking.<br>&#x6709;&#x8AAA;&#x660E;&#x82E5;&#x8981;regular expressions&#x5728;c&#xFF0C;<br>&#x6700;&#x597D;&#x4F7F;&#x7528;(regcomp/regexec)&#x624D;&#x662F;&#x6709;&#x5B8C;&#x6574;&#x652F;&#x63F4;<br>&#x5728;scanf fmt&#x88E1;&#x9762;&#x7684;regular&#x4E26;&#x975E;&#x5B8C;&#x6574;&#x7684;</li>
+</ul>
+<ul>
+<li>&#x7531;<a href="http://mirror.fsf.org/pmon2000/2.x/src/lib/libc/scanf.c" target="_blank" rel="external">sscanf.c</a>&#x53EF;&#x77E5;&#x9053;&#xFF0C;&#x57FA;&#x672C;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;</li>
+<li><p>sscanf(buf,ftm,)<br>buf&#xFF1A;&#x70BA;&#x8F38;&#x5165;&#x5B57;&#x4E32;<br>fmt&#xFF1A;&#x6E2C;&#x8A66;&#x683C;&#x5F0F;&#xFF0C;&#x5C07;&#x6703;&#x6BD4;&#x5C0D;&#x4E4B;&#x524D;&#xFF0C;&#x8F38;&#x51FA;&#x5230;&#x76F8;&#x61C9;&#x8B8A;&#x6578;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sscanf(&quot;name:john age:40 tel:082-313530&quot;,&quot;name:%s age:%d tel:%s&quot;,name, &amp;age, tel);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7A0B;&#x5E8F;&#x8AAA;&#x660E;<br>&#x6AA2;&#x6E2C;fmt(&#x5373;*s) &#x88E1;&#x9762;&#x683C;&#x5F0F;(name:%s age:%d tel:%s)<br>&#x4F86;&#x6BD4;&#x5C0D;buf(name:john age:40 tel:082-313530)<br>&#x8A2D;&#x5B9A;&#x5230;name,&amp;age,tel&#x7B49;&#x8B8A;&#x6578;</p>
+</li>
+<li>&#x82E5;&#x627E;&#x5230;%&#xFF0C;&#x5247;&#x958B;&#x59CB;&#x9032;&#x5165;&#x5224;&#x65B7;(s c dobxu *)<ul>
+<li>&#x82E5;&#x70BA;*&#xFF0C;&#x5247;&#x8868;&#x793A;&#x4E0D;&#x53D6;&#x7528;(&#x5373; noassign=1)</li>
+<li>&#x82E5;&#x70BA;&#x6578;&#x5B57;(0-9)&#xFF0C;&#x8868;&#x793A;&#x5F8C;&#x9762;&#x91CD;&#x8986;&#x5E7E;&#x500B;(&#x5373;width)</li>
+<li>&#x82E5;&#x70BA;s&#xFF0C;&#x5247;&#x8868;&#x793A;&#x958B;&#x59CB;&#x53D6;&#x5F97;&#x60F3;&#x5C0D;&#x61C9;&#x5B57;&#x4E32;(&#x4F9D;width&#x9577;&#x5EA6;)</li>
+<li>&#x82E5;&#x70BA;d(base10), x(base16), b(base2)&#x4F86;&#x8F49;&#x63DB;&#x70BA;&#x6578;&#x503C;</li>
+</ul>
+</li>
+<li><p>&#x82E5;&#x975E;%</p>
+<ul>
+<li>&#x82E5;&#x70BA;&#x7A7A;&#x683C;&#xFF0C;&#x5247;&#x5F80;&#x4E0B;&#x4E00;&#x500B;&#x5B57;&#x5143; (&#x5373;buf++)</li>
+<li>&#x82E5; <em>s != </em>buf &#xFF0C;&#x5247;&#x7D50;&#x675F;,&#x5C07;&#x6703;&#x56DE;&#x50B3;&#x8F49;&#x63DB;&#x7684;&#x91CF;(&#x5373;count)</li>
+<li>&#x82E5; <em>s == </em>buf &#xFF0C;&#x5247;&#x4E0B;&#x4E00;&#x500B;&#x5B57;&#x5143;&#x6BD4;&#x5C0D; (&#x5373;s++,buf++)</li>
+</ul>
+</li>
+<li><p>sscanf.c</p>
+<img src="/2017/03/08/sscanf/sscanf.png" alt="[sscanf]" title="[sscanf]">
+</li>
+</ul>
+<h2 id="sscanf-format"><a href="#sscanf_format" class="headerlink" title="sscanf format"></a>sscanf format</h2><ul>
+<li>format&#x5B57;&#x4E32;<br><a href="http://ccckmit.wikidot.com/cp:sscanf" target="_blank" rel="external">C &#x8A9E;&#x8A00;&#x4E2D;&#x7684; sscanf() &#x51FD;&#x6578; </a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x4EE5;%&#x70BA;&#x958B;&#x59CB;&#x6BD4;&#x5C0D;&#xFF0C;&#x6BD4;&#x5C0D;&#x6210;&#x5B8C;&#x6703;&#x8A2D;&#x5B9A;&#x5230;&#x5F8C;&#x9762;&#x8B8A;&#x6578;</span><br><span class="line">%[*][width][modifiers]type</span><br><span class="line">% &#x4EE3;&#x8868;&#x8B8A;&#x6578;&#x958B;&#x59CB;</span><br><span class="line">* &#x4EE3;&#x8868;&#x7701;&#x7565;&#x4E0D;&#x653E;&#x5165;&#x8B8A;&#x6578;&#x4E2D;</span><br><span class="line">width &#x4EE3;&#x8868;&#x6700;&#x5927;&#x8B80;&#x53D6;&#x5BEC;&#x5EA6;</span><br><span class="line">type &#x5247;&#x53EF;&#x4EE5;&#x662F; c, d,e,E,f,g,G,o, s, u, x, X &#x7B49;&#x57FA;&#x672C;&#x578B;&#x614B;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x985E;&#x4F3C; Regular Expression &#x7684;&#x8868;&#x9054;&#x5F0F;&#x3002;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;"><a href="#u7BC4_u4F8B_u8AAA_u660E" class="headerlink" title="&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;"></a>&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;</h2><p>&#x7BC4;&#x4F8B;&#x4F86;&#x6E90;&#xFF1A;<a href="http://programmermagazine.github.io/201312/htm/article2.html" target="_blank" rel="external">&#x4F7F;&#x7528; sscanf &#x6A21;&#x4EFF;&#x6B63;&#x898F;&#x8868;&#x9054;&#x5F0F;&#x7684;&#x5256;&#x6790;&#x529F;&#x80FD; (&#x4F5C;&#x8005;&#xFF1A;&#x9673;&#x937E;&#x8AA0;)</a></p>
+<h3 id="sscanf-example-1"><a href="#sscanf_example_1" class="headerlink" title="sscanf example 1"></a>sscanf example 1</h3><p>sscanf(&#x201C;name:john age:40 tel:082-313530&#x201D;,&#x201D;%s&#x201D;,name);<br>&#x57F7;&#x884C;&#x7D50;&#x679C;&#xFF0C;&#x8B8A;&#x6578;&#x5167;&#x5BB9;&#x5982;&#x4E0B;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">var</th>
+<th style="text-align:left">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">name</td>
+<td style="text-align:left">john</td>
+</tr>
+</tbody>
+</table>
+<p>&#x8AAA;&#x660E;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">%s</td>
+<td style="text-align:left">&#x9047;&#x5230;%&#x958B;&#x59CB;&#x6BD4;&#x5C0D;&#xFF0C;&#x7531;&#x65BC;&#x6C92;&#x6709;&#x8A2D;&#x5B9A;&#x591A;&#x5C11;&#x91CF;(width)&#xFF0C;&#x56E0;&#x6B64;&#x6703;&#x53D6;&#x5230;&#x7A7A;&#x683C;&#x70BA;&#x7D50;&#x675F;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sscanf-example-2"><a href="#sscanf_example_2" class="headerlink" title="sscanf example 2"></a>sscanf example 2</h3><p>sscanf(&#x201C;name:john age:40 tel:082-313530&#x201D;,&#x201D;%8s&#x201D;,name);<br>&#x57F7;&#x884C;&#x7D50;&#x679C;&#xFF0C;&#x8B8A;&#x6578;&#x5167;&#x5BB9;&#x5982;&#x4E0B;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">var</th>
+<th style="text-align:left">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">name</td>
+<td style="text-align:left">name:joh</td>
+</tr>
+</tbody>
+</table>
+<p>&#x8AAA;&#x660E;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">%8s</td>
+<td style="text-align:left">&#x9047;&#x5230;<strong>%</strong>&#x958B;&#x59CB;&#x6BD4;&#x5C0D;&#xFF0C;width&#x70BA;8,&#x56E0;&#x6B64;strncpy(,,8)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sscanf-example-3"><a href="#sscanf_example_3" class="headerlink" title="sscanf example 3"></a>sscanf example 3</h3><p>sscanf(&#x201C;name:john age:40 tel:082-313530&#x201D;,&#x201D;%[^:]:%s&#x201D;,field,name);<br>&#x57F7;&#x884C;&#x7D50;&#x679C;&#xFF0C;&#x8B8A;&#x6578;&#x5167;&#x5BB9;&#x5982;&#x4E0B;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">var</th>
+<th style="text-align:left">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">field</td>
+<td style="text-align:left">name</td>
+</tr>
+<tr>
+<td style="text-align:left">name</td>
+<td style="text-align:left">john</td>
+</tr>
+</tbody>
+</table>
+<p>&#x8AAA;&#x660E;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">%[^:]</td>
+<td style="text-align:left">&#x9047;&#x5230;%&#x958B;&#x59CB;&#x6BD4;&#x5C0D;&#xFF0C;&#x9047;&#x5230;&#x4E0D;&#x9644;&#x5408;(&#x5373;&#x4E0D;&#x5728;&#x96C6;&#x5408;&#x88E1;&#x9762;)&#xFF0C;&#x6BD4;&#x5C0D;&#x7D50;&#x675F;&#xFF0C;&#x5247;filed&#x70BA;&#x201D;name&#x201D;</td>
+</tr>
+<tr>
+<td style="text-align:left">:</td>
+<td style="text-align:left">&#x5169;&#x908A;&#x76F8;&#x540C;(s,buf)&#xFF0C;&#x5247;&#x5F80;&#x4E0B;&#x4E00;&#x500B;&#x5B57;&#x4E32;</td>
+</tr>
+<tr>
+<td style="text-align:left">%s</td>
+<td style="text-align:left">&#x9047;&#x5230;<strong>%</strong>&#x958B;&#x59CB;&#x6BD4;&#x5C0D;,&#x53D6;&#x5B57;&#x4E32;(&#x76F4;&#x5230;&#x7A7A;&#x683C;&#x70BA;&#x6B62;)&#xFF0C;&#x5247;name&#x70BA;&#x201D;john&#x201D;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sscanf-example-4"><a href="#sscanf_example_4" class="headerlink" title="sscanf example 4"></a>sscanf example 4</h3><p>sscanf(&#x201C;name:john age:40 tel:082-313530&#x201D;,&#x201D;name:%s age:%d tel:%s&#x201D;,name, &amp;age, tel);<br>&#x57F7;&#x884C;&#x7D50;&#x679C;&#xFF0C;&#x8B8A;&#x6578;&#x5167;&#x5BB9;&#x5982;&#x4E0B;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">var</th>
+<th style="text-align:left">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">name</td>
+<td style="text-align:left">john</td>
+</tr>
+<tr>
+<td style="text-align:left">age</td>
+<td style="text-align:left">40</td>
+</tr>
+<tr>
+<td style="text-align:left">tel</td>
+<td style="text-align:left">082-313530</td>
+</tr>
+</tbody>
+</table>
+<p>&#x8AAA;&#x660E;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">name:</td>
+<td style="text-align:left">&#x5B57;&#x5143;&#x76F8;&#x540C;&#xFF0C;&#x5F80;&#x4E0B;&#x4E00;&#x500B;&#x5B57;&#x5143;&#x6BD4;&#x5C0D;</td>
+</tr>
+<tr>
+<td style="text-align:left">%s</td>
+<td style="text-align:left">&#x9047;&#x5230;<strong>%</strong>&#x958B;&#x59CB;&#x6BD4;&#x5C0D;&#xFF0C;&#x53D6;&#x5B57;&#x4E32;(&#x76F4;&#x5230;&#x7A7A;&#x683C;&#x70BA;&#x6B62;)&#xFF0C;&#x5247;name&#x70BA;&#x201D;john&#x201D;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x201C; age:&#x201D;</td>
+<td style="text-align:left">&#x5B57;&#x5143;&#x76F8;&#x540C;&#xFF0C;&#x5F80;&#x4E0B;&#x4E00;&#x500B;&#x5B57;&#x5143;&#x6BD4;&#x5C0D;</td>
+</tr>
+<tr>
+<td style="text-align:left">%d</td>
+<td style="text-align:left">&#x9047;&#x5230;<strong>%</strong>&#x958B;&#x59CB;&#x6BD4;&#x5C0D;&#xFF0C;d&#x8868;&#x975E;&#x8F49;&#x63DB;&#x70BA;base10&#x6578;&#x503C;&#xFF0C;&#x53D6;&#x51FA;&#x5B57;&#x4E32;(&#x76F4;&#x5230;&#x7A7A;&#x683C;)&#xFF0C;&#x7531;atob&#x53D6;&#x5F97;&#x6578;&#x503C;&#xFF0C;&#x5247;age&#x70BA;40</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x201C; tel:&#x201D;</td>
+<td style="text-align:left">&#x5B57;&#x5143;&#x76F8;&#x540C;&#xFF0C;&#x5F80;&#x4E0B;&#x4E00;&#x500B;&#x5B57;&#x5143;&#x6BD4;&#x5C0D;</td>
+</tr>
+<tr>
+<td style="text-align:left">%s</td>
+<td style="text-align:left">&#x9047;&#x5230;<strong>%</strong>&#x958B;&#x59CB;&#x6BD4;&#x5C0D;&#xFF0C;&#x53D6;&#x5B57;&#x4E32;(&#x76F4;&#x5230;&#x7A7A;&#x683C;&#x6216;buf&#x7D50;&#x675F;)&#xFF0C; &#x5247;tel&#x70BA;082-313530</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sscanf-example-5"><a href="#sscanf_example_5" class="headerlink" title="sscanf example 5"></a>sscanf example 5</h3><ul>
+<li>sscanf(&#x201C;name:john age:40 tel:082-313530&#x201D;,&#x201D;%<em>[^:]:%s %</em>[^:]:%d %*[^:]:%s&#x201D;,name, &amp;age, tel);<br>&#x7D50;&#x679C;&#x70BA;=&gt;john 40 082-313530<ul>
+<li>sscanf&#x88E1;&#x9762;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;*&#x5728;[]&#x88E1;&#x9762;&#xFF0C;&#x5247;&#x8868;&#x793A;&#x4E0D;&#x8A2D;&#x5B9A;&#x503C;(&#x5373;noassign=1)</li>
+<li>&#x56E0;&#x6B64;&#x5F8C;&#x9762;&#x53EA;&#x8981;&#x63A5;3&#x500B;&#x8B8A;&#x6578;</li>
+<li>&#x6CE8;&#x610F;&#x6709;&#x5E7E;&#x500B;%&#xFF0C;&#x5F8C;&#x9762;&#x5C31;&#x8981;&#x63A5;&#x5E7E;&#x500B;&#x8B8A;&#x6578;&#xFF0C;&#x9664;&#x975E;&#x6709;&#x4F7F;&#x7528;*</li>
+<li>&#x8B8A;&#x6578;&#x578B;&#x80FD;&#x4E5F;&#x8981;&#x63A5;&#x5C0D;(&#x56E0;&#x70BA;&#x90FD;&#x662F;&#x64CD;&#x4F5C;&#x6307;&#x6A19;&#xFF0C;&#x82E5;&#x5C07;int&#x7528;&#x5230;%s&#x4E0D;&#x6703;&#x99AC;&#x4E0A;&#x7576;&#x6A5F;</li>
+<li>&#x4F46;&#x6703;&#x5F71;&#x97FF;&#x5230;&#x7A0B;&#x5F0F;&#xFF0C;&#x56E0;&#x70BA;int&#x8B8A;&#x6578;&#x5728;RAM&#x88E1;&#x9762;&#x7684;&#x4E0B;&#x4E00;&#x500B;&#x8B8A;&#x6578;&#x5C31;&#x6703;&#x88AB;&#x6539;&#x5230;</li>
+</ul>
+</li>
+</ul>
+<h3 id="sscanf-example"><a href="#sscanf_example" class="headerlink" title="sscanf example"></a>sscanf example</h3><ul>
+<li><p>sscanf example</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sscanf(&quot;name:john age:40 tel:082-313530&quot;,&quot;%s&quot;,name);</span><br><span class="line">printf(&quot;[0],%s\n&quot;,name);</span><br><span class="line">sscanf(&quot;name:john age:40 tel:082-313530&quot;,&quot;%8s&quot;,name);</span><br><span class="line">printf(&quot;[1],%s\n&quot;,name);</span><br><span class="line">sscanf(&quot;name:john age:40 tel:082-313530&quot;,&quot;%[^:]:%s&quot;,field,name);</span><br><span class="line">printf(&quot;[2],%s %s\n&quot;,field,name);</span><br><span class="line">sscanf(&quot;name:john age:40 tel:082-313530&quot;,&quot;name:%s age:%d tel:%s&quot;,name, &amp;age, tel);</span><br><span class="line">printf(&quot;[3],%s %d %s\n&quot;,name,age,tel);</span><br><span class="line">sscanf(&quot;name:john age:40 tel:082-313530&quot;,&quot;%*[^:]:%s %*[^:]:%d %*[^:]:%s&quot;,name, &amp;age, tel);</span><br><span class="line">printf(&quot;[4],%s %d %s\n&quot;,name,age,tel);</span><br><span class="line"></span><br><span class="line">char protocol[10], site[50], path[50];</span><br><span class="line">sscanf(&quot;http://cckmit.wikidot.com/cp/list/hello.txt&quot;,</span><br><span class="line">        &quot;%[^:]:%*2[/]%[^/]/%[a-zA-Z0-9._/-]&quot;,</span><br><span class="line">        protocol, site, path);</span><br><span class="line">printf(&quot;protocol=%s site=%s path=%s\n&quot;,protocol, site, path);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>test</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[0],name:john</span><br><span class="line">[1],name:joh</span><br><span class="line">[2],name john</span><br><span class="line">[3],john 40 082-313530</span><br><span class="line">[4],john 40 082-313530</span><br><span class="line">[5],protocol=http site=cckmit.wikidot.com path=cp/list/hello.txt</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x5176;&#x5B83;&#x7BC4;&#x4F8B;"><a href="#u5176_u5B83_u7BC4_u4F8B" class="headerlink" title="&#x5176;&#x5B83;&#x7BC4;&#x4F8B;"></a>&#x5176;&#x5B83;&#x7BC4;&#x4F8B;</h2><ul>
+<li><p>ex1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sscanf(&quot;rtsp://10.0.0.141:554/media?profile=h264&quot;,&quot;%*[^:]:%*2[/]%[^/]/%[a-zA-Z0-9\/+=%&amp;_\.~?\-]&quot;, uri_str, streamurl);</span><br><span class="line">printf(&quot;%s %s&quot;,uri_str,streamurl);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x57F7;&#x884C;&#x7D50;&#x679C;&#xFF0C;&#x8B8A;&#x6578;&#x5167;&#x5BB9;&#x5982;&#x4E0B;</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">var</th>
+<th style="text-align:left">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">uri_str</td>
+<td style="text-align:left">10.0.0.141:554</td>
+</tr>
+<tr>
+<td style="text-align:left">streamurl</td>
+<td style="text-align:left">media?profile=h264</td>
+</tr>
+</tbody>
+</table>
+<p>fmt =&gt; &#x201C;rtsp://10.0.0.141:554/media?profile=h264&#x201D;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">&#x201C;%*[^:]&#x201D;</td>
+<td style="text-align:left">rtsp ,&#x4E0D;&#x8A2D;&#x5B9A;&#x8B8A;&#x6578;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x201C;:&#x201D;</td>
+<td style="text-align:left">: ,&#x5B57;&#x5143;&#x76F8;&#x540C;&#xFF0C;&#x5F80;&#x4E0B;&#x4E00;&#x500B;&#x5B57;&#x5143;&#x6BD4;&#x5C0D;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x201C;%*2[/]&#x201D;</td>
+<td style="text-align:left">//  ,&#x4E0D;&#x8A2D;&#x5B9A;&#x8B8A;&#x6578;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x201C;%[^/]&#x201D;</td>
+<td style="text-align:left">&#x201C;10.0.0.141:554&#x201D;&#xFF0C;&#x5C07;&#x5B83;&#x5B58;&#x5230;uri_str</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x201C;/&#x201C;</td>
+<td style="text-align:left">/</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x201C;%[a-zA-Z0-9\/+=%&amp;_.~?-]&#x201D;</td>
+<td style="text-align:left">media?profile=h264,&#x5C07;&#x5B83;&#x5728;&#x5230;streamurl</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x6B63;&#x898F;&#x8868;&#x793A;&#x8A66;&#x8AAA;&#x660E;"><a href="#u6B63_u898F_u8868_u793A_u8A66_u8AAA_u660E" class="headerlink" title="&#x6B63;&#x898F;&#x8868;&#x793A;&#x8A66;&#x8AAA;&#x660E;"></a>&#x6B63;&#x898F;&#x8868;&#x793A;&#x8A66;&#x8AAA;&#x660E;</h2><ul>
+<li><a href="https://atedev.wordpress.com/2007/11/23/%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%A4%BA%E5%BC%8F-regular-expression/" target="_blank" rel="external">&#x6B63;&#x898F;&#x8868;&#x793A;&#x5F0F; Regular Expression</a></li>
+<li><p><a href="https://openhome.cc/Gossip/JavaGossip-V1/RegularExpression.htm" target="_blank" rel="external">&#x4F7F;&#x7528;&#x6B63;&#x5247;&#x8868;&#x793A;&#x5F0F;&#xFF08;Regular expression&#xFF09;</a></p>
+</li>
+<li><p>RegularExpression<br>[abc] &#xFF1A;&#x8868;&#x793A;a,b&#x6216;c<br>[^abc]&#xFF1A;&#x975E;a,b,c&#x7684;&#x5176;&#x5B83;&#x5B57;&#x5143;</p>
+</li>
+<li><p>sscanf &#x652F;&#x6301;&#x96C6;&#x5408;&#x64CD;&#x4F5C;&#xFF1A;<br>%[a-z] &#x8868;&#x793A;&#x5339;&#x914D;a&#x5230;z&#x4E2D;&#x4EFB;&#x610F;&#x5B57;&#x7B26;&#xFF0C;&#x8CAA;&#x5A6A;&#x6027;(&#x76E1;&#x53EF;&#x80FD;&#x591A;&#x7684;&#x5339;&#x914D;)<br>%[aB&#x2019;] &#x5339;&#x914D;a&#x3001;B&#x3001;&#x2019;&#x4E2D;&#x4E00;&#x54E1;&#xFF0C;&#x8CAA;&#x5A6A;&#x6027;<br>%[^a] &#x5339;&#x914D;&#x975E;a&#x7684;&#x4EFB;&#x610F;&#x5B57;&#x7B26;&#xFF0C;&#x8CAA;&#x5A6A;&#x6027; =&gt;&#x5373;&#x8868;&#x793A;&#x9047;&#x5230;a&#x5247;&#x7D50;&#x675F;</p>
+</li>
+<li><p><a href="http://www.regular-expressions.info/tutorial.html" target="_blank" rel="external">Repeating Character Classes</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://programmermagazine.github.io/201312/htm/article2.html" target="_blank" rel="external">&#x4F7F;&#x7528; sscanf &#x6A21;&#x4EFF;&#x6B63;&#x898F;&#x8868;&#x9054;&#x5F0F;&#x7684;&#x5256;&#x6790;&#x529F;&#x80FD; (&#x4F5C;&#x8005;&#xFF1A;&#x9673;&#x937E;&#x8AA0;)</a></li>
+<li><a href="http://mirror.fsf.org/pmon2000/2.x/src/lib/libc/scanf.c" target="_blank" rel="external">sscanf.c</a></li>
+<li><a href="http://ccckmit.wikidot.com/cp:sscanf" target="_blank" rel="external">C &#x8A9E;&#x8A00;&#x4E2D;&#x7684; sscanf() &#x51FD;&#x6578; </a></li>
+<li><a href="https://linux.die.net/man/3/sscanf" target="_blank" rel="external">sscanf(3) - Linux man page</a></li>
+<li><a href="http://stackoverflow.com/questions/14873542/use-scanf-with-regular-expressions" target="_blank" rel="external">Use scanf with Regular Expressions</a></li>
+<li><a href="http://stackoverflow.com/questions/15664664/scanf-regex-c" target="_blank" rel="external">scanf regex - C</a></li>
+<li><a href="http://docs.roxen.com/pike/7.0/tutorial/strings/sscanf.xml" target="_blank" rel="external">Analyzing Strings with sscanf</a></li>
+<li><a href="http://stackoverflow.com/questions/24483075/input-using-sscanf-with-regular-expression" target="_blank" rel="external">Input using sscanf with regular expression</a></li>
+<li><a href="http://fanli7.net/a/bianchengyuyan/regular_expression/2013/0425/346584.html" target="_blank" rel="external">C&#x8A9E;&#x8A00;sscanf&#x51FD;&#x6578;&#x7528;&#x6CD5;&#x7E3D;&#x7D50;&#xFF08;&#x4E8C;&#xFF09; &#x6B63;&#x5247;&#x8868;&#x9054;&#x5F0F;</a></li>
+<li>RegularExpression<ul>
+<li><a href="https://atedev.wordpress.com/2007/11/23/%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%A4%BA%E5%BC%8F-regular-expression/" target="_blank" rel="external">&#x6B63;&#x898F;&#x8868;&#x793A;&#x5F0F; Regular Expression</a></li>
+<li><a href="https://openhome.cc/Gossip/JavaGossip-V1/RegularExpression.htm" target="_blank" rel="external">&#x4F7F;&#x7528;&#x6B63;&#x5247;&#x8868;&#x793A;&#x5F0F;&#xFF08;Regular expression&#xFF09;</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F" target="_blank" rel="external">wiki &#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</a></li>
+<li><a href="http://www.regular-expressions.info/tutorial.html" target="_blank" rel="external">Regular Expressions Tutorial</a><br>&#x5B8C;&#x6574;&#x7684;&#x8AAA;&#x660E;</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/sscanf/" rel="tag">#sscanf</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/06/onvif-flow/" rel="next" title="onvif-flow">
+                <i class="fa fa-chevron-left"></i> onvif-flow
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/09/pc-nvr-onvif/" rel="prev" title="pc-nvr-onvif">
+                pc-nvr-onvif <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sscanfc"><span class="nav-number">3.</span> <span class="nav-text">sscanf.c</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sscanf-format"><span class="nav-number">4.</span> <span class="nav-text">sscanf format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#範例說明"><span class="nav-number">5.</span> <span class="nav-text">範例說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sscanf-example-1"><span class="nav-number">5.1.</span> <span class="nav-text">sscanf example 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sscanf-example-2"><span class="nav-number">5.2.</span> <span class="nav-text">sscanf example 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sscanf-example-3"><span class="nav-number">5.3.</span> <span class="nav-text">sscanf example 3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sscanf-example-4"><span class="nav-number">5.4.</span> <span class="nav-text">sscanf example 4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sscanf-example-5"><span class="nav-number">5.5.</span> <span class="nav-text">sscanf example 5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sscanf-example"><span class="nav-number">5.6.</span> <span class="nav-text">sscanf example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它範例"><span class="nav-number">6.</span> <span class="nav-text">其它範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正規表示試說明"><span class="nav-number">7.</span> <span class="nav-text">正規表示試說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">8.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/03/08/sscanf/';
+      var disqus_title = 'sscanf';
+      var disqus_url = 'http://yoursite.com/2017/03/08/sscanf/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

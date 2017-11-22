@@ -1,0 +1,971 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,usb," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="usb descriptor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="usb-descriptor">
+<meta property="og:url" content="http://yoursite.com/2016/10/27/usb-descriptor/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="usb descriptor">
+<meta property="og:image" content="http://yoursite.com/2016/10/27/usb-descriptor/desctree.gif">
+<meta property="og:image" content="http://yoursite.com/2016/10/27/usb-descriptor/standard-descriptor-types.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/27/usb-descriptor/device-descriptor.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/27/usb-descriptor/configuration-descriptor.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/27/usb-descriptor/interface-descriptors.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/27/usb-descriptor/endpoint-descriptors.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/27/usb-descriptor/device-classes.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="usb-descriptor">
+<meta name="twitter:description" content="usb descriptor">
+<meta name="twitter:image" content="http://yoursite.com/2016/10/27/usb-descriptor/desctree.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> usb-descriptor | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                usb-descriptor
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-27T10:54:52+08:00" content="2016-10-27">
+              2016-10-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2016/10/27/usb-descriptor/" class="leancloud_visitors" data-flag-title="usb-descriptor">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>usb descriptor</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161027</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#usb-descriptors">USB Descriptors</a><ul>
+<li><a href="#device-descriptor">Device Descriptor</a></li>
+<li><a href="#device-descriptor-s">Device Descriptor s</a></li>
+<li><a href="#configuration-descriptors">Configuration Descriptors</a></li>
+<li><a href="#interface-descriptors">Interface Descriptors</a></li>
+<li><a href="#endpoint-descriptors">Endpoint Descriptors</a></li>
+</ul>
+</li>
+<li><a href="#device-classes">Device Classes</a></li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="usb-descriptors"><a href="#USB_Descriptors" class="headerlink" title="USB Descriptors"></a>USB Descriptors</h2><p>usb descriptors&#x5982;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li>Device Descriptors</li>
+<li>Configuration Descriptors</li>
+<li>Interface Descriptors</li>
+<li>Endpoint Descriptors<img src="/2016/10/27/usb-descriptor/desctree.gif" alt="[USB Descriptors]" title="[USB Descriptors]">
+</li>
+</ul>
+<h3 id="device-descriptor"><a href="#Device_Descriptor" class="headerlink" title="Device Descriptor"></a>Device Descriptor</h3><ul>
+<li>CH341<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Device Descriptor:</span><br><span class="line"> | bDescriptorType : 1</span><br><span class="line"> | bNumConfigurations : 1</span><br><span class="line"> |---------------------------------------</span><br><span class="line">           |                                                                </span><br><span class="line">           Configuration Descriptor:</span><br><span class="line">                | bDescriptorType : 2</span><br><span class="line">                | bNumInterfaces : 1</span><br><span class="line">                |</span><br><span class="line">                |----------------------------</span><br><span class="line">                       |</span><br><span class="line">                       Interface Descriptor:</span><br><span class="line">                              | bDescriptorType : 4</span><br><span class="line">                              | bNumEndpoints : 3 </span><br><span class="line">                              |</span><br><span class="line">                              |-----------------------------------------------------------------------------------------------------------------</span><br><span class="line">                                    |                                               |                                                         |</span><br><span class="line">                                    Endpoint Descriptor:                Endpoint Descriptor:                          Endpoint Descriptor:                          </span><br><span class="line">                                        | bDescriptorType : 5</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x6BCF;&#x500B;descriptor&#x90FD;&#x6703;&#x586B;&#x5165;&#x81EA;&#x5DF2;&#x7684;type&#x5982;&#x4E0B;<br><img src="/2016/10/27/usb-descriptor/standard-descriptor-types.png" alt="[Standard Descriptor Types]" title="[Standard Descriptor Types]"></p>
+<h3 id="device-descriptor-s"><a href="#Device_Descriptor_s" class="headerlink" title="Device Descriptor s"></a>Device Descriptor s</h3><p>Device Descriptors<br><img src="/2016/10/27/usb-descriptor/device-descriptor.png" alt="device-descriptor.png" title=""></p>
+<p>&#x8AAA;&#x660E;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">bDescriptorType (1)</td>
+<td style="text-align:left">&#x56FA;&#x5B9A;&#x70BA;1</td>
+</tr>
+<tr>
+<td style="text-align:left">bcdUSB  (1.10)</td>
+<td style="text-align:left">identify the device as a USB 1.0, USB 1.1 or USB 2.0 compliant device</td>
+</tr>
+<tr>
+<td style="text-align:left">bDeviceClass</td>
+<td style="text-align:left">Class Code (Assigned by USB Org)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">defines the device type</td>
+</tr>
+<tr>
+<td style="text-align:left">bMaxPacketSize0</td>
+<td style="text-align:left">&#x7AEF;&#x9EDE;0&#x6240;&#x652F;&#x6301;&#x6700;&#x5927;&#x6578;&#x64DA;&#x9577;&#x5EA6;</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>bDeviceClass<br>If equal to 0xFF, the class code is vendor specified. (&#x8868;&#x793A;&#x7531;&#x5382;&#x5546;&#x81EA;&#x5B9A;&#x4E49;&#x8BBE;&#x5907;&#x7C7B;&#x578B;)<br>If equal to Zero, each interface specifies it&#x2019;s own class code (&#x8868;&#x793A;&#x7531;&#x63A5;&#x53E3;&#x63CF;&#x8FF0;&#x7B26;&#x6765;&#x6307;&#x5B9A;)<br>0x01~0xfe&#xFF0C;&#x8868;&#x793A;&#x4E3A;USB-IF&#x5B9A;&#x4E49;&#x7684;&#x8BBE;&#x5907;&#x7C7B;&#xFF0C;&#x4F8B;&#x5982;0x03&#x4E3A;HID&#x8BBE;&#x5907;&#xFF0C;0x09&#x4E3A;HUB&#x8BBE;&#x5907;<br>ex. USB Mouse is a Human Interface Device (HID) , 0x03</p>
+</li>
+<li><p>bMaxPacketSize0<br>&#x7AEF;&#x9EDE;0&#x6240;&#x652F;&#x6301;&#x6700;&#x5927;&#x6578;&#x64DA;&#x9577;&#x5EA6;<br>low speed : 8byte<br>high speed : 8, 16,32, 64byte<br>full speed : 64byte</p>
+</li>
+</ul>
+<h3 id="configuration-descriptors"><a href="#Configuration_Descriptors" class="headerlink" title="Configuration Descriptors"></a>Configuration Descriptors</h3><p>Configuration Descriptors<br><img src="/2016/10/27/usb-descriptor/configuration-descriptor.png" alt="configuration-descriptor.png" title=""></p>
+<p>&#x8AAA;&#x660E;</p>
+<ul>
+<li><p>wTotalLength<br>&#x70BA;1&#x500B;Configure&#x5167;&#x90E8;&#x7684;&#x8CC7;&#x6599;(&#x5373;&#x4E0B;&#x4F8B;&#x8CC7;&#x6599;&#x7E3D;&#x5408;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- Configure</span><br><span class="line">  - Interface 0</span><br><span class="line">     |- EP1</span><br><span class="line">     |- EP2</span><br><span class="line">  - Interface 1</span><br><span class="line">     |- EP1</span><br><span class="line">     |- EP2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bMaxPower<br>1&#x500B;&#x55AE;&#x4F4D;&#x8868;&#x793A;2mA&#xFF0C;USB&#x6700;&#x5927;&#x8F38;&#x51FA;500mA&#xFF0C;&#x6B64;&#x503C;&#x6700;&#x5927;&#x70BA;250</p>
+</li>
+</ul>
+<h3 id="interface-descriptors"><a href="#Interface_Descriptors" class="headerlink" title="Interface Descriptors"></a>Interface Descriptors</h3><p>Interface Descriptors<br><img src="/2016/10/27/usb-descriptor/interface-descriptors.png" alt="interface-descriptors.png" title=""></p>
+<p>&#x8AAA;&#x660E;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">bInterfaceNumber</td>
+<td style="text-align:left">&#x7531;0&#x958B;&#x59CB;&#xFF0C;&#x8868;&#x793A;&#x7B2C;&#x5E7E;&#x500B;interface (indicates the index of the interface descriptor.)</td>
+</tr>
+<tr>
+<td style="text-align:left">bAlternateSetting</td>
+<td style="text-align:left">&#x9810;&#x8A2D;&#x70BA;0&#xFF0C;&#x7531;host&#x4F86;&#x8A2D;&#x5B9A;configuration&#x751F;&#x6210;&#x65B0;&#x7684;EP</td>
+</tr>
+<tr>
+<td style="text-align:left">bNumEndpoints</td>
+<td style="text-align:left">&#x8868;&#x793A;&#x6B64;interface&#x88E1;&#x4E0B;&#x751F;&#x6210;&#x591A;&#x5C11;EP,&#x4EE5;ch341&#x70BA;&#x4F8B;&#x6709;3&#x500B;(EP2 IN,EP2 OUT, EP1 IN)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="endpoint-descriptors"><a href="#Endpoint_Descriptors" class="headerlink" title="Endpoint Descriptors"></a>Endpoint Descriptors</h3><ul>
+<li><p>Endpoint descriptors are used to describe endpoints other than endpoint zero.</p>
+</li>
+<li><p>USB&#x4E2D;&#x898F;&#x5B9A;&#xFF0C;&#x7AEF;&#x9EDE;0&#x6C92;&#x6709;&#x7AEF;&#x9EDE;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x5176;&#x9918;&#x7AEF;&#x9EDE;&#x5FC5;&#x9806;&#x5305;&#x542B;&#x7AEF;&#x9EDE;&#x63CF;&#x8FF0;&#x7B26;</p>
+</li>
+</ul>
+<p>Endpoint Descriptor</p>
+<img src="/2016/10/27/usb-descriptor/endpoint-descriptors.png" alt="[Endpoint Descriptors]" title="[Endpoint Descriptors]">
+<p>&#x8AAA;&#x660E;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">1</th>
+<th style="text-align:left">2</th>
+<th style="text-align:left">3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">bEndpointAddress</td>
+<td style="text-align:left">0x82  EP 2 IN</td>
+<td style="text-align:left">0x02  EP 2 OUT</td>
+<td style="text-align:left">0x81  EP 1 IN</td>
+</tr>
+<tr>
+<td style="text-align:left">bmAttributes</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left">Transfer Type</td>
+<td style="text-align:left">Bulk</td>
+<td style="text-align:left">Bulk</td>
+<td style="text-align:left">Interrupt</td>
+</tr>
+<tr>
+<td style="text-align:left">Synch Type</td>
+<td style="text-align:left">Nonoe</td>
+<td style="text-align:left">None</td>
+<td style="text-align:left">None</td>
+</tr>
+<tr>
+<td style="text-align:left">Usage Type</td>
+<td style="text-align:left">Data</td>
+<td style="text-align:left">Data</td>
+<td style="text-align:left">Data</td>
+</tr>
+<tr>
+<td style="text-align:left">wMaxPacketSize</td>
+<td style="text-align:left">0x0020  1x 32 bytes</td>
+<td style="text-align:left">0x0020  1x 32 bytes</td>
+<td style="text-align:left">0x0008  1x 8 bytes</td>
+</tr>
+<tr>
+<td style="text-align:left">bInterval</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">1</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="device-classes"><a href="#Device_Classes" class="headerlink" title="Device Classes"></a>Device Classes</h2><img src="/2016/10/27/usb-descriptor/device-classes.png" alt="[Device Classes]" title="[Device Classes]">
+<p>Communication Device Class (CDC)</p>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://www.beyondlogic.org/usbnutshell/usb5.shtml#AlternateSetting" target="_blank" rel="external">AlternateSetting</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/usb/" rel="tag">#usb</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/26/usb-test/" rel="next" title="usb-test">
+                <i class="fa fa-chevron-left"></i> usb-test
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/02/threads-check/" rel="prev" title="threads-check">
+                threads-check <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#usb-descriptors"><span class="nav-number">3.</span> <span class="nav-text">USB Descriptors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#device-descriptor"><span class="nav-number">3.1.</span> <span class="nav-text">Device Descriptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#device-descriptor-s"><span class="nav-number">3.2.</span> <span class="nav-text">Device Descriptor s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configuration-descriptors"><span class="nav-number">3.3.</span> <span class="nav-text">Configuration Descriptors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#interface-descriptors"><span class="nav-number">3.4.</span> <span class="nav-text">Interface Descriptors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#endpoint-descriptors"><span class="nav-number">3.5.</span> <span class="nav-text">Endpoint Descriptors</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#device-classes"><span class="nav-number">4.</span> <span class="nav-text">Device Classes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">5.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/10/27/usb-descriptor/';
+      var disqus_title = 'usb-descriptor';
+      var disqus_url = 'http://yoursite.com/2016/10/27/usb-descriptor/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

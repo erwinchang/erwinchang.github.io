@@ -1,0 +1,1137 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,fedora," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解 video recv程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="video-recv">
+<meta property="og:url" content="http://yoursite.com/2016/12/05/video-recv/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解 video recv程序">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/ldvr_video_recv.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/ipcam_type_620_recv.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/ldvr_video_motion_detect.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/ldvr_video_dispense_xxxx.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/ldvr_beep.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/ldvr_chunnel_motion.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/display_alarm.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/displayxx.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/ldvr_alarm_manage.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/xxxx_client_listen.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/xxx_client_timeout.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/05/video-recv/xxxx_client_send.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="video-recv">
+<meta name="twitter:description" content="了解 video recv程序">
+<meta name="twitter:image" content="http://yoursite.com/2016/12/05/video-recv/ldvr_video_recv.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> video-recv | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                video-recv
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-12-05T15:27:53+08:00" content="2016-12-05">
+              2016-12-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2016/12/05/video-recv/" class="leancloud_visitors" data-flag-title="video-recv">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3; video recv&#x7A0B;&#x5E8F;</p>
+<a id="more"></a>
+<hr>
+<p>&#x66F4;&#x65B0;&#x8A18;&#x9304;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161205</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+<tr>
+<td style="text-align:left">20161219</td>
+<td style="text-align:left">&#x65B0;&#x589E;: &#x5927;&#x5C0F;&#x78BC;&#x6D41;thread&#x6BD4;&#x8F03;</td>
+</tr>
+<tr>
+<td style="text-align:left">20161219</td>
+<td style="text-align:left">&#x65B0;&#x589E;:  camera motion&#x986F;&#x793A;&#x7D05;&#x8272;&#x5916;&#x6846;&#x6D41;&#x7A0B;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x5927;&#x5C0F;&#x78BC;&#x6D41;thread&#x6BD4;&#x8F03;">&#x5927;&#x5C0F;&#x78BC;&#x6D41;thread&#x6BD4;&#x8F03;</a><ul>
+<li><a href="#which_notebook">which_notebook</a></li>
+<li><a href="#camera-motion&#x986F;&#x793A;&#x7D05;&#x8272;&#x5916;&#x6846;&#x6D41;&#x7A0B;">camera motion&#x986F;&#x793A;&#x7D05;&#x8272;&#x5916;&#x6846;&#x6D41;&#x7A0B;</a></li>
+</ul>
+</li>
+<li><a href="#video-recv">video recv</a><ul>
+<li><a href="#ldvr_video_recv">ldvr_video_recv</a></li>
+<li><a href="#ipcam_type_620_recv">ipcam_type_620_recv</a></li>
+<li><a href="#ldvr_video_motion_detect">ldvr_video_motion_detect</a></li>
+<li><a href="#ldvr_video_dispense_xxxx">ldvr_video_dispense_xxxx</a></li>
+</ul>
+</li>
+<li><a href="#beep">beep</a></li>
+<li><a href="#motion-thread">motion thread</a><ul>
+<li><a href="#motionalarm-&#x8A2D;&#x5B9A;&#x6A94;">motionalarm &#x8A2D;&#x5B9A;&#x6A94;</a></li>
+<li><a href="#system-&#x8A2D;&#x5B9A;&#x6A94;">system &#x8A2D;&#x5B9A;&#x6A94;</a></li>
+<li><a href="#display_alarm">display_alarm</a></li>
+<li><a href="#display-layout">display layout</a></li>
+<li><a href="#alarm-change-layout-log">alarm change layout log</a></li>
+</ul>
+</li>
+<li><a href="#ldvr_alarm_manage">ldvr_alarm_manage</a></li>
+<li><a href="#do_command">do_command</a></li>
+<li><a href="#net-server">net server</a><ul>
+<li><a href="#xxxx_cleint_listen">xxxx_cleint_listen</a></li>
+<li><a href="#xxxx_client_timeout">xxxx_client_timeout</a></li>
+<li><a href="#xxxx_client_send">xxxx_client_send</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a><ul>
+<li><a href="#select">select</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x5927;&#x5C0F;&#x78BC;&#x6D41;thread&#x6BD4;&#x8F03;"><a href="#u5927_u5C0F_u78BC_u6D41thread_u6BD4_u8F03" class="headerlink" title="&#x5927;&#x5C0F;&#x78BC;&#x6D41;thread&#x6BD4;&#x8F03;"></a>&#x5927;&#x5C0F;&#x78BC;&#x6D41;thread&#x6BD4;&#x8F03;</h2><ul>
+<li>&#x5927;&#x5C0F;&#x78BC;&#x6D41;thread&#x6BD4;&#x8F03;</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">val</th>
+<th style="text-align:left">recv</th>
+<th style="text-align:left">recv_small</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">save_bufs</td>
+<td style="text-align:left">video_save_bufs</td>
+<td style="text-align:left">video_save_bufs_small</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">video_play_bufs</td>
+<td style="text-align:left">video_play_bufs_small</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">audio_live_bufs</td>
+<td style="text-align:left">x</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">recvbuf[2M]</td>
+<td style="text-align:left">recvbuf[1M]</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">audio_buf[4K]</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">connected</td>
+<td style="text-align:left">connected_small</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>camera_info_onapply<br>&#x7576;&#x8A2D;&#x5B9A;camera&#xFF0C;&#x5C07;&#x6703;&#x91CD;&#x65B0;&#x9023;&#x7DDA;<br>chunnel-&gt;ip_type_change = 3</li>
+</ul>
+<h3 id="which_notebook"><a href="#which_notebook" class="headerlink" title="which_notebook"></a>which_notebook</h3><ul>
+<li><p>set_ip620_dual_stream<br>ipcam_send-&gt;which_notebook = 0</p>
+</li>
+<li><p>do_ipsetvalue3<br>ipcam_send-&gt;which_notebook = 1</p>
+</li>
+</ul>
+<ul>
+<li><p>ipcam_network_onapply / ipcam_network_onapply3<br>ipcam_send-&gt;which_notebook = 2</p>
+</li>
+<li><p>ipcam_datetime_onapply / ipcam_datetime_onapply3<br>ipcam_send-&gt;which_notebook = 3</p>
+</li>
+<li><p>ptz_onapply/ ptz_onapply3<br>ipcam_send-&gt;which_notebook = 4</p>
+</li>
+<li><p>audio_onapply / audio_onapply3<br>ipcam_send-&gt;which_notebook = 5</p>
+</li>
+<li><p>motiondetect_onapply / motiondetect_onapply3<br>ipcam_send-&gt;which_notebook = 6</p>
+</li>
+</ul>
+<h3 id="camera-motion&#x986F;&#x793A;&#x7D05;&#x8272;&#x5916;&#x6846;&#x6D41;&#x7A0B;"><a href="#camera_motion_u986F_u793A_u7D05_u8272_u5916_u6846_u6D41_u7A0B" class="headerlink" title="camera motion&#x986F;&#x793A;&#x7D05;&#x8272;&#x5916;&#x6846;&#x6D41;&#x7A0B;"></a>camera motion&#x986F;&#x793A;&#x7D05;&#x8272;&#x5916;&#x6846;&#x6D41;&#x7A0B;</h3><ul>
+<li>motion dectect thread<br>(&#x7531;api&#x53D6;&#x5F97;camera motion&#x60C5;&#x6CC1;)</li>
+<li>md=1,&#x8A2D;&#x5B9A;status.motiondetect =1</li>
+<li>&#x7531;recv thread&#x6BCF;&#x79D2;&#x6AA2;&#x67E5;ldvr_video_motion_detect</li>
+</ul>
+<ol>
+<li>&#x82E5;&#x6709;status.motiondetect&#x767C;&#x751F;<br>1-0. &#x8A2D;&#x5B9A;status.motiondetect = 0<br>1-1. &#x5247;&#x8A2D;&#x5B9A;status.motion_check = 1 <pre><code>&#x6B64;&#x6642;camera&#x5916;&#x6846;&#x6703;&#x7531;displayvideo ldvr_motion_mark&#x7522;&#x751F;&#x7D05;&#x8272;&#x5916;&#x6846;
+</code></pre></li>
+<li>&#x82E5;status.motiondetect==0<br>2-1 &#x82E5;motion_check == 1 &#xFF0C;&#x5247;&#x8A2D;&#x5B9A;motion_check = 2<br>2-1 &#x82E5;motion_check == 2  ,&#x5247;&#x8A2D;&#x5B9A;motion_check = 0 <pre><code>&#x6B64;&#x6642;&#x6703;&#x95DC;&#x9589;&#x7D05;&#x8272;&#x5916;&#x6846;&#xFF0C;&#x56E0;&#x6B64;&#x7D05;&#x8272;&#x5916;&#x6846;&#x7D04;&#x986F;&#x793A;2&#x79D2;
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="video-recv"><a href="#video_recv" class="headerlink" title="video recv"></a>video recv</h2><p>&#x76EE;&#x524D;&#x7CFB;&#x7D71;&#x958B;&#x555F;thread&#x5982;&#x4E0B;:</p>
+<p>&#x63A5;&#x6536;&#x78BC;&#x6D41;&#x76F8;&#x95DC;</p>
+<ul>
+<li>loop ch(16,36,64)<ul>
+<li>ldvr_video_recv_small &lt;-chunnel[i].recv_thread</li>
+<li>ldvr_chunnel_motion   &lt;-chunnel[i].motion_thread</li>
+<li>ldvr_video_recv &lt;-chunnel[i].recv_thread</li>
+<li>ldvr_audio_recv &lt;-chunnel[i].recv_thread   </li>
+<li>ldvr_video_decode &lt;-chunnel[i].dec_motion_thread</li>
+<li>ldvr_video_save &lt;-chunnel[i].save_thread</li>
+</ul>
+</li>
+</ul>
+<p>CMS&#x76F8;&#x95DC;</p>
+<ul>
+<li>xxxx_client_listen</li>
+<li>xxxx_client_timeout</li>
+<li>loop cms client(128)<ul>
+<li>xxxx_client_send &lt;- xxxx_client[i].send_thread</li>
+<li>xxxx_client_recv &lt;- xxxx_client[i].recv_thread</li>
+</ul>
+</li>
+</ul>
+<h3 id="ldvr_video_recv"><a href="#ldvr_video_recv" class="headerlink" title="ldvr_video_recv"></a>ldvr_video_recv</h3><ul>
+<li>camera type</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">index</th>
+<th style="text-align:left">type</th>
+<th style="text-align:left">function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0</td>
+<td style="text-align:left">VIT-6Series</td>
+<td style="text-align:left">ipcam_type_620_recv</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">IP903</td>
+<td style="text-align:left">ipcam_type_903_recv</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">MP81XX</td>
+<td style="text-align:left">ipcam_type_MP81_recv</td>
+</tr>
+<tr>
+<td style="text-align:left">3,4</td>
+<td style="text-align:left">VIH-6Series,VIG-6Series</td>
+<td style="text-align:left">ipcam_type_VIH_recv</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">Onvif</td>
+<td style="text-align:left">ONVIF_recv</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>ldvr_video_recv flow</li>
+</ul>
+<img src="/2016/12/05/video-recv/ldvr_video_recv.png" alt="[ldvr_video_recv]" title="[ldvr_video_recv]">
+<h3 id="ipcam_type_620_recv"><a href="#ipcam_type_620_recv" class="headerlink" title="ipcam_type_620_recv"></a>ipcam_type_620_recv</h3><ul>
+<li><p>&#x6BCF;&#x79D2;&#x505A;&#x4E00;&#x6B21;ldvr_video_motion_detect</p>
+</li>
+<li><p>&#x7CFB;&#x7D71;&#x8A2D;&#x5B9A;&#x503C;&#x5982;&#x4E0B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system.ini:motion_alarm_times=10</span><br><span class="line">system.ini:io_alarm_times=10</span><br><span class="line">system.ini:videolose_alarm_times=10</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<img src="/2016/12/05/video-recv/ipcam_type_620_recv.png" alt="[ipcam_type_620_recv]" title="[ipcam_type_620_recv]">
+<h3 id="ldvr_video_motion_detect"><a href="#ldvr_video_motion_detect" class="headerlink" title="ldvr_video_motion_detect"></a>ldvr_video_motion_detect</h3><ul>
+<li>&#x6C7A;&#x5B9A;&#x662F;&#x5426;&#x958B;&#x555F;(motiondetect)<ul>
+<li>do_command (122) -&gt; do_start_motiondetect</li>
+<li>ldv_chunnel_motion/nMD=1</li>
+<li>do_command (233)</li>
+</ul>
+</li>
+</ul>
+<img src="/2016/12/05/video-recv/ldvr_video_motion_detect.png" alt="[ldvr_video_motion_detect]" title="[ldvr_video_motion_detect]">
+<h3 id="ldvr_video_dispense_xxxx"><a href="#ldvr_video_dispense_xxxx" class="headerlink" title="ldvr_video_dispense_xxxx"></a>ldvr_video_dispense_xxxx</h3><p>&#x5C0B;&#x627E;CMS client&#xFF0C;&#x5224;&#x65B7;&#x662F;&#x5426;&#x6709;&#x6B64;ch&#x7684;&#x9700;&#x6C42;<br>&#x82E5;&#x6709;&#x5247;&#x5C07;&#x8CC7;&#x6599;put&#x5230;vidoe_send_buf/audio_send_buf</p>
+<img src="/2016/12/05/video-recv/ldvr_video_dispense_xxxx.png" alt="[ldvr_video_dispense_xxxx]" title="[ldvr_video_dispense_xxxx]">
+<hr>
+<h2 id="beep"><a href="#beep" class="headerlink" title="beep"></a>beep</h2><img src="/2016/12/05/video-recv/ldvr_beep.png" alt="[ldvr_beep]" title="[ldvr_beep]">
+<hr>
+<h2 id="motion-thread"><a href="#motion_thread" class="headerlink" title="motion thread"></a>motion thread</h2><ul>
+<li><p>ldvr_chunnel_motion<br>ch motion&#x6AA2;&#x67E5;<br>&#x78BA;&#x5B9A;&#x6709;enable&#x53CA;connect&#xFF0C;&#x4E14;&#x70BA;VIT/VIG/VIH<br>&#x53D6;&#x5F97;camera (input1=%d,input2=%d,md=%d)</p>
+</li>
+<li><p>camera motion&#x52D5;&#x4F5C;(md=1)<br>&#x8A2D;&#x5B9A;status.motiondtect = 1 </p>
+</li>
+<li><p>&#x82E5;&#x6536;&#x5230;nInput<br>&#x5247;&#x8A2D;&#x5B9A;status.alarm</p>
+</li>
+</ul>
+<img src="/2016/12/05/video-recv/ldvr_chunnel_motion.png" alt="[ldvr_chunnel_motion]" title="[ldvr_chunnel_motion]">
+<h3 id="motionalarm-&#x8A2D;&#x5B9A;&#x6A94;"><a href="#motionalarm__u8A2D_u5B9A_u6A94" class="headerlink" title="motionalarm &#x8A2D;&#x5B9A;&#x6A94;"></a>motionalarm &#x8A2D;&#x5B9A;&#x6A94;</h3><ul>
+<li>motionalarm.ini<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">alarm=0000000000000000000000000000000000000000000000000000000000000000</span><br><span class="line">output=0</span><br><span class="line">sendmail=0		&lt;= E-Mail&#x901A;&#x77E5;</span><br><span class="line">record=1		&lt;= &#x9304;&#x5F71;</span><br><span class="line">notifyclient=1		&lt;= &#x901A;&#x77E5;&#x7528;&#x6236;&#x7AEF;(client)</span><br><span class="line">movetopreset=0</span><br><span class="line">audiable=1		&lt;= &#x901A;&#x77E5;&#x7528;&#x6236;&#x7AEF;&#x6559;&#x8072;&#x97F3;&#x8B66;&#x5831;</span><br><span class="line">relatingrelay=1	</span><br><span class="line">sensitivity=2 </span><br><span class="line">enable=1  		&lt;= &#x555F;&#x52D5;&#x79FB;&#x52D5;&#x5075;&#x6E2C;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="system-&#x8A2D;&#x5B9A;&#x6A94;"><a href="#system__u8A2D_u5B9A_u6A94" class="headerlink" title="system &#x8A2D;&#x5B9A;&#x6A94;"></a>system &#x8A2D;&#x5B9A;&#x6A94;</h3><ul>
+<li>system.ini<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[sys]</span><br><span class="line">vloss_send_mail=0                </span><br><span class="line">auto_logout_time=30           &lt;= &#x7121;&#x4F5C;&#x696D;&#x767B;&#x51FA;&#x6642;&#x9593;</span><br><span class="line">max_num_play=0               </span><br><span class="line">num_bigstream_dec=2</span><br><span class="line">auto_logout=0                    &lt;= &#x81EA;&#x52D5;&#x767B;&#x51FA;</span><br><span class="line">restart_day=1</span><br><span class="line">restart_minute=54</span><br><span class="line">restart_hour=19</span><br><span class="line">autorestart=0</span><br><span class="line">tty_debug=0</span><br><span class="line">enable_check_disk=0</span><br><span class="line">looprecord=1</span><br><span class="line">max_camera_num=16</span><br><span class="line">sync_times=60</span><br><span class="line">scan_interval=2</span><br><span class="line">motion_alarm_times=10</span><br><span class="line">io_alarm_times=10</span><br><span class="line">beep_times=2</span><br><span class="line">videolose_alarm_times=20  &lt;= Video Loss &#x8B66;&#x5831;&#x5EF6;&#x7E8C;&#x6642;&#x9593;(&#x79D2;)</span><br><span class="line">language=2</span><br><span class="line">timezone=20</span><br><span class="line">ipcam_num=4</span><br><span class="line">format=1</span><br><span class="line">watchdog=1</span><br><span class="line">ch_num=36</span><br><span class="line">rootdisk=sda</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="display_alarm"><a href="#display_alarm" class="headerlink" title="display_alarm"></a>display_alarm</h3><ul>
+<li>display_alarm<img src="/2016/12/05/video-recv/display_alarm.png" alt="[display_alarm]" title="[display_alarm]">
+</li>
+</ul>
+<h3 id="display-layout"><a href="#display_layout" class="headerlink" title="display layout"></a>display layout</h3><ul>
+<li>displayxx<img src="/2016/12/05/video-recv/displayxx.png" alt="[display layout]" title="[display layout]">
+</li>
+</ul>
+<h3 id="alarm-change-layout-log"><a href="#alarm_change_layout_log" class="headerlink" title="alarm change layout log"></a>alarm change layout log</h3><ul>
+<li>&#x6536;&#x5230;alarm input&#xFF0C;&#x5207;&#x5230;&#x76F8;&#x5C0D;&#x61C9;&#x5206;&#x5272;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ldvr.c ldvr_chunnel_motion&lt;line:5373&gt; ch=1 event.cgi recv --boundarydonotcross</span><br><span class="line">Content-Type: text/plain</span><br><span class="line"></span><br><span class="line">input1=0</span><br><span class="line">input2=1</span><br><span class="line">md=0</span><br><span class="line">,rev_len 76,index 1</span><br><span class="line">ldvr.c ldvr_chunnel_motion&lt;line:5437&gt; ch=1 alarming_ch_count:-1275066176, </span><br><span class="line">ldvr.c ldvr_chunnel_motion&lt;line:5452&gt; ch=1 input1=0 input2=1 md=0 change=1 max=1 min=1</span><br><span class="line">ldvr.c ldvr_chunnel_motion&lt;line:5459&gt;  alarm_change call display_alarm </span><br><span class="line">ldvr.c ldvr_video_motion_detect&lt;line:2285&gt; ch=1 io_alarm_timeout=9 change=0 max=1 min=1 cnt=1</span><br><span class="line">ldvr.c ldvr_video_motion_detect&lt;line:2285&gt; ch=1 io_alarm_timeout=8 change=0 max=1 min=1 cnt=1</span><br><span class="line">ldvr.c ldvr_chunnel_motion&lt;line:5373&gt; ch=1 event.cgi recv --boundarydonotcross</span><br><span class="line">Content-Type: text/plain</span><br><span class="line"></span><br><span class="line">input1=0</span><br><span class="line">input2=0</span><br><span class="line">md=0</span><br><span class="line">,rev_len 76,index 1</span><br><span class="line">ldvr.c ldvr_video_motion_detect&lt;line:2285&gt; ch=1 io_alarm_timeout=7 change=0 max=1 min=1 cnt=1</span><br><span class="line">ldvr.c ldvr_video_motion_detect&lt;line:2285&gt; ch=1 io_alarm_timeout=6 change=0 max=1 min=1 cnt=1</span><br><span class="line">ldvr.c ldvr_chunnel_motion&lt;line:5373&gt; ch=1 event.cgi recv --boundarydonotcross</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="ldvr_alarm_manage"><a href="#ldvr_alarm_manage" class="headerlink" title="ldvr_alarm_manage"></a>ldvr_alarm_manage</h2><ul>
+<li>&#x91DD;&#x5C0D;motion alarm&#x53CA;video loss&#x5BC4;mail<img src="/2016/12/05/video-recv/ldvr_alarm_manage.png" alt="[ldvr_alarm_manage]" title="[ldvr_alarm_manage]">
+</li>
+</ul>
+<hr>
+<h2 id="do_command"><a href="#do_command" class="headerlink" title="do_command"></a>do_command</h2><ul>
+<li>do command list</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">type</th>
+<th style="text-align:left">command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">101</td>
+<td style="text-align:left">do_user_login</td>
+</tr>
+<tr>
+<td style="text-align:left">102</td>
+<td style="text-align:left">do_get_camera_list</td>
+</tr>
+<tr>
+<td style="text-align:left">122</td>
+<td style="text-align:left">do_start_motiondetect</td>
+</tr>
+<tr>
+<td style="text-align:left">123</td>
+<td style="text-align:left">do_stop_motiondetect</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="net-server"><a href="#net_server" class="headerlink" title="net server"></a>net server</h2><p>CMS Client</p>
+<ul>
+<li><p>xxxx_client_listen<br>&#x7B49;&#x5F85;cms client&#x9700;&#x6C42;<br>&#x82E5;&#x6709;&#x9700;&#x6C42;&#x5728;&#x5206;&#x6D3E;&#x7D66;xxxx_client[i]</p>
+</li>
+<li><p>xxxx_client_timeout<br>&#x78BA;&#x8A8D;xxxx_client&#x662F;&#x5426;&#x6709;timeout(5S)<br>&#x82E5;&#x6709;&#x793A;&#x8868;&#xFF0C;client&#x5DF2;&#x65B7;&#x7DDA;&#x6216;&#x9023;&#x7DDA;&#x5361;&#x4F4F;<br>&#x6B64;&#x6642;&#x5C07;close socket&#x4E14;&#x5C07;used&#x8A2D;&#x5B9A;&#x70BA;-2</p>
+</li>
+<li><p>loop 128</p>
+<ul>
+<li>xxxx_client_send =&gt; &#x5373;core-&gt;xxxx_client[i].send_thread</li>
+<li>xxxx_client_recv =&gt; &#x5373;core-&gt;xxxx_client[i].recv_thread</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>network.ini<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[port]</span><br><span class="line">mobileport=5577</span><br><span class="line">videoport=5566</span><br><span class="line">webport=80</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="xxxx_cleint_listen"><a href="#xxxx_cleint_listen" class="headerlink" title="xxxx_cleint_listen"></a>xxxx_cleint_listen</h3><ul>
+<li>xxxx_cleint_listen<img src="/2016/12/05/video-recv/xxxx_client_listen.png" alt="[xxxx_client_listen]" title="[xxxx_client_listen]">
+</li>
+</ul>
+<h3 id="xxxx_client_timeout"><a href="#xxxx_client_timeout" class="headerlink" title="xxxx_client_timeout"></a>xxxx_client_timeout</h3><ul>
+<li>xxxx_client_timeout<img src="/2016/12/05/video-recv/xxx_client_timeout.png" alt="[xxx_client_timeout]" title="[xxx_client_timeout]">
+</li>
+</ul>
+<h3 id="xxxx_client_send"><a href="#xxxx_client_send" class="headerlink" title="xxxx_client_send"></a>xxxx_client_send</h3><p>&#x4EE5;8K audio&#x53D6;&#x6A23;&#x70BA;&#x4F8B;&#x5B50;, 1&#x79D2;&#x53D6;8Kbyte&#xFF0C;&#x6BCF;&#x6B21;&#x50B3;&#x9001;320byte&#xFF0C;&#x56E0;&#x6B64;1&#x79D2;&#x81F3;&#x5C11;&#x8981;&#x50B3;25.6&#x6B21;<br>&#x60F3;voido(15FPS)&#x800C;&#x8A00;&#x662F;&#x6BD4;&#x8F03;&#x9AD8;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x9019;&#x908A;&#x662F;&#x50B3;&#x9001;4&#x6B21;audio&#xFF0C;&#x624D;&#x50B3;&#x4E00;&#x6B21;video</p>
+<ul>
+<li>xxxx_client_send<img src="/2016/12/05/video-recv/xxxx_client_send.png" alt="[xxxx_client_send]" title="[xxxx_client_send]">
+</li>
+</ul>
+<hr>
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><h3 id="select"><a href="#select" class="headerlink" title="select"></a>select</h3><ul>
+<li><p>select, pselect, FD_CLR, FD_ISSET, FD_SET, FD_ZERO - synchronous I/O multiplexing </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int select(int nfds, fd_set *readfds, fd_set *writefds,fd_set *exceptfds, struct timeval *timeout);</span><br><span class="line"></span><br><span class="line">void FD_CLR(int fd, fd_set *set);</span><br><span class="line">int  FD_ISSET(int fd, fd_set *set);</span><br><span class="line">void FD_SET(int fd, fd_set *set);</span><br><span class="line">void FD_ZERO(fd_set *set);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>select() and pselect() allow a program to monitor multiple file descriptors, waiting until one or more of the file descriptors become &#x201C;ready&#x201D; for some class of I/O operation (e.g., input possible)</p>
+</li>
+<li>FD_ZERO() clears a set.</li>
+<li>FD_SET() and FD_CLR() respectively add and remove a given file descriptor from a set</li>
+<li>nfds is the highest-numbered file descriptor in any of the three sets, plus 1.</li>
+<li>The timeout argument specifies the minimum interval that select() should block waiting for a file descriptor to become ready. </li>
+<li>On success, select() and pselect() return the number of file descriptors contained in the three returned descriptor sets<br>&#x6210;&#x529F;&#x5247;&#x56DE;&#x50B3;: 1/2/3&#x8868;&#x793A;&#x5E7E;&#x500B;fd set,<br>&#x82E5;&#x56DE;&#x50B3;0&#x5247;&#x8868;&#x793A;timeout<br>&#x82E5;&#x70BA;-1&#x8868;&#x793A;&#x6709;&#x932F;&#x8AA4;</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://stackoverflow.com/questions/14388706/socket-options-so-reuseaddr-and-so-reuseport-how-do-they-differ-do-they-mean-t" target="_blank" rel="external">Socket options SO_REUSEADDR and SO_REUSEPORT, how do they differ</a></li>
+<li><a href="https://linux.die.net/man/2/select" target="_blank" rel="external">select</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/30/libubox/" rel="next" title="libubox">
+                <i class="fa fa-chevron-left"></i> libubox
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/06/pthread/" rel="prev" title="pthread">
+                pthread <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">1.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大小碼流thread比較"><span class="nav-number">2.</span> <span class="nav-text">大小碼流thread比較</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#which_notebook"><span class="nav-number">2.1.</span> <span class="nav-text">which_notebook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#camera-motion顯示紅色外框流程"><span class="nav-number">2.2.</span> <span class="nav-text">camera motion顯示紅色外框流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#video-recv"><span class="nav-number">3.</span> <span class="nav-text">video recv</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_video_recv"><span class="nav-number">3.1.</span> <span class="nav-text">ldvr_video_recv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipcam_type_620_recv"><span class="nav-number">3.2.</span> <span class="nav-text">ipcam_type_620_recv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_video_motion_detect"><span class="nav-number">3.3.</span> <span class="nav-text">ldvr_video_motion_detect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_video_dispense_xxxx"><span class="nav-number">3.4.</span> <span class="nav-text">ldvr_video_dispense_xxxx</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#beep"><span class="nav-number">4.</span> <span class="nav-text">beep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#motion-thread"><span class="nav-number">5.</span> <span class="nav-text">motion thread</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#motionalarm-設定檔"><span class="nav-number">5.1.</span> <span class="nav-text">motionalarm 設定檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#system-設定檔"><span class="nav-number">5.2.</span> <span class="nav-text">system 設定檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#display_alarm"><span class="nav-number">5.3.</span> <span class="nav-text">display_alarm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#display-layout"><span class="nav-number">5.4.</span> <span class="nav-text">display layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#alarm-change-layout-log"><span class="nav-number">5.5.</span> <span class="nav-text">alarm change layout log</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ldvr_alarm_manage"><span class="nav-number">6.</span> <span class="nav-text">ldvr_alarm_manage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#do_command"><span class="nav-number">7.</span> <span class="nav-text">do_command</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#net-server"><span class="nav-number">8.</span> <span class="nav-text">net server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xxxx_cleint_listen"><span class="nav-number">8.1.</span> <span class="nav-text">xxxx_cleint_listen</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xxxx_client_timeout"><span class="nav-number">8.2.</span> <span class="nav-text">xxxx_client_timeout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xxxx_client_send"><span class="nav-number">8.3.</span> <span class="nav-text">xxxx_client_send</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">9.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select"><span class="nav-number">9.1.</span> <span class="nav-text">select</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">10.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/12/05/video-recv/';
+      var disqus_title = 'video-recv';
+      var disqus_url = 'http://yoursite.com/2016/12/05/video-recv/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1064 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,fedora," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解程式流程及GUI生成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ldvr-dlg-flow">
+<meta property="og:url" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解程式流程及GUI生成">
+<meta property="og:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/ldvr-flow.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/ldvr_schedule_manage.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/ldvr_video_save.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/gui_start.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/ldvr_video_decode.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/ldvr_pre_displayvideo.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/displayvideo.png">
+<meta property="og:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/video_scan.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ldvr-dlg-flow">
+<meta name="twitter:description" content="了解程式流程及GUI生成">
+<meta name="twitter:image" content="http://yoursite.com/2016/12/12/ldvr-dlg-flow/ldvr-flow.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ldvr-dlg-flow | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ldvr-dlg-flow
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-12-12T16:50:23+08:00" content="2016-12-12">
+              2016-12-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2016/12/12/ldvr-dlg-flow/" class="leancloud_visitors" data-flag-title="ldvr-dlg-flow">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;&#x7A0B;&#x5F0F;&#x6D41;&#x7A0B;&#x53CA;GUI&#x751F;&#x6210;</p>
+<a id="more"></a>
+<hr>
+<p>&#x66F4;&#x65B0;&#x8A18;&#x9304;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161212</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#program-flow">program flow</a><ul>
+<li><a href="#main-flow">main flow</a></li>
+<li><a href="#ldvr_load_sys_configs">ldvr_load_sys_configs</a></li>
+<li><a href="#ldvr_schedule_manage">ldvr_schedule_manage</a></li>
+<li><a href="#ldvr_video_save">ldvr_video_save</a></li>
+</ul>
+</li>
+<li><a href="#gui">GUI</a><ul>
+<li><a href="#gui_start">gui_start</a></li>
+<li><a href="#xv_image_init">xv_image_init</a></li>
+<li><a href="#general_init">general_init</a></li>
+</ul>
+</li>
+<li><a href="#video-decode">video decode</a><ul>
+<li><a href="#ldvr_video_decode">ldvr_video_decode</a></li>
+<li><a href="#ldvr_pre_displayvideo">ldvr_pre_displayvideo</a></li>
+<li><a href="#displayvideo">displayvideo</a></li>
+</ul>
+</li>
+<li><a href="#libxv">libxv</a><ul>
+<li><a href="#x-window-system-video-extension">X Window System video extension</a></li>
+<li><a href="#&#x5728;x11&#x4E0B;&#x6709;&#x51E0;&#x79CD;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x56FE;&#x50CF;&#x7684;&#x65B9;&#x5F0F;">&#x5728;X11&#x4E0B;&#x6709;&#x51E0;&#x79CD;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x56FE;&#x50CF;&#x7684;&#x65B9;&#x5F0F;</a></li>
+<li><a href="#xfree86-&#x5EF6;&#x4F38;&#x7684;-x-&#x7528;&#x6236;&#x7AEF;&#x652F;&#x63F4;">XFree86 &#x5EF6;&#x4F38;&#x7684; X &#x7528;&#x6236;&#x7AEF;&#x652F;&#x63F4;</a></li>
+<li><a href="#xvputimage">XvPutImage</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x529F;&#x80FD;">&#x5176;&#x5B83;&#x529F;&#x80FD;</a><ul>
+<li><a href="#video_scan">video_scan</a></li>
+<li><a href="#tty_debug&#x65B9;&#x5F0F;">tty_debug&#x65B9;&#x5F0F;</a></li>
+<li><a href="#gdk-function">gdk function</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="program-flow"><a href="#program_flow" class="headerlink" title="program flow"></a>program flow</h2><h3 id="main-flow"><a href="#main_flow" class="headerlink" title="main flow"></a>main flow</h3><img src="/2016/12/12/ldvr-dlg-flow/ldvr-flow.png" alt="[ldvr-flow]" title="[ldvr-flow]">
+<h3 id="ldvr_load_sys_configs"><a href="#ldvr_load_sys_configs" class="headerlink" title="ldvr_load_sys_configs"></a>ldvr_load_sys_configs</h3><p> <system.ini></system.ini></p>
+<ul>
+<li>limit_max_camera_num </li>
+<li>enable_check_disk<br>ldvr_hdd_headthy_check(),ldvr_rootdisk_serial_check()</li>
+<li>looprecord<br>ldvr_disk_manage() &#x6BCF;&#x5206;&#x9418;&#x6AA2;&#x6E2C;&#x7A7A;&#x9593;&#xFF0C;&#x82E5;&#x4E0D;&#x8DB3;&#x5247;&#x522A;&#x9664;&#x6700;&#x820A;&#x7684;</li>
+<li>language<br>stringtable.c<br>0: english,1: cn,2: tw, 3:Russian(&#x4FC4;&#x6587;)</li>
+<li>sync_times</li>
+<li>io_alarm_times<br>camera i/o&#x8F38;&#x5165;alarm, timeout&#x6642;&#x9593;</li>
+<li>restart (&#x81EA;&#x52D5;&#x91CD;&#x958B;&#x6A5F;)<ul>
+<li>restart_hour</li>
+<li>restart_minute</li>
+<li>restart_day(0:&#x6BCF;&#x5929;&#xFF0C;1:&#x6BCF;&#x9031;&#xFF0C;2:&#x6BCF;&#x6708;)</li>
+</ul>
+</li>
+<li>chunnel[i].camera.schedule.enable (&#x555F;&#x52D5;&#x9304;&#x5F71;&#x6392;&#x7A0B;)<ul>
+<li>chunnel[i].camera.schedule:<br>NO_RECORD(&#x4E0D;&#x9304;&#x5F71;),FULLY_RECORD(&#x5168;&#x9304;&#x5F71;),MOTION_SENSOR_RECORD(&#x79FB;&#x52D5;&#x5075;&#x6E2C;&#x9304;&#x5F71;)</li>
+</ul>
+</li>
+</ul>
+<h3 id="ldvr_schedule_manage"><a href="#ldvr_schedule_manage" class="headerlink" title="ldvr_schedule_manage"></a>ldvr_schedule_manage</h3><ul>
+<li><p>restart (&#x81EA;&#x52D5;&#x91CD;&#x958B;&#x6A5F;)<br>restart_hour, restart_minute<br>restart_day(0:&#x6BCF;&#x5929;&#xFF0C;1:&#x6BCF;&#x9031;&#xFF0C;2:&#x6BCF;&#x6708;)</p>
+</li>
+<li><p>chunnel[i].camera.schedule.enable (&#x555F;&#x52D5;&#x9304;&#x5F71;&#x6392;&#x7A0B;)<br>chunnel[i].camera.schedule:<br>NO_RECORD(&#x4E0D;&#x9304;&#x5F71;),FULLY_RECORD(&#x5168;&#x9304;&#x5F71;),MOTION_SENSOR_RECORD(&#x79FB;&#x52D5;&#x5075;&#x6E2C;&#x9304;&#x5F71;)</p>
+</li>
+</ul>
+<img src="/2016/12/12/ldvr-dlg-flow/ldvr_schedule_manage.png" alt="[ldvr_schedule_manage]" title="[ldvr_schedule_manage]">
+<h3 id="ldvr_video_save"><a href="#ldvr_video_save" class="headerlink" title="ldvr_video_save"></a>ldvr_video_save</h3><p>&#x6BCF;30&#x5206;1&#x500B;&#x6A94;&#x6848;<br>.h264&#x8A18;&#x9304;raw data<br>.log&#x8A18;&#x9304;&#x76F8;&#x95DC;&#x7684;flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost 2016-12-13]# pwd</span><br><span class="line">/disks/1/2016-12-13</span><br><span class="line">[root@localhost 2016-12-13]# ls -l</span><br><span class="line">total 209584</span><br><span class="line">-rw-r--r-- 1 root root  28405484 Dec 13 14:29 4-2016-12-13-14-00.264</span><br><span class="line">-rw-r--r-- 1 root root     15120 Dec 13 14:29 4-2016-12-13-14-00.log</span><br><span class="line">-rw-r--r-- 1 root root 186171749 Dec 13 14:42 4-2016-12-13-14-30.264</span><br><span class="line">-rw-r--r-- 1 root root     15120 Dec 13 14:42 4-2016-12-13-14-30.log</span><br></pre></td></tr></table></figure></p>
+<img src="/2016/12/12/ldvr-dlg-flow/ldvr_video_save.png" alt="[ldvr_video_save]" title="[ldvr_video_save]">
+<hr>
+<h2 id="gui"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h2><h3 id="gui_start"><a href="#gui_start" class="headerlink" title="gui_start"></a>gui_start</h3><p>&#x8A2D;&#x5B9A;&#x76F8;&#x95DC;&#x8A0A;&#x865F;&#x52D5;&#x4F5C;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">obj</th>
+<th style="text-align:left">event</th>
+<th style="text-align:left">function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">window</td>
+<td style="text-align:left">destroy</td>
+<td style="text-align:left">window_ondestroy(): gtk_main_quit()</td>
+</tr>
+<tr>
+<td style="text-align:left">window</td>
+<td style="text-align:left">key_press_event</td>
+<td style="text-align:left">key_press_event()</td>
+</tr>
+<tr>
+<td style="text-align:left">drawing_area</td>
+<td style="text-align:left">configure_even</td>
+<td style="text-align:left">configure_event()</td>
+</tr>
+<tr>
+<td style="text-align:left">drawing_area</td>
+<td style="text-align:left">expose_event</td>
+<td style="text-align:left">expose_event()</td>
+</tr>
+<tr>
+<td style="text-align:left">drawing_area</td>
+<td style="text-align:left">motion_notify_event</td>
+<td style="text-align:left">motion_notify_event()</td>
+</tr>
+<tr>
+<td style="text-align:left">drawing_area</td>
+<td style="text-align:left">button_press_event</td>
+<td style="text-align:left">button_press_event()</td>
+</tr>
+<tr>
+<td style="text-align:left">drawing_area</td>
+<td style="text-align:left">button_release_event</td>
+<td style="text-align:left">button_release_event()</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>gtk_widget_set_events(drawing_area<br>GDK_EXPOSURE_MASK<br>GDK_LEAVE_NOTIFY_MASK<br>GDK_BUTTON_PRESS_MASK<br>GDK_BUTTON_RELEASE_MASK<br>GDK_BUTTON1_MASK<br>GDK_BUTTON2_MASK<br>GDK_BUTTON3_MASK<br>GDK_KEY_PRESS_MASK<br>GDK_POINTER_MOTION_MASK<br>GDK_POINTER_MOTION_HINT_MASK</p>
+</li>
+<li><p>ui layout</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window</span><br><span class="line"> + vbox</span><br><span class="line">    + drawing_area</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<img src="/2016/12/12/ldvr-dlg-flow/gui_start.png" alt="[gui_start]" title="[gui_start]">
+<h3 id="xv_image_init"><a href="#xv_image_init" class="headerlink" title="xv_image_init"></a>xv_image_init</h3><p>&#x53D6;&#x5F97; gui-&gt;im_port (&#x5373;xv&#x7684;port id, visualID 0x21?)<br>&#x53D6;&#x5F97; gui-&gt;im_formats[] (&#x5373;&#x8DDF;&#x7A0B;&#x5F0F;&#x76F8;&#x5BB9;&#x7684;&#x6A21;&#x5F0F;YUYV)</p>
+<p>&#x986F;&#x793A;&#x5361;&#x652F;&#x63F4;: YUY2, YV12, I420, UYVY<br>&#x7A0B;&#x5F0F;&#x652F;&#x63F4;&#xFF1A;VIDEO_YUYV, VIDEO_UYVY, VIDEO_YUV420P</p>
+<p>gui-&gt;im_formats[VIDEO_UYVY] = FMT_VIDEO_UYVY</p>
+<ul>
+<li>pc200<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nvr]# xvinfo</span><br><span class="line">X-Video Extension version 2.2</span><br><span class="line">screen #0</span><br><span class="line">  Adaptor #0: &quot;NX Texture Video&quot;</span><br><span class="line">    number of ports: 16</span><br><span class="line">    port base: 63</span><br><span class="line">    operations supported: PutImage </span><br><span class="line">    supported visuals:</span><br><span class="line">      depth 24, visualID 0x21</span><br><span class="line">    no port attributes defined</span><br><span class="line">    maximum XvImage size: 2048 x 2048</span><br><span class="line">    Number of image formats: 4</span><br><span class="line">      id: 0x32595559 (YUY2)</span><br><span class="line">        guid: 59555932-0000-0010-8000-00aa00389b71</span><br><span class="line">        bits per pixel: 16</span><br><span class="line">        number of planes: 1</span><br><span class="line">        type: YUV (packed)</span><br><span class="line">      id: 0x32315659 (YV12)</span><br><span class="line">        guid: 59563132-0000-0010-8000-00aa00389b71</span><br><span class="line">        bits per pixel: 12</span><br><span class="line">        number of planes: 3</span><br><span class="line">        type: YUV (planar)</span><br><span class="line">      id: 0x30323449 (I420)</span><br><span class="line">        guid: 49343230-0000-0010-8000-00aa00389b71</span><br><span class="line">        bits per pixel: 12</span><br><span class="line">        number of planes: 3</span><br><span class="line">        type: YUV (planar)</span><br><span class="line">      id: 0x59565955 (UYVY)</span><br><span class="line">        guid: 55595659-0000-0010-8000-00aa00389b71</span><br><span class="line">        bits per pixel: 16</span><br><span class="line">        number of planes: 1</span><br><span class="line">        type: YUV (packed)</span><br><span class="line">[root@localhost nvr]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="general_init"><a href="#general_init" class="headerlink" title="general_init"></a>general_init</h3><ul>
+<li>general_init<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">-frame (GtkFixed)</span><br><span class="line"> - label(20,20)               , entry(285,20)           =&gt; Video Loss Alarm continues(S) </span><br><span class="line"> - label(20,20 + 35)          , combo(285,20 +35)       =&gt; V-Loss Send Mail</span><br><span class="line"> - label(20,20 + 35*2)        , entry(285,20 +35*2)     =&gt; IO Alarm Continus(S)</span><br><span class="line"> - label(20,20 + 35*3)        , entry(285,20 +35*3)     =&gt; Motin Alarm continues(S) </span><br><span class="line"> - label(20,20 + 35*4)        , entry(285,20 +35*4)     =&gt; Siren continues(S)</span><br><span class="line"> - label(20,20 + 35*5)        , entry(285,20 +35*5)     =&gt; Auto Scan interval(S)</span><br><span class="line"> - label(20,20 + 35*6)        , combo(285,20 +35*6)     =&gt; Language</span><br><span class="line"> - label(20,20 + 35*7)        , button(285,20 +35*7)    =&gt; Max Cameras</span><br><span class="line"> - check_button(20,20 + 35*8)                           =&gt; Overwrite</span><br><span class="line"> - check_button(20,20 + 35*9)                           =&gt; Auto Reboot</span><br><span class="line"> - label(20,20 + 35*10), combo(285,20 +35*10), button(), button()  =&gt; Reboot At</span><br><span class="line"> - check_button(20,20 + 35*11)                          =&gt; Auto Lougout</span><br><span class="line"> - label(20,20 + 35*12)       , entry(285,20 +35*12)    =&gt; Idle Time (Min) [30]</span><br><span class="line"> - label(20,20 + 35*13)       , combo(285,20 +35*13)    =&gt; Num of main stream display</span><br><span class="line"> - label(20,20 + 35*14)       , combo(285,20 +35*14)    =&gt; Max num of play</span><br><span class="line"> - label(20,20 + 35*15)       , combo(285,20 +35*15)    =&gt; Auto synchronize with NVR time</span><br><span class="line"> - check_button(20,20 + 35*16)                          =&gt; Check disk err</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="video-decode"><a href="#video_decode" class="headerlink" title="video decode"></a>video decode</h2><p>&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;:</p>
+<ul>
+<li>thread: ldvr_video_recv<br>&#x5C07;&#x6536;&#x5230;&#x7684;&#x78BC;&#x6D41;&#x5B58;&#x5728;play_buf</li>
+<li>thead: ldvr_video_decode<br>&#x53D6;&#x51FA;play_buf&#x89E3;&#x78BC;&#x5132;&#x5230;(video_display_buf, cap_buf)</li>
+<li>thead: ldvr_pre_displayvideo<br>&#x53D6;&#x51FA;video_display_buf&#xFF0C;&#x8986;&#x88FD;&#x5230;pre_display_buf<br>&#x756B;&#x51FA;record_mark<br>&#x8A2D;&#x5B9A;prepare = 1 (&#x8868;&#x793A;pre_display_buf&#x8CC7;&#x6599;&#x6E96;&#x5099;&#x597D;&#x4E86;)<br>&#x7B49;&#x5F85;displayed</li>
+<li>time: diplayvideo (&#x6BCF;40ms&#xFF0C;&#x505A;&#x4E00;&#x6B21;)<br>&#x7B49;&#x5F97;prepare == 1<br>&#x53D6;&#x51FA;predisplay_buf&#x8986;&#x88FD;&#x5230;xvimage-&gt;data<br>&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x756B;&#x9762;&#x5927;&#x5C0F;</li>
+</ul>
+<h3 id="ldvr_video_decode"><a href="#ldvr_video_decode" class="headerlink" title="ldvr_video_decode"></a>ldvr_video_decode</h3><ul>
+<li>avcodec_decode_video2 &#x5C0D;packet&#x4E2D;&#x7684;&#x5E40;&#x9032;&#x884C;&#x89E3;&#x78BC;</li>
+<li><p>&#x89E3;&#x78BC;&#x5F97;&#x5230;&#x5716;&#x50CF;&#x5F8C;&#xFF0C;&#x5F88;&#x6709;&#x53EF;&#x80FD;&#x4E0D;&#x662F;&#x6211;&#x5011;&#x60F3;&#x8981;&#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x4F7F;&#x7528; swscale &#x4F86;&#x505A;&#x8F49;&#x63DB;&#xFF0C;&#x8ABF;&#x7528;sws_getCachedContext &#x5F97;&#x5230;&#x8F49;&#x63DB;&#x4E0A;&#x4E0B;&#x6587;</p>
+</li>
+<li><p>sws_getCachedContext()<br>&#x8F38;&#x5165;&#x539F;&#x672C;width,height,format<br>&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;width,height,format(PIX_FMT_YUV420P)</p>
+</li>
+<li><p>avcodec_open2() &#x89E3;&#x51FA;h264&#x8CC7;&#x6599;&#x4E4B;&#x5F8C;<br>&#x9001;&#x5230;sws_xx,&#x505A;&#x8F49;&#x63DB;(&#x8F49;&#x6210;&#x9810;&#x8A08;&#x5927;&#x5C0F;&#x53CA;YUV&#x683C;&#x5F0F;)<br>&#x4E26;&#x4E14;&#x8CC7;&#x6599;&#x5B58;&#x5728;video_display_buf</p>
+</li>
+</ul>
+<img src="/2016/12/12/ldvr-dlg-flow/ldvr_video_decode.png" alt="[ldvr_video_decode]" title="[ldvr_video_decode]">
+<h3 id="ldvr_pre_displayvideo"><a href="#ldvr_pre_displayvideo" class="headerlink" title="ldvr_pre_displayvideo"></a>ldvr_pre_displayvideo</h3><ul>
+<li>&#x5148;&#x8A2D;&#x5B9A;prepare&#x70BA;0&#xFF0C;&#x8868;&#x793A;pre_display_buf&#x6E96;&#x5099;&#x597D;</li>
+<li>&#x5148;&#x8A2D;&#x5B9A;display&#x70BA;0&#xFF0C;&#x4F86;&#x7B49;&#x5F85;display ready</li>
+</ul>
+<img src="/2016/12/12/ldvr-dlg-flow/ldvr_pre_displayvideo.png" alt="[ldvr_pre_displayvideo]" title="[ldvr_pre_displayvideo]">
+<h3 id="displayvideo"><a href="#displayvideo" class="headerlink" title="displayvideo"></a>displayvideo</h3><img src="/2016/12/12/ldvr-dlg-flow/displayvideo.png" alt="[displayvideo]" title="[displayvideo]">
+<hr>
+<h2 id="libxv"><a href="#libxv" class="headerlink" title="libxv"></a>libxv</h2><h3 id="x-window-system-video-extension"><a href="#X_Window_System_video_extension" class="headerlink" title="X Window System video extension"></a>X Window System video extension</h3><p><a href="https://linux.die.net/man/3/xv" target="_blank" rel="external">xv - Linux man page</a></p>
+<p>Xv - X Window System video extension </p>
+<ul>
+<li>The X Video Extension (Xv) extension provides support for video adaptors attached to an X display. </li>
+<li><strong>xvqueryextension()</strong>: to determine the status of the extension</li>
+<li><strong>xvqueryadaptors()</strong>: to get a description of what video adaptors exist,</li>
+<li>XvImage formats supported by the port may be queried with <strong>xvlistimageformats()</strong></li>
+<li>XvImages may be displayed with: <strong>xvputimage()</strong></li>
+</ul>
+<h3 id="&#x5728;x11&#x4E0B;&#x6709;&#x51E0;&#x79CD;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x56FE;&#x50CF;&#x7684;&#x65B9;&#x5F0F;"><a href="#u5728X11_u4E0B_u6709_u51E0_u79CD_u53EF_u4EE5_u663E_u793A_u56FE_u50CF_u7684_u65B9_u5F0F" class="headerlink" title="&#x5728;X11&#x4E0B;&#x6709;&#x51E0;&#x79CD;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x56FE;&#x50CF;&#x7684;&#x65B9;&#x5F0F;"></a>&#x5728;X11&#x4E0B;&#x6709;&#x51E0;&#x79CD;&#x53EF;&#x4EE5;&#x663E;&#x793A;&#x56FE;&#x50CF;&#x7684;&#x65B9;&#x5F0F;</h3><ul>
+<li><a href="https://www.freebsd.org/doc/zh_CN.UTF-8/books/handbook/video-playback.html" target="_blank" rel="external">&#x89C6;&#x9891;&#x56DE;&#x653E;</a><br>&#x5E38;&#x89C1;&#x56FE;&#x50CF;&#x63A5;&#x53E3;&#x5217;&#x8868;&#xFF1A;<br>X11: &#x4E00;&#x822C;&#x6027;&#x7684;&#x4F7F;&#x7528;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#x7684;X11&#x8F93;&#x51FA;&#x3002;<br>XVideo: &#x4E00;&#x79CD;X11&#x63A5;&#x53E3;&#x6269;&#x5C55;&#xFF0C;&#x652F;&#x6301;&#x4EFB;&#x4F55;X11&#x56FE;&#x50CF;&#x7684;&#x53EF;&#x62D6;&#x62C9;&#x3002;<br>SDL: &#x7B80;&#x5355;&#x76F4;&#x63A5;&#x5A92;&#x4F53;&#x5C42;&#x3002;<br>DGA: &#x76F4;&#x63A5;&#x56FE;&#x7247;&#x5B58;&#x53D6;&#x3002;<br>SVGAlib: &#x4F4E;&#x5C42;&#x6B21;&#x638C;&#x63A7;&#x56FE;&#x7247;&#x5C42;</li>
+</ul>
+<ul>
+<li><a href="http://blog.csdn.net/jiazhen/article/details/2501634" target="_blank" rel="external">X11&#x4E0B;&#x51E0;&#x79CD;&#x663E;&#x793A;&#x56FE;&#x50CF;&#x7684;&#x65B9;&#x5F0F; </a></li>
+<li><p>XVideo<br>Xorg &#x6709;&#x79CD;&#x6269;&#x5C55;&#x53EB;&#x505A; XVideo (&#x6216;&#x79F0;Xvideo, Xv, xv)<br>xv&#x4F7F;&#x7528;X&#x7684;XVideo&#x6269;&#x5C55;&#x6765;&#x4F5C;&#x4E3A;&#x786C;&#x4EF6;&#x52A0;&#x901F;<br>&#x4E00;&#x822C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;xvinfo&#x6307;&#x4EE4;&#x6765;&#x67E5;&#x770B;&#x4F60;&#x7684;&#x663E;&#x5361;&#x662F;&#x5426;&#x652F;&#x6301;xv&#x8F93;&#x51FA;</p>
+</li>
+<li><p>SDL<br>&#x7121;&#x4F7F;&#x7528;&#x5230;&#x986F;&#x793A;&#x5361;&#x786C;&#x4F53;<br>SDL &#x8868;&#x793A;Simple Directmedia Layer&#xFF0C;&#x7B80;&#x5355;&#x7684;&#x76F4;&#x63A5;&#x5A92;&#x4F53;&#x5C42;&#x3002;&#x8FD9;&#x4E2A;SDL&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x7EDF;&#x4E00;&#x7684;&#x89C6;&#x9891;&#x548C;&#x97F3;&#x9891;&#x63A5;&#x53E3;&#xFF0C;&#x4E00;&#x822C;&#x7684;&#x7535;&#x8111;&#x6E38;&#x620F;&#x7ECF;&#x5E38;&#x8F89;&#x8C03;&#x7528;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x4F7F;&#x5F97;&#x7A0B;&#x5E8F;&#x5728;&#x4E0D;&#x77E5;&#x9053;&#x89C6;&#x9891;&#x8BBE;&#x5907;&#x7684; &#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x6765;&#x8BBF;&#x95EE;&#x5E95;&#x5C42;&#x7684;&#x89C6;&#x9891;&#x8BBE;&#x5907;</p>
+</li>
+<li><p>DGA<br>DGA &#x8868;&#x793A;Direct Graphics Access&#xFF0C;&#x76F4;&#x63A5;&#x56FE;&#x5F62;&#x8BBF;&#x95EE;&#x3002;&#x5B83;&#x5141;&#x8BB8;&#x7A0B;&#x5E8F;&#x8DF3;&#x8FC7;X&#x670D;&#x52A1;&#x5668;&#x76F4;&#x63A5;&#x5199;&#x5165;framebuffer&#x5185;&#x5B58;&#x533A;</p>
+</li>
+<li><p>Framebuffer&#x9009;&#x9879;<br>&#x524D;&#x63D0;&#x662F;&#x4F60;&#x7684;&#x5185;&#x6838;&#x5FC5;&#x987B;&#x652F;&#x6301;framebuffer(fbdev)</p>
+</li>
+</ul>
+<h3 id="xfree86-&#x5EF6;&#x4F38;&#x7684;-x-&#x7528;&#x6236;&#x7AEF;&#x652F;&#x63F4;"><a href="#XFree86__u5EF6_u4F38_u7684_X__u7528_u6236_u7AEF_u652F_u63F4" class="headerlink" title="XFree86 &#x5EF6;&#x4F38;&#x7684; X &#x7528;&#x6236;&#x7AEF;&#x652F;&#x63F4;"></a>XFree86 &#x5EF6;&#x4F38;&#x7684; X &#x7528;&#x6236;&#x7AEF;&#x652F;&#x63F4;</h3><ul>
+<li><p>xgamma<br>&#x900F;&#x904E; XF86VidMode &#x5EF6;&#x4F38;&#x6539;&#x8B8A;&#x986F;&#x793A;&#x5668;&#x4E4B; Gamma &#x7CFB;&#x6578;&#x7684;&#x6821;&#x6B63;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ xgamma</span><br><span class="line">-&gt; Red  1.000, Green  1.000, Blue  1.000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xrandr<br>&#x900F;&#x904E; RandR &#x5EF6;&#x4F38;&#x8ABF;&#x6574;&#x87A2;&#x5E55;&#x5927;&#x5C0F;&#x6216;&#x65CB;&#x8F49;&#x87A2;&#x5E55;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$ xrandr</span><br><span class="line">Screen 0: minimum 8 x 8, current 3840 x 1080, maximum 32767 x 32767</span><br><span class="line">DP1 disconnected (normal left inverted right x axis y axis)</span><br><span class="line">DP2 disconnected (normal left inverted right x axis y axis)</span><br><span class="line">DP3 disconnected (normal left inverted right x axis y axis)</span><br><span class="line">HDMI1 disconnected (normal left inverted right x axis y axis)</span><br><span class="line">HDMI2 disconnected (normal left inverted right x axis y axis)</span><br><span class="line">HDMI3 connected primary 1920x1080+1920+0 (normal left inverted right x axis y axis) 476mm x 267mm</span><br><span class="line">   1920x1080      60.0*+</span><br><span class="line">   1280x1024      75.0     60.0  </span><br><span class="line">   1152x864       75.0  </span><br><span class="line">   1024x768       75.1     60.0  </span><br><span class="line">   800x600        75.0     60.3  </span><br><span class="line">   640x480        75.0     60.0  </span><br><span class="line">   720x400        70.1  </span><br><span class="line">VGA1 connected 1920x1080+0+0 (normal left inverted right x axis y axis) 527mm x 296mm</span><br><span class="line">   1920x1080      60.0*+</span><br><span class="line">   1680x1050      60.0  </span><br><span class="line">   1280x1024      75.0     60.0  </span><br><span class="line">   1440x900       59.9  </span><br><span class="line">   1280x960       60.0  </span><br><span class="line">   1280x800       59.8  </span><br><span class="line">   1152x864       75.0  </span><br><span class="line">   1280x720       60.0  </span><br><span class="line">   1024x768       75.1     70.1     60.0  </span><br><span class="line">   832x624        74.6  </span><br><span class="line">   800x600        72.2     75.0     60.3     56.2  </span><br><span class="line">   640x480        75.0     66.7     60.0  </span><br><span class="line">   720x400        70.1  </span><br><span class="line">VIRTUAL1 disconnected (normal left inverted right x axis y axis)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xvidtune<br>&#x900F;&#x904E; XF86VidMode &#x5EF6;&#x4F38;&#x63D0;&#x4F9B; Xorg &#x7684;&#x8996;&#x8A0A;&#x6A21;&#x5F0F;&#x8ABF;&#x6821;&#x5668;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ xvidtune</span><br><span class="line">Vendor: (null), Model: (null)</span><br><span class="line">Num hsync: 0, Num vsync: 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xvinfo<br>&#x5217;&#x5370; X Video &#x5EF6;&#x4F38;&#x914D;&#x63A5;&#x5361;&#x8CC7;&#x8A0A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nvr]# xvinfo</span><br><span class="line">X-Video Extension version 2.2</span><br><span class="line">screen #0</span><br><span class="line">  Adaptor #0: &quot;NX Texture Video&quot;</span><br><span class="line">    number of ports: 16</span><br><span class="line">    port base: 63</span><br><span class="line">    operations supported: PutImage </span><br><span class="line">    supported visuals:</span><br><span class="line">      depth 24, visualID 0x21</span><br><span class="line">    no port attributes defined</span><br><span class="line">    maximum XvImage size: 2048 x 2048</span><br><span class="line">    Number of image formats: 4</span><br><span class="line">      id: 0x32595559 (YUY2)</span><br><span class="line">        guid: 59555932-0000-0010-8000-00aa00389b71</span><br><span class="line">        bits per pixel: 16</span><br><span class="line">        number of planes: 1</span><br><span class="line">        type: YUV (packed)</span><br><span class="line">      id: 0x32315659 (YV12)</span><br><span class="line">        guid: 59563132-0000-0010-8000-00aa00389b71</span><br><span class="line">        bits per pixel: 12</span><br><span class="line">        number of planes: 3</span><br><span class="line">        type: YUV (planar)</span><br><span class="line">      id: 0x30323449 (I420)</span><br><span class="line">        guid: 49343230-0000-0010-8000-00aa00389b71</span><br><span class="line">        bits per pixel: 12</span><br><span class="line">        number of planes: 3</span><br><span class="line">        type: YUV (planar)</span><br><span class="line">      id: 0x59565955 (UYVY)</span><br><span class="line">        guid: 55595659-0000-0010-8000-00aa00389b71</span><br><span class="line">        bits per pixel: 16</span><br><span class="line">        number of planes: 1</span><br><span class="line">        type: YUV (packed)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x9032;&#x968E;&#x4F7F;&#x7528;&#x8005;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x9019;&#x4E9B;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x5728;&#x57F7;&#x884C;&#x968E;&#x6BB5;&#x8ABF;&#x6821; Xorg &#x4F3A;&#x670D;&#x5668;&#x7684;&#x8A2D;&#x5B9A;&#x3002;&#x6B64;&#x7A0B;&#x5E8F;&#x63D0;&#x4F9B;&#x6709;&#x95DC;&#x76EE;&#x524D;&#x7CFB;&#x7D71;&#x786C;&#x9AD4;&#x529F;&#x80FD;&#x7684;&#x66F4;&#x591A;&#x8CC7;&#x8A0A;&#x3002;</p>
+</li>
+<li>&#x4E00;&#x822C;&#x5F71;&#x5E55;&#x986F;&#x793A;&#x70BA;RGB&#xFF0C;&#x4F46;H264&#x8F38;&#x51FA;&#x70BA;YUV<br>&#x56E0;&#x6B64;&#x9700;&#x8981;&#x505A;&#x8F49;&#x63DB;YUV -&gt; RGB&#xFF0C;<br>&#x7531;&#x65BC;&#x662F;&#x6D6E;&#x9EDE;&#x7684;&#x8F49;&#x63DB;&#x6703;&#x5403;CPU&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x6709;&#x4E9B;&#x986F;&#x793A;&#x5361;&#x6709;&#x652F;&#x63F4;&#x81EA;&#x5DF2;&#x8F49;&#x63DB;<br>&#x5982;&#x4E0A;&#x4F8B;&#x6240;&#x793A;GPU&#x53EF;&#x4EE5;&#x5403;YUY2,YV12,I420,UYVY&#x7B49;4&#x7A2E;</li>
+</ul>
+<p><a href="http://socol.iteye.com/blog/693981" target="_blank" rel="external">xorg &#x67B6;&#x6784; &#x5C06;&#x6765; &#x4EE5;&#x53CA;&#x4E00;&#x4E9B;&#x57FA;&#x672C;&#x5E38;&#x8BC6;&#x6D45;&#x6790;</a></p>
+<ul>
+<li>&#x4E00;&#x822C;&#x73B0;&#x5728;&#x7684;&#x663E;&#x5361;&#xFF0C;&#x6BD4;&#x5982;ati&#x7684;driver&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;port&#x662F;overlay&#xFF0C;&#x5269;&#x4E0B;&#x7684;15&#x4E2A;port&#x90FD;&#x662F;&#x7528;tuxture&#x6765;&#x5B9E;&#x73B0;&#x7684;</li>
+<li>xvideo&#x8FD9;&#x8FB9;&#x5C31;&#x76EE;&#x524D;&#x6765;&#x8BF4;&#xFF0C;&#x597D;&#x50CF;&#x5F88;&#x591A;&#x63A5;&#x53E3;&#x90FD;&#x5DF2;&#x7ECF;&#x6CA1;&#x6709;&#x4EBA;&#x7528;&#x4E86;&#xFF0C;&#x7528;&#x7684;&#x5C31;&#x662F;XvPutImage,&#x56E0;&#x4E3A;Video&#x672C;&#x8EAB;&#x6765;&#x8BF4;&#x89E3;&#x7801;&#x5B8C;&#x6210;&#x4E4B;&#x540E;&#x5C31;&#x662F;&#x4E00;&#x5E27;&#x4E00;&#x5E27;&#x7684;&#x6570;&#x636E;</li>
+<li>&#x683C;&#x5F0F;&#x8F6C;&#x6362;&#xFF0C;&#x6BD4;&#x5982;yuv-&gt;rgb&#xFF0C;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x7684;&#x5C4F;&#x5E55;&#x662F;rgb&#x7684;&#xFF0C;&#x4F46;&#x662F;mpeg4&#x6216;&#x8005;h264&#x7B49;&#x7B49;&#x89E3;&#x5F00;&#x4E00;&#x822C;&#x90FD;&#x662F;yuv&#x683C;&#x5F0F;&#x7684;&#xFF0C;&#x5F53;&#x7136;yuv&#x683C;&#x5F0F;&#x53C8;&#x5206;&#x6210;&#x5F88;&#x591A;&#x79CD;&#xFF0C;&#x786C;&#x4EF6;&#x4E0D;&#x4E00;&#x5B9A;&#x90FD;&#x652F;&#x6301;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5C31;&#x9700;&#x8981;&#x8F6F;&#x4EF6;&#x8F6C;&#x6362;&#xFF0C;&#x8FD9;&#x4E2A;&#x5C31;&#x662F;copyplanerdata&#x6216;&#x8005;copypackedata&#x7684;&#x5DE5;&#x4F5C;&#x4E86;</li>
+</ul>
+<h3 id="xvputimage"><a href="#XvPutImage" class="headerlink" title="XvPutImage"></a>XvPutImage</h3><p><a href="http://blog.csdn.net/baymoon/article/details/1515222" target="_blank" rel="external">linux&#x4E0B;Qt+Xv&#x663E;&#x793A;&#x89C6;&#x9891;&#x603B;&#x7ED3; </a></p>
+<ul>
+<li>Xv&#x4E2D;&#x7684;&#x663E;&#x793A;&#x56FE;&#x7247;&#x7684;&#x51FD;&#x6570;&#xFF0D;&#xFF0D;XvPutImage&#xFF0C;&#x548C;Xlib&#x63D0;&#x4F9B;&#x7684;&#x663E;&#x793A;&#x56FE;&#x7247;&#x51FD;&#x6570;XPutImage&#x53EA;&#x76F8;&#x5DEE;&#x4E00;&#x4E2A;&#x5B57;&#x6BCD;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x529F;&#x80FD;&#x786E;&#x5F3A;&#x5927;&#x4E86;&#x8BB8;&#x591A;</li>
+<li><p>XvPutImage(Display <em>, XvPortID, Window, GC </em>, XvImage *, int src_x, int src_y, int src_w, int src_h, int dst_x, int dst_y, int dst_w, int dst_h);<br>&#x9488;&#x5BF9;&#x6B64;&#x51FD;&#x6570;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x600E;&#x4E48;&#x4F7F;&#x7528;&#x6B64;&#x51FD;&#x6570;&#xFF0C;&#x4F1A;&#x7528;&#x4E86;&#x6B64;&#x51FD;&#x6570;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x663E;&#x793A;YUV&#x6570;&#x636E;&#x4E86;&#xFF1B;<br>&#x6B64;&#x51FD;&#x6570;&#x9700;&#x8981;&#x7ED3;&#x5408;&#x4E00;&#x4E2A;QWidget&#x624D;&#x80FD;&#x591F;&#x663E;&#x793A;&#x56FE;&#x7247;&#xFF1B;<br>&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;QWidget&#x7684;x11Display()&#x51FD;&#x6570;&#x5F97;&#x5230;&#xFF1B;<br>&#x7B2C;&#x4E8C;&#x4E2A;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;XvQueryAdaptors&#x5F97;&#x5230;&#xFF1B;<br>&#x7B2C;&#x4E09;&#x4E2A;&#xFF0C;&#x901A;&#x8FC7;QWidget&#x7684;winId()&#x5F97;&#x5230;&#xFF1B;<br>&#x7B2C;&#x56DB;&#x4E2A;&#xFF0C;&#x901A;&#x8FC7;XvCreateImage&#x5F97;&#x5230;&#xFF1B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">XvPutImage(gui-&gt;dpy, gui-&gt;im_port, gui-&gt;win, gui-&gt;gc, gui-&gt;xvimage, 0, 0,</span><br><span class="line"> MAX_XV_WIDTH,MAX_XV_HEIGHT, 0, 0, gui-&gt;screen_width, gui-&gt;screen_height);</span><br><span class="line"></span><br><span class="line">gui-&gt;dpy = gdk_x11_display_get_xdisplay()</span><br><span class="line">gui-&gt;gc = XCreateGC()</span><br><span class="line">gui-&gt;xvimage = XvCreateImage(,FMT_VIDEO_YUV420P)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>XPutImage&#x4E0D;&#x652F;&#x6301;yuv&#x683C;&#x5F0F;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5E38;&#x7528;&#x7684;&#x5C31;&#x662F;rgb&#x683C;&#x5F0F;</p>
+</li>
+<li>&#x57FA;&#x4E8E;X Video Extension&#x5E93;&#x7684;&#xFF0C;XvPutImage&#x5219;&#x53EF;&#x80FD;&#x652F;&#x6301;yuv&#x683C;&#x5F0F;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x8FD9;&#x4E2A;&#x663E;&#x5361;&#x6709;&#x5173;</li>
+</ul>
+<hr>
+<h2 id="&#x5176;&#x5B83;&#x529F;&#x80FD;"><a href="#u5176_u5B83_u529F_u80FD" class="headerlink" title="&#x5176;&#x5B83;&#x529F;&#x80FD;"></a>&#x5176;&#x5B83;&#x529F;&#x80FD;</h2><h3 id="video_scan"><a href="#video_scan" class="headerlink" title="video_scan"></a>video_scan</h3><p>cur_video: &#x8A2D;&#x5B9A;&#x8981;&#x986F;&#x793A;&#x7684;&#x6700;&#x5C0F;ch<br>video_coun: &#x8A2D;&#x5B9A;&#x9019;&#x500B;&#x756B;&#x9762;&#x6709;&#x5E7E;CH(2x2,3x3,4x4..)<br>selected: &#x8A2D;&#x5B9A;&#x9019;&#x500B;&#x5206;&#x5272;&#x756B;&#x9762;&#xFF0C;&#x90A3;ch&#x8F38;&#x51FA;&#x8072;&#x97F3;</p>
+<img src="/2016/12/12/ldvr-dlg-flow/video_scan.png" alt="[video_scan]" title="[video_scan]">
+<ul>
+<li><p>XvStopVideo(dpy, port, draw) </p>
+<ul>
+<li>XvStopVideo &#x2212; stop active video</li>
+<li>XvStopVideo(3) stops active video for the specified port and drawable<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> XvStopVideo(gui-&gt;dpy, gui-&gt;im_port, gui-&gt;win);</span><br><span class="line">//gui-&gt;win = gdk_x11_drawable_get_xid(drawing_area-&gt;window);</span><br><span class="line">//gui-&gt;dpy = gdk_x11_display_get_xdisplay(gtk_widget_get_display(drawing_area));</span><br><span class="line">//gui-&gt;gc = XCreateGC(gui-&gt;dpy, gui-&gt;win, 0, NULL);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>dpy<br>Specifies the connection to the X server.</p>
+</li>
+<li>port<br>Specifies the port for which video is to be stopped.</li>
+<li>draw<br>Specifies the drawable associated with the named port</li>
+</ul>
+<h3 id="tty_debug&#x65B9;&#x5F0F;"><a href="#tty_debug_u65B9_u5F0F" class="headerlink" title="tty_debug&#x65B9;&#x5F0F;"></a>tty_debug&#x65B9;&#x5F0F;</h3><ul>
+<li>&#x5148;&#x4F7F;&#x7528;ssh&#x767B;&#x5165;&#xFF0C;&#x67E5;&#x770B;&#x767B;&#x5165;&#x7684;(/dev/ptsx)<br>-&#x67E5;&#x770B;&#x767B;&#x5165;&#x7684;ptsx: env | grep pts</li>
+<li>&#x8A2D;&#x5B9A;/config/system.ini&#x5167;&#x7684;(tty_debug=1)</li>
+<li>&#x958B;&#x555F;&#x7A0B;&#x5F0F;&#x8F38;&#x5165;&#x8981;&#x5C0E;&#x51FA;&#x7684;/dev/ptsx<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost config]# env | grep pts</span><br><span class="line">SSH_TTY=/dev/pts/3</span><br><span class="line">[root@localhost config]# main&lt;line:9916&gt; ============&gt;&gt;&gt;============== start mount disk</span><br><span class="line"></span><br><span class="line">getrootdisk&lt;line:206&gt; cmd:df &gt; rootdisk.tmp  res=0 errno=11</span><br><span class="line">mount_disks&lt;line:379&gt; rootdisk:sda</span><br><span class="line">mount_disks&lt;line:392&gt; readline1: major minor  #blocks  name</span><br><span class="line">mount_disks&lt;line:392&gt; readline2: </span><br><span class="line">mount_disks&lt;line:392&gt; readline3:    8        0    3917592 sda</span><br><span class="line">mount_disks&lt;line:402&gt; part len=4 sda</span><br><span class="line">do_mount&lt;line:289&gt; start mount -----&gt;&gt;&gt;-----[mount -t ext4 /dev/sda2 /disks/1] step=4 res=0 errno=22</span><br><span class="line">do_mount&lt;line:d&gt; res=292 errno=0</span><br><span class="line">do_mount&lt;line:317&gt; end mount -----&lt;&lt;&lt;----- res=0</span><br><span class="line">do_umount&lt;line:271&gt; umount /disks/1 res=0 errno=2 step=5</span><br><span class="line">mount_disks&lt;line:392&gt; readline4:    8        1     131072 sda1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="gdk-function"><a href="#gdk_function" class="headerlink" title="gdk function"></a>gdk function</h3><ul>
+<li><a href="https://developer.gnome.org/gdk3/stable/GdkScreen.html#gdk-screen-get-default" target="_blank" rel="external">gdk_screen_get_default</a><br>Gets the default screen for the default display</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="https://www.x.org/archive/X11R7.6/doc/man/man3/XvStopVideo.3.xhtml" target="_blank" rel="external">XvStopVideo</a></li>
+<li><a href="http://huangbster.blog.sohu.com/256490057.html" target="_blank" rel="external">&#x4F7F;&#x7528;GTK3&#x548C;vx&#x6765;&#x5B9E;&#x73B0;&#x9AD8;&#x6548;&#x7684;&#x64AD;&#x653E;&#x89C6;&#x9891;</a></li>
+<li><a href="http://blog.csdn.net/jiazhen/article/details/2501634" target="_blank" rel="external">X11&#x4E0B;&#x51E0;&#x79CD;&#x663E;&#x793A;&#x56FE;&#x50CF;&#x7684;&#x65B9;&#x5F0F; </a></li>
+<li><a href="https://www.freebsd.org/doc/zh_CN.UTF-8/books/handbook/video-playback.html" target="_blank" rel="external">&#x89C6;&#x9891;&#x56DE;&#x653E;</a></li>
+<li><a href="http://docs.oracle.com/cd/E19253-01/819-0362/fqgbo/index.html" target="_blank" rel="external">Solaris 10 &#x65B0;&#x589E;&#x529F;&#x80FD;</a></li>
+<li><a href="http://socol.iteye.com/blog/693981" target="_blank" rel="external">xorg &#x67B6;&#x6784; &#x5C06;&#x6765; &#x4EE5;&#x53CA;&#x4E00;&#x4E9B;&#x57FA;&#x672C;&#x5E38;&#x8BC6;&#x6D45;&#x6790;</a></li>
+<li><a href="http://blog.csdn.net/baymoon/article/details/1515222" target="_blank" rel="external">linux&#x4E0B;Qt+Xv&#x663E;&#x793A;&#x89C6;&#x9891;&#x603B;&#x7ED3; </a></li>
+<li><a href="http://www.programgo.com/article/10273878524/" target="_blank" rel="external">graphic camera</a></li>
+<li><a href="https://linux.die.net/man/3/xv" target="_blank" rel="external">xv - Linux man page</a></li>
+<li><a href="http://blog.csdn.net/leixiaohua1020/article/details/44117891" target="_blank" rel="external">FFmpeg&#x6E90;&#x4EE3;&#x7801;&#x7B80;&#x5355;&#x5206;&#x6790;&#xFF1A;avcodec_open2() </a></li>
+<li><a href="https://www.ptt.cc/bbs/C_and_CPP/M.1332759347.A.4D0.html" target="_blank" rel="external">ffmpeg&#x89E3;h264&#x7684;stream</a></li>
+<li><a href="http://fanli7.net/a/bianchengyuyan/C__/20130308/319291.html" target="_blank" rel="external">how to use libavformat and libavcodec to read video from a file</a></li>
+<li><a href="http://blog.csdn.net/skys_broyal/article/details/10337147" target="_blank" rel="external">&#x4F7F;&#x7528;ffmpeg&#x8FDB;&#x884C;&#x56FE;&#x50CF;&#x683C;&#x5F0F;&#x8F6C;&#x6362;&#x4EE5;&#x53CA;&#x56FE;&#x50CF;&#x7F29;&#x653E;/sws_scale/linux/c++/c/rgb-yuv420 </a></li>
+</ul>
+<p>&#x5176;&#x5B83;</p>
+<ul>
+<li><a href="http://blog.csdn.net/jiazhen/article/details/51670120" target="_blank" rel="external">40&#x591A;&#x4E2A;&#x5173;&#x4E8E;&#x4EBA;&#x8138;&#x68C0;&#x6D4B;/&#x8BC6;&#x522B;&#x7684;API&#x3001;&#x5E93;&#x548C;&#x8F6F;&#x4EF6; </a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/06/pthread/" rel="next" title="pthread">
+                <i class="fa fa-chevron-left"></i> pthread
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/13/pts-debug/" rel="prev" title="pts-debug">
+                pts-debug <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">1.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#program-flow"><span class="nav-number">2.</span> <span class="nav-text">program flow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main-flow"><span class="nav-number">2.1.</span> <span class="nav-text">main flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_load_sys_configs"><span class="nav-number">2.2.</span> <span class="nav-text">ldvr_load_sys_configs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_schedule_manage"><span class="nav-number">2.3.</span> <span class="nav-text">ldvr_schedule_manage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_video_save"><span class="nav-number">2.4.</span> <span class="nav-text">ldvr_video_save</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gui"><span class="nav-number">3.</span> <span class="nav-text">GUI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gui_start"><span class="nav-number">3.1.</span> <span class="nav-text">gui_start</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xv_image_init"><span class="nav-number">3.2.</span> <span class="nav-text">xv_image_init</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#general_init"><span class="nav-number">3.3.</span> <span class="nav-text">general_init</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#video-decode"><span class="nav-number">4.</span> <span class="nav-text">video decode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_video_decode"><span class="nav-number">4.1.</span> <span class="nav-text">ldvr_video_decode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_pre_displayvideo"><span class="nav-number">4.2.</span> <span class="nav-text">ldvr_pre_displayvideo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#displayvideo"><span class="nav-number">4.3.</span> <span class="nav-text">displayvideo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#libxv"><span class="nav-number">5.</span> <span class="nav-text">libxv</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x-window-system-video-extension"><span class="nav-number">5.1.</span> <span class="nav-text">X Window System video extension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在x11下有几种可以显示图像的方式"><span class="nav-number">5.2.</span> <span class="nav-text">在X11下有几种可以显示图像的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xfree86-延伸的-x-用戶端支援"><span class="nav-number">5.3.</span> <span class="nav-text">XFree86 延伸的 X 用戶端支援</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xvputimage"><span class="nav-number">5.4.</span> <span class="nav-text">XvPutImage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它功能"><span class="nav-number">6.</span> <span class="nav-text">其它功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#video_scan"><span class="nav-number">6.1.</span> <span class="nav-text">video_scan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tty_debug方式"><span class="nav-number">6.2.</span> <span class="nav-text">tty_debug方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gdk-function"><span class="nav-number">6.3.</span> <span class="nav-text">gdk function</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">7.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/12/12/ldvr-dlg-flow/';
+      var disqus_title = 'ldvr-dlg-flow';
+      var disqus_url = 'http://yoursite.com/2016/12/12/ldvr-dlg-flow/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

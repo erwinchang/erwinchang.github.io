@@ -1,0 +1,944 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,x-window,kde," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解GNOME及KDE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gnome-kde">
+<meta property="og:url" content="http://yoursite.com/2016/07/13/gnome-kde/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解GNOME及KDE">
+<meta property="og:image" content="http://yoursite.com/2016/07/13/gnome-kde/ccidnet_com_648971.jpg">
+<meta property="og:image" content="http://yoursite.com/2016/07/13/gnome-kde/ccidnet_com_648975.jpg">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.259Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gnome-kde">
+<meta name="twitter:description" content="了解GNOME及KDE">
+<meta name="twitter:image" content="http://yoursite.com/2016/07/13/gnome-kde/ccidnet_com_648971.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> gnome-kde | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                gnome-kde
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-13T14:13:15+08:00" content="2016-07-13">
+              2016-07-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/13/gnome-kde/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/13/gnome-kde/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/13/gnome-kde/" class="leancloud_visitors" data-flag-title="gnome-kde">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;GNOME&#x53CA;KDE</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160713</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#gnomekde">GNOME,KDE</a><ul>
+<li><a href="#&#x904E;&#x7A0B;">&#x904E;&#x7A0B;</a></li>
+<li><a href="#kde">KDE</a></li>
+<li><a href="#gnome">GNOME</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a></li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="gnomekde"><a href="#GNOME_2CKDE" class="headerlink" title="GNOME,KDE"></a>GNOME,KDE</h2><h3 id="&#x904E;&#x7A0B;"><a href="#u904E_u7A0B" class="headerlink" title="&#x904E;&#x7A0B;"></a>&#x904E;&#x7A0B;</h3><p>GNOME (GNU Network Object Model Environment)</p>
+<p>KDE&#xFF08;Kool Desktop Environment&#xFF09;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1984</td>
+<td style="text-align:left">MIT&#x6B63;&#x5F0F;&#x53D1;&#x884C;X Window,&#x7B2C;&#x4E00;&#x500B;&#x7248;&#x672C; X1 &#x767C;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Mathias Ettrich&#x9078;&#x64C7;&#x4F7F;&#x7528;Qt&#x7A0B;&#x5F0F;&#x5EAB;&#x958B;&#x767C;KDE&#x684C;&#x9762;&#x7CFB;&#x7D71;</td>
+</tr>
+<tr>
+<td style="text-align:left">1997</td>
+<td style="text-align:left"><gnome> &#x4E8E;&#x975E;Qt&#x5E93;&#x7684;&#x684C;&#x9762;&#x7CFB;&#x7EDF;&#xFF0C;&#x5373;GNOME&#x9879;&#x76EE; (&#x4F46;KDE&#x6240;&#x4F9D;&#x8CF4;&#x7684;Qt&#x5F53;&#x65F6;&#x5E76;&#x672A;&#x4F7F;&#x7528;GPL&#x6388;&#x6B0A;&#x3002;&#x51FA;&#x4E8E;&#x8FD9;&#x79CD;&#x8003;&#x8651;)</gnome></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">GIMP Toolkit&#xFF08;GTK+&#xFF09;&#x88AB;&#x9009;&#x4E2D;&#x505A;&#x4E3A;Qt toolkit&#x7684;&#x66FF;&#x4EE3;&#xFF0C;&#x62C5;&#x5F53;GNOME&#x684C;&#x9762;&#x7684;&#x57FA;&#x7840;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">GTK+&#x4F7F;&#x7528;LGPL&#xFF0C;&#x5141;&#x8BB8;&#x94FE;&#x63A5;&#x5230;&#x6B64;&#x5E93;&#x7684;&#x8F6F;&#x4EF6;&#xFF08;&#x4F8B;&#x5982;GNOME&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF09;&#x4F7F;&#x7528;&#x4EFB;&#x610F;&#x7684;&#x8BB8;&#x53EF;&#x534F;&#x8BAE;</td>
+</tr>
+<tr>
+<td style="text-align:left">1998</td>
+<td style="text-align:left">KDE 1.0</td>
+</tr>
+<tr>
+<td style="text-align:left">1999</td>
+<td style="text-align:left">Linux&#x4E1A;&#x754C;&#x7684;&#x8001;&#x5927;RedHat&#x5F88;&#x4E0D;&#x559C;&#x6B22;KDE/Qt&#x7684;&#x7248;&#x6743;&#xFF0C;&#x5728;GNOME&#x9879;&#x76EE;&#x53D1;&#x8D77;&#x540E;RedHat&#x7ACB;&#x523B;&#x5BF9;&#x5176;&#x63D0;&#x4F9B;&#x652F;&#x6301;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">GNOME 1.0</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Qt&#x52A0;&#x5165;GPL&#x6388;&#x6B0A;</td>
+</tr>
+<tr>
+<td style="text-align:left">2002</td>
+<td style="text-align:left">KDE 3.0 (QT 3.0) , GNOME 2.0 ( GTK 2.0)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Novell&#x516C;&#x53F8;&#x5BA3;&#x5E03;&#x6536;&#x8D2D;&#x5FB7;&#x56FD;&#x7684;SuSE Linux&#xFF0C;&#x800C;SuSELinux&#x662F;&#x5730;&#x4F4D;&#x4EC5;&#x6B21;&#x4E8E;RedHat&#x7684;&#x5168;&#x7403;&#x7B2C;&#x4E8C;&#x5927;Linux&#x5546;&#x4E1A;&#x4F01;&#x4E1A;</td>
+</tr>
+<tr>
+<td style="text-align:left">2004</td>
+<td style="text-align:left">GNOME&#x4E0D;&#x4EC5;&#x5F00;&#x59CB;&#x5728;&#x6280;&#x672F;&#x4E0A;&#x8D85;&#x8D8A;&#x524D;&#x8005;&#xFF0C;&#x4E5F;&#x83B7;&#x5F97;&#x66F4;&#x591A;&#x5546;&#x4E1A;&#x516C;&#x53F8;&#x7684;&#x5E7F;&#x6CDB;&#x652F;&#x6301;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Qt&#x5728;&#x7248;&#x6743;&#x65B9;&#x9762;&#x7684;&#x9650;&#x5236;&#x8BA9;&#x8BB8;&#x591A;&#x5546;&#x4E1A;&#x516C;&#x53F8;&#x671B;&#x800C;&#x5374;&#x6B65;</td>
+</tr>
+<tr>
+<td style="text-align:left">2008</td>
+<td style="text-align:left">Qt&#x662F;&#x4E00;&#x4E2A;&#x8DE8;&#x5E73;&#x53F0;&#x7684;C++&#x56FE;&#x5F62;&#x7528;&#x6237;&#x754C;&#x9762;&#x5E93;&#xFF0C;&#x5B83;&#x662F;&#x632A;&#x5A01;TrollTech&#x516C;&#x53F8;&#x7684;&#x4EA7;&#x54C1;, &#x88AB;NOKIA&#x6536;&#x8D2D;</td>
+</tr>
+<tr>
+<td style="text-align:left">2009</td>
+<td style="text-align:left">Qt 4.5&#x767C;&#x5E03;&#xFF0C;&#x52A0;&#x5165;&#x4E86;LGPL&#x6388;&#x6B0A;&#x4F5C;&#x70BA;&#x7B2C;&#x4E09;&#x9078;&#x64C7; (&#x653E;&#x5BBD;&#x4E86;KDE&#x51FD;&#x6578;&#x5EAB;&#x7684;&#x6388;&#x6B0A;&#xFF0C;&#x4F7F;&#x5F97;&#x5E73;&#x81FA;&#x4E0B;&#x5546;&#x696D;&#x79C1;&#x6709;&#x7248;&#x6B0A;&#x7A0B;&#x5F0F;&#x7684;&#x958B;&#x767C;&#x8F03;&#x539F;&#x4F86;&#x81EA;&#x7531;)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>GNOME 2&#x4F7F;&#x7528;Metacity&#x70BA;&#x5B83;&#x7684;&#x9810;&#x8A2D;&#x7A97;&#x53E3;&#x7BA1;&#x7406;&#x5668;</li>
+<li><p>&#x5728;GNOME 3&#x4E4B;&#x524D;&#xFF0C;GNOME&#x662F;&#x6839;&#x64DA;&#x50B3;&#x7D71;&#x7684;&#x684C;&#x9762;&#x6BD4;&#x64EC;&#x800C;&#x8A2D;&#x8A08;&#xFF0C;&#x4F46;&#x5728;GNOME 3&#x4FBF;&#x88AB;GNOME Shell&#x6240;&#x53D6;&#x4EE3;</p>
+</li>
+<li><p>Linux&#x4E1A;&#x754C;&#x7684;&#x8001;&#x5927;RedHat&#x5F88;&#x4E0D;&#x559C;&#x6B22;KDE/Qt&#x7684;&#x7248;&#x6743;&#xFF0C;&#x5728;GNOME&#x9879;&#x76EE;&#x53D1;&#x8D77;&#x540E;RedHat&#x7ACB;&#x523B;&#x5BF9;&#x5176;&#x63D0;&#x4F9B;&#x652F;&#x6301;</p>
+</li>
+</ul>
+<h3 id="kde"><a href="#KDE" class="headerlink" title="KDE"></a>KDE</h3><ul>
+<li><p>KDE&#x8EDF;&#x9AD4;&#x662F;&#x57FA;&#x65BC;Qt&#x6846;&#x67B6;&#x958B;&#x767C;&#x7684;&#xFF0C;&#x5177;&#x5099;&#x4E86;&#x53EF;&#x65BC;&#x591A;&#x6578;&#x7684;Unix&#x53CA;&#x5176;&#x4ED6;&#x985E;Unix&#x7CFB;&#x7D71;&#x4E0B;&#x904B;&#x884C;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x6B64;&#x5916;&#x9084;&#x5305;&#x62EC;&#x6709;Mac&#x5E73;&#x81FA;&#x4E0A;&#x7684;OS X&#x7CFB;&#x7D71;&#x548C;&#x5FAE;&#x8EDF;&#x7684;Windows&#x7CFB;&#x7D71;</p>
+</li>
+<li><p>KDE&#x7684;&#x4E3B;&#x8981;&#x7248;&#x672C;&#x865F;&#x6309;&#x7167;Qt&#x7684;&#x767C;&#x5E03;&#x9031;&#x671F;</p>
+<ul>
+<li>KDE SC 4&#x662F;&#x57FA;&#x65BC;Qt 4</li>
+<li>KDE 3&#x662F;&#x57FA;&#x65BC;Qt 3</li>
+</ul>
+</li>
+</ul>
+<img src="/2016/07/13/gnome-kde/ccidnet_com_648971.jpg" alt="[KDE]" title="[KDE]">
+<p>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A; <a href="http://www.crifan.com/switch_kde__qt_vs_gnome__gtk/" target="_blank" rel="external">KDE/QT vs GNOME/GTK</a></p>
+<h3 id="gnome"><a href="#GNOME" class="headerlink" title="GNOME"></a>GNOME</h3><ul>
+<li><p>1996</p>
+<ul>
+<li>GIMP Toolkit&#xFF08;GTK+&#xFF09;&#x88AB;&#x9009;&#x4E2D;&#x505A;&#x4E3A;Qt toolkit&#x7684;&#x66FF;&#x4EE3;&#xFF0C;&#x62C5;&#x5F53;GNOME&#x684C;&#x9762;&#x7684;&#x57FA;&#x7840;</li>
+</ul>
+</li>
+<li><p>GNOME 2&#x4F7F;&#x7528;Metacity&#x70BA;&#x5B83;&#x7684;&#x9810;&#x8A2D;&#x7A97;&#x53E3;&#x7BA1;&#x7406;&#x5668;</p>
+</li>
+<li><p>GNOME 3&#x4FBF;&#x88AB;GNOME Shell&#x6240;&#x53D6;&#x4EE3;, Mutter&#x53D6;&#x4EE3;&#x4E86;Metacity&#x6210;&#x70BA;&#x9810;&#x8A2D;&#x7684;&#x7A97;&#x53E3;&#x7BA1;&#x7406;&#x5668;</p>
+<ul>
+<li>GNOME&#x6838;&#x5FC3;&#x7A0B;&#x5F0F;&#x90FD;&#x91CD;&#x65B0;&#x8A2D;&#x8A08;&#x4EE5;&#x63D0;&#x4F9B;&#x66F4;&#x9023;&#x8CAB;&#x7684;&#x7528;&#x6236;&#x9AD4;&#x9A57;</li>
+</ul>
+</li>
+<li><p>GNOME 3.10&#x5F8C;&#x4EA6;&#x53EF;&#x5728;Wayland&#x4E0B;&#x57F7;&#x884C;</p>
+</li>
+<li>2011&#x5E74;5&#x6708;&#x502B;&#x5167;&#x5FB7;&#xB7;&#x67CF;&#x7279;&#x83F1;&#x5EFA;&#x8B70;&#x628A;systemd&#x5217;&#x70BA;GNOME&#x904B;&#x884C;&#x9700;&#x8981;&#x7684;&#x8EDF;&#x4EF6;</li>
+</ul>
+<img src="/2016/07/13/gnome-kde/ccidnet_com_648975.jpg" alt="[GNOME]" title="[GNOME]">
+<p>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A; <a href="http://www.crifan.com/switch_kde__qt_vs_gnome__gtk/" target="_blank" rel="external">KDE/QT vs GNOME/GTK</a></p>
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><ul>
+<li><a href="https://jan.newmarch.name/LinuxSound/Diversions/Gtk/" target="_blank" rel="external">Displaying video with overlays using Gtk and FFMpeg </a></li>
+<li><a href="https://github.com/wang-bin/QtAV" target="_blank" rel="external">&#x57FA;&#x4E8E;Qt&#x548C;FFmpeg&#x7684;&#x8DE8;&#x5E73;&#x53F0;&#x9AD8;&#x6027;&#x80FD;&#x97F3;&#x89C6;&#x9891;&#x64AD;&#x653E;&#x6846;&#x67B6;</a></li>
+<li><a href="https://developer.gnome.org/guides" target="_blank" rel="external">GNOME develop</a></li>
+<li><a href="https://wiki.gnome.org/" target="_blank" rel="external">Welcome to the GNOME Wiki!</a></li>
+<li><a href="http://stackoverflow.com/questions/1887070/what-should-i-choose-gtk-or-qt" target="_blank" rel="external">What should I choose: GTK+ or Qt</a></li>
+<li><a href="http://www.gtk.org/documentation.php" target="_blank" rel="external">GTK API</a></li>
+<li><a href="https://www.wikivs.com/wiki/GTK_vs_Qt" target="_blank" rel="external">GTK vs Qt</a></li>
+</ul>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://www.crifan.com/switch_kde__qt_vs_gnome__gtk/" target="_blank" rel="external">KDE/QT vs GNOME/GTK</a></li>
+<li><a href="https://docs.google.com/document/d/15CIS4pg_MdQr7PtfgRniTCfiE76ZQdUE-F-ZddAIHLU/edit" target="_blank" rel="external">Gtk &#x8EDF;&#x9AD4; VS Qt &#x8EDF;&#x9AD4;</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/KDE" target="_blank" rel="external">KDE</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/GNOME" target="_blank" rel="external">GNOME</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Linux%E5%8F%91%E8%A1%8C%E7%89%88%E6%AF%94%E8%BE%83" target="_blank" rel="external">Linux&#x53D1;&#x884C;&#x7248;&#x6BD4;&#x8F83;</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/GTK%2B" target="_blank" rel="external">GTK+</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Qt" target="_blank" rel="external">QT</a></li>
+<li><a href="http://os.51cto.com/art/201008/220492_all.htm" target="_blank" rel="external">&#x56DB;&#x5927;Linux&#x56FE;&#x5F62;&#x754C;&#x9762;&#x8D4F;&#x6790;&#xFF1A;KDE&#x3001;Gnome&#x3001;Xfce&#x3001;LXDE</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/x-window/" rel="tag">#x-window</a>
+          
+            <a href="/tags/kde/" rel="tag">#kde</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/13/book-google-mindfulness/" rel="next" title="book-google-mindfulness">
+                <i class="fa fa-chevron-left"></i> book-google-mindfulness
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/13/gtk-tutorial/" rel="prev" title="gtk-tutorial">
+                gtk-tutorial <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gnomekde"><span class="nav-number">3.</span> <span class="nav-text">GNOME,KDE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#過程"><span class="nav-number">3.1.</span> <span class="nav-text">過程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kde"><span class="nav-number">3.2.</span> <span class="nav-text">KDE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gnome"><span class="nav-number">3.3.</span> <span class="nav-text">GNOME</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">4.</span> <span class="nav-text">其它</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">5.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/07/13/gnome-kde/';
+      var disqus_title = 'gnome-kde';
+      var disqus_url = 'http://yoursite.com/2016/07/13/gnome-kde/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

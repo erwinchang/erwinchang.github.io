@@ -1,0 +1,1052 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,書籍閱讀,javascript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript-patterns">
+<meta property="og:url" content="http://yoursite.com/2016/08/15/javascript-patterns/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description">
+<meta property="og:image" content="http://yoursite.com/2016/08/15/javascript-patterns/cat.gif">
+<meta property="og:image" content="http://yoursite.com/2016/08/15/javascript-patterns/var-hoisting.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript-patterns">
+<meta name="twitter:description">
+<meta name="twitter:image" content="http://yoursite.com/2016/08/15/javascript-patterns/cat.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> javascript-patterns | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                javascript-patterns
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-08-15T13:57:04+08:00" content="2016-08-15">
+              2016-08-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/book/" itemprop="url" rel="index">
+                    <span itemprop="name">book</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/15/javascript-patterns/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/15/javascript-patterns/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/15/javascript-patterns/" class="leancloud_visitors" data-flag-title="javascript-patterns">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2016/08/15/javascript-patterns/cat.gif" alt="cat.gif" title="">
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160815</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#chapter2">Chapter2</a><ul>
+<li><a href="#&#x6C38;&#x9060;&#x4F7F;&#x7528;var&#x4F86;&#x5BA3;&#x544A;&#x8B8A;&#x6578;">&#x6C38;&#x9060;&#x4F7F;&#x7528;var&#x4F86;&#x5BA3;&#x544A;&#x8B8A;&#x6578;</a></li>
+<li><a href="#&#x8B8A;&#x6578;var">&#x8B8A;&#x6578;var</a></li>
+<li><a href="#&#x7528;&#x55AE;&#x500B;var&#x5B9A;&#x7FA9;&#x591A;&#x500B;&#x8B8A;&#x6578;">&#x7528;&#x55AE;&#x500B;var&#x5B9A;&#x7FA9;&#x591A;&#x500B;&#x8B8A;&#x6578;</a></li>
+<li><a href="#&#x7269;&#x4EF6;&#x5BE6;&#x5B57;&#x8A9E;&#x6CD5;">&#x7269;&#x4EF6;&#x5BE6;&#x5B57;&#x8A9E;&#x6CD5;</a></li>
+<li><a href="#&#x907F;&#x514D;&#x96B1;&#x542B;&#x7684;&#x578B;&#x5225;&#x8F49;&#x63DB;">&#x907F;&#x514D;&#x96B1;&#x542B;&#x7684;&#x578B;&#x5225;&#x8F49;&#x63DB;</a></li>
+<li><a href="#&#x5206;&#x865F;&#x63D2;&#x5165;&#x6A5F;&#x5236;semicolon-insertion-mechanism">&#x5206;&#x865F;&#x63D2;&#x5165;&#x6A5F;&#x5236;(semicolon insertion mechanism)</a></li>
+<li><a href="#&#x5BEB;&#x4F5C;&#x7FD2;&#x6163;&#x7A7A;&#x683C;">&#x5BEB;&#x4F5C;&#x7FD2;&#x6163;&#xFF1A;&#x7A7A;&#x683C;</a></li>
+</ul>
+</li>
+<li><a href="#chapter2-&#x547D;&#x540D;&#x6163;&#x4F8B;">Chapter2 &#x547D;&#x540D;&#x6163;&#x4F8B;</a><ul>
+<li><a href="#&#x8B93;&#x5EFA;&#x69CB;&#x8A66;&#x70BA;&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5BEB;">&#x8B93;&#x5EFA;&#x69CB;&#x8A66;&#x70BA;&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5BEB;</a></li>
+<li><a href="#&#x5B57;&#x8A5E;&#x7684;&#x5206;&#x9694;&#x65B9;&#x5F0F;">&#x5B57;&#x8A5E;&#x7684;&#x5206;&#x9694;&#x65B9;&#x5F0F;</a></li>
+<li><a href="#&#x5176;&#x4ED6;&#x547D;&#x540D;&#x6A21;&#x5F0F;">&#x5176;&#x4ED6;&#x547D;&#x540D;&#x6A21;&#x5F0F;</a></li>
+</ul>
+</li>
+<li><a href="#chapter2-variable-hoisting">Chapter2 Variable Hoisting</a><ul>
+<li><a href="#&#x4E86;&#x89E3;&#x8B8A;&#x6578;&#x7684;&#x62C9;&#x5347;variable-hoisting">&#x4E86;&#x89E3;&#x8B8A;&#x6578;&#x7684;&#x62C9;&#x5347;(Variable Hoisting)</a></li>
+<li><a href="#variable-hoisting-example">Variable Hoisting Example</a></li>
+<li><a href="#&#x55AE;&#x5143;&#x6E2C;&#x8A66;">&#x55AE;&#x5143;&#x6E2C;&#x8A66;</a></li>
+</ul>
+</li>
+<li><a href="#chapter3-&#x7269;&#x4EF6;&#x5BE6;&#x4F53;">Chapter3 &#x7269;&#x4EF6;&#x5BE6;&#x4F53;</a><ul>
+<li><a href="#&#x7269;&#x4EF6;-creating-objects">&#x7269;&#x4EF6; (Creating objects)</a></li>
+<li><a href="#&#x7528;&#x5EFA;&#x69CB;&#x5F0F;new-&#x5EFA;&#x7ACB;&#x7269;&#x4EF6;">&#x7528;&#x5EFA;&#x69CB;&#x5F0F;(new ..)&#x5EFA;&#x7ACB;&#x7269;&#x4EF6;</a></li>
+<li><a href="#&#x81EA;&#x8A02;&#x5EFA;&#x69CB;&#x5F0F;&#x51FD;&#x6578;">&#x81EA;&#x8A02;&#x5EFA;&#x69CB;&#x5F0F;&#x51FD;&#x6578;</a></li>
+<li><a href="#&#x5982;&#x4F55;&#x628A;function&#x52A0;&#x5165;&#x7269;&#x4EF6;&#x539F;&#x578B;prototype&#x4E2D;">&#x5982;&#x4F55;&#x628A;function&#x52A0;&#x5165;&#x7269;&#x4EF6;&#x539F;&#x578B;(prototype)&#x4E2D;</a></li>
+</ul>
+</li>
+<li><a href="#chapter4-&#x51FD;&#x6578;&#x5F85;&#x589E;&#x52A0;">Chapter4 &#x51FD;&#x6578;(&#x5F85;&#x589E;&#x52A0;)</a></li>
+<li><a href="#chapter5-&#x7269;&#x4EF6;&#x5EFA;&#x7ACB;&#x6A21;&#x5F0F;&#x5F85;&#x589E;&#x52A0;">Chapter5 &#x7269;&#x4EF6;&#x5EFA;&#x7ACB;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)</a></li>
+<li><a href="#chapter6-&#x7A0B;&#x5F0F;&#x78BC;&#x91CD;&#x7528;&#x6A21;&#x5F0F;&#x5F85;&#x589E;&#x52A0;">Chapter6 &#x7A0B;&#x5F0F;&#x78BC;&#x91CD;&#x7528;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)</a></li>
+<li><a href="#chapter7-&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x5F85;&#x589E;&#x52A0;">Chapter7 &#x8A2D;&#x8A08;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)</a></li>
+<li><a href="#chapter8-dom&#x548C;&#x5289;&#x89BD;&#x5668;&#x7684;&#x6A21;&#x5F0F;&#x5F85;&#x589E;&#x52A0;">Chapter8 DOM&#x548C;&#x5289;&#x89BD;&#x5668;&#x7684;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)</a></li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="chapter2"><a href="#Chapter2" class="headerlink" title="Chapter2"></a>Chapter2</h2><h3 id="&#x6C38;&#x9060;&#x4F7F;&#x7528;var&#x4F86;&#x5BA3;&#x544A;&#x8B8A;&#x6578;"><a href="#u6C38_u9060_u4F7F_u7528var_u4F86_u5BA3_u544A_u8B8A_u6578" class="headerlink" title="&#x6C38;&#x9060;&#x4F7F;&#x7528;var&#x4F86;&#x5BA3;&#x544A;&#x8B8A;&#x6578;"></a>&#x6C38;&#x9060;&#x4F7F;&#x7528;var&#x4F86;&#x5BA3;&#x544A;&#x8B8A;&#x6578;</h3><ul>
+<li><p>&#x5EFA;&#x8B70;&#x65B9;&#x5F0F;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">x,y</span>)</span>{</span><br><span class="line">	<span class="comment">//&#x5B9A;&#x7FA9;result&#x70BA;&#x5340;&#x57DF;&#x8B8A;&#x6578;</span></span><br><span class="line">	<span class="keyword">var</span> result = x + y;  </span><br><span class="line">	<span class="keyword">return</span> result; </span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x4E0D;&#x5EFA;&#x8B70;&#x65B9;&#x5F0F;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">x,y</span>)</span>{</span><br><span class="line">	<span class="comment">//&#x6709;&#x53EF;&#x80FD;&#x4F7F;&#x7528;&#x5230;&#x5168;&#x57DF;&#x8B8A;&#x6578;result</span></span><br><span class="line">	result = x + y;  </span><br><span class="line">	<span class="keyword">return</span> result; </span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x8B8A;&#x6578;var"><a href="#u8B8A_u6578var" class="headerlink" title="&#x8B8A;&#x6578;var"></a>&#x8B8A;&#x6578;var</h3><ul>
+<li>&#x7528;var&#x5B9A;&#x7FA9;&#x5168;&#x57DF;&#x8B8A;&#x4E0D;&#x53EF;&#x4EE5;&#x522A;&#x9664;</li>
+<li><p>&#x4E0D;&#x4F7F;&#x7528;var&#x5B9A;&#x7FA9;&#x5168;&#x57DF;&#x8B8A;&#x6578;(&#x5373;&#x4E0D;&#x5C0F;&#x5FC3;&#x5728;&#x51FD;&#x6578;&#x4E2D;&#x7522;&#x751F;)&#x53EF;&#x4EE5;&#x522A;&#x9664;</p>
+</li>
+<li><p>&#x7BC4;&#x4F8B;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat test-<span class="keyword">var</span>.js </span><br><span class="line"> <span class="keyword">var</span> g_var = <span class="number">1</span>;</span><br><span class="line"> g_novar = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"> (<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>{</span><br><span class="line">     g_fromfunc = <span class="number">3</span>;</span><br><span class="line"> }());</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">delete</span> g_var);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">delete</span> g_novar);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">delete</span> g_fromfunc);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> g_var);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> g_novar);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> g_fromfunc);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6E2C;&#x8A66;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">false</span></span><br><span class="line"><span class="literal">true</span></span><br><span class="line"><span class="literal">true</span></span><br><span class="line">number</span><br><span class="line">undefined</span><br><span class="line">undefined</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x7528;&#x55AE;&#x500B;var&#x5B9A;&#x7FA9;&#x591A;&#x500B;&#x8B8A;&#x6578;"><a href="#u7528_u55AE_u500Bvar_u5B9A_u7FA9_u591A_u500B_u8B8A_u6578" class="headerlink" title="&#x7528;&#x55AE;&#x500B;var&#x5B9A;&#x7FA9;&#x591A;&#x500B;&#x8B8A;&#x6578;"></a>&#x7528;&#x55AE;&#x500B;var&#x5B9A;&#x7FA9;&#x591A;&#x500B;&#x8B8A;&#x6578;</h3><ul>
+<li>&#x7528;&#x55AE;&#x500B;var&#x5B9A;&#x7FA9;&#x591A;&#x500B;&#x8B8A;&#x6578;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>{</span><br><span class="line">	<span class="keyword">var</span> a = <span class="number">1</span>,</span><br><span class="line">		b = <span class="number">2</span>,</span><br><span class="line">		sum = a + b,</span><br><span class="line">		myobject = {},</span><br><span class="line">		i,</span><br><span class="line">		j;</span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x7269;&#x4EF6;&#x5BE6;&#x5B57;&#x8A9E;&#x6CD5;"><a href="#u7269_u4EF6_u5BE6_u5B57_u8A9E_u6CD5" class="headerlink" title="&#x7269;&#x4EF6;&#x5BE6;&#x5B57;&#x8A9E;&#x6CD5;"></a>&#x7269;&#x4EF6;&#x5BE6;&#x5B57;&#x8A9E;&#x6CD5;</h3><ul>
+<li>&#x5C07;&#x7269;&#x4EF6;&#x7528; { } &#x5305;&#x8D77;&#x4F86;</li>
+<li>&#x7528;&#x9017;&#x865F;(,)&#x5206;&#x958B;&#x7269;&#x4EF6;&#x5167;&#x6BCF;&#x500B;&#x5C6C;&#x6027;&#x53CA;&#x51FD;&#x6578;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dog = {</span><br><span class="line">	<span class="attr">name</span>: <span class="string">&quot;Benji&quot;</span></span><br><span class="line">	getName: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">	}</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x907F;&#x514D;&#x96B1;&#x542B;&#x7684;&#x578B;&#x5225;&#x8F49;&#x63DB;"><a href="#u907F_u514D_u96B1_u542B_u7684_u578B_u5225_u8F49_u63DB" class="headerlink" title="&#x907F;&#x514D;&#x96B1;&#x542B;&#x7684;&#x578B;&#x5225;&#x8F49;&#x63DB;"></a>&#x907F;&#x514D;&#x96B1;&#x542B;&#x7684;&#x578B;&#x5225;&#x8F49;&#x63DB;</h3><ul>
+<li><p>JavaScript&#x5728;&#x6BD4;&#x8F03;&#x6642;&#x6703;&#x96B1;&#x542B;&#x7684;&#x505A;&#x578B;&#x5225;&#x8F49;&#x63DB;<br>false == 0 &#x6216; &#x201C;&#x201D; == 0 &#x6703;&#x56DE;&#x50B3;true</p>
+</li>
+<li><p>&#x4F7F;&#x7528;&#x78BA;&#x5B9A;&#x7684;&#x6BD4;&#x8F03; <strong>===</strong> , <strong>!==</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">var</span> zero = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> ( zero === <span class="literal">false</span> ){</span><br><span class="line"> <span class="comment">// &#x4E0D;&#x6703;&#x57F7;&#x884C;&#xFF0C;&#x56E0;&#x70BA;zero&#x662F;0&#x975E;false</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x907F;&#x514D;&#x96B1;&#x542B;&#x7684;&#x578B;&#x5225;&#x8F49;&#x63DB;&#x6BD4;&#x8F03;,&#x9664;&#x975E;&#x4F60;&#x77E5;&#x9053;&#x4F60;&#x5728;&#x505A;&#x4EC0;&#x9EBC;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> zero = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> ( zero == <span class="literal">false</span> ){</span><br><span class="line"> <span class="comment">// &#x6703;&#x57F7;&#x884C;</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5206;&#x865F;&#x63D2;&#x5165;&#x6A5F;&#x5236;semicolon-insertion-mechanism"><a href="#u5206_u865F_u63D2_u5165_u6A5F_u5236_28semicolon_insertion_mechanism_29" class="headerlink" title="&#x5206;&#x865F;&#x63D2;&#x5165;&#x6A5F;&#x5236;(semicolon insertion mechanism)"></a>&#x5206;&#x865F;&#x63D2;&#x5165;&#x6A5F;&#x5236;(semicolon insertion mechanism)</h3><ul>
+<li><p>JavaScrpt&#x5141;&#x8A9E;&#x4F60;&#x5728;&#x884C;&#x5C3E;&#x907A;&#x6F0F;&#x5206;&#x865F;&#xFF0C;&#x9084;&#x6703;&#x81EA;&#x52D5;&#x5E6B;&#x4F60;&#x52A0;&#x4E00;&#x500B;<br>&#x8981;&#x990A;&#x6210;&#x5DE6;&#x62EC;&#x865F; <strong>{</strong> &#x7684;&#x4F4D;&#x7F6E;&#x8981;&#x5BEB;&#x5728;&#x540C;&#x884C;&#xFF0C;&#x907F;&#x514D;&#x96B1;&#x542B;&#x7684;&#x5206;&#x865F;<br>&#x6C38;&#x9060;&#x61C9;&#x8A72;&#x52A0;&#x4E0A;&#x5206;&#x865F;&#xFF0C;&#x5373;&#x4FBF;JavaScript&#x89E3;&#x6790;&#x5668;&#x6703;&#x96B1;&#x542B;&#x7684;&#x88DC;&#x4E0A;</p>
+</li>
+<li><p>&#x6B63;&#x78BA;&#x7684;&#x5BEB;&#x6CD5;&#x65B9;&#x5F0F;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>{</span><br><span class="line">	<span class="keyword">return</span> {</span><br><span class="line">		<span class="attr">name</span>: <span class="string">&quot;Batman&quot;</span></span><br><span class="line">	};</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x932F;&#x8AA4;&#x7684;&#x5BEB;&#x6CD5;&#x65B9;&#x5F0F; : &#x975E;&#x9810;&#x671F;&#x7684;&#x56DE;&#x50B3;&#x503C;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>{</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">	{</span><br><span class="line">		<span class="attr">name</span>: <span class="string">&quot;Batman&quot;</span></span><br><span class="line">	};</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7531;&#x65BC;&#x96B1;&#x542B;&#x7684;&#x5206;&#x865F;&#xFF0C;&#x7B49;&#x540C;&#x65BC;&#x4E0B;&#x9762;&#x7684;&#x5BEB;&#x6CD5;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>{</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">undefined</span>;</span><br><span class="line">	{</span><br><span class="line">		<span class="attr">name</span>: <span class="string">&quot;Batman&quot;</span></span><br><span class="line">	};</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5BEB;&#x4F5C;&#x7FD2;&#x6163;&#x7A7A;&#x683C;"><a href="#u5BEB_u4F5C_u7FD2_u6163_uFF1A_u7A7A_u683C" class="headerlink" title="&#x5BEB;&#x4F5C;&#x7FD2;&#x6163;&#xFF1A;&#x7A7A;&#x683C;"></a>&#x5BEB;&#x4F5C;&#x7FD2;&#x6163;&#xFF1A;&#x7A7A;&#x683C;</h3><ul>
+<li><p>for&#x4E2D;&#x5404;&#x90E8;&#x5206;&#x7684;&#x5206;&#x865F;&#x4E4B;&#x5F8C;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i += <span class="number">1</span>){</span><br><span class="line">	...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5340;&#x9694;array&#x7269;&#x4EF6;&#x7684;&#x9017;&#x865F;&#x4E4B;&#x5F8C;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5340;&#x9694;&#x5C6C;&#x6027;&#x540D;&#x7A31;&#x548C;&#x503C;&#x7684;&#x5206;&#x865F;&#x4E4B;&#x5F8C;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = {<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>};</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x51FD;&#x6578;&#x5BA3;&#x544A;&#x7684;&#x5DE6;&#x62EC;&#x865F;&#x4E4B;&#x524D;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunc</span>(<span class="params"></span>) </span>{}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5340;&#x9694;&#x6240;&#x6709;&#x7684;&#x904B;&#x7B97;&#x5143;&#x548C;&#x904B;&#x7B97;&#x5B50;<br>+, -, *, =, &lt;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d = <span class="number">0</span>,</span><br><span class="line">      a = b + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( a &amp;&amp; b &amp;&amp; c) {</span><br><span class="line">      d = a % c;</span><br><span class="line">      a += d;	</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5DE6;&#x62EC;&#x865F; <strong>{</strong> &#x4E4B;&#x524D;&#x61C9;&#x8A72;&#x52A0;&#x4E0A;&#x7A7A;&#x683C;&#xFF0C;ex. &#x51FD;&#x6578;&#x3001;if-else, loop..&#x7B49;</p>
+</li>
+<li>&#x53F3;&#x62EC;&#x865F; <strong>}</strong> &#x548C;else, while&#x4E4B;&#x9593;&#x61C9;&#x8A72;&#x52A0;&#x4E0A;&#x7A7A;&#x683C;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) {</span><br><span class="line">	alert(<span class="number">1</span>);</span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">	alert(<span class="number">2</span>);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter2-&#x547D;&#x540D;&#x6163;&#x4F8B;"><a href="#Chapter2__u547D_u540D_u6163_u4F8B" class="headerlink" title="Chapter2 &#x547D;&#x540D;&#x6163;&#x4F8B;"></a>Chapter2 &#x547D;&#x540D;&#x6163;&#x4F8B;</h2><h3 id="&#x8B93;&#x5EFA;&#x69CB;&#x8A66;&#x70BA;&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5BEB;"><a href="#u8B93_u5EFA_u69CB_u8A66_u70BA_u9996_u5B57_u6BCD_u5927_u5BEB" class="headerlink" title="&#x8B93;&#x5EFA;&#x69CB;&#x8A66;&#x70BA;&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5BEB;"></a>&#x8B93;&#x5EFA;&#x69CB;&#x8A66;&#x70BA;&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5BEB;</h3><ul>
+<li>js&#x6C92;&#x6709;class&#xFF0C;&#x4F46;&#x6709;&#x4F7F;&#x7528;new&#x5F15;&#x767C;&#x7684;&#x5EFA;&#x69CB;&#x5F0F;&#x51FD;&#x5F0F;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyConstructor</span>(<span class="params"></span>) </span>{...}</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>{...}</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>) </span>{...}</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> adam = <span class="keyword">new</span> Person();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5B57;&#x8A5E;&#x7684;&#x5206;&#x9694;&#x65B9;&#x5F0F;"><a href="#u5B57_u8A5E_u7684_u5206_u9694_u65B9_u5F0F" class="headerlink" title="&#x5B57;&#x8A5E;&#x7684;&#x5206;&#x9694;&#x65B9;&#x5F0F;"></a>&#x5B57;&#x8A5E;&#x7684;&#x5206;&#x9694;&#x65B9;&#x5F0F;</h3><ul>
+<li><p>&#x5EFA;&#x69CB;&#x5F0F;&#xFF0C;&#x63A1;&#x7528;&#x5927;&#x99DD;&#x5CF0;&#x5F0F;&#x547D;&#x540D;&#x6CD5;(upper camel case)<br>MyConstructor()</p>
+</li>
+<li><p>&#x4E00;&#x822C;&#x7684;&#x51FD;&#x6578;&#x540D;&#x7A31;&#x63A1;&#x7528;&#x5C0F;&#x99DD;&#x5CF0;&#x5F0F;&#x547D;&#x540D;&#x6CD5;(lower camerl case)<br>myFunction(), calculateArea(), getFirstName()</p>
+</li>
+<li><p>&#x975E;&#x51FD;&#x5F0F;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x63A1;&#x7528;&#x5C0F;&#x99DD;&#x5CF0;&#x5F0F;&#x547D;&#x540D;&#x6CD5;<br>lastIndex, ignoreCase</p>
+</li>
+</ul>
+<h3 id="&#x5176;&#x4ED6;&#x547D;&#x540D;&#x6A21;&#x5F0F;"><a href="#u5176_u4ED6_u547D_u540D_u6A21_u5F0F" class="headerlink" title="&#x5176;&#x4ED6;&#x547D;&#x540D;&#x6A21;&#x5F0F;"></a>&#x5176;&#x4ED6;&#x547D;&#x540D;&#x6A21;&#x5F0F;</h3><ul>
+<li><p>&#x7528;&#x5168;&#x90E8;&#x5927;&#x5BEB;&#x5B57;&#x6BCD;&#x547D;&#x540D;&#x5168;&#x57DF;&#x8B8A;&#x6578;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> PI = <span class="number">3.14</span>,</span><br><span class="line">      MAX_WIDTH = <span class="number">800</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7528;&#x5E95;&#x7DDA; <strong>_</strong> &#x7576;&#x6210;private&#x6210;&#x54E1;<br>getName()&#x8868;&#x793A;&#x70BA;public<br>_getFirst(), _getLast()&#x8868;&#x793A;&#x70BA;private<br>&#x5B83;&#x5011;&#x96D6;&#x7136;&#x4ECD;&#x662F;&#x666E;&#x901A;&#x7684;public&#x51FD;&#x5F0F;&#xFF0C;&#x4F46;&#x52A0;&#x4E0A;&#x4F4E;&#x7DDA;&#x4FBF;&#x662F;&#x63D0;&#x9192;&#x4F7F;&#x7528;&#x8005;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = {</span><br><span class="line">	<span class="attr">getName</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>._getFirst() + <span class="string">&apos; &apos;</span> + <span class="keyword">this</span>._getLast();</span><br><span class="line">	}</span><br><span class="line">	_getFirst: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">		...</span><br><span class="line">	}</span><br><span class="line">	_getLast: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">		...</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter2-variable-hoisting"><a href="#Chapter2_Variable_Hoisting" class="headerlink" title="Chapter2 Variable Hoisting"></a>Chapter2 Variable Hoisting</h2><h3 id="&#x4E86;&#x89E3;&#x8B8A;&#x6578;&#x7684;&#x62C9;&#x5347;variable-hoisting"><a href="#u4E86_u89E3_u8B8A_u6578_u7684_u62C9_u5347_28Variable_Hoisting_29" class="headerlink" title="&#x4E86;&#x89E3;&#x8B8A;&#x6578;&#x7684;&#x62C9;&#x5347;(Variable Hoisting)"></a>&#x4E86;&#x89E3;&#x8B8A;&#x6578;&#x7684;&#x62C9;&#x5347;(Variable Hoisting)</h3><ul>
+<li>&#x8B8A;&#x6578;player&#x5728;&#x5176;&#x4E2D;&#x88AB;&#x5BA3;&#x544A;&#x7684;&#x6700;&#x63A5;&#x8FD1;&#x7684;&#x7BC4;&#x7587;(scop)</li>
+<li>JavaScript&#x4E0D;&#x652F;&#x63F4; block scoping</li>
+<li><p>&#x5728;&#x540C;&#x4E00;&#x500B;function&#x5167;&#x8B8A;&#x6578;&#xFF0C;&#x5728;&#x57F7;&#x884C;&#x6642;&#x6703;&#x88AB;&#x62C9;&#x5347;&#x5230;function&#x7684;&#x982D;<br>&#x5373;&#x5B9A;&#x7FA9;var player&#xFF0C;&#x800C;&#x5728;&#x5F8C;&#x624D;&#x7531;&#x7A0B;&#x5F0F;&#x8A2D;&#x5B9A;&#x503C;<br>&#x8B8A;&#x6578;&#x53EA;&#x6709;var xx &#xFF0C;&#x6B64;&#x6642;&#x5C1A;&#x672A;define&#xFF0C;&#x7576;&#x8A2D;&#x5B9A;&#x503C;&#x6642;&#x624D;&#x6703;define ex. number , class , function</p>
+</li>
+<li><p><em>&#x67D0;&#x4E9B;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5E2B;&#x504F;&#x597D;&#xFF0C;&#x628A;&#x6240;&#x6709;&#x7684;var&#x5BA3;&#x544A;&#x653E;&#x5230;&#x5B83;&#x5011;&#x51FD;&#x6578;&#x7684;&#x9802;&#x7AEF;</em><br><em>&#x7B49;&#x540C;&#x65BC;&#x624B;&#x52D5;&#x8D77;&#x628A;&#x5B83;&#x5011;&#x7684;&#x8B8A;&#x6578;&#x62C9;&#x5347;&#xFF0C;&#x4EE5;&#x907F;&#x514D;&#x6B67;&#x7FA9;(ambiguity)</em></p>
+</li>
+</ul>
+<ul>
+<li><p>&#x932F;&#x8AA4;&#x7684;&#x5BEB;&#x6CD5;&#x5982;&#x4E0B;<br>&#x6B64;&#x6642;&#x7684;player&#x975E;&#x5916;&#x90E8;&#x50B3;&#x5167;&#xFF0C;&#x800C;&#x662F;function&#x5B9A;&#x7FA9;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isWinner</span>(<span class="params">player, others</span>) </span>{</span><br><span class="line">	<span class="keyword">var</span> highest = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, n = other.length; i &lt; n; i++){</span><br><span class="line">		<span class="keyword">var</span> player = other[i];</span><br><span class="line">		<span class="keyword">if</span>(player.score &gt; highest){</span><br><span class="line">			highest = player.score;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> player.score &gt; highest;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x8B8A;&#x6578;&#x7684;&#x62C9;&#x5347;<br>&#x5DE6;&#x908A;&#x70BA;&#x7A0B;&#x5F0F;&#x5167;&#x5BB9;&#xFF0C;&#x53F3;&#x908A;&#x70BA;&#x5BE6;&#x969B;&#x5728;&#x8DD1;&#x6642;&#x76F4;&#x8B6F;&#x7684;&#x89E3;&#x6790;&#x65B9;&#x5F0F;<br>&#x5728;function&#x5167;&#x7684;&#x8B8A;&#x6578;&#x6703;&#x5148;&#x5728;&#x982D;&#x5B9A;&#x7FA9;&#xFF0C;&#x4E4B;&#x5F8C;&#x5728;&#x8A2D;&#x5B9A;&#x503C;(&#x6B64;&#x6642;&#x624D;&#x6703;define&#x8B8A;&#x6578;)<br>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;Effective JavaScript page 45</p>
+</li>
+</ul>
+<img src="/2016/08/15/javascript-patterns/var-hoisting.png" width="560">
+<h3 id="variable-hoisting-example"><a href="#Variable_Hoisting_Example" class="headerlink" title="Variable Hoisting Example"></a>Variable Hoisting Example</h3><ul>
+<li><p>&#x7BC4;&#x4F8B;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ cat ja-hoisting.js </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>{</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&apos;global foo&apos;</span>);</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>{</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&apos;global bar&apos;</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hoistMe</span>(<span class="params"></span>)</span>{</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> foo);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">typeof</span> bar);</span><br><span class="line"></span><br><span class="line">    foo();</span><br><span class="line"><span class="comment">//    bar();</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>{</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&apos;local foo&apos;</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">var</span> bar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&apos;local bar&apos;</span>);</span><br><span class="line">    };</span><br><span class="line">}</span><br><span class="line">hoistMe();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6E2C;&#x8A66;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span></span><br><span class="line">undefined</span><br><span class="line"><span class="built_in">local</span> foo</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x55AE;&#x5143;&#x6E2C;&#x8A66;"><a href="#u55AE_u5143_u6E2C_u8A66" class="headerlink" title="&#x55AE;&#x5143;&#x6E2C;&#x8A66;"></a>&#x55AE;&#x5143;&#x6E2C;&#x8A66;</h3><p>&#x540C;&#x4E8B;&#x63D0;&#x4F9B;&#x4E86;&#x4E0D;&#x932F;&#x7684;&#x6E2C;&#x8A66;&#x7BC4;&#x4F8B;</p>
+<ul>
+<li>&#x5148;&#x60F3;&#x4E00;&#x4E0B;&#xFF0C;&#x6703;&#x6253;&#x5370;&#x7D50;&#x679C;</li>
+<li><p>&#x518D;&#x7528;node&#x8A66;&#x4E00;&#x4E0B;&#x771F;&#x6B63;&#x7684;&#x7D50;&#x679C;&#x8DDF;&#x9810;&#x671F;&#x7684;&#x662F;&#x5426;&#x76F8;&#x540C;</p>
+</li>
+<li><p>Variable Hoisting &#x6E2C;&#x8A66;&#x4E00;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> y = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>{</span><br><span class="line">    <span class="keyword">if</span>(!y){</span><br><span class="line">        <span class="keyword">var</span> y = <span class="number">0</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="built_in">console</span>.log(y);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">f();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Variable Hoisting &#x6E2C;&#x8A66;&#x4E8C;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> y = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>{</span><br><span class="line">    y = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">y</span>(<span class="params"></span>)</span>{}</span><br><span class="line">}</span><br><span class="line">f();</span><br><span class="line"><span class="built_in">console</span>.log(y);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter3-&#x7269;&#x4EF6;&#x5BE6;&#x4F53;"><a href="#Chapter3__u7269_u4EF6_u5BE6_u4F53" class="headerlink" title="Chapter3 &#x7269;&#x4EF6;&#x5BE6;&#x4F53;"></a>Chapter3 &#x7269;&#x4EF6;&#x5BE6;&#x4F53;</h2><h3 id="&#x7269;&#x4EF6;-creating-objects"><a href="#u7269_u4EF6__28Creating_objects_29" class="headerlink" title="&#x7269;&#x4EF6; (Creating objects)"></a>&#x7269;&#x4EF6; (Creating objects)</h3><p><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/Object_initializer" target="_blank" rel="external">Object initializer</a></p>
+<ul>
+<li><p>&#x7A7A;&#x7269;&#x4EF6;<br>An empty object with no properties can be created like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dog = {};</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x975E;&#x7A7A;&#x7269;&#x4EF6;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dog = {</span><br><span class="line">	<span class="attr">name</span>: <span class="string">&quot;Benji&quot;</span> ,</span><br><span class="line">	<span class="attr">getName</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Accessing properties</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dog.name;	<span class="comment">// &quot;Benji&quot;</span></span><br><span class="line">dog[<span class="string">&quot;name&quot;</span>];	<span class="comment">// &quot;Benji&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7269;&#x4EF6;&#x5BE6;&#x4F53;&#x8A9E;&#x6CD5;<br>&#x7269;&#x4EF6;&#x7528;&#x5927;&#x62EC;&#x865F;&#x5305;&#x8D77;&#x4F86; <strong>{</strong> <strong>}</strong><br>&#x7528;&#x9017;&#x865F;&#x5206;&#x9694;&#x7269;&#x4EF6;&#x5167;&#x6BCF;&#x500B;&#x5C6C;&#x6027;&#x548C;&#x51FD;&#x5F0F;<br>&#x7528;&#x9017;&#x865F;&#x5206;&#x9694;&#x5C6C;&#x6027;&#x540D;&#x7A31;&#x548C;&#x5C6C;&#x6027;&#x503C;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> apple = {</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&quot;macintosh&quot;</span>,</span><br><span class="line">    <span class="attr">color</span>: <span class="string">&quot;red&quot;</span>,</span><br><span class="line">    <span class="attr">getInfo</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.color + <span class="string">&apos; &apos;</span> + <span class="keyword">this</span>.type + <span class="string">&apos; apple&apos;</span>;</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">apple.color = <span class="string">&quot;reddish&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log(apple.getInfo());</span><br><span class="line"></span><br><span class="line">$ node <span class="class"><span class="keyword">class</span>.<span class="title">js</span> </span><br><span class="line"><span class="title">reddish</span> <span class="title">macintosh</span> <span class="title">apple</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x7528;&#x5EFA;&#x69CB;&#x5F0F;new-&#x5EFA;&#x7ACB;&#x7269;&#x4EF6;"><a href="#u7528_u5EFA_u69CB_u5F0F_28new_-_29_u5EFA_u7ACB_u7269_u4EF6" class="headerlink" title="&#x7528;&#x5EFA;&#x69CB;&#x5F0F;(new ..)&#x5EFA;&#x7ACB;&#x7269;&#x4EF6;"></a>&#x7528;&#x5EFA;&#x69CB;&#x5F0F;(new ..)&#x5EFA;&#x7ACB;&#x7269;&#x4EF6;</h3><ul>
+<li>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x81EA;&#x5DF2;&#x7684;&#x5EFA;&#x69CB;&#x51FD;&#x5F0F;&#x5EFA;&#x4F4D;&#x7269;&#x4EF6;&#xFF0C;</li>
+<li>&#x6216;&#x4F7F;&#x7528;&#x5167;&#x5EFA;&#x7684;&#x5EFA;&#x69CB;&#x5F0F;Object()&#x3001;Date()&#x3001;String()</li>
+<li><p><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects" target="_blank" rel="external">&#x6A19;&#x6E96;&#x5167;&#x5EFA;&#x7269;&#x4EF6;</a></p>
+</li>
+<li><p>&#x5EFA;&#x7ACB;&#x7269;&#x4EF6;&#x65B9;&#x5F0F;&#x6709;&#x4E0B;&#x4F8B;&#x5169;&#x500B;&#x65B9;&#x5F0F;</p>
+<ul>
+<li><p><1> &#x5EFA;&#x8B70;&#x63A1;&#x7528;&#x65B9;&#x5F0F;</1></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> car = {<span class="attr">goes</span>: <span class="string">&quot;far&quot;</span>};</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><2> &#x4E0D;&#x5EFA;&#x8B70;&#x63A1;&#x7528;&#x65B9;&#x5F0F;<br>Creates a new object by copying the values of all enumerable own properties from one or more source objects to a target object.<br><strong>&#x4E0D;&#x8981;&#x4F7F;&#x7528;new Object()&#xFF0C;&#x61C9;&#x8A72;&#x4F7F;&#x7528;&#x8F03;&#x7C21;&#x55AE;&#x800C;&#x4E14;&#x66F4;&#x53EF;&#x9760;&#x7684;&#x7269;&#x4EF6;&#x5BE6;&#x5B50;&#x66FF;&#x4EE3;</strong></2></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> car = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">car .goes = <span class="string">&quot;far&quot;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x81EA;&#x8A02;&#x5EFA;&#x69CB;&#x5F0F;&#x51FD;&#x6578;"><a href="#u81EA_u8A02_u5EFA_u69CB_u5F0F_u51FD_u6578" class="headerlink" title="&#x81EA;&#x8A02;&#x5EFA;&#x69CB;&#x5F0F;&#x51FD;&#x6578;"></a>&#x81EA;&#x8A02;&#x5EFA;&#x69CB;&#x5F0F;&#x51FD;&#x6578;</h3></li>
+<li><p>$ cat chapter3-person.js </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>{</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;I am &quot;</span> + <span class="keyword">this</span>.name;</span><br><span class="line">    };</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> adm = <span class="keyword">new</span> Person(<span class="string">&quot;Adam&quot;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(adm.say());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>$node chapter3-person.js </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I am Adam</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>New&#x5EFA;&#x69CB;&#x5F0F;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;</p>
+<ul>
+<li>&#x5EFA;&#x7ACB;&#x7A7A;&#x7269;&#x4EF6;&#xFF0C;&#x53C3;&#x8003;&#x81F3;this&#x8B8A;&#x6578;</li>
+<li>&#x4F7F;&#x7528;this&#x52A0;&#x5165;&#x8B8A;&#x6578;&#x53CA;&#x51FD;&#x6578;</li>
+<li>&#x56DE;&#x50B3;this</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>{</span><br><span class="line">    <span class="comment">// var this = {};</span></span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;I am &quot;</span> + <span class="keyword">this</span>.name;</span><br><span class="line">    };</span><br><span class="line"></span><br><span class="line">    <span class="comment">// return this;</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5982;&#x4F55;&#x628A;function&#x52A0;&#x5165;&#x7269;&#x4EF6;&#x539F;&#x578B;prototype&#x4E2D;"><a href="#u5982_u4F55_u628Afunction_u52A0_u5165_u7269_u4EF6_u539F_u578B_28prototype_29_u4E2D" class="headerlink" title="&#x5982;&#x4F55;&#x628A;function&#x52A0;&#x5165;&#x7269;&#x4EF6;&#x539F;&#x578B;(prototype)&#x4E2D;"></a>&#x5982;&#x4F55;&#x628A;function&#x52A0;&#x5165;&#x7269;&#x4EF6;&#x539F;&#x578B;(prototype)&#x4E2D;</h3><ul>
+<li>&#x7531;&#x65BC;&#x6BCF;&#x500B;new Person&#x90FD;&#x6703;&#x5EFA;&#x7ACB;&#x65B0;&#x7684;say function<br>&#x4F46;&#x7686;&#x662F;&#x76F8;&#x540C;&#x7684;&#x529F;&#x540C;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<strong>prototype</strong>&#x529F;&#x80FD;&#xFF0C;&#x8B93;&#x6240;&#x6709;&#x7684;<br>Person&#x90FD;&#x53C3;&#x8003;&#x540C;&#x4E00;&#x500B;&#x529F;&#x80FD;&#xFF0C;&#x6E1B;&#x5C11;&#x8A18;&#x61B6;&#x4F53;</li>
+<li>&#x5982;&#x4F55;&#x628A;say function&#x52A0;&#x5165;Persion&#x539F;&#x578B;&#x4E2D;</li>
+<li>$ cat chapter3-person2.js <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var Person = function (name) {</span><br><span class="line">    this.name = name;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">Person.prototype.say = function () {</span><br><span class="line">    return &quot;I am &quot; + this.name;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">var adm = new Person(&quot;Adam&quot;);</span><br><span class="line">console.log(adm.say());</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="chapter4-&#x51FD;&#x6578;&#x5F85;&#x589E;&#x52A0;"><a href="#Chapter4__u51FD_u6578_28_u5F85_u589E_u52A0_29" class="headerlink" title="Chapter4 &#x51FD;&#x6578;(&#x5F85;&#x589E;&#x52A0;)"></a>Chapter4 &#x51FD;&#x6578;(&#x5F85;&#x589E;&#x52A0;)</h2><hr>
+<h2 id="chapter5-&#x7269;&#x4EF6;&#x5EFA;&#x7ACB;&#x6A21;&#x5F0F;&#x5F85;&#x589E;&#x52A0;"><a href="#Chapter5__u7269_u4EF6_u5EFA_u7ACB_u6A21_u5F0F_28_u5F85_u589E_u52A0_29" class="headerlink" title="Chapter5 &#x7269;&#x4EF6;&#x5EFA;&#x7ACB;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)"></a>Chapter5 &#x7269;&#x4EF6;&#x5EFA;&#x7ACB;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)</h2><hr>
+<h2 id="chapter6-&#x7A0B;&#x5F0F;&#x78BC;&#x91CD;&#x7528;&#x6A21;&#x5F0F;&#x5F85;&#x589E;&#x52A0;"><a href="#Chapter6__u7A0B_u5F0F_u78BC_u91CD_u7528_u6A21_u5F0F_28_u5F85_u589E_u52A0_29" class="headerlink" title="Chapter6 &#x7A0B;&#x5F0F;&#x78BC;&#x91CD;&#x7528;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)"></a>Chapter6 &#x7A0B;&#x5F0F;&#x78BC;&#x91CD;&#x7528;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)</h2><hr>
+<h2 id="chapter7-&#x8A2D;&#x8A08;&#x6A21;&#x5F0F;&#x5F85;&#x589E;&#x52A0;"><a href="#Chapter7__u8A2D_u8A08_u6A21_u5F0F_28_u5F85_u589E_u52A0_29" class="headerlink" title="Chapter7 &#x8A2D;&#x8A08;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)"></a>Chapter7 &#x8A2D;&#x8A08;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)</h2><hr>
+<h2 id="chapter8-dom&#x548C;&#x5289;&#x89BD;&#x5668;&#x7684;&#x6A21;&#x5F0F;&#x5F85;&#x589E;&#x52A0;"><a href="#Chapter8_DOM_u548C_u5289_u89BD_u5668_u7684_u6A21_u5F0F_28_u5F85_u589E_u52A0_29" class="headerlink" title="Chapter8 DOM&#x548C;&#x5289;&#x89BD;&#x5668;&#x7684;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)"></a>Chapter8 DOM&#x548C;&#x5289;&#x89BD;&#x5668;&#x7684;&#x6A21;&#x5F0F;(&#x5F85;&#x589E;&#x52A0;)</h2><h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects" target="_blank" rel="external">&#x6A19;&#x6E96;&#x5167;&#x5EFA;&#x7269;&#x4EF6;</a></li>
+<li><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/Object_initializer" target="_blank" rel="external">Object initializer</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/書籍閱讀/" rel="tag">#書籍閱讀</a>
+          
+            <a href="/tags/javascript/" rel="tag">#javascript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/15/tmux/" rel="next" title="tmux">
+                <i class="fa fa-chevron-left"></i> tmux
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/16/nc/" rel="prev" title="nc">
+                nc <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter2"><span class="nav-number">3.</span> <span class="nav-text">Chapter2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#永遠使用var來宣告變數"><span class="nav-number">3.1.</span> <span class="nav-text">永遠使用var來宣告變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#變數var"><span class="nav-number">3.2.</span> <span class="nav-text">變數var</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用單個var定義多個變數"><span class="nav-number">3.3.</span> <span class="nav-text">用單個var定義多個變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#物件實字語法"><span class="nav-number">3.4.</span> <span class="nav-text">物件實字語法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免隱含的型別轉換"><span class="nav-number">3.5.</span> <span class="nav-text">避免隱含的型別轉換</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分號插入機制semicolon-insertion-mechanism"><span class="nav-number">3.6.</span> <span class="nav-text">分號插入機制(semicolon insertion mechanism)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寫作習慣空格"><span class="nav-number">3.7.</span> <span class="nav-text">寫作習慣：空格</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter2-命名慣例"><span class="nav-number">4.</span> <span class="nav-text">Chapter2 命名慣例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#讓建構試為首字母大寫"><span class="nav-number">4.1.</span> <span class="nav-text">讓建構試為首字母大寫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字詞的分隔方式"><span class="nav-number">4.2.</span> <span class="nav-text">字詞的分隔方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他命名模式"><span class="nav-number">4.3.</span> <span class="nav-text">其他命名模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter2-variable-hoisting"><span class="nav-number">5.</span> <span class="nav-text">Chapter2 Variable Hoisting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#了解變數的拉升variable-hoisting"><span class="nav-number">5.1.</span> <span class="nav-text">了解變數的拉升(Variable Hoisting)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#variable-hoisting-example"><span class="nav-number">5.2.</span> <span class="nav-text">Variable Hoisting Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#單元測試"><span class="nav-number">5.3.</span> <span class="nav-text">單元測試</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter3-物件實体"><span class="nav-number">6.</span> <span class="nav-text">Chapter3 物件實体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#物件-creating-objects"><span class="nav-number">6.1.</span> <span class="nav-text">物件 (Creating objects)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用建構式new-建立物件"><span class="nav-number">6.2.</span> <span class="nav-text">用建構式(new ..)建立物件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂建構式函數"><span class="nav-number">6.3.</span> <span class="nav-text">自訂建構式函數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何把function加入物件原型prototype中"><span class="nav-number">6.4.</span> <span class="nav-text">如何把function加入物件原型(prototype)中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter4-函數待增加"><span class="nav-number">7.</span> <span class="nav-text">Chapter4 函數(待增加)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter5-物件建立模式待增加"><span class="nav-number">8.</span> <span class="nav-text">Chapter5 物件建立模式(待增加)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter6-程式碼重用模式待增加"><span class="nav-number">9.</span> <span class="nav-text">Chapter6 程式碼重用模式(待增加)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter7-設計模式待增加"><span class="nav-number">10.</span> <span class="nav-text">Chapter7 設計模式(待增加)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter8-dom和劉覽器的模式待增加"><span class="nav-number">11.</span> <span class="nav-text">Chapter8 DOM和劉覽器的模式(待增加)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">12.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/08/15/javascript-patterns/';
+      var disqus_title = 'javascript-patterns';
+      var disqus_url = 'http://yoursite.com/2016/08/15/javascript-patterns/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

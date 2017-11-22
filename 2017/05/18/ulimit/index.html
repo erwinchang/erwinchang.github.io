@@ -1,0 +1,947 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,ulimit,stack size," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="問題：函數進入就當，第一行打印也沒有出來
+stack size限制是在系統中(ulimit -s可以查看)若程式裡超過的大小，可以compile，但在run time時會產生問題不過一般不會定義超過1Mbyte,若超過1Mbyte最好還是用malloc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ulimit">
+<meta property="og:url" content="http://yoursite.com/2017/05/18/ulimit/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="問題：函數進入就當，第一行打印也沒有出來
+stack size限制是在系統中(ulimit -s可以查看)若程式裡超過的大小，可以compile，但在run time時會產生問題不過一般不會定義超過1Mbyte,若超過1Mbyte最好還是用malloc">
+<meta property="og:image" content="http://i.imgur.com/Xe7XTw6.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/18/ulimit/ulimit.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ulimit">
+<meta name="twitter:description" content="問題：函數進入就當，第一行打印也沒有出來
+stack size限制是在系統中(ulimit -s可以查看)若程式裡超過的大小，可以compile，但在run time時會產生問題不過一般不會定義超過1Mbyte,若超過1Mbyte最好還是用malloc">
+<meta name="twitter:image" content="http://i.imgur.com/Xe7XTw6.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ulimit | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ulimit
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-05-18T10:52:07+08:00" content="2017-05-18">
+              2017-05-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/18/ulimit/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/18/ulimit/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/05/18/ulimit/" class="leancloud_visitors" data-flag-title="ulimit">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x554F;&#x984C;&#xFF1A;&#x51FD;&#x6578;&#x9032;&#x5165;&#x5C31;&#x7576;&#xFF0C;&#x7B2C;&#x4E00;&#x884C;&#x6253;&#x5370;&#x4E5F;&#x6C92;&#x6709;&#x51FA;&#x4F86;</p>
+<p>stack size&#x9650;&#x5236;&#x662F;&#x5728;&#x7CFB;&#x7D71;&#x4E2D;(ulimit -s&#x53EF;&#x4EE5;&#x67E5;&#x770B;)<br>&#x82E5;&#x7A0B;&#x5F0F;&#x88E1;&#x8D85;&#x904E;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x53EF;&#x4EE5;compile&#xFF0C;&#x4F46;&#x5728;run time&#x6642;&#x6703;&#x7522;&#x751F;&#x554F;&#x984C;<br>&#x4E0D;&#x904E;&#x4E00;&#x822C;&#x4E0D;&#x6703;&#x5B9A;&#x7FA9;&#x8D85;&#x904E;1Mbyte,&#x82E5;&#x8D85;&#x904E;1Mbyte&#x6700;&#x597D;&#x9084;&#x662F;&#x7528;malloc</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170518</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#stack-size-limit">Stack Size Limit</a><ul>
+<li><a href="#&#x554F;&#x984C;">&#x554F;&#x984C;</a></li>
+<li><a href="#stack&#x53CA;heap&#x5340;&#x584A;&#x4E0D;&#x540C;">stack&#x53CA;heap&#x5340;&#x584A;&#x4E0D;&#x540C;</a></li>
+<li><a href="#stack-size-&#x5927;&#x5C0F;">stack size &#x5927;&#x5C0F;</a></li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a></li>
+<li><a href="#&#x554F;&#x984C;&#x51FD;&#x6578;&#x9032;&#x5165;&#x5C31;&#x7576;&#x7B2C;&#x4E00;&#x884C;&#x6253;&#x5370;&#x4E5F;&#x6C92;&#x6709;&#x51FA;&#x4F86;">&#x554F;&#x984C;&#xFF1A;&#x51FD;&#x6578;&#x9032;&#x5165;&#x5C31;&#x7576;&#xFF0C;&#x7B2C;&#x4E00;&#x884C;&#x6253;&#x5370;&#x4E5F;&#x6C92;&#x6709;&#x51FA;&#x4F86;</a></li>
+</ul>
+</li>
+<li><a href="#&#x5340;&#x57DF;&#x8B8A;&#x6578;&#x751F;&#x6210;">&#x5340;&#x57DF;&#x8B8A;&#x6578;&#x751F;&#x6210;</a></li>
+<li><a href="#&#x4F86;&#x6E90;">&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="stack-size-limit"><a href="#Stack_Size_Limit" class="headerlink" title="Stack Size Limit"></a>Stack Size Limit</h2><h3 id="&#x554F;&#x984C;"><a href="#u554F_u984C" class="headerlink" title="&#x554F;&#x984C;"></a>&#x554F;&#x984C;</h3><p>&#x8A2D;&#x5B9A;&#x7531;1080P&#x63DB;&#x5230;4K<br>&#x51FD;&#x6578;&#x5167;&#x7684;&#x5B9A;&#x7FA9;char array&#x5927;&#x5C0F;&#x8D85;&#x904E;8M(stack size&#x554F;&#x984C;)</p>
+<h3 id="stack&#x53CA;heap&#x5340;&#x584A;&#x4E0D;&#x540C;"><a href="#stack_u53CAheap_u5340_u584A_u4E0D_u540C" class="headerlink" title="stack&#x53CA;heap&#x5340;&#x584A;&#x4E0D;&#x540C;"></a>stack&#x53CA;heap&#x5340;&#x584A;&#x4E0D;&#x540C;</h3><ol>
+<li>&#x51FD;&#x6578;&#x88E1;&#x9762;&#x662F;&#x8B8A;&#x6578;&#x662F;&#x7531;stack&#x5340;&#x584A;&#x7522;&#x751F;</li>
+<li>malloc&#x662F;&#x7531;heap&#x5340;&#x584A;&#x7522;&#x751F;</li>
+</ol>
+<p>&#x51FD;&#x6578;&#x88E1;&#x9762;&#x7684;&#x8B8A;&#x6578;&#x662F;&#x9032;&#x5165;&#x51FD;&#x6578;&#x6642;&#x624D;&#x53BB;&#x8DDF;stack&#x5340;&#x584A;&#x8981;<br>&#x82E5;&#x9019;&#x6642;&#x5019;&#x8981;&#x8D85;&#x904E;stack size&#x5C31;&#x6703;&#x6709;&#x554F;&#x984C;</p>
+<p><img src="http://i.imgur.com/Xe7XTw6.png" alt="Imgur"><br>&#x4F86;&#x6E90;:<a href="http://genesis8.tistory.com/archive/20160119" target="_blank" rel="external">stack</a></p>
+<ul>
+<li><a href="http://www.geeksforgeeks.org/?p=14268" target="_blank" rel="external">Memory Layout of C Programs</a></li>
+<li><a href="http://wp.mlab.tw/?p=312" target="_blank" rel="external">&#x4E09;&#x7A2E;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x9593;: global&#x3001;stack&#x3001;heap</a></li>
+</ul>
+<h3 id="stack-size-&#x5927;&#x5C0F;"><a href="#stack_size__u5927_u5C0F" class="headerlink" title="stack size &#x5927;&#x5C0F;"></a>stack size &#x5927;&#x5C0F;</h3><ul>
+<li>&#x7531;limit&#x53D6;&#x5F97;&#xFF0C;&#x55AE;&#x4F4D;&#x70BA;Kbyte<br>&#x53EF;&#x4EE5;&#x7CFB;&#x7D71;&#x6700;&#x5927;stack size&#x70BA;8Mbyte<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nvr]# ulimit -s</span><br><span class="line">8192</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h3><ul>
+<li><a href="https://blog.gtwang.org/linux/set-limits-on-user-processes-using-ulimit-in-linux/" target="_blank" rel="external">set-limits-on-user-processes-using-ulimit-in-linux</a></li>
+</ul>
+<p>ulimit -u: &#x986F;&#x793A;&#x53EF;&#x958B;&#x555F;&#x7684;thread&#x4E0A;&#x9650;<br>ulimit -u 2048&#xFF1A;&#x8A2D;&#x5B9A;&#x53EF;&#x958B;&#x555F;&#x7684;thread&#x4E0A;&#x9650;&#x70BA;2048<br>ulimit -s: &#x986F;&#x793A;&#x6700;&#x5927;stack size Kbyte<br>ulimit -s 8192: &#x8A2D;&#x5B9A;&#x6700;&#x5927;stack size 8Mbyte</p>
+<ul>
+<li>ulimit -a<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nvr]# ulimit -a</span><br><span class="line">core file size          (blocks, -c) unlimited</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 0</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 15243</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) 15243</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x554F;&#x984C;&#x51FD;&#x6578;&#x9032;&#x5165;&#x5C31;&#x7576;&#x7B2C;&#x4E00;&#x884C;&#x6253;&#x5370;&#x4E5F;&#x6C92;&#x6709;&#x51FA;&#x4F86;"><a href="#u554F_u984C_uFF1A_u51FD_u6578_u9032_u5165_u5C31_u7576_uFF0C_u7B2C_u4E00_u884C_u6253_u5370_u4E5F_u6C92_u6709_u51FA_u4F86" class="headerlink" title="&#x554F;&#x984C;&#xFF1A;&#x51FD;&#x6578;&#x9032;&#x5165;&#x5C31;&#x7576;&#xFF0C;&#x7B2C;&#x4E00;&#x884C;&#x6253;&#x5370;&#x4E5F;&#x6C92;&#x6709;&#x51FA;&#x4F86;"></a>&#x554F;&#x984C;&#xFF1A;&#x51FD;&#x6578;&#x9032;&#x5165;&#x5C31;&#x7576;&#xFF0C;&#x7B2C;&#x4E00;&#x884C;&#x6253;&#x5370;&#x4E5F;&#x6C92;&#x6709;&#x51FA;&#x4F86;</h3><ul>
+<li><p>&#x539F;&#x672C;1080P(&#x5373;1920x1080)&#x6B63;&#x5E38;<br>&#x8981;&#x4E86;(1920x1080x2x2)=7.9Mbyte&#x7684;stack size</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int</span><br><span class="line">yuv420_to_grb(ldvr_t * ldvr, int width2, int height2)</span><br><span class="line">{</span><br><span class="line">    printf(&quot;%s&lt;line:%d&gt; ==============&lt;&lt;&lt;============ TT20-1 \r\n&quot;,</span><br><span class="line">           __FUNCTION__, __LINE__);</span><br><span class="line"></span><br><span class="line">    int res, j;</span><br><span class="line">    gui_t *gui = ldvr-&gt;gui;</span><br><span class="line">    bitmap_file_header_t bf;</span><br><span class="line">    bitmap_info_header_t bi;</span><br><span class="line"></span><br><span class="line">    char vloss_bmp_buf[MAX_IMAGE_SIZE * 2];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6539;&#x70BA;4K(&#x5373;3840x2160)&#x7570;&#x5E38;<br>&#x8981;&#x4E86;(3840x2160x2x2)=31.6Mbyte&#x7684;stack size,<strong>&#x8D85;&#x904E;8M&#x5927;&#x5C0F;</strong><br>&#x6539;&#x70BA;&#x4F7F;&#x7528;&#x9810;&#x5148;malloc&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5373;&#x6B63;&#x5E38;<br><strong>ldvr-&gt;core-&gt;vloss_bmp_buf = (unsigned char *) malloc(MAX_IMAGE_SIZE x 2);</strong></p>
+</li>
+</ul>
+<ul>
+<li>define<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#ifdef RESOLUTION_4K</span><br><span class="line">#define MAX_IMAGE_WIDTH              3840</span><br><span class="line">#define MAX_IMAGE_HEIGHT             2160</span><br><span class="line">#else</span><br><span class="line">#define MAX_IMAGE_WIDTH              1920</span><br><span class="line">#define MAX_IMAGE_HEIGHT             1080</span><br><span class="line">#endif</span><br><span class="line">#define MAX_IMAGE_SIZE               (MAX_IMAGE_WIDTH * MAX_IMAGE_HEIGHT * 2)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x5340;&#x57DF;&#x8B8A;&#x6578;&#x751F;&#x6210;"><a href="#u5340_u57DF_u8B8A_u6578_u751F_u6210" class="headerlink" title="&#x5340;&#x57DF;&#x8B8A;&#x6578;&#x751F;&#x6210;"></a>&#x5340;&#x57DF;&#x8B8A;&#x6578;&#x751F;&#x6210;</h2><p>compile&#x4E4B;&#x5F8C;&#x7522;&#x751F;&#x7D44;&#x8A9E;&#x5982;&#x4E0B;<br>&#x4F7F;&#x7528;stack&#x5340;&#x584A;&#xFF0C;&#x4F86;&#x751F;&#x6210;&#x5340;&#x57DF;&#x8B8A;&#x6578;<br>&#x5728;&#x9032;&#x5165;&#x51FD;&#x6578;&#x9802;&#x7AEF;&#x7ACB;&#x5373;&#x5BE6;&#x73FE;&#x5340;&#x57DF;&#x8B8A;&#x6578;<br>&#x82E5;&#x8981;&#x8D85;&#x904E;&#x5927;&#x5C0F;&#xFF0C;&#x5C31;&#x6703;&#x7522;&#x751F;&#x554F;&#x984C;&#xFF0C;&#x5728;&#x7B2C;&#x4E00;&#x884C;&#x6253;&#x5370;&#x4E5F;&#x770B;&#x4E0D;&#x5230;</p>
+<img src="/2017/05/18/ulimit/ulimit.png" alt="[C Stack]" title="[C Stack]"> 
+<p>&#x4F86;&#x6E90;&#xFF1A;<a href="https://web-beta.archive.org/web/20160315222117/http://www.x86-64.org/documentation_folder/abi.pdf" target="_blank" rel="external">abi pdf page 21</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">%rax</td>
+<td style="text-align:left">temporary   register</td>
+</tr>
+<tr>
+<td style="text-align:left">%rbx</td>
+<td style="text-align:left">callee-saved register</td>
+</tr>
+<tr>
+<td style="text-align:left">%rsp</td>
+<td style="text-align:left">stack pointer</td>
+</tr>
+<tr>
+<td style="text-align:left">%rbp</td>
+<td style="text-align:left">callee-saved  register</td>
+</tr>
+<tr>
+<td style="text-align:left">%rsi</td>
+<td style="text-align:left">used to pass 2nd argument to functions</td>
+</tr>
+<tr>
+<td style="text-align:left">%rdi</td>
+<td style="text-align:left">used to pass 1st argument to functions</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><a href="http://stackoverflow.com/questions/4265970/c-to-assembly-call-convention-32bit-vs-64bit?rq=1" target="_blank" rel="external">c-to-assembly-call-convention-32bit-vs-64bit</a></li>
+</ul>
+<ul>
+<li>CFA<ul>
+<li>Typically, the CFA is defined to be the value of the stack pointer at the call site in the previous frame</li>
+<li>.cfi_def_cfa_offset directive, and you can see that the CFA is now at an offset of 16 bytes from the current stack pointer.</li>
+<li><a href="http://www.itkeyword.com/doc/810600710137156741/gas-explanation-of-cfi-def-cfa-offset" target="_blank" rel="external">gas-explanation-of-cfi-def-cfa-offset</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><a href="http://stackoverflow.com/questions/41912684/what-is-the-purpose-of-the-rbp-register-in-x86-64-assembler" target="_blank" rel="external">what-is-the-purpose-of-the-rbp-register-in-x86-64-assembler</a>  </p>
+<pre><code>pushq   %rbp        ; Save address of previous stack frame
+movq    %rsp, %rbp  ; Address of current stack frame
+subq    $16, %rsp   ; Reserve 16 bytes for local variables
+</code></pre></li>
+<li><p><a href="http://stackoverflow.com/questions/7534420/gas-explanation-of-cfi-def-cfa-offset" target="_blank" rel="external">GAS: Explanation of .cfi_def_cfa_offset</a></p>
+</li>
+<li><a href="http://www.itkeyword.com/doc/810600710137156741/gas-explanation-of-cfi-def-cfa-offset" target="_blank" rel="external">&#x89E3;&#x51B3;assembly - GAS: Explanation of .cfi_def_cfa_offset</a><ul>
+<li>push a 64-bit (8 byte) return address onto the stack<br>&#x7B2C;&#x4E00;&#x500B;8byte(return address)</li>
+<li>%rsp to reserve another 8 bytes of stack for itself<br>&#x7B2C;&#x4E8C;&#x500B;8byte(reserved space)</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Call_stack" target="_blank" rel="external">Call stack</a>   </li>
+</ul>
+<hr>
+<h2 id="&#x4F86;&#x6E90;"><a href="#u4F86_u6E90" class="headerlink" title="&#x4F86;&#x6E90;"></a>&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/" target="_blank" rel="external">Memory Layout of C Programs</a></li>
+<li><a href="http://www.itkeyword.com/doc/810600710137156741/gas-explanation-of-cfi-def-cfa-offset" target="_blank" rel="external">gas-explanation-of-cfi-def-cfa-offset</a></li>
+<li><a href="http://www.geeksforgeeks.org/?p=14268" target="_blank" rel="external">Memory Layout of C Programs</a></li>
+<li><a href="http://wp.mlab.tw/?p=312" target="_blank" rel="external">&#x4E09;&#x7A2E;&#x8A18;&#x61B6;&#x9AD4;&#x5340;&#x9593;: global&#x3001;stack&#x3001;heap</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/ulimit/" rel="tag">#ulimit</a>
+          
+            <a href="/tags/stack-size/" rel="tag">#stack size</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/15/busybox-background/" rel="next" title="busybox-background">
+                <i class="fa fa-chevron-left"></i> busybox-background
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/28/ubuntu-image/" rel="prev" title="ubuntu-image">
+                ubuntu-image <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stack-size-limit"><span class="nav-number">3.</span> <span class="nav-text">Stack Size Limit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#問題"><span class="nav-number">3.1.</span> <span class="nav-text">問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stack及heap區塊不同"><span class="nav-number">3.2.</span> <span class="nav-text">stack及heap區塊不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stack-size-大小"><span class="nav-number">3.3.</span> <span class="nav-text">stack size 大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它"><span class="nav-number">3.4.</span> <span class="nav-text">其它</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#問題函數進入就當第一行打印也沒有出來"><span class="nav-number">3.5.</span> <span class="nav-text">問題：函數進入就當，第一行打印也沒有出來</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#區域變數生成"><span class="nav-number">4.</span> <span class="nav-text">區域變數生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#來源"><span class="nav-number">5.</span> <span class="nav-text">來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/05/18/ulimit/';
+      var disqus_title = 'ulimit';
+      var disqus_url = 'http://yoursite.com/2017/05/18/ulimit/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

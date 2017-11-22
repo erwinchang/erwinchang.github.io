@@ -1,0 +1,978 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,i2c," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解 i2c原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="i2c">
+<meta property="og:url" content="http://yoursite.com/2016/04/22/i2c/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解 i2c原理">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-bit-transfer.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-start-stop-bit.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-byte-format.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="i2c">
+<meta name="twitter:description" content="了解 i2c原理">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> i2c | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                i2c
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-04-22T11:24:01+08:00" content="2016-04-22">
+              2016-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/22/i2c/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/22/i2c/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/04/22/i2c/" class="leancloud_visitors" data-flag-title="i2c">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3; i2c&#x539F;&#x7406;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160422</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#i2c">I2C</a><ul>
+<li><a href="#features-of-the-i2c-bus">features of the I2C-bus</a></li>
+</ul>
+</li>
+<li><a href="#i2c-bus-specification-and-user-manualum102042">I2C-bus specification and user manual(<a href="https://github.com/erwinchang/note/blob/master/download/blog/UM10204.pdf" target="_blank" rel="external">UM10204</a>)</a><ul>
+<li><a href="#the-i2c-bus-protocol">The I2C-bus protocol</a></li>
+<li><a href="#data-validity&#x4F55;&#x70BA;&#x6709;&#x6548;&#x8CC7;&#x6599;">Data validity(&#x4F55;&#x70BA;&#x6709;&#x6548;&#x8CC7;&#x6599;)</a></li>
+<li><a href="#start-and-stop-condition">START and STOP condition</a></li>
+<li><a href="#byte-format">Byte format</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="i2c"><a href="#I2C" class="headerlink" title="I2C"></a>I2C</h2><p>Philips Semiconductors (now NXP Semiconductors) developed a simple bidirectional 2-wire bus for efficient inter-IC control. This bus is called the Inter IC or I2C-bus,<a href="https://en.wikipedia.org/wiki/I%C2%B2C" target="_blank" rel="external">ref</a></p>
+<h3 id="features-of-the-i2c-bus"><a href="#features_of_the_I2C-bus" class="headerlink" title="features of the I2C-bus"></a>features of the I2C-bus</h3><p>&#x5C07;&#x5168;&#x90E8;&#x5143;&#x4EF6;&#x7531;SCL&#x53CA;SDA&#x4E32;&#x63A5;&#x8D77;&#x4F86;&#xFF0C;&#x7531;&#x4E3B;&#x63A7;master&#x4F86;&#x6C7A;&#x5B9A;&#x8A2D;&#x5B9A;&#x53CA;&#x8B80;&#x53D6;&#x90A3;&#x500B;device</p>
+<ul>
+<li><p>Only two bus lines are required; a serial data line (SDA) and a serial clock line (SCL).</p>
+</li>
+<li><p>Each device connected to the bus is software addressable by a unique address and simple master/slave<br>&#x6BCF;&#x500B;8bit device address&#x9700;&#x8981;&#x552F;&#x4E00; (&#x76EE;&#x524D;&#x4E5F;&#x6709;10bit address)</p>
+</li>
+<li><p>Serial, 8-bit oriented, bidirectional data transfers can be made at up to 100 kbit/s in the Standard-mode, up to 400 kbit/s in the Fast-mode</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-1.png" alt="I2C" title="i2c"><br><a href="https://en.wikipedia.org/wiki/I%C2%B2C" target="_blank" rel="external">&#x5716;&#x7247;&#x4F86;&#x6E90;</a></p>
+<h2 id="um10204i2c-bus-specification-and-user-manualum10204"><a href="#I2C-bus_specification_and_user_manual_28UM10204_29" class="headerlink" title="I2C-bus specification and user manual(&lt;a href=" https:="" github.com="" erwinchang="" note="" blob="" master="" download="" blog="" um10204.pdf"="">UM10204</a>)&quot;&gt;I2C-bus specification and user manual(<a href="https://github.com/erwinchang/note/blob/master/download/blog/UM10204.pdf" target="_blank" rel="external">UM10204</a>)</h2><h3 id="the-i2c-bus-protocol"><a href="#The_I2C-bus_protocol" class="headerlink" title="The I2C-bus protocol"></a>The I2C-bus protocol</h3><ul>
+<li>Definition of I2C-bus terminology(&#x8853;&#x8A9E;)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Term</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Tramsmitter</td>
+<td style="text-align:left">the device which sends data to the bus</td>
+</tr>
+<tr>
+<td style="text-align:left">Receiver</td>
+<td style="text-align:left">the device which receives data frome the bus</td>
+</tr>
+<tr>
+<td style="text-align:left">Master</td>
+<td style="text-align:left">the device which initiates a transfer,generates clock signals and terminates a transfer</td>
+</tr>
+<tr>
+<td style="text-align:left">Slave</td>
+<td style="text-align:left">the device addressed byh a master (&#x7576;master&#x9001;&#x51FA;start-bit+device address&#xFF0C;&#x6B64;&#x6642;deaddress&#x70BA;slave)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Applicability of I2C-bus protocol features</li>
+</ul>
+<p>M = mandatory<br>O = optional<br>n/a = not applicable</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Feature</th>
+<th style="text-align:left">Single Master</th>
+<th style="text-align:left">Mutlti-master</th>
+<th style="text-align:left">Slave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Start condition</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">M</td>
+</tr>
+<tr>
+<td style="text-align:left">Stop condigion</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">M</td>
+</tr>
+<tr>
+<td style="text-align:left">Acknowledge</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">M</td>
+</tr>
+<tr>
+<td style="text-align:left">Synchronization</td>
+<td style="text-align:left">n/a</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">n/a</td>
+</tr>
+<tr>
+<td style="text-align:left">Arbitration</td>
+<td style="text-align:left">n/a</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">n/a</td>
+</tr>
+<tr>
+<td style="text-align:left">7bit slave address</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">M</td>
+<td style="text-align:left">M</td>
+</tr>
+<tr>
+<td style="text-align:left">10bit slave address</td>
+<td style="text-align:left">O</td>
+<td style="text-align:left">O</td>
+<td style="text-align:left">O</td>
+</tr>
+<tr>
+<td style="text-align:left">Device ID</td>
+<td style="text-align:left">n/a</td>
+<td style="text-align:left">n/a</td>
+<td style="text-align:left">O</td>
+</tr>
+</tbody>
+</table>
+<p>&#x6700;&#x57FA;&#x672C;&#x7684;&#x5354;&#x5B9A;&#xFF1A;Start condition/Stop condition/ACK/7bit slave address</p>
+<h3 id="data-validity&#x4F55;&#x70BA;&#x6709;&#x6548;&#x8CC7;&#x6599;"><a href="#Data_validity_28_u4F55_u70BA_u6709_u6548_u8CC7_u6599_29" class="headerlink" title="Data validity(&#x4F55;&#x70BA;&#x6709;&#x6548;&#x8CC7;&#x6599;)"></a>Data validity(&#x4F55;&#x70BA;&#x6709;&#x6548;&#x8CC7;&#x6599;)</h3><ul>
+<li><p>The data on the SDA line must be stable during the HIGH period of the clock<br>&#x7576;Clock(SCL)&#x70BA;High&#x6642;,&#x6B64;&#x6642;SDA&#x662F;&#x4E0D;&#x5141;&#x8A31;&#x88AB;&#x8A2D;&#x5B9A;&#xFF0C;&#x5373;&#x70BA;stable (&#x6B64;&#x6642;master&#x6703;&#x53BB;strob&#x8CC7;&#x6599;/&#x8B80;&#x53D6;&#x8CC7;&#x6599;)</p>
+</li>
+<li><p>The High or Low state of the data line can only change whe the clock signal on the SCL line is LOW<br>&#x7576;Clock(SCL)&#x70BA;LOW&#x6642;&#xFF0C;slave &#x53EF;&#x4EE5;&#x8A2D;&#x5B9A;&#x8CC7;&#x6599;</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-bit-transfer.png" alt="I2C" title="i2c"><br>[&#x5716;&#x7247;&#x4F86;&#x6E90;:UM10204]</p>
+<h3 id="start-and-stop-condition"><a href="#START_and_STOP_condition" class="headerlink" title="START and STOP condition"></a>START and STOP condition</h3><ul>
+<li><p>START and STOP condition alway generate by the master</p>
+</li>
+<li><p>the busy is considered to be busy after START condition</p>
+</li>
+<li><p>the busy stays busy if a repeated START (Sr) is generated instead of a STOP condition.<br>&#x8AB0;&#x53EF;&#x4EE5;&#x5728;CLK&#x70BA;High&#x53BB;&#x6539;&#x8B8A;SDA?? (&#x53EA;&#x6709;master&#x53BB;&#x7522;&#x751F;start/stop condition)</p>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-start-stop-bit.png" alt="start /stop condition" title="start /stop condition"><br>[&#x5716;&#x7247;&#x4F86;&#x6E90;:UM10204]</p>
+</li>
+</ul>
+<h3 id="byte-format"><a href="#Byte_format" class="headerlink" title="Byte format"></a>Byte format</h3><ul>
+<li><p>Every byte put one the SDA line must be eight bits long.<br>SDA&#x8CC7;&#x6599;byte,&#x898F;&#x5B9A;&#x70BA;8&#x500B;bit&#x9577;&#x5EA6;</p>
+</li>
+<li><p>The number of byte that can transmitted per transfer is unrestricted.<br>&#x7121;&#x898F;&#x5B9A;&#x6BCF;&#x6B21;&#x50B3;&#x8F38;&#x6709;&#x5E7E;&#x500B;byte&#xFF0C;&#x7531;slave datasheet&#x6C7A;&#x5B9A;</p>
+</li>
+<li><p>Each byte muste be followed by an Acknowledge bit.<br>&#x6BCF;&#x500B;byte&#xFF0C;&#x9700;&#x518D;&#x63A5;&#x53D7;ACK&#x8A0A;&#x865F;(1&#x500B;bit)&#xFF0C;&#x4E00;&#x5171;9&#x500B;bit&#x8CC7;&#x6599;</p>
+</li>
+<li><p>Data is transferred with Most Significant Bit(MSB)<br>&#x9AD8;&#x5143;&#x4F4D;&#x5148;&#x50B3;&#x9001;</p>
+</li>
+<li><p>for example servicing an internal interrupt, it can hold the clock line SCL LOW to force the master into  a wait state.</p>
+</li>
+<li>&#x6CE8;&#x610F;&#x5728;&#x50B3;&#x9001;&#x5B8C;1byre frame&#x4E4B;&#x5F8C;,&#x53EF;&#x4EE5;&#x5C07;clk&#x8A2D;&#x5B9A;&#x70BA;low,&#x63A5;&#x8457;CPU&#x53EF;&#x4EE5;&#x53BB;&#x8655;&#x7406;&#x4E2D;&#x65B7;&#x4E8B;&#x60C5;&#xFF0C;&#x5728;&#x56DE;&#x4F86;&#x7E8C;&#x50B3;</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/i2c-byte-format.png" alt="I2C" title="i2c"><br>[&#x5716;&#x7247;&#x4F86;&#x6E90;:UM10204]</p>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://i2c.info/i2c-bus-specification" target="_blank" rel="external">I2C Bus Specification</a></li>
+<li><a href="http://wiki.csie.ncku.edu.tw/embedded/I2C" target="_blank" rel="external">I2C: Inter-Integrated Circuit</a></li>
+<li><a href="https://en.wikipedia.org/wiki/I%C2%B2C" target="_blank" rel="external">Wiki I2C</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/i2c/" rel="tag">#i2c</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/04/little-endian/" rel="next" title="little-endian">
+                <i class="fa fa-chevron-left"></i> little-endian
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/22/i2c-test/" rel="prev" title="i2c test">
+                i2c test <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#i2c"><span class="nav-number">3.</span> <span class="nav-text">I2C</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#features-of-the-i2c-bus"><span class="nav-number">3.1.</span> <span class="nav-text">features of the I2C-bus</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#um10204i2c-bus-specification-and-user-manualum10204"><span class="nav-number">4.</span> <span class="nav-text">UM10204)">I2C-bus specification and user manual(UM10204)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#the-i2c-bus-protocol"><span class="nav-number">4.1.</span> <span class="nav-text">The I2C-bus protocol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-validity何為有效資料"><span class="nav-number">4.2.</span> <span class="nav-text">Data validity(何為有效資料)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#start-and-stop-condition"><span class="nav-number">4.3.</span> <span class="nav-text">START and STOP condition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#byte-format"><span class="nav-number">4.4.</span> <span class="nav-text">Byte format</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">5.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/04/22/i2c/';
+      var disqus_title = 'i2c';
+      var disqus_url = 'http://yoursite.com/2016/04/22/i2c/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

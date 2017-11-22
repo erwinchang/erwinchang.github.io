@@ -1,0 +1,1282 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,h264," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解RTSP封包中的H264取得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="h264">
+<meta property="og:url" content="http://yoursite.com/2017/03/14/h264/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解RTSP封包中的H264取得">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/rtp-fixed-header-fields.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/RTP-Payload-types.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/VCL-Frame.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/NAL_structure.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/RBSP.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/EBSP.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/nal-unit-types.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/Single-NAL-Unit-Packet.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/RTP-payload-format-for-FU-A.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/RTP-payload-format-for-FU-B.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/fu-indicator.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/fu-header.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/h264-stream.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/rtsp-describe.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/nal-unit-syntax.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/h264-profiles.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/camera-rtp-data.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/dvt-rtp1-data.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/14/h264/dvt-rtp2-data.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.259Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="h264">
+<meta name="twitter:description" content="了解RTSP封包中的H264取得">
+<meta name="twitter:image" content="http://yoursite.com/2017/03/14/h264/rtp-fixed-header-fields.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> h264 | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                h264
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-03-14T14:18:39+08:00" content="2017-03-14">
+              2017-03-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2017/03/14/h264/" class="leancloud_visitors" data-flag-title="h264">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;RTSP&#x5C01;&#x5305;&#x4E2D;&#x7684;H264&#x53D6;&#x5F97;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170314</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+<tr>
+<td style="text-align:left">20170321</td>
+<td style="text-align:left">H264&#x8AAA;&#x660E;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#rtp">RTP</a><ul>
+<li><a href="#rtp-fixed-header-fields">RTP Fixed Header Fields</a></li>
+<li><a href="#marker&#x8A2D;&#x5B9A;&#x65B9;&#x5F0F;">marker&#x8A2D;&#x5B9A;&#x65B9;&#x5F0F;</a></li>
+<li><a href="#payload-type-definitions">Payload Type Definitions</a></li>
+<li><a href="#rtp-packet">RTP Packet</a></li>
+</ul>
+</li>
+<li><a href="#h264&#x8AAA;&#x660E;">H264&#x8AAA;&#x660E;</a><ul>
+<li><a href="#rtp-payload-format-for-h264-video">RTP Payload Format for H.264 Video</a></li>
+<li><a href="#single-nal-unit-packet">Single NAL Unit Packet</a></li>
+<li><a href="#fragmentation-units-fus">Fragmentation Units (FUs)</a></li>
+<li><a href="#&#x6CE8;&#x610F;&#x5730;&#x65B9;">&#x6CE8;&#x610F;&#x5730;&#x65B9;</a></li>
+</ul>
+</li>
+<li><a href="#nal-unit">NAL Unit</a></li>
+<li><a href="#h264-encoder-profile">H264 Encoder Profile</a></li>
+<li><a href="#&#x5BE6;&#x969B;&#x6536;&#x5230;&#x7684;rtp&#x8CC7;&#x6599;">&#x5BE6;&#x969B;&#x6536;&#x5230;&#x7684;RTP&#x8CC7;&#x6599;</a><ul>
+<li><a href="#camera&#x9001;&#x51FA;&#x7684;rtp&#x8CC7;&#x6599;">Camera&#x9001;&#x51FA;&#x7684;RTP&#x8CC7;&#x6599;</a></li>
+<li><a href="#dtv-server&#x9001;&#x51FA;&#x7684;rtp&#x8CC7;&#x6599;">DTV Server&#x9001;&#x51FA;&#x7684;RTP&#x8CC7;&#x6599;</a></li>
+</ul>
+</li>
+<li><a href="#h264-emulation-prevention-bytes">H264 Emulation Prevention Bytes</a></li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="rtp"><a href="#RTP" class="headerlink" title="RTP"></a>RTP</h2><ul>
+<li>RTP<img src="/2017/03/14/h264/rtp-fixed-header-fields.png" alt="[rtp-fixed-header-fields]" title="[rtp-fixed-header-fields]"></li>
+<li>&#x63A1;&#x7528;RTP Fix head&#xFF0C;&#x53EA;&#x4F7F;&#x7528;&#x524D;&#x9762;12byte</li>
+<li>The first twelve octets are present in every RTP packet, while the<br>list of CSRC identifiers is present only when inserted by a mixer.</li>
+<li>CSRC count (CC): 4 bits<br>The CSRC count contains the number of CSRC identifiers that follow the fixed header.</li>
+<li>byte2,3&#x70BA;SN: &#x7576;RTP Data packet send&#x6642;&#x6703;&#x5C07;&#x6703;&#x81EA;&#x52D5;&#x52A0;1</li>
+<li>&#x5728;12byte&#x4E4B;&#x5F8C;&#x70BA;RTP Padload&#x90E8;&#x5206;</li>
+</ul>
+<h3 id="rtp-fixed-header-fields"><a href="#RTP_Fixed_Header_Fields" class="headerlink" title="RTP Fixed Header Fields"></a>RTP Fixed Header Fields</h3><p><a href="https://tools.ietf.org/html/rfc3550" target="_blank" rel="external">RTP Fixed Header Fields</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">bit</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">versin(V)</td>
+<td style="text-align:left">2bits</td>
+<td style="text-align:left">&#x56FA;&#x5B9A;&#x70BA;2</td>
+</tr>
+<tr>
+<td style="text-align:left">padding(P)</td>
+<td style="text-align:left">1bits</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">extension(X)</td>
+<td style="text-align:left">1bits</td>
+<td style="text-align:left">If the extension bit is set, the fixed header MUST be followed by exactly one header extension</td>
+</tr>
+<tr>
+<td style="text-align:left">marker (M)</td>
+<td style="text-align:left">1bits</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">payload type (PT)</td>
+<td style="text-align:left">7bit</td>
+<td style="text-align:left">This field identifies the format of the RTP payload</td>
+</tr>
+<tr>
+<td style="text-align:left">sequence number</td>
+<td style="text-align:left">16bit</td>
+<td style="text-align:left">&#x9001;&#x7AEF;&#x6703;&#x81EA;&#x52D5;count</td>
+</tr>
+<tr>
+<td style="text-align:left">timestamp</td>
+<td style="text-align:left">32bit</td>
+<td style="text-align:left">&#x540C;&#x4E00;&#x5305;&#x7684;timestamp&#x662F;&#x76F8;&#x540C;&#x7684;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="marker&#x8A2D;&#x5B9A;&#x65B9;&#x5F0F;"><a href="#marker_u8A2D_u5B9A_u65B9_u5F0F" class="headerlink" title="marker&#x8A2D;&#x5B9A;&#x65B9;&#x5F0F;"></a>marker&#x8A2D;&#x5B9A;&#x65B9;&#x5F0F;</h3><p>&#x7531;<a href="http://stevegigijoe.blogspot.tw/2009/11/h264-rtp-streaming.html" target="_blank" rel="external">Encoding sample code with TI DSP</a>&#x53EF;&#x77E5;</p>
+<ul>
+<li><p>&#x5728;NAL Type 1-23&#x4E2D;&#x7684;marker&#x8A2D;&#x5B9A;&#x5982;&#x4E0B;&#xFF1A;<br>marker&#x4F55;&#x6642;&#x4F7F;&#x8A2D;&#x5B9A;&#x70BA;1<br>&#x82E5;&#x70BA;IS_ACCESS_UNIT&#xFF0C;&#x82E5;&#x53EA;&#x8981;NAL type&#x70BA;0-5&#x5C31;&#x6703;&#x8A2D;&#x5B9A;marker&#x70BA;1<br>define IS_ACCESS_UNIT(x) (((x) &gt; 0x00) &amp;&amp; ((x) &lt; 0x06))</p>
+</li>
+<li><p>&#x5728;FU-A&#x4E2D;&#x7684;marker&#x8A2D;&#x5B9A;&#x5982;&#x4E0B;<br>&#x53EA;&#x6709;&#x6700;&#x5F8C;&#x4E00;&#x5305;&#x624D;&#x6703;&#x8A2D;&#x5B9A;marker=1&#xFF0C;&#x5176;&#x5B83;&#x5247;&#x70BA;0</p>
+</li>
+</ul>
+<h3 id="payload-type-definitions"><a href="#Payload_Type_Definitions" class="headerlink" title="Payload Type Definitions"></a>Payload Type Definitions</h3><p><a href="https://tools.ietf.org/html/rfc3551#section-6" target="_blank" rel="external">Payload Type Definitions</a><br>&#x82E5;Padload&#x70BA;H264&#x4F7F;&#x7528;PT:96-127</p>
+<ul>
+<li>RTP Payload types (PT) for standard audio and video encodings<br><a href="https://www.iana.org/assignments/rtp-parameters/rtp-parameters.xhtml" target="_blank" rel="external">Real-Time Transport Protocol (RTP) Parameters</a><img src="/2017/03/14/h264/RTP-Payload-types.png" alt="[RTP Payload types]" title="[RTP Payload types]">
+</li>
+</ul>
+<h3 id="rtp-packet"><a href="#RTP_Packet" class="headerlink" title="RTP Packet"></a>RTP Packet</h3><ul>
+<li>RTP Packet<br>RTP Packet&#x88E1;&#x9762;&#x7684;padload&#x5B58;&#x653E;NALU&#x8CC7;&#x6599;<br>&#x6BCF;&#x500B;NALU&#x8CC7;&#x6599;&#x70BA;&#x7531;{NAL Header,Payload}&#x7D44;&#x6210;<br>&#x6B64;NALU&#x88E1;&#x9762;&#x7684;Payload&#x53EF;&#x4EE5;&#x7D44;&#x6210;H.264&#x7684;VCL Frame<br>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="https://supportforums.cisco.com/document/12628486/understand-video-signaling-sdp-debugs" target="_blank" rel="external">Understand Video Signaling with SDP Debugs</a><img src="/2017/03/14/h264/VCL-Frame.png" alt="[RTP Packet]" title="[RTP Packet]">
+</li>
+</ul>
+<hr>
+<h2 id="h264&#x8AAA;&#x660E;"><a href="#H264_u8AAA_u660E" class="headerlink" title="H264&#x8AAA;&#x660E;"></a>H264&#x8AAA;&#x660E;</h2><ul>
+<li><p>H264 codec&#x6709;&#x4E0B;&#x4F8B;&#x5169;&#x5C64;</p>
+<ul>
+<li>VCL: Video Coding Layer</li>
+<li>NAL: Network Abstraction Layer<br>VCL Layer&#x5C07;vidoe image&#x5206;&#x5272;&#x70BA;&#x8A31;&#x591A;&#x7684;slices&#xFF0C;&#x9019;&#x6B64;slice&#x5728;&#x5206;&#x6210;&#x8A31;&#x591A;&#x7684;NALU&#x50B3;&#x9001;&#x51FA;&#x53BB;</li>
+</ul>
+</li>
+<li><p>NAL Unit<br>&#x4E00;&#x5F35;&#x6703;&#x52D5;&#x756B;&#x9762;&#x88AB;H.264&#x5206;&#x6210;&#x9700;&#x591A;NALU(NAL Unit)<br>&#x6BCF;&#x500B;NAL Unit&#x5982;&#x4E0B;&#x5716;, &#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="http://gentlelogic.blogspot.tw/2011/11/exploring-h264-part-2-h264-bitstream.html" target="_blank" rel="external"> Exploring H.264. Part 2: H.264 Bitstream format </a></p>
+<img src="/2017/03/14/h264/NAL_structure.png" alt="[NAL Structure]" title="[NAL Structure]">
+</li>
+</ul>
+<ul>
+<li>RBSP<br>RBSP&#x7D44;&#x6210;&#x5982;&#x4E0B;&#xFF0C;&#x662F;&#x7531;SOBD(String Of Data Bits)&#x7D44;&#x6210;<br>RBSP&#x81F3;&#x5C11;4byte(&#x56E0;&#x6B64;&#x6703;&#x5C07;SOBD&#x8CC7;&#x6599;&#x88DC;&#x81F3;4byte&#x5C0D;&#x9F4A;)<br>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="https://codesequoia.wordpress.com/2009/10/18/h-264-stream-structure/" target="_blank" rel="external">H.264 stream structure</a><img src="/2017/03/14/h264/RBSP.png" alt="[RBSP]" title="[RBSP]">
+</li>
+</ul>
+<ul>
+<li>EBSP<br>EBSP&#x7D44;&#x6210;&#x5982;&#x4E0B;(&#x5167;&#x542B;0x03&#x7684;&#x8DF3;&#x6258;&#x5B57;&#x5143;)<br>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="https://codesequoia.wordpress.com/2009/10/18/h-264-stream-structure/" target="_blank" rel="external">H.264 stream structure</a><img src="/2017/03/14/h264/EBSP.png" alt="[EBSP]" title="[EBSP]">
+</li>
+</ul>
+<p>&#x8CC7;&#x6599;&#x4F86;&#x6E90;&#xFF1A;<a href="https://codesequoia.wordpress.com/2009/10/18/h-264-stream-structure/" target="_blank" rel="external">H.264 stream structure</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">type</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">SODB: String Of Data Bits</td>
+<td style="text-align:left">&#x539F;&#x59CB;&#x6570;&#x636E;&#x6BD4;&#x7279;&#x6D41;, &#x71B5;&#x7F16;&#x7801;&#x8F93;&#x51FA;&#x7ED3;&#x679C;, &#x4EE5;bit&#x4E3A;&#x5355;&#x4F4D;&#x3002;</td>
+</tr>
+<tr>
+<td style="text-align:left">RBSP: Raw Byte Sequence Payload</td>
+<td style="text-align:left">&#x539F;&#x59CB;&#x5B57;&#x8282;&#x5E8F;&#x5217;&#x8D1F;&#x8F7D;, &#x5728;SODB&#x6700;&#x540E;&#x52A0;&#x4E0A;trailing bits&#x8865;&#x9F50;&#x4E3A;&#x4E00;&#x4E2A;&#x5B57;&#x8282;</td>
+</tr>
+<tr>
+<td style="text-align:left">EBSP: Extent Byte Sequence Payload</td>
+<td style="text-align:left">&#x6269;&#x5C55;&#x5B57;&#x8282;&#x5E8F;&#x5217;&#x8D1F;&#x8F7D;, RBSP&#x91CC;&#x9762;&#x52A0;&#x5165;&#x9632;&#x4F2A;&#x8D77;&#x59CB;&#x7801;&#x5B57;&#x8282;(0x03)</td>
+</tr>
+<tr>
+<td style="text-align:left">NALU: Network Abstraction Layer Units.</td>
+<td style="text-align:left">&#x7F51;&#x7EDC;&#x62BD;&#x8C61;&#x5C42;&#x5355;&#x5143;, &#x5728;EBSP&#x524D;&#x9762;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x7684;NALU type.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rtp-payload-format-for-h264-video"><a href="#RTP_Payload_Format_for_H-264_Video" class="headerlink" title="RTP Payload Format for H.264 Video"></a>RTP Payload Format for H.264 Video</h3><p><a href="http://www.faqs.org/rfcs/rfc3984.html" target="_blank" rel="external">RTP Payload Format for H.264 Video</a></p>
+<ul>
+<li><p>Common Structure of the RTP Payload Format</p>
+</li>
+<li><p>The payload format defines three different basic payload structures<br>the first byte of the payload. (&#x7B2C;1&#x500B;byte&#x7684;NAL unit header&#x53EF;&#x5F97;&#x77E5;type)<br>This byte is always structured as a NAL unit header.<br>The NAL unit type field indicates which structure is present</p>
+</li>
+<li><p>Single NAL Unit Packet:<br>Contains only a single NAL unit in the payload<br>unit type: 1-23</p>
+</li>
+<li><p>Aggregation packet:<br>Packet type used to aggregate multiple NAL units into a single RTP payload.<br>unit type: 24-27</p>
+</li>
+<li><p>Fragmentation unit:<br>Used to fragment a single NAL unit over multiple RTP packets.<br>unit type: 28-29</p>
+</li>
+</ul>
+<img src="/2017/03/14/h264/nal-unit-types.png" alt="[NAL unit types]" title="[NAL unit types]">
+<h3 id="single-nal-unit-packet"><a href="#Single_NAL_Unit_Packet" class="headerlink" title="Single NAL Unit Packet"></a>Single NAL Unit Packet</h3><ul>
+<li>Single NAL Unit Packet<br>nal unit type&#x70BA;1-23&#x7684;padload&#x683C;&#x5F0F;&#x5982;&#x4E0B; (&#x5373;&#x5728;rtp padload&#x7B2C;12byte&#x958B;&#x59CB;)<img src="/2017/03/14/h264/Single-NAL-Unit-Packet.png" alt="[Single NAL Unit Packet]" title="[Single NAL Unit Packet]">
+</li>
+</ul>
+<h3 id="fragmentation-units-fus"><a href="#Fragmentation_Units__28FUs_29" class="headerlink" title="Fragmentation Units (FUs)"></a>Fragmentation Units (FUs)</h3><ul>
+<li><p>RTP payload format for FU-A</p>
+<img src="/2017/03/14/h264/RTP-payload-format-for-FU-A.png" alt="[RTP payload format for FU-A]" title="[RTP payload format for FU-A]">
+</li>
+<li><p>RTP payload format for FU-B</p>
+<img src="/2017/03/14/h264/RTP-payload-format-for-FU-B.png" alt="[RTP payload format for FU-B]" title="[RTP payload format for FU-B]">
+</li>
+<li><p>FU Indicator<br>&#x5728;FU Indicator&#x88E1;&#x7684;Type&#x70BA;28/29 (&#x8868;&#x793A;FU-A/FU-B)<br>&#x9700;&#x53D6;&#x5F97;&#x9019;&#x91CC;&#x7684;F/NRI &#x4F86;&#x7522;&#x751F;NAL unit he</p>
+<img src="/2017/03/14/h264/fu-indicator.png" alt="[FU Indicator]" title="[FU Indicator]">
+</li>
+<li><p>FU Header<br>S:&#x8868;&#x793A;&#x7247;&#x65B7;&#x958B;&#x59CB;<br>E:&#x8868;&#x793A;&#x7247;&#x65B7;&#x7D50;&#x675F;<br>Type:&#x8868;&#x793A;NAL unit padload type (&#x9700;&#x8981;&#x5F97;&#x9019;&#x88E1;&#x7684;TYPE&#x4F86;&#x7522;&#x751F;NAL Unit Head)</p>
+<img src="/2017/03/14/h264/fu-header.png" alt="[FU Header]" title="[FU Header]">
+</li>
+</ul>
+<h3 id="&#x6CE8;&#x610F;&#x5730;&#x65B9;"><a href="#u6CE8_u610F_u5730_u65B9" class="headerlink" title="&#x6CE8;&#x610F;&#x5730;&#x65B9;"></a>&#x6CE8;&#x610F;&#x5730;&#x65B9;</h3><p><a href="http://my-tech-knowledge.blogspot.tw/2008/02/rfc-3984-rtp-payload-format-for-h264.html" target="_blank" rel="external">&#x91CD;&#x9EDE;&#x6574;&#x7406; &#x2013; H264 Over RTP &#x4E4B; &#x5BF6;&#x5178; </a></p>
+<ul>
+<li>&#x9700;&#x8981;&#x6AA2;&#x67E5;FU-A&#x7684;sequence number&#x7684;&#x9806;&#x5E8F;(&#x82E5;&#x975E;&#x56FA;&#x5B9A;&#x52A0;1&#xFF0C;&#x8868;&#x793A;&#x6709;&#x6F0F;)</li>
+<li>SPS(&#x5373;NAL&#x70BA;0x67), PPS(&#x5373;NAL&#x70BA;0x68)&#x53EF;&#x4EE5;&#x88AB;&#x53D6;&#x5F97;&#xFF0C;&#x7576;Server&#x56DE;&#x61C9;RTSP/DESCRIBE</li>
+<li><p>&#x6B63;&#x5E38;&#x7684;H264 NALU&#x9806;&#x5E8F;&#xFF1A;<br>SPS(NAL type = 0x07) -&gt; PPS(0x8) -&gt; I-Frame(0X5), P-Frame(0x1)<br>&#x628A;[SPS,PPS,IDR(&#x5373;IFRAME)]&#x7576;&#x6210;&#x4E00;&#x500B;Frame&#x9001;&#x5230;decoder<br>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="http://gentlelogic.blogspot.tw/2011/11/exploring-h264-part-2-h264-bitstream.html" target="_blank" rel="external">Exploring H.264. Part 2: H.264 Bitstream format </a></p>
+<img src="/2017/03/14/h264/h264-stream.png" alt="[h264 Stream]" title="[h264 Stream]">
+</li>
+<li><p>&#x7531;&#x56DE;&#x61C9;&#x4E2D;&#x7684;sprop-parameter-sets&#x53EF;&#x53D6;&#x5F97;SPS,PPS&#x76F8;&#x95DC;&#x53C3;&#x6578;</p>
+<img src="/2017/03/14/h264/rtsp-describe.png" alt="[RTSP / Describe]" title="[RTSP / Describe]">
+</li>
+</ul>
+<hr>
+<h2 id="nal-unit"><a href="#NAL_Unit" class="headerlink" title="NAL Unit"></a>NAL Unit</h2><ul>
+<li>There are two ways to pack a NAL unit for different systems, <strong>Packet-Transport System</strong> and <strong>Byte-Stream Format</strong>.<ul>
+<li>For Packet-Transport systems like RTP, the transport system protocol frames the coded data into different pieces.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>boundaries of the NAL units.</p>
+<ul>
+<li>three-byte or four-byte start code, 0x000001</li>
+</ul>
+</li>
+<li><p>nal unit syntax</p>
+<img src="/2017/03/14/h264/nal-unit-syntax.png" alt="[NAL Unit Syntax]" title="[NAL Unit Syntax]">
+<p>f(n): fixed-pattern bit string using n bits written<br>u(n): unsinged interger using n bit<br>b(8): byte having any pattern of bit string(8bit)</p>
+</li>
+</ul>
+<p>ex. 0x67 (0110 0111)<br>b[0]: forbidden_zero_bit = 0,<br>b[1-2]: nal_ref_idc = 3,<br>b[3-7]: nal_unit_type = 7</p>
+<ul>
+<li>More about NAL Unit Type</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">nal type</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">Sequence parameter set (SPS)</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:left">Picture parameter set (PPS)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>NALU_TYPE_SLICE 1</li>
+<li>NALU_TYPE_DPA 2</li>
+<li>NALU_TYPE_DPB 3</li>
+<li>NALU_TYPE_DPC 4</li>
+<li>NALU_TYPE_IDR 5</li>
+<li>NALU_TYPE_SEI 6</li>
+<li>NALU_TYPE_SPS 7</li>
+<li>NALU_TYPE_PPS 8</li>
+<li>NALU_TYPE_AUD 9</li>
+<li>NALU_TYPE_EOSEQ 10</li>
+<li>NALU_TYPE_EOSTREAM 11</li>
+<li>NALU_TYPE_FILL 12</li>
+</ul>
+<hr>
+<h2 id="h264-encoder-profile"><a href="#H264_Encoder_Profile" class="headerlink" title="H264 Encoder Profile"></a>H264 Encoder Profile</h2><ul>
+<li>H264 Ecoder Profile<br>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A;<a href="http://coconut.co/h264" target="_blank" rel="external">H.264 Encoder</a><img src="/2017/03/14/h264/h264-profiles.png" alt="[H264 Encoder]" title="[H264 Encoder]">
+</li>
+</ul>
+<hr>
+<h2 id="&#x5BE6;&#x969B;&#x6536;&#x5230;&#x7684;rtp&#x8CC7;&#x6599;"><a href="#u5BE6_u969B_u6536_u5230_u7684RTP_u8CC7_u6599" class="headerlink" title="&#x5BE6;&#x969B;&#x6536;&#x5230;&#x7684;RTP&#x8CC7;&#x6599;"></a>&#x5BE6;&#x969B;&#x6536;&#x5230;&#x7684;RTP&#x8CC7;&#x6599;</h2><h3 id="camera&#x9001;&#x51FA;&#x7684;rtp&#x8CC7;&#x6599;"><a href="#Camera_u9001_u51FA_u7684RTP_u8CC7_u6599" class="headerlink" title="Camera&#x9001;&#x51FA;&#x7684;RTP&#x8CC7;&#x6599;"></a>Camera&#x9001;&#x51FA;&#x7684;RTP&#x8CC7;&#x6599;</h3><ul>
+<li>Camera&#x9001;&#x9001;&#x51FA;&#x7684;RTP&#x8CC7;&#x6599;&#x5982;&#x4E0B;<img src="/2017/03/14/h264/camera-rtp-data.png" alt="[RTP Data]" title="[RTP Data]">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">seq</th>
+<th style="text-align:left">time</th>
+<th style="text-align:left">marker</th>
+<th style="text-align:left">padload</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">0x67</td>
+<td style="text-align:left">nal type =7, SPS</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">0x68</td>
+<td style="text-align:left">nal type =8, PPS</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x7c,0x85</td>
+<td style="text-align:left">nal type =28,FU-A,S=1, (nal type=5)</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x7c,0x05</td>
+<td style="text-align:left">nal type =28</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x7c,0x05</td>
+<td style="text-align:left">nal type =28</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">22</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">0x7c,0x45</td>
+<td style="text-align:left">nal type=28,FU-A,E=1 (nal type=5)</td>
+</tr>
+<tr>
+<td style="text-align:left">23</td>
+<td style="text-align:left">5940</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">0x41</td>
+<td style="text-align:left">nal type = 1</td>
+</tr>
+<tr>
+<td style="text-align:left">24</td>
+<td style="text-align:left">11880</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x5c,0x81</td>
+<td style="text-align:left">nal type=28,FU-A,S=1, (nal type=1)</td>
+</tr>
+<tr>
+<td style="text-align:left">25</td>
+<td style="text-align:left">11880</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">0x5c,0x41</td>
+<td style="text-align:left">nal type=28,FU-A,E=1, (nal type=1)</td>
+</tr>
+<tr>
+<td style="text-align:left">26</td>
+<td style="text-align:left">17820</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x5c,0x81</td>
+<td style="text-align:left">nal type=28,FU-A,S=1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x7A0B;&#x5F0F;&#x8655;&#x7406;&#x6D41;&#x7A0B;<ul>
+<li>&#x53D6;&#x5F97;seq1&#xFF0C;&#x5373;SPS(type=7)&#xFF0C;&#x589E;&#x52A0;start-code&#x53CA;nal-head(type=7)&#xFF0C;&#x4E4B;&#x5F8C;&#x9032;&#x5165;decoder</li>
+<li>&#x53D6;&#x5F97;seq2,&#x5373;PPS(type=8)&#xFF0C;&#x589E;&#x52A0;start-code&#x53CA;nal-head(type=8)&#xFF0C;&#x4E4B;&#x5F8C;&#x9032;&#x5165;decoder</li>
+<li>&#x53D6;&#x5F97;seq3&#xFF0C;&#x5373;FU-A&#xFF0C;&#x958B;&#x59CB;&#x7D44;&#x5408;frame,&#x7531;seq3-seq22(&#x5373;FU-A&#x7D50;&#x675F;)&#xFF0C;&#x70BA;&#x5B8C;&#x6574;&#x4E00;&#x5305;<br>&#x589E;&#x52A0;start-code&#x53CA;nal-head(&#x5373;type=5)&#xFF0C;&#x4E4B;&#x5F8C;&#x9032;&#x5165;decoder</li>
+</ul>
+</li>
+</ul>
+<h3 id="dtv-server&#x9001;&#x51FA;&#x7684;rtp&#x8CC7;&#x6599;"><a href="#DTV_Server_u9001_u51FA_u7684RTP_u8CC7_u6599" class="headerlink" title="DTV Server&#x9001;&#x51FA;&#x7684;RTP&#x8CC7;&#x6599;"></a>DTV Server&#x9001;&#x51FA;&#x7684;RTP&#x8CC7;&#x6599;</h3><ul>
+<li>DTV Server&#x9001;&#x51FA;&#x7684;RTP&#x8CC7;&#x6599;&#x5982;&#x4E0B;<img src="/2017/03/14/h264/dvt-rtp1-data.png" alt="[DTV Data]" title="[DTV Data]">
+<img src="/2017/03/14/h264/dvt-rtp2-data.png" alt="[DTV Data]" title="[DTV Data]">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">seq</th>
+<th style="text-align:left">time</th>
+<th style="text-align:left">marker</th>
+<th style="text-align:left">padload</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">27895</td>
+<td style="text-align:left">1876090015</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x7c,0x85</td>
+<td style="text-align:left">nal type =28,FU-A,S=1, (nal type=5)</td>
+</tr>
+<tr>
+<td style="text-align:left">27896</td>
+<td style="text-align:left">1876090015</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x7c,0x05</td>
+<td style="text-align:left">nal type =28</td>
+</tr>
+<tr>
+<td style="text-align:left">27897</td>
+<td style="text-align:left">1876090015</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x7c,0x05</td>
+<td style="text-align:left">nal type =28</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">27986</td>
+<td style="text-align:left">1876090015</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">0x7c,0x45</td>
+<td style="text-align:left">nal type=28,FU-A,E=1 (nal type=5)</td>
+</tr>
+<tr>
+<td style="text-align:left">27987</td>
+<td style="text-align:left">1876090075</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x5c,0x81</td>
+<td style="text-align:left">nal type=28,FU-A,S=1, (nal type=1)</td>
+</tr>
+<tr>
+<td style="text-align:left">27988</td>
+<td style="text-align:left">11880</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0x5c,0x01</td>
+<td style="text-align:left">nal type=28,FU-A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>&#x6CE8;&#x610F;</strong><br>&#x5728;DTV&#x50B3;&#x9001;&#x7684;RTP&#x8CC7;&#x6599;&#x4E2D;&#xFF0C;&#x7121;SPS&#x53CA;PPS&#x56E0;&#x6B64;&#x5728;&#x9001;&#x6B21;decoder&#x4E4B;&#x524D;<br>&#x9700;&#x8981;&#x7531;RTSP describe&#x56DE;&#x61C9;&#x4E2D;&#x7684;sprop-parameter-set&#x4E2D;&#x89E3;&#x51FA;SPS&#x53CA;PPS&#x53C3;&#x6578;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=fmtp:96 profile-level-id=676400;packetization-mode=1;sprop-parameter-sets=Z2QAKKzoB4AiflQ=,aO48MA==</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="h264-emulation-prevention-bytes"><a href="#H264_Emulation_Prevention_Bytes" class="headerlink" title="H264 Emulation Prevention Bytes"></a>H264 Emulation Prevention Bytes</h2><ul>
+<li>Start codes work because the four byte sequences 0x000000, 0x000001, 0x000002 and 0x000003 are illegal within a non-RBSP NALU.</li>
+<li>H264&#x7684;RAW Data&#x662F;&#x7121;&#x5B9A;&#x7FA9;&#x9577;&#x5EA6;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x7528;start code&#x4F86;&#x7576;&#x5340;&#x9694;(&#x5373;&#x5206;&#x958B;&#x4E0D;&#x540C;type)</li>
+<li><p>&#x4F46;&#x6709;&#x53EF;&#x80FD;&#x6B64;&#x503C;(0x000001)&#xFF0C;&#x5B58;&#x5728;bitstream&#x88E1;&#x9762;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x8DF3;&#x812B;&#x5B57;&#x5143;(esc,&#x9019;&#x908A;&#x4F7F;&#x7528;Emulation Prevention Bytes, 0x03)<br>&#x56E0;&#x6B64;&#x70BA;&#x5728;&#x5EFA;&#x7ACB;nal&#x5305;&#x6642;&#x6703;&#x53BB;&#x6AA2;&#x67E5;<br>0x000000,0x0000001,0x000002,0x000003<br>&#x5C31;&#x5B83;&#x8B8A;&#x6210;<br>0x0000<03>00,0x0000<03>01,0x0000<03>02,0x0000<03>03<br>This ensures that no sequence of consecutive byte-aligned bytes in the NAL unit contains a start code prefix.<br>&#x9632;&#x6B62;start code&#x5728;&#x5B58;&#x65BC;nal padload&#x88E1;&#x9762;</03></03></03></03></p>
+</li>
+<li><p>&#x539F;&#x59CB;&#x7684;SPS&#x8CC7;&#x6599;&#x5982;&#x4E0B;<br>00 00 00 01<br>67 64 00 0A AC 72 84 44 26 84 00 00 00 04 00 00 00 CA 3C 48 96 11 80</p>
+</li>
+<li><p>&#x5728;encode&#x8CC7;&#x6599;&#x6642;&#x6703;&#x8B8A;&#x6210;&#x5982;&#x4E0B;&#xFF0C;&#x9047;&#x5230;0x00000 (3byte start code)&#xFF0C;&#x8B8A;&#x6210;0x00000300<br>&#x88E1;&#x9762;&#x6709;&#x5169;&#x500B;Prevention Bytes(0x03)<br>00 00 00 01<br>67 64 00 0A AC 72 84 44 26 84 00 00 <strong>03</strong> 00 04 00 00 <strong>03</strong> 00 CA 3C 48 96 11 80</p>
+</li>
+</ul>
+<ul>
+<li><p>emulation  prevention  byte<br>A  byte  equal  to 0x03  that  may  be  present  within  a  NAL  unit.<br>The  presence  of  emulation  prevention  bytes  ensures  that  no  sequence  of  consecutive  byte aligned  bytes  in  the  NAL  unit contains a  start code prefix.</p>
+</li>
+<li><p>start  code  prefix<br>A  unique  sequence  of  three  bytes  equal  to 0x000001  embedded  in  the  byte  stream as  a  prefix to each NAL unit.<br>The location of a start code prefix  can be used by a decoder to identify the beginning of  a  new  NAL  unit   and  the  end  of  a  previous NAL  unit.<br>Emulation  of  start  code  prefixes   is  prevented  within NAL units by the inclusion of emulation prevention bytes.</p>
+</li>
+</ul>
+<p>&#x53C3;&#x8003;&#x4F86;&#x6E90;&#xFF1A;<a href="http://yumichan.net/video-processing/video-compression/introduction-to-h264-nal-unit/" target="_blank" rel="external">Introduction to H.264: (1) NAL Unit</a>,<a href="http://www.hlevkin.com/Standards/h264.pdf" target="_blank" rel="external">ITU-T Rec. H.264 pdf</a></p>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://yumichan.net/video-processing/video-compression/introduction-to-h264-nal-unit/" target="_blank" rel="external">Introduction to H.264: (1) NAL Unit</a></li>
+<li><a href="https://tools.ietf.org/html/rfc3551#section-6" target="_blank" rel="external">Payload Type Definitions</a></li>
+<li><a href="http://www.faqs.org/rfcs/rfc3984.html" target="_blank" rel="external">RTP Payload Format for H.264 Video</a></li>
+<li><a href="http://my-tech-knowledge.blogspot.tw/2008/02/rfc-3984-rtp-payload-format-for-h264.html" target="_blank" rel="external">&#x91CD;&#x9EDE;&#x6574;&#x7406; &#x2013; H264 Over RTP &#x4E4B; &#x5BF6;&#x5178; </a></li>
+<li><a href="http://stevegigijoe.blogspot.tw/2009/11/h264-rtp-streaming.html" target="_blank" rel="external">Encoding sample code with TI DSP</a></li>
+<li><a href="https://www.iana.org/assignments/rtp-parameters/rtp-parameters.xhtml" target="_blank" rel="external">Real-Time Transport Protocol (RTP) Parameters</a></li>
+<li><a href="http://gentlelogic.blogspot.tw/2011/11/exploring-h264-part-2-h264-bitstream.html" target="_blank" rel="external">Exploring H.264. Part 2: H.264 Bitstream format </a></li>
+<li><a href="http://coconut.co/h264" target="_blank" rel="external">H.264 Encoder</a></li>
+<li><a href="https://supportforums.cisco.com/document/12628486/understand-video-signaling-sdp-debugs" target="_blank" rel="external">Understand Video Signaling with SDP Debugs</a></li>
+<li><a href="http://www.hlevkin.com/Standards/h264.pdf" target="_blank" rel="external">ITU-T Rec. H.264 pdf</a></li>
+<li><a href="http://stackoverflow.com/questions/24884827/possible-locations-for-sequence-picture-parameter-sets-for-h-264-stream" target="_blank" rel="external">Possible Locations for Sequence/Picture Parameter Set(s) for H.264 Stream</a></li>
+<li><a href="https://www.slideshare.net/DSPIP/h-264-nal" target="_blank" rel="external">H.264 nal and RTP </a></li>
+<li><a href="https://tools.ietf.org/html/rfc3550" target="_blank" rel="external">RTP Fixed Header Fields</a></li>
+<li><a href="http://gentlelogic.blogspot.tw/2011/11/exploring-h264-part-2-h264-bitstream.html" target="_blank" rel="external"> Exploring H.264. Part 2: H.264 Bitstream format </a></li>
+<li><a href="https://codesequoia.wordpress.com/2009/10/18/h-264-stream-structure/" target="_blank" rel="external">H.264 stream structure</a></li>
+<li>&#x5176;&#x5B83;<ul>
+<li><a href="http://www.irisa.fr/prive/kadi/Sujets_CTR/Guillemot/Guillaume_sujet2_article1_H264.pdf" target="_blank" rel="external">Overview of the H.264/AVC Video Coding Standard</a></li>
+<li><a href="http://guoh.org/lifelog/2013/10/h-264-bit-stream-sps-pps-idr-nalu/" target="_blank" rel="external">&#x4E00;&#x6B65;&#x4E00;&#x6B65;&#x89E3;&#x6790;H.264&#x7801;&#x6D41;&#x7684;NALU</a></li>
+<li><a href="http://blog.udn.com/mhwu1/10559752" target="_blank" rel="external">&#x7C97;&#x89E3; live555</a></li>
+<li><a href="http://albert-oma.blogspot.tw/2012/06/live555-rtsp-client.html" target="_blank" rel="external">live555 &#x7A0B;&#x5F0F;&#x78BC;&#x5206;&#x6790; &#x2013; RTSP Client </a></li>
+<li><a href="http://blog.xuite.net/antony0604/blog/130505326-RTSP+Client+use+OpenRTSP+(live555)+with+H264%2FMJpeg" target="_blank" rel="external">RTSP Client use OpenRTSP (live555) with H264/MJpeg</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/h264/" rel="tag">#h264</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/10/rtsp/" rel="next" title="rtsp">
+                <i class="fa fa-chevron-left"></i> rtsp
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/31/procd/" rel="prev" title="procd">
+                procd <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rtp"><span class="nav-number">3.</span> <span class="nav-text">RTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rtp-fixed-header-fields"><span class="nav-number">3.1.</span> <span class="nav-text">RTP Fixed Header Fields</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#marker設定方式"><span class="nav-number">3.2.</span> <span class="nav-text">marker設定方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#payload-type-definitions"><span class="nav-number">3.3.</span> <span class="nav-text">Payload Type Definitions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rtp-packet"><span class="nav-number">3.4.</span> <span class="nav-text">RTP Packet</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#h264說明"><span class="nav-number">4.</span> <span class="nav-text">H264說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rtp-payload-format-for-h264-video"><span class="nav-number">4.1.</span> <span class="nav-text">RTP Payload Format for H.264 Video</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#single-nal-unit-packet"><span class="nav-number">4.2.</span> <span class="nav-text">Single NAL Unit Packet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fragmentation-units-fus"><span class="nav-number">4.3.</span> <span class="nav-text">Fragmentation Units (FUs)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意地方"><span class="nav-number">4.4.</span> <span class="nav-text">注意地方</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nal-unit"><span class="nav-number">5.</span> <span class="nav-text">NAL Unit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#h264-encoder-profile"><span class="nav-number">6.</span> <span class="nav-text">H264 Encoder Profile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實際收到的rtp資料"><span class="nav-number">7.</span> <span class="nav-text">實際收到的RTP資料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#camera送出的rtp資料"><span class="nav-number">7.1.</span> <span class="nav-text">Camera送出的RTP資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dtv-server送出的rtp資料"><span class="nav-number">7.2.</span> <span class="nav-text">DTV Server送出的RTP資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#h264-emulation-prevention-bytes"><span class="nav-number">8.</span> <span class="nav-text">H264 Emulation Prevention Bytes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">9.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/03/14/h264/';
+      var disqus_title = 'h264';
+      var disqus_url = 'http://yoursite.com/2017/03/14/h264/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

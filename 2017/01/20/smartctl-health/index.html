@@ -1,0 +1,914 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,實作隨筆,smartctl," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="遇到smartctl FAILED，了解錯誤原因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="smartctl-health">
+<meta property="og:url" content="http://yoursite.com/2017/01/20/smartctl-health/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="遇到smartctl FAILED，了解錯誤原因">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="smartctl-health">
+<meta name="twitter:description" content="遇到smartctl FAILED，了解錯誤原因">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> smartctl-health | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                smartctl-health
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-01-20T13:47:30+08:00" content="2017-01-20">
+              2017-01-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/20/smartctl-health/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/20/smartctl-health/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/20/smartctl-health/" class="leancloud_visitors" data-flag-title="smartctl-health">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x9047;&#x5230;smartctl FAILED&#xFF0C;&#x4E86;&#x89E3;&#x932F;&#x8AA4;&#x539F;&#x56E0;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170120</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#smartctl-reallocated_sector_ct">Smartctl Reallocated_Sector_Ct</a></li>
+<li><a href="#smartctl-health">smartctl health</a><ul>
+<li><a href="#smartctl&#x7A0B;&#x5E8F;">smartctl&#x7A0B;&#x5E8F;</a></li>
+<li><a href="#smartctl-health&#x8A0A;&#x606F;">smartctl health&#x8A0A;&#x606F;</a></li>
+<li><a href="#smartctl-test">smartctl test</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x53C3;&#x8003;">&#x5176;&#x5B83;&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="smartctl-reallocated_sector_ct"><a href="#Smartctl_Reallocated_Sector_Ct" class="headerlink" title="Smartctl Reallocated_Sector_Ct"></a>Smartctl Reallocated_Sector_Ct</h2><p>there are physical issues already reported by S.M.A.R.T<br>&#x8868;&#x793A;&#x5DF2;&#x6AA2;&#x6E2C;&#x5230;&#x5BE6;&#x4F53;&#x78C1;&#x5340;&#x640D;&#x6BC0;</p>
+<p>When the hard drive finds a read/write/verification error, it marks that sector as &#x201C;reallocated&#x201D; and transfers data to a special reserved area (spare area)<br>&#x786C;&#x789F;driver&#x6703;&#x53BB;&#x505A;&#x8B80;&#x5165;&#x9A57;&#x8B49;(&#x5373;&#x5BEB;&#x5165;&#x8CC7;&#x6599;&#xFF0C;&#x518D;&#x8B80;&#x56DE;&#x4F86;&#x9A57;&#x8B49;)&#xFF0C;&#x82E5;&#x7522;&#x751F;&#x554F;&#x984C;&#xFF0C;&#x5C07;&#x6703;&#x4F7F;&#x7528;&#x786C;&#x789F;&#x5167;&#x7684;spare area</p>
+<p>RAW_VALUE<br>&#x8A18;&#x9304;&#x5BE6;&#x969B;&#x640D;&#x6BC0;&#x78C1;&#x5340;<br>The raw value normally represents a count of the bad sectors that have been found and remapped.</p>
+<ul>
+<li>&#x4E0B;&#x4F8B;&#x8A18;&#x9304;&#x56B4;&#x91CD;&#x932F;&#x8AA4; (&#x82E5;&#x8D85;&#x51FA;&#x5B89;&#x5168;&#x7684;&#x7BC4;&#x570D;)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">id</th>
+<th style="text-align:left">note</th>
+<th style="text-align:left">note</th>
+<th style="text-align:left">x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">Read Error Rate</td>
+<td style="text-align:left">&#x5E95;&#x5C42;&#x6570;&#x636E;&#x8BFB;&#x53D6;&#x9519;&#x8BEF;&#x7387;</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">Reallocated Sector Count</td>
+<td style="text-align:left">&#x91CD;&#x5B9A;&#x4F4D;&#x78C1;&#x533A;&#x8BA1;&#x6570;</td>
+<td style="text-align:left">&#x5F53;&#x9AD8;&#x8FC7;&#x4E00;&#x5B9A;&#x6570;&#x503C;&#x540E;&#xFF0C;&#x540E;&#x78C1;&#x5340;&#x6D88;&#x8017;&#x6B86;&#x5C3D;&#x800C;&#x65E0;&#x6CD5;&#x518D;&#x91CD;&#x6620;&#x5C04;&#x4FEE;&#x590D;&#x65F6;&#xFF0C;&#x8FD9;&#x4E9B;&#x574F;&#x78C1;&#x5340;&#x5C31;&#x4F1A;&#x663E;&#x73B0;&#x51FA;&#x6765;&#x4E14;&#x65E0;&#x6CD5;&#x81EA;&#x884C;&#x4FEE;&#x590D;</td>
+</tr>
+<tr>
+<td style="text-align:left">10</td>
+<td style="text-align:left">Spin Retry Count</td>
+<td style="text-align:left">&#x7535;&#x673A;&#x8D77;&#x8F6C;&#x91CD;&#x8BD5;</td>
+<td style="text-align:left">&#x4E3B;&#x8F74;&#x7535;&#x673A;&#x9891;&#x7E41;&#x7684;&#x5C1D;&#x8BD5;&#x542F;&#x52A8;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x786C;&#x76D8;&#x9A71;&#x52A8;&#x5668;&#x7684;&#x5BFF;&#x547D;&#x53EF;&#x80FD;&#x5C06;&#x8FD1;&#x5B9E;&#x9645;&#x9650;&#x503C;</td>
+</tr>
+<tr>
+<td style="text-align:left">196</td>
+<td style="text-align:left">Reallocation Event Count</td>
+<td style="text-align:left">&#x91CD;&#x5B9A;&#x4F4D;&#x4E8B;&#x4EF6;&#x8BA1;&#x6570;</td>
+<td style="text-align:left">&#x8BB0;&#x5F55;&#x5DF2;&#x91CD;&#x6620;&#x5C04;&#x6247;&#x533A;&#x548C;&#x53EF;&#x80FD;&#x91CD;&#x6620;&#x5C04;&#x6247;&#x533A;&#x7684;&#x4E8B;&#x4EF6;&#x8BA1;&#x6570;</td>
+</tr>
+<tr>
+<td style="text-align:left">197</td>
+<td style="text-align:left">Current Pending Sector Count</td>
+<td style="text-align:left">&#x7B49;&#x5019;&#x91CD;&#x5B9A;&#x7684;&#x6247;&#x533A;&#x8BA1;&#x6570;</td>
+<td style="text-align:left">&#x8BB0;&#x5F55;&#x4E86;&#x4E0D;&#x7A33;&#x5B9A;&#x7684;&#x6247;&#x533A;&#x7684;&#x6570;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">198</td>
+<td style="text-align:left">Uncorrectable Sector Count</td>
+<td style="text-align:left">&#x65E0;&#x6CD5;&#x6821;&#x6B63;&#x7684;&#x6247;&#x533A;&#x8BA1;&#x6570;</td>
+<td style="text-align:left">&#x8BB0;&#x5F55;&#x80AF;&#x5B9A;&#x51FA;&#x9519;&#x7684;&#x6247;&#x533A;&#x6570;&#x91CF;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="smartctl-health"><a href="#smartctl_health" class="headerlink" title="smartctl health"></a>smartctl health</h2><h3 id="smartctl&#x7A0B;&#x5E8F;"><a href="#smartctl_u7A0B_u5E8F" class="headerlink" title="smartctl&#x7A0B;&#x5E8F;"></a>smartctl&#x7A0B;&#x5E8F;</h3><ul>
+<li><p>&#x958B;&#x555F;SMART<br>smartctl -s on -d ata /dev/sda</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-s VALUE, --smart=VALUE</span><br><span class="line">      Enable/disable SMART on device (on/off)</span><br><span class="line"></span><br><span class="line">-d TYPE, --device=TYPE</span><br><span class="line">       Specify device type to one of: ata, scsi, sat[,auto][,N][+TYPE], usbcypress[,X], usbjmicron[,p][,x][,N], usbsunplus, marvell, areca,N/E, 3ware,N, hpt,L/M/N, megaraid,N, cciss,N, auto, test</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6BCF;&#x9694;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x6AA2;&#x67E5;health<br>smartctl -H /dev/sda -d auto</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-H, --health</span><br><span class="line">      Show device SMART health status</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="smartctl-health&#x8A0A;&#x606F;"><a href="#smartctl_health_u8A0A_u606F" class="headerlink" title="smartctl health&#x8A0A;&#x606F;"></a>smartctl health&#x8A0A;&#x606F;</h3><ul>
+<li><p>PASSED</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># smartctl -H /dev/sda -d auto</span><br><span class="line">smartctl 6.2 2013-07-26 r3841 [armv7l-linux-3.4.35_hi3535] (local build)</span><br><span class="line">Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org</span><br><span class="line"></span><br><span class="line">=== START OF READ SMART DATA SECTION ===</span><br><span class="line">SMART overall-health self-assessment test result: PASSED</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>FAILED</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># smartctl -H /dev/sdb -d auto</span><br><span class="line">smartctl 6.2 2013-07-26 r3841 [armv7l-linux-3.4.35_hi3535] (local build)</span><br><span class="line">Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org</span><br><span class="line"></span><br><span class="line">=== START OF READ SMART DATA SECTION ===</span><br><span class="line">SMART overall-health self-assessment test result: FAILED!</span><br><span class="line">Drive failure expected in less than 24 hours. SAVE ALL DATA.</span><br><span class="line">Failed Attributes:</span><br><span class="line">ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_FAILED RAW_VALUE</span><br><span class="line">  5 Reallocated_Sector_Ct   0x0033   135   135   140    Pre-fail  Always   FAILING_NOW 27</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="smartctl-test"><a href="#smartctl_test" class="headerlink" title="smartctl test"></a>smartctl test</h3><p>Reallocated_Event_Count : &#x91CD;&#x5B9A;&#x4F4D;&#x4E8B;&#x4EF6;&#x8BA1;&#x6570;,&#x8BB0;&#x5F55;&#x5DF2;&#x91CD;&#x6620;&#x5C04;&#x6247;&#x533A;&#x548C;&#x53EF;&#x80FD;&#x91CD;&#x6620;&#x5C04;&#x6247;&#x533A;&#x7684;&#x4E8B;&#x4EF6;&#x8BA1;&#x6570;<br>Current_Pending_Sector: &#x7B49;&#x5019;&#x91CD;&#x5B9A;&#x7684;&#x6247;&#x533A;&#x8BA1;&#x6570;,&#x8BB0;&#x5F55;&#x4E86;&#x4E0D;&#x7A33;&#x5B9A;&#x7684;&#x6247;&#x533A;&#x7684;&#x6570;&#x91CF;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">196 Reallocated_Event_Count 0x0032   001   001   000    Old_age   Always       -       647</span><br><span class="line">197 Current_Pending_Sector  0x0032   001   001   000    Old_age   Always       -       65532</span><br></pre></td></tr></table></figure>
+<ul>
+<li>smartctl -t short /dev/sdb <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br></pre></td><td class="code"><pre><span class="line"># smartctl -t short /dev/sdb </span><br><span class="line">smartctl 6.2 2013-07-26 r3841 [armv7l-linux-3.4.35_hi3535] (local build)</span><br><span class="line">Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org</span><br><span class="line"></span><br><span class="line">=== START OF OFFLINE IMMEDIATE AND SELF-TEST SECTION ===</span><br><span class="line">Sending command: &quot;Execute SMART Short self-test routine immediately in off-line mode&quot;.</span><br><span class="line">Drive command &quot;Execute SMART Short self-test routine immediately in off-line mode&quot; successful.</span><br><span class="line">Testing has begun.</span><br><span class="line">Please wait 2 minutes for test to complete.</span><br><span class="line">Test will complete after Fri Jan 20 13:42:35 2017</span><br><span class="line"></span><br><span class="line">Use smartctl -X to abort test.</span><br><span class="line"># date</span><br><span class="line">Fri Jan 20 13:41:07 UTC 2017</span><br><span class="line"># date</span><br><span class="line">Fri Jan 20 13:41:44 UTC 2017</span><br><span class="line"># date</span><br><span class="line">Fri Jan 20 13:43:13 UTC 2017</span><br><span class="line"># </span><br><span class="line">=========================================================================================</span><br><span class="line"># smartctl -a /dev/sdb      </span><br><span class="line">smartctl 6.2 2013-07-26 r3841 [armv7l-linux-3.4.35_hi3535] (local build)</span><br><span class="line">Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org</span><br><span class="line"></span><br><span class="line">=== START OF INFORMATION SECTION ===</span><br><span class="line">Device Model:     WDC WD10JUCT-63CYNY0</span><br><span class="line">Serial Number:    WD-WX31AC4PVPHA</span><br><span class="line">LU WWN Device Id: 5 0014ee 65aae4265</span><br><span class="line">Firmware Version: 01.01A01</span><br><span class="line">User Capacity:    1,000,204,886,016 bytes [1.00 TB]</span><br><span class="line">Sector Sizes:     512 bytes logical, 4096 bytes physical</span><br><span class="line">Rotation Rate:    5400 rpm</span><br><span class="line">Device is:        Not in smartctl database [for details use: -P showall]</span><br><span class="line">ATA Version is:   ACS-2 (minor revision not indicated)</span><br><span class="line">SATA Version is:  SATA 3.0, 3.0 Gb/s (current: 3.0 Gb/s)</span><br><span class="line">Local Time is:    Fri Jan 20 13:43:41 2017 UTC</span><br><span class="line">SMART support is: Available - device has SMART capability.</span><br><span class="line">SMART support is: Enabled</span><br><span class="line"></span><br><span class="line">=== START OF READ SMART DATA SECTION ===</span><br><span class="line">SMART overall-health self-assessment test result: FAILED!</span><br><span class="line">Drive failure expected in less than 24 hours. SAVE ALL DATA.</span><br><span class="line">See vendor-specific Attribute list for failed Attributes.</span><br><span class="line"></span><br><span class="line">General SMART Values:</span><br><span class="line">Offline data collection status:  (0x00) Offline data collection activity</span><br><span class="line">                                        was never started.</span><br><span class="line">                                        Auto Offline Data Collection: Disabled.</span><br><span class="line">Self-test execution status:      ( 241) Self-test routine in progress...</span><br><span class="line">                                        10% of test remaining.</span><br><span class="line">Total time to complete Offline </span><br><span class="line">data collection:                (18420) seconds.</span><br><span class="line">Offline data collection</span><br><span class="line">capabilities:                    (0x7b) SMART execute Offline immediate.</span><br><span class="line">                                        Auto Offline data collection on/off support.</span><br><span class="line">                                        Suspend Offline collection upon new</span><br><span class="line">                                        command.</span><br><span class="line">                                        Offline surface scan supported.</span><br><span class="line">                                        Self-test supported.</span><br><span class="line">                                        Conveyance Self-test supported.</span><br><span class="line">                                        Selective Self-test supported.</span><br><span class="line">SMART capabilities:            (0x0003) Saves SMART data before entering</span><br><span class="line">                                        power-saving mode.</span><br><span class="line">                                        Supports SMART auto save timer.</span><br><span class="line">Error logging capability:        (0x01) Error logging supported.</span><br><span class="line">                                        General Purpose Logging supported.</span><br><span class="line">Short self-test routine </span><br><span class="line">recommended polling time:        (   2) minutes.</span><br><span class="line">Extended self-test routine</span><br><span class="line">recommended polling time:        ( 206) minutes.</span><br><span class="line">Conveyance self-test routine</span><br><span class="line">recommended polling time:        (   5) minutes.</span><br><span class="line">SCT capabilities:              (0x7035) SCT Status supported.</span><br><span class="line">                                        SCT Feature Control supported.</span><br><span class="line">                                        SCT Data Table supported.</span><br><span class="line"></span><br><span class="line">SMART Attributes Data Structure revision number: 16</span><br><span class="line">Vendor Specific SMART Attributes with Thresholds:</span><br><span class="line">ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_FAILED RAW_VALUE</span><br><span class="line">  1 Raw_Read_Error_Rate     0x002f   200   200   051    Pre-fail  Always       -       0</span><br><span class="line">  3 Spin_Up_Time            0x0027   183   179   021    Pre-fail  Always       -       1833</span><br><span class="line">  4 Start_Stop_Count        0x0032   100   100   000    Old_age   Always       -       441</span><br><span class="line">  5 Reallocated_Sector_Ct   0x0033   135   135   140    Pre-fail  Always   FAILING_NOW 2770</span><br><span class="line">  7 Seek_Error_Rate         0x002e   200   194   000    Old_age   Always       -       4</span><br><span class="line">  9 Power_On_Hours          0x0032   088   088   000    Old_age   Always       -       9398</span><br><span class="line"> 10 Spin_Retry_Count        0x0032   100   100   000    Old_age   Always       -       0</span><br><span class="line"> 11 Calibration_Retry_Count 0x0032   100   100   000    Old_age   Always       -       0</span><br><span class="line"> 12 Power_Cycle_Count       0x0032   100   100   000    Old_age   Always       -       441</span><br><span class="line">192 Power-Off_Retract_Count 0x0032   200   200   000    Old_age   Always       -       439</span><br><span class="line">193 Load_Cycle_Count        0x0032   200   200   000    Old_age   Always       -       140</span><br><span class="line">194 Temperature_Celsius     0x0022   114   099   000    Old_age   Always       -       33</span><br><span class="line">196 Reallocated_Event_Count 0x0032   001   001   000    Old_age   Always       -       647</span><br><span class="line">197 Current_Pending_Sector  0x0032   001   001   000    Old_age   Always       -       65532</span><br><span class="line">198 Offline_Uncorrectable   0x0030   100   253   000    Old_age   Offline      -       0</span><br><span class="line">199 UDMA_CRC_Error_Count    0x0032   200   200   000    Old_age   Always       -       0</span><br><span class="line">200 Multi_Zone_Error_Rate   0x0008   100   253   000    Old_age   Offline      -       0</span><br><span class="line"></span><br><span class="line">SMART Error Log Version: 1</span><br><span class="line">ATA Error Count: 9762 (device log contains only the most recent five errors)</span><br><span class="line">        CR = Command Register [HEX]</span><br><span class="line">        FR = Features Register [HEX]</span><br><span class="line">        SC = Sector Count Register [HEX]</span><br><span class="line">        SN = Sector Number Register [HEX]</span><br><span class="line">        CL = Cylinder Low Register [HEX]</span><br><span class="line">        CH = Cylinder High Register [HEX]</span><br><span class="line">        DH = Device/Head Register [HEX]</span><br><span class="line">        DC = Device Command Register [HEX]</span><br><span class="line">        ER = Error register [HEX]</span><br><span class="line">        ST = Status register [HEX]</span><br><span class="line">Powered_Up_Time is measured from power on, and printed as</span><br><span class="line">DDd+hh:mm:SS.sss where DD=days, hh=hours, mm=minutes,</span><br><span class="line">SS=sec, and sss=millisec. It &quot;wraps&quot; after 49.710 days.</span><br><span class="line"></span><br><span class="line">Error 9762 occurred at disk power-on lifetime: 9396 hours (391 days + 12 hours)</span><br><span class="line">  When the command that caused the error occurred, the device was active or idle.</span><br><span class="line"></span><br><span class="line">  After command completion occurred, registers were:</span><br><span class="line">  ER ST SC SN CL CH DH</span><br><span class="line">  -- -- -- -- -- -- --</span><br><span class="line">  04 61 46 00 00 00 a0  Device Fault; Error: ABRT</span><br><span class="line"></span><br><span class="line">  Commands leading to the command that caused the error were:</span><br><span class="line">  CR FR SC SN CL CH DH DC   Powered_Up_Time  Command/Feature_Name</span><br><span class="line">  -- -- -- -- -- -- -- --  ----------------  --------------------</span><br><span class="line">  ef 03 46 00 00 00 a0 08  24d+01:45:47.162  SET FEATURES [Set transfer mode]</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.162  IDENTIFY DEVICE</span><br><span class="line">  c8 00 08 00 00 00 e0 08  24d+01:45:47.128  READ DMA</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.116  IDENTIFY DEVICE</span><br><span class="line">  ef 03 46 00 00 00 a0 08  24d+01:45:47.116  SET FEATURES [Set transfer mode]</span><br><span class="line"></span><br><span class="line">Error 9761 occurred at disk power-on lifetime: 9396 hours (391 days + 12 hours)</span><br><span class="line">  When the command that caused the error occurred, the device was active or idle.</span><br><span class="line"></span><br><span class="line">  After command completion occurred, registers were:</span><br><span class="line">  ER ST SC SN CL CH DH</span><br><span class="line">  -- -- -- -- -- -- --</span><br><span class="line">  04 61 08 00 00 00 e0  Device Fault; Error: ABRT 8 sectors at LBA = 0x00000000 = 0</span><br><span class="line"></span><br><span class="line">  Commands leading to the command that caused the error were:</span><br><span class="line">  CR FR SC SN CL CH DH DC   Powered_Up_Time  Command/Feature_Name</span><br><span class="line">  -- -- -- -- -- -- -- --  ----------------  --------------------</span><br><span class="line">  c8 00 08 00 00 00 e0 08  24d+01:45:47.128  READ DMA</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.116  IDENTIFY DEVICE</span><br><span class="line">  ef 03 46 00 00 00 a0 08  24d+01:45:47.116  SET FEATURES [Set transfer mode]</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.115  IDENTIFY DEVICE</span><br><span class="line">  c8 00 08 00 00 00 e0 08  24d+01:45:47.079  READ DMA</span><br><span class="line"></span><br><span class="line">Error 9760 occurred at disk power-on lifetime: 9396 hours (391 days + 12 hours)</span><br><span class="line">  When the command that caused the error occurred, the device was active or idle.</span><br><span class="line"></span><br><span class="line">  After command completion occurred, registers were:</span><br><span class="line">  ER ST SC SN CL CH DH</span><br><span class="line">  -- -- -- -- -- -- --</span><br><span class="line">  04 61 46 00 00 00 a0  Device Fault; Error: ABRT</span><br><span class="line"></span><br><span class="line">  Commands leading to the command that caused the error were:</span><br><span class="line">  CR FR SC SN CL CH DH DC   Powered_Up_Time  Command/Feature_Name</span><br><span class="line">  -- -- -- -- -- -- -- --  ----------------  --------------------</span><br><span class="line">  ef 03 46 00 00 00 a0 08  24d+01:45:47.116  SET FEATURES [Set transfer mode]</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.115  IDENTIFY DEVICE</span><br><span class="line">  c8 00 08 00 00 00 e0 08  24d+01:45:47.079  READ DMA</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.071  IDENTIFY DEVICE</span><br><span class="line">  ef 03 46 00 00 00 a0 08  24d+01:45:47.070  SET FEATURES [Set transfer mode]</span><br><span class="line"></span><br><span class="line">Error 9759 occurred at disk power-on lifetime: 9396 hours (391 days + 12 hours)</span><br><span class="line">  When the command that caused the error occurred, the device was active or idle.</span><br><span class="line"></span><br><span class="line">  After command completion occurred, registers were:</span><br><span class="line">  ER ST SC SN CL CH DH</span><br><span class="line">  -- -- -- -- -- -- --</span><br><span class="line">  04 61 08 00 00 00 e0  Device Fault; Error: ABRT 8 sectors at LBA = 0x00000000 = 0</span><br><span class="line"></span><br><span class="line">  Commands leading to the command that caused the error were:</span><br><span class="line">  CR FR SC SN CL CH DH DC   Powered_Up_Time  Command/Feature_Name</span><br><span class="line">  -- -- -- -- -- -- -- --  ----------------  --------------------</span><br><span class="line">  c8 00 08 00 00 00 e0 08  24d+01:45:47.079  READ DMA</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.071  IDENTIFY DEVICE</span><br><span class="line">  ef 03 46 00 00 00 a0 08  24d+01:45:47.070  SET FEATURES [Set transfer mode]</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.070  IDENTIFY DEVICE</span><br><span class="line">  c8 00 08 00 00 00 e0 08  24d+01:45:47.026  READ DMA</span><br><span class="line"></span><br><span class="line">Error 9758 occurred at disk power-on lifetime: 9396 hours (391 days + 12 hours)</span><br><span class="line">  When the command that caused the error occurred, the device was active or idle.</span><br><span class="line"></span><br><span class="line">  After command completion occurred, registers were:</span><br><span class="line">  ER ST SC SN CL CH DH</span><br><span class="line">  -- -- -- -- -- -- --</span><br><span class="line">  04 61 46 00 00 00 a0  Device Fault; Error: ABRT</span><br><span class="line"></span><br><span class="line">  Commands leading to the command that caused the error were:</span><br><span class="line">  CR FR SC SN CL CH DH DC   Powered_Up_Time  Command/Feature_Name</span><br><span class="line">  -- -- -- -- -- -- -- --  ----------------  --------------------</span><br><span class="line">  ef 03 46 00 00 00 a0 08  24d+01:45:47.070  SET FEATURES [Set transfer mode]</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.070  IDENTIFY DEVICE</span><br><span class="line">  c8 00 08 00 00 00 e0 08  24d+01:45:47.026  READ DMA</span><br><span class="line">  ec 00 00 00 00 00 a0 08  24d+01:45:47.015  IDENTIFY DEVICE</span><br><span class="line">  ef 03 46 00 00 00 a0 08  24d+01:45:47.014  SET FEATURES [Set transfer mode]</span><br><span class="line"></span><br><span class="line">SMART Self-test log structure revision number 1</span><br><span class="line">No self-tests have been logged.  [To run self-tests, use: smartctl -t]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SMART Selective self-test log data structure revision number 1</span><br><span class="line"> SPAN  MIN_LBA  MAX_LBA  CURRENT_TEST_STATUS</span><br><span class="line">    1        0        0  Not_testing</span><br><span class="line">    2        0        0  Not_testing</span><br><span class="line">    3        0        0  Not_testing</span><br><span class="line">    4        0        0  Not_testing</span><br><span class="line">    5        0        0  Not_testing</span><br><span class="line">Selective self-test flags (0x0):</span><br><span class="line">  After scanning selected spans, do NOT read-scan remainder of disk.</span><br><span class="line">If Selective self-test is pending on power-up, resume after 0 minute delay.</span><br><span class="line"></span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x5176;&#x5B83;&#x53C3;&#x8003;"><a href="#u5176_u5B83_u53C3_u8003" class="headerlink" title="&#x5176;&#x5B83;&#x53C3;&#x8003;"></a>&#x5176;&#x5B83;&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://superuser.com/questions/723844/smart-status-reallocated-sector-ct-failing-now" target="_blank" rel="external">SMART-status: reallocated_sector_ct FAILING_NOW</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/S.M.A.R.T." target="_blank" rel="external">https://zh.wikipedia.org/wiki/S.M.A.R.T.</a></li>
+<li><a href="http://tib.tw/tBoard/index.py?m=pl&amp;t=910" target="_blank" rel="external">&#x5982;&#x4F55;&#x7528; smartctl &#x8207; dd &#x6AA2;&#x67E5;&#x8207;&#x4FEE;&#x5FA9;&#x786C;&#x789F;&#x58DE;&#x8ECC;</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/smartctl/" rel="tag">#smartctl</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/18/mdev/" rel="next" title="mdev">
+                <i class="fa fa-chevron-left"></i> mdev
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/23/hisi-dram/" rel="prev" title="hisi-dram">
+                hisi-dram <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smartctl-reallocated_sector_ct"><span class="nav-number">3.</span> <span class="nav-text">Smartctl Reallocated_Sector_Ct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smartctl-health"><span class="nav-number">4.</span> <span class="nav-text">smartctl health</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#smartctl程序"><span class="nav-number">4.1.</span> <span class="nav-text">smartctl程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#smartctl-health訊息"><span class="nav-number">4.2.</span> <span class="nav-text">smartctl health訊息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#smartctl-test"><span class="nav-number">4.3.</span> <span class="nav-text">smartctl test</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它參考"><span class="nav-number">5.</span> <span class="nav-text">其它參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/01/20/smartctl-health/';
+      var disqus_title = 'smartctl-health';
+      var disqus_url = 'http://yoursite.com/2017/01/20/smartctl-health/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

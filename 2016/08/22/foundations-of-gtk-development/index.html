@@ -1,0 +1,1224 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,書籍閱讀,gtk," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description">
+<meta property="og:type" content="article">
+<meta property="og:title" content="foundations-of-gtk-development">
+<meta property="og:url" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/gtk.jpg">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/hello-world.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/object-hierachy-system.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/widget-hierarchy.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/helloworld2.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/helloworld2-01.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/helloworld2-markup-blue.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/helloworld2-markup-italic.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/event-demo-01.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/motion-01.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/widget-set-sensitive.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="foundations-of-gtk-development">
+<meta name="twitter:description">
+<meta name="twitter:image" content="http://yoursite.com/2016/08/22/foundations-of-gtk-development/gtk.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> foundations-of-gtk-development | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                foundations-of-gtk-development
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T16:56:56+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/book/" itemprop="url" rel="index">
+                    <span itemprop="name">book</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/foundations-of-gtk-development/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/22/foundations-of-gtk-development/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/22/foundations-of-gtk-development/" class="leancloud_visitors" data-flag-title="foundations-of-gtk-development">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2016/08/22/foundations-of-gtk-development/gtk.jpg" alt="gtk.jpg" title="">
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160822</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+<tr>
+<td style="text-align:left">20161220</td>
+<td style="text-align:left">&#x65B0;&#x589E;: GtkWidget Function,Chapter2-3 Button</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#gtk">GTK</a></li>
+<li><a href="#chapter2">Chapter2</a><ul>
+<li><a href="#chapter2-1-helloworld">Chapter2-1 helloworld</a></li>
+<li><a href="#gtk&#x4F7F;&#x7528;gobject-hierarchy-system">GTK+&#x4F7F;&#x7528;GObject hierarchy  system</a></li>
+<li><a href="#chapter2-1-extending-hello-world">Chapter2-1 Extending Hello World</a></li>
+<li><a href="#signals-and-callbacks">Signals and Callbacks</a></li>
+<li><a href="#&#x4E3B;&#x52D5;&#x767C;&#x51FA;signal">&#x4E3B;&#x52D5;&#x767C;&#x51FA;Signal</a></li>
+<li><a href="#events">Events</a></li>
+<li><a href="#chapter2-3-button">Chapter2-3 Button</a></li>
+</ul>
+</li>
+<li><a href="#gtkwidget-function">GtkWidget Function</a><ul>
+<li><a href="#event-test">event test</a></li>
+<li><a href="#&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x6ED1;&#x9F20;&#x79FB;&#x52D5;&#x4E8B;&#x4EF6;">&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x6ED1;&#x9F20;&#x79FB;&#x52D5;&#x4E8B;&#x4EF6;</a></li>
+<li><a href="#gtkwidget-functions">GtkWidget Functions</a></li>
+<li><a href="#gtkwindow-functions">GtkWindow Functions</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="gtk"><a href="#GTK" class="headerlink" title="GTK"></a>GTK</h2><ul>
+<li>The GIMP Toolkit (GTK+) was originally designed for a raster graphics editor called the GNU Image Manipulation Program (GIMP)</li>
+<li>Three individuals, Peter Mattis, Spencer Kimball, and Josh MacDonald created GTK+ in 1997</li>
+<li>GTK&#x5EFA;&#x7ACB;&#x5728;GDK (GIMP Drawing Kit)&#x7684;&#x4E0A;&#x5C64;, &#x57FA;&#x672C;&#x4E0A;&#x662F;&#x5C07;Xlib&#x529F;&#x80FD;&#x5305;&#x88DD;&#x8D77;&#x4F86;<br>&#x5B83;&#x88AB;&#x7A31;&#x70BA;GIMP toolkit&#x662F;&#x56E0;&#x70BA;&#x539F;&#x4F86;&#x662F;&#x5BEB;&#x4F86;&#x958B;&#x767C;GIMP</li>
+<li>GTK+ is an object-oriented application programming interface (API) written in the C programming language.</li>
+</ul>
+<hr>
+<h2 id="chapter2"><a href="#Chapter2" class="headerlink" title="Chapter2"></a>Chapter2</h2><h3 id="chapter2-1-helloworld"><a href="#Chapter2-1_helloworld" class="headerlink" title="Chapter2-1 helloworld"></a>Chapter2-1 helloworld</h3><img src="/2016/08/22/foundations-of-gtk-development/hello-world.png" alt="hello-world.png" title="">
+<ul>
+<li><p>&#x8996;&#x7A97;&#x9810;&#x8A08;&#x70BA;200x200</p>
+</li>
+<li><p>$ cat helloworld.c </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gtk/gtk.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,</span><br><span class="line">        <span class="keyword">char</span> *argv[])</span></span><br><span class="line"></span>{</span><br><span class="line">    GtkWidget *window;</span><br><span class="line"></span><br><span class="line">    gtk_init(&amp;argc,&amp;argv);</span><br><span class="line"></span><br><span class="line">    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);</span><br><span class="line">    gtk_window_set_title (GTK_WINDOW (window), <span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">    gtk_wiget_show(window);</span><br><span class="line"></span><br><span class="line">    gtk_main();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>$cat Makefile </p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">all:</span></span><br><span class="line">        gcc -Wall -g helloworld.c -o helloworld `pkg-config --cflags gtk+-2.0` `pkg-config --libs gtk+-2.0`</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="https://developer.gnome.org/gtk2/stable/GtkWindow.html" target="_blank" rel="external">GtkWindow &#x2014; Toplevel which can contain other widgets</a></p>
+<ul>
+<li>gtk_window_new()<br>Creates a new GtkWindow<br>GTK_WINDOW_TOPLEVEL: A regular window, such as a dialog.<br>GTK_WINDOW_POPUP: A special window such as a tooltip.</li>
+</ul>
+</li>
+<li><a href="https://developer.gnome.org/gtk2/stable/GtkWidget.html" target="_blank" rel="external">GtkWidget</a><br>gtk_wiget_show()</li>
+<li><a href="https://developer.gnome.org/gtk2/stable/gtk2-General.html" target="_blank" rel="external">Main loop and Events &#x2014; Library initialization, main event loop, and events</a><br>gtk_main()<br>Runs the main loop until gtk_main_quit() is called.</li>
+<li><p>&#x82E5;&#x8981;&#x53D6;&#x5F97;gtk_init&#x56DE;&#x50B3;&#x503C;&#xFF0C;<br>&#x5247;&#x9700;&#x8981;&#x4F7F;&#x7528;gtk_init_check()&#xFF0C;initialization&#x5931;&#x6557;&#x56DE;&#x50B3;FALSE&#xFF0C;&#x5426;&#x5247;&#x70BA;TRUE</p>
+</li>
+<li><p>&#x5176;&#x5B83;</p>
+<ul>
+<li>pkg-config<br><a href="http://linux.die.net/man/1/pkg-config" target="_blank" rel="external">pkg-config</a> - Return metainformation about installed libraries <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xx$ pkg-config --cflags gtk+<span class="number">-2.0</span></span><br><span class="line">-pthread -I/usr/include/gtk<span class="number">-2.0</span> -I/usr/lib64/gtk<span class="number">-2.0</span>/include -I/usr/include/pango<span class="number">-1.0</span> -I/usr/include/atk<span class="number">-1.0</span> -I/usr/include/cairo -I/usr/include/pixman<span class="number">-1</span> -I/usr/include/libdrm -I/usr/include/gdk-pixbuf<span class="number">-2.0</span> -I/usr/include/libpng16 -I/usr/include/pango<span class="number">-1.0</span> -I/usr/include/harfbuzz -I/usr/include/pango<span class="number">-1.0</span> -I/usr/include/glib<span class="number">-2.0</span> -I/usr/lib64/glib<span class="number">-2.0</span>/include -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/freetype2 -I/usr/include/libpng16</span><br><span class="line"></span><br><span class="line">xx$ pkg-config --libs gtk+<span class="number">-2.0</span></span><br><span class="line">-lgtk-x11<span class="number">-2.0</span> -lgdk-x11<span class="number">-2.0</span> -lpangocairo<span class="number">-1.0</span> -latk<span class="number">-1.0</span> -lcairo -lgdk_pixbuf<span class="number">-2.0</span> -lgio<span class="number">-2.0</span> -lpangoft2<span class="number">-1.0</span> -lpango<span class="number">-1.0</span> -lgobject<span class="number">-2.0</span> -lglib<span class="number">-2.0</span> -lfontconfig -lfreetype</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>libraries</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">libraries</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-lgtk-x11-2.0</td>
+<td style="text-align:left">GTK+ (-lgtk): Graphical widgets</td>
+</tr>
+<tr>
+<td style="text-align:left">-lgdk-x11-2.0</td>
+<td style="text-align:left">GDK (-lgdk): The standard graphics rendering library</td>
+</tr>
+<tr>
+<td style="text-align:left">-latk-1.0</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-lgio-2.0</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-lpangoft2-1.0</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-lpangocairo-1.0</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-lgdk_pixbuf-2.0</td>
+<td style="text-align:left">GdkPixbuf (-lgdk_pixbuf): Client-side image manipulation</td>
+</tr>
+<tr>
+<td style="text-align:left">-lcairo</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-lpango-1.0</td>
+<td style="text-align:left">Pango (-lpango): Font rendering and output</td>
+</tr>
+<tr>
+<td style="text-align:left">-lfontconfig</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-lgobject-2.0</td>
+<td style="text-align:left">GObject (-lgobject): Object-oriented type system</td>
+</tr>
+<tr>
+<td style="text-align:left">-lglib-2.0</td>
+<td style="text-align:left">GLib (-lglib): Data types and utility functions</td>
+</tr>
+<tr>
+<td style="text-align:left">-lfreetype</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gtk&#x4F7F;&#x7528;gobject-hierarchy-system"><a href="#GTK+_u4F7F_u7528GObject_hierarchy_system" class="headerlink" title="GTK+&#x4F7F;&#x7528;GObject hierarchy  system"></a>GTK+&#x4F7F;&#x7528;GObject hierarchy  system</h3><p>gtk_window_new</p>
+<ul>
+<li>&#x7522;&#x751F;GtkWidget object</li>
+<li>return a pointer to a GtkWidget</li>
+<li><p>GtkWidget &#x7EE7;&#x627F;GtkObject&#x7269;&#x4EF6;</p>
+</li>
+<li><p><a href="https://developer.gnome.org/gtk2/stable/GtkWindow.html#gtk-window-new" target="_blank" rel="external">Object Hierarchy</a></p>
+<img src="/2016/08/22/foundations-of-gtk-development/object-hierachy-system.png" alt="object-hierachy-system.png" title="">
+</li>
+<li><p>THe Widget hierarchy of GtkWindow</p>
+<img src="/2016/08/22/foundations-of-gtk-development/widget-hierarchy.png" alt="widget-hierarchy.png" title="">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">obj</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">GObject</td>
+<td style="text-align:left">fundamental type providing common attributes for all libraries based</td>
+</tr>
+<tr>
+<td style="text-align:left">GInitallyUnowned</td>
+<td style="text-align:left">GInitiallyUnowned should never be accessed by the programmer, since all of its members are private.</td>
+</tr>
+<tr>
+<td style="text-align:left">GtkObject</td>
+<td style="text-align:left">GtkObject is the base class for all GTK+ objects.</td>
+</tr>
+<tr>
+<td style="text-align:left">GtkWidget</td>
+<td style="text-align:left">GtkWidget is an abstract base class for all GTK+ widgets</td>
+</tr>
+<tr>
+<td style="text-align:left">GtkContainer</td>
+<td style="text-align:left">GtkContainer is an abstract class that is used to contain one or more widgets.</td>
+</tr>
+<tr>
+<td style="text-align:left">GtkBin</td>
+<td style="text-align:left">GtkBin is another abstract class that allows a widget to contain only one child</td>
+</tr>
+<tr>
+<td style="text-align:left">GtkWindow</td>
+<td style="text-align:left">GtkWindow is the standard window object you saw in LFigure 2-1</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="chapter2-1-extending-hello-world"><a href="#Chapter2-1_Extending_Hello_World" class="headerlink" title="Chapter2-1 Extending Hello World"></a>Chapter2-1 Extending Hello World</h3><img src="/2016/08/22/foundations-of-gtk-development/helloworld2.png" alt="helloworld2.png" title="">
+<ul>
+<li>&#x65B0;&#x589E;lable</li>
+<li>&#x65B0;&#x589E;&#x96E2;&#x958B;&#x529F;&#x80FD;(&#x5373;&#x6309;&#x4E0B;x&#xFF0C;&#x6703;&#x96E2;&#x958B;&#x7A0B;&#x5F0F;)</li>
+<li><p>$cat helloworld2.c </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gtk/gtk.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">destroy</span> <span class="params">(GtkWidget*, gpointer)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">static</span> gboolean <span class="title">delete_event</span> <span class="params">(GtkWidget *, GdkEvent *, gpointer)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,</span><br><span class="line">        <span class="keyword">char</span> *argv[])</span></span><br><span class="line"></span>{</span><br><span class="line">    GtkWidget *window, *label;</span><br><span class="line"></span><br><span class="line">    gtk_init(&amp;argc,&amp;argv);</span><br><span class="line"></span><br><span class="line">    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);</span><br><span class="line">    gtk_window_set_title (GTK_WINDOW (window), <span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">    gtk_container_set_border_width (GTK_CONTAINER (window),<span class="number">10</span>);</span><br><span class="line">    gtk_widget_set_size_request (window, <span class="number">200</span>, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Connect the main window to the destory and delete-event signal */</span></span><br><span class="line">    g_signal_connect (G_OBJECT(window), <span class="string">&quot;destroy&quot;</span>,</span><br><span class="line">            G_CALLBACK(destroy), <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    g_signal_connect (G_OBJECT (window), <span class="string">&quot;delete_event&quot;</span>,</span><br><span class="line">            G_CALLBACK(delete_event), <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Create a new GtkLabel widget that is selectable */</span></span><br><span class="line">    label = gtk_label_new (<span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">    gtk_label_set_selectable (GTK_LABEL (label), TRUE);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Add the label as a child widget of the window. */</span></span><br><span class="line">    gtk_container_add (GTK_CONTAINER (window), label);</span><br><span class="line">    gtk_widget_show_all (window);</span><br><span class="line"></span><br><span class="line">    gtk_main();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">/*Stop the GTK+ main loop function when the window is destroyed. */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line"><span class="title">destroy</span> <span class="params">(GtkWidget *window,</span><br><span class="line">        gpointer data)</span></span><br><span class="line"></span>{</span><br><span class="line">    gtk_main_quit();</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Return FALSE to destroy the widget. By return TRUE, you can cancel</span><br><span class="line"> * a delete-event */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> gboolean</span><br><span class="line"><span class="title">delete_event</span> <span class="params">(GtkWidget *window,</span><br><span class="line">        GdkEvent *event,</span><br><span class="line">        gpointer data)</span></span><br><span class="line"></span>{</span><br><span class="line">    <span class="keyword">return</span> FALSE;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="https://developer.gnome.org/gtk2/stable/GtkLabel.html" target="_blank" rel="external">GtkLabel</a><br>gtk_label_set_selectable()<br>Selectable labels allow the user to select text from the label, for copy-and-paste.</p>
+</li>
+<li><a href="https://developer.gnome.org/gtk3/stable/GtkWidget.html#GtkWidget-destroy" target="_blank" rel="external">GtkWidget-destroy</a></li>
+<li><p><a href="https://developer.gnome.org/gtk3/stable/GtkWidget.html#GtkWidget-delete-event" target="_blank" rel="external">The delete-event signal</a><br>The ::delete-event signal is emitted if a user requests that a toplevel window is closed.<br>TRUE to stop other handlers from being invoked for the event.<br>FALSE to propagate the event further.<br>&#x8868;&#x793A;&#xFF0C;&#x56DE;&#x50B3;&#x503C;&#x6C7A;&#x5B9A;&#x52A0;&#x5426;trig destroy signal&#xFF0C;&#x7576;&#x70BA;FALSE&#x6642;&#x5247;&#x6703;&#x7522;&#x751F;destroy signal</p>
+</li>
+<li><p>&#x95DC;&#x9589;gtk_label_set_selectable</p>
+</li>
+</ul>
+<img src="/2016/08/22/foundations-of-gtk-development/helloworld2-01.png" alt="helloworld2-01.png" title="">
+<ul>
+<li>gtk_label_set_markup<br>&#x5141;&#x8A31;&#x4F7F;&#x7528;&#x63A1;&#x7528;Pango Text Markup Language<br><a href="http://openhome.cc/Gossip/GTKGossip/GtkLabel.html" target="_blank" rel="external">GtkLabel</a><br><a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html" target="_blank" rel="external">Pango Text Attribute Markup Language</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">label = gtk_label_new (NULL);                                        </span><br><span class="line">//gtk_label_set_markup(GTK_LABEL(label),&quot;&lt;span style=\&quot;italic\&quot;&gt;Hello World&lt;/span&gt;&quot;);</span><br><span class="line">gtk_label_set_markup(GTK_LABEL(label),&quot;&lt;span foreground=&apos;blue&apos; size=&apos;x-large&apos;&gt;Hello World&lt;/span&gt;&quot;);</span><br></pre></td></tr></table></figure>
+<img src="/2016/08/22/foundations-of-gtk-development/helloworld2-markup-blue.png" alt="helloworld2-markup-blue.png" title="">
+<img src="/2016/08/22/foundations-of-gtk-development/helloworld2-markup-italic.png" alt="helloworld2-markup-italic.png" title="">
+<h3 id="signals-and-callbacks"><a href="#Signals_and_Callbacks" class="headerlink" title="Signals and Callbacks"></a>Signals and Callbacks</h3><ul>
+<li>GTK+ is a system that relies on signals and callback functions. </li>
+<li><p>GTK&#x672C;&#x8EAB;&#x662F;&#x500B;&#x4E8B;&#x4EF6;&#x9A45;&#x52D5;&#x7684;&#x5DE5;&#x5177;, &#x9019;&#x610F;&#x5473;&#x8457;&#x5B83;&#x6703;&#x5728;gtk_main&#x9032;&#x5165;&#x505C;&#x6B47;&#x72C0;&#x614B;, &#x4E00;&#x76F4;&#x5230;&#x4E00;&#x500B;&#x4E8B;&#x4EF6;&#x767C;&#x751F;, &#x4E26;&#x4E14;&#x5C07;&#x63A7;&#x5236;&#x4EA4;&#x7D66;&#x9069;&#x7576;&#x7684;&#x51FD;&#x6578;&#x4F86;&#x8655;&#x7406;.</p>
+</li>
+<li><p>Connecting the Signal<br>&#x63A7;&#x5236;&#x6B0A;&#x7684;&#x4EA4;&#x51FA;&#x662F;&#x7531;<strong>signals</strong>&#x4F86;&#x6C7A;&#x5B9A;&#x7684;.<br>ex.&#x7576;&#x4E8B;&#x4EF6;&#x767C;&#x751F;, &#x8AF8;&#x5982;&#x6309;&#x4E0B;&#x6ED1;&#x9F20;&#x7684;&#x4E00;&#x500B;&#x6309;&#x9375;, &#x5C0D;&#x61C9;&#x7684;&#x4FE1;&#x865F;&#x6703;&#x7531;&#x8A72;&#x8996;&#x7A97;&#x7269;&#x4EF6;&#x6240;&#x9001;&#x51FA;. </p>
+<ul>
+<li>This function will be called when the destroy signal is emitted.</li>
+<li>G_CALLBAC(funcA)&#x5373;&#x70BA;&#x8A2D;&#x5B9A;funcA&#x70BA;&#x63A5;&#x53D7;&#x6B64;&#x4FE1;&#x865F;&#x7684;function<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g_signal_connect (G_OBJECT (window), <span class="string">&quot;destroy&quot;</span>,</span><br><span class="line">                  G_CALLBACK (destroy), <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>There are four parameter to every g_signal_connect()</p>
+<ul>
+<li>montired for the signal</li>
+<li>name of signal you want to track</li>
+<li>callback function will be call when the signal is emitted.<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">gulong <span class="title">g_signal_connect</span> <span class="params">(gpointer object,</span><br><span class="line">                         <span class="keyword">const</span> gchar *sign</span><br><span class="line">                         GCallback handler</span><br><span class="line">                         gpointer data)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="&#x4E3B;&#x52D5;&#x767C;&#x51FA;signal"><a href="#u4E3B_u52D5_u767C_u51FASignal" class="headerlink" title="&#x4E3B;&#x52D5;&#x767C;&#x51FA;Signal"></a>&#x4E3B;&#x52D5;&#x767C;&#x51FA;Signal</h3><p>GTK&#x7684;Signal&#x4E0D;&#x4E00;&#x5B9A;&#x5F97;&#x7531;&#x4E8B;&#x4EF6;&#x4F86;&#x767C;&#x51FA;&#xFF0C;&#x60A8;&#x53EF;&#x4EE5;&#x4E3B;&#x52D5;&#x767C;&#x51FA;Signal</p>
+<ul>
+<li>g_signal_emit_by_name()<br>you can emit a signal on an object by using its textual name</li>
+<li>g_signal_stop_emission_by_name()<br>stop the current emission of a signal.</li>
+</ul>
+<h3 id="events"><a href="#Events" class="headerlink" title="Events"></a>Events</h3><p>For example, the destroy signal is emitted on the widget,<br>but the delete-event event is first recognized by the underlying<br>GdkWindow of the widget and then emitted as a signal of the widget.</p>
+<ul>
+<li>&#x7B2C;&#x4E00;&#x6B21;&#x6536;&#x5230;destroy&#x8A0A;&#x865F;&#x7684;&#x70BA;delete-event<ul>
+<li>The delete-event signal is emitted when the user tries to close the window. </li>
+<li>The first instance of an event you encountered was delete-event  </li>
+<li>The first difference in the callback function is the gboolean return value.<br>If TRUE is returned from an event callback, GTK+ assumes the event has already been handled and will not continue.<br>By <strong>returning FALSE, you are telling GTK+ to continue handling the event.</strong><br><strong>FALSE is the default return value for the function,</strong></li>
+</ul>
+</li>
+<li><p>&#x7576;&#x7522;&#x751F;destroy&#x8A0A;&#x865F;&#x6642;&#xFF0C;&#x82E5;delete_event&#x56DE;&#x50B3;FALSE&#xFF0C;GTK+&#x5C07;&#x6703;&#x547C;&#x53EB;gtk_widget_destory()</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> gboolean</span><br><span class="line"><span class="title">callback_function</span> <span class="params">(GtkWidget *widget</span><br><span class="line">                   GdkEvent *event,</span><br><span class="line">                   gpointer data)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>callback function&#x6703;&#x63A5;&#x6536;&#x5230;GdkEvent type</p>
+</li>
+<li>&#x6B64;GdkEventType&#x70BA;union&#x578B;&#x614B;(&#x7531;GdKEventKey,GdkEventButton..&#x7B49;&#x7D44;&#x5408;&#x800C;&#x6210;)</li>
+<li><a href="https://developer.gnome.org/gdk2/stable/gdk2-Event-Structures.html" target="_blank" rel="external">Event Structures</a><ul>
+<li>ex.&#x5982;button-press-event , <a href="https://developer.gnome.org/gdk2/stable/gdk2-Event-Structures.html#GdkEventButton" target="_blank" rel="external">struct GdkEventButton</a></li>
+<li>The <strong>type</strong> field will be one of GDK_BUTTON_PRESS, GDK_2BUTTON_PRESS, GDK_3BUTTON_PRESS, and GDK_BUTTON_RELEASE. </li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct GdkEventButton {</span><br><span class="line"> GdkEventType type;</span><br><span class="line"> GdkWindow *window;</span><br><span class="line"> gint8 send_event;</span><br><span class="line"> guint32 time;</span><br><span class="line"> ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="chapter2-3-button"><a href="#Chapter2-3_Button" class="headerlink" title="Chapter2-3 Button"></a>Chapter2-3 Button</h3><ul>
+<li><p>gtk_widget_set_size_request (window, 200, 100);<br>&#x8A2D;&#x5B9A;&#x8996;&#x7A97;&#x6700;&#x5C0F;size</p>
+</li>
+<li><p>gtk_button_new_with_mnemonic<br>will initialize a new button with mnemonic label support.<br>When the user presses the Alt key along with the specified accelerator key, the button will be activated<br>&#x8868;&#x793A;&#x6309;&#x4E0B;Alt&#x53EF;&#x4EE5;&#x9078;&#x5230;&#x6B64;&#x6309;&#x9215;</p>
+</li>
+<li><p><a href="https://developer.gnome.org/gtk2/stable/gtk2-Standard-Enumerations.html#GtkReliefStyle" target="_blank" rel="external">enum GtkReliefStyle</a></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">GTK_RELIEF_NORMAL</td>
+<td style="text-align:left">Draw a normal relief.</td>
+</tr>
+<tr>
+<td style="text-align:left">GTK_RELIEF_HALF</td>
+<td style="text-align:left">A half relief.</td>
+</tr>
+<tr>
+<td style="text-align:left">GTK_RELIEF_NONE</td>
+<td style="text-align:left">No relief.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="gtkwidget-function"><a href="#GtkWidget_Function" class="headerlink" title="GtkWidget Function"></a>GtkWidget Function</h2><ul>
+<li>gtk_widget_destroy<br>It is possible to destroy a widget by explicitly calling gtk_widget_destroy() on the object. </li>
+</ul>
+<h3 id="event-test"><a href="#event_test" class="headerlink" title="event test"></a>event test</h3><ul>
+<li><a href="http://openhome.cc/Gossip/GTKGossip/GTKEventHandler.html" target="_blank" rel="external">GTK &#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x51FD;&#x5F0F;</a></li>
+</ul>
+<ul>
+<li>gdk event&#x5982;&#x4E0B;<br><a href="https://developer.gimp.org/api/2.0/gdk/gdk-Events.html" target="_blank" rel="external">GDK Events </a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">enum</th>
+<th style="text-align:left">signal name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">GDK_NOTHING   = -1</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">GDK_DELETE    = 0</td>
+<td style="text-align:left">delete_event</td>
+</tr>
+<tr>
+<td style="text-align:left">GDK_DESTROY   = 1</td>
+<td style="text-align:left">destory_event</td>
+</tr>
+<tr>
+<td style="text-align:left">GDK_EXPOSE    = 2</td>
+<td style="text-align:left">expose_event</td>
+</tr>
+<tr>
+<td style="text-align:left">GDK_MOTION_NOTIFY = 3</td>
+<td style="text-align:left">motion_notify_event</td>
+</tr>
+<tr>
+<td style="text-align:left">GDK_BUTTON_PRESS  = 4</td>
+<td style="text-align:left">button_press_event</td>
+</tr>
+<tr>
+<td style="text-align:left">GDK_2BUTTON_PRESS = 5</td>
+<td style="text-align:left">2button_press_event</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>GDK_DELETE<br>the window manager has requested that the toplevel window be hidden or destroyed, usually when the user clicks on a special icon in the title bar.</p>
+</li>
+<li><p>GDK_DESTROY<br>the window has been destroyed.</p>
+</li>
+<li><p>GDK_EXPOSE<br>all or part of the window has become visible and needs to be redrawn. </p>
+</li>
+<li><p>&#x65BC;g_signal_connect&#x4F7F;&#x7528;&#x7684;&#x540D;&#x7A31;<br>&#x5982;&#x679C;&#x662F;&#x201D;event&#x201D;&#xFF0C;&#x5247;&#x4EE3;&#x8868;&#x6240;&#x6709;&#x7684;&#x4E8B;&#x4EF6;</p>
+</li>
+<li><p>&#x82E5;&#x5728;button_press_callback&#xFF0C;&#x56DE;&#x50B3;TRUE<br>&#x5C07;&#x4E0D;&#x6703;&#x6709;event&#x9001;&#x5230;clicked(&#x56E0;&#x6B64;&#x4E0D;&#x6703;&#x6253;&#x5370;clicked process)</p>
+</li>
+</ul>
+<ul>
+<li>&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</li>
+</ul>
+<img src="/2016/08/22/foundations-of-gtk-development/event-demo-01.png" alt="event-demo-01.png" title="">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ ./event_demo </span><br><span class="line">button_press_event (x:85,y:121)</span><br><span class="line">clicked process</span><br><span class="line">button_press_event (x:11,y:15)</span><br><span class="line">clicked process</span><br><span class="line">button_press_event (x:117,y:140)</span><br><span class="line">clicked process</span><br><span class="line">button_press_event (x:116,y:140)</span><br><span class="line">button_press_event (x:116,y:140)</span><br><span class="line">button_press_event (x:94,y:102)</span><br><span class="line">clicked process</span><br><span class="line">button_press_event (x:4,y:4)</span><br><span class="line">clicked process</span><br><span class="line">button_press_event (x:191,y:196)</span><br><span class="line">clicked process</span><br><span class="line">button_press_event (x:194,y:9)</span><br><span class="line">clicked process</span><br><span class="line">button_press_event (x:4,y:193)</span><br><span class="line">clicked process</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;gtk/gtk.h&gt;</span><br><span class="line"></span><br><span class="line">void button_clicked_callback(GtkWidget *button, gpointer data){</span><br><span class="line">    g_print(&quot;clicked process\n&quot;);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">gboolean button_press_callback(</span><br><span class="line">        GtkWidget *button, GdkEvent *event, gpointer data){</span><br><span class="line">    GdkEventType type = event-&gt;type;</span><br><span class="line"></span><br><span class="line">    if(type == GDK_BUTTON_PRESS){</span><br><span class="line">        g_print(&quot;button_press_event (x:%d,y:%d)\n&quot;,</span><br><span class="line">                (gint)event-&gt;button.x, (gint) event-&gt;button.y);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    return FALSE;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[]){</span><br><span class="line">    GtkWidget *window;</span><br><span class="line">    GtkWidget *button;</span><br><span class="line"></span><br><span class="line">    gtk_init(&amp;argc,&amp;argv);</span><br><span class="line">    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);</span><br><span class="line">    gtk_window_set_title(GTK_WINDOW(window),&quot;Hello GTK+!&quot;);</span><br><span class="line"></span><br><span class="line">    button = gtk_button_new_with_label(&quot;click me&quot;);</span><br><span class="line">    gtk_container_add(GTK_CONTAINER(window),button);</span><br><span class="line"></span><br><span class="line">    g_signal_connect(GTK_OBJECT(button), &quot;event&quot;,</span><br><span class="line">                G_CALLBACK(button_press_callback),NULL);</span><br><span class="line"></span><br><span class="line">    g_signal_connect(GTK_OBJECT(button), &quot;clicked&quot;,</span><br><span class="line">                G_CALLBACK(button_clicked_callback),NULL);</span><br><span class="line"></span><br><span class="line">    g_signal_connect(GTK_OBJECT(button), &quot;destroy&quot;,</span><br><span class="line">                G_CALLBACK(gtk_main_quit),NULL);</span><br><span class="line"></span><br><span class="line">    gtk_widget_show(window);</span><br><span class="line">    gtk_widget_show(button);</span><br><span class="line"></span><br><span class="line">    gtk_main();</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x6ED1;&#x9F20;&#x79FB;&#x52D5;&#x4E8B;&#x4EF6;"><a href="#u5982_u4F55_u8A2D_u5B9A_u6ED1_u9F20_u79FB_u52D5_u4E8B_u4EF6" class="headerlink" title="&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x6ED1;&#x9F20;&#x79FB;&#x52D5;&#x4E8B;&#x4EF6;"></a>&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x6ED1;&#x9F20;&#x79FB;&#x52D5;&#x4E8B;&#x4EF6;</h3><p>GtkWindow&#x9810;&#x8A2D;&#x662F;&#x4E0D;&#x63A5;&#x6536;&#x6ED1;&#x9F20;&#x79FB;&#x52D5;&#x4E8B;&#x4EF6;&#xFF0C;&#x60A8;&#x8981;&#x4F7F;&#x7528;gtk_widget_events()&#x589E;&#x52A0;GDK_POINTER_MOTION&#x906E;&#x7F69;&#xFF0C;&#x624D;&#x53EF;&#x4EE5;&#x6355;&#x6349;&#x6ED1;&#x9F20;&#x79FB;&#x52D5;&#x4E8B;&#x4EF6;<br><a href="http://openhome.cc/Gossip/GTKGossip/EventMask.html" target="_blank" rel="external">&#x4E8B;&#x4EF6;&#x906E;&#x7F69;&#xFF08;Event Mask&#xFF09;</a></p>
+<ul>
+<li>&#x6E2C;&#x8A66;&#x7A0B;&#x5F0F;</li>
+</ul>
+<img src="/2016/08/22/foundations-of-gtk-development/motion-01.png" alt="motion-01.png" title="">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;gtk/gtk.h&gt;</span><br><span class="line"></span><br><span class="line">gboolean motion_event_handler(</span><br><span class="line">        GtkWidget *widget, GdkEventMotion *event, gpointer data){</span><br><span class="line"></span><br><span class="line">    char pos[20];</span><br><span class="line"></span><br><span class="line">    sprintf(pos, &quot;(%d, %d)&quot;, (int) event-&gt;x, (int) event-&gt;y);</span><br><span class="line">    gtk_window_set_title(GTK_WINDOW(widget),pos);</span><br><span class="line"></span><br><span class="line">    return FALSE;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[]){</span><br><span class="line">    GtkWidget *window;</span><br><span class="line"></span><br><span class="line">    gtk_init(&amp;argc, &amp;argv);</span><br><span class="line"></span><br><span class="line">    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);</span><br><span class="line"></span><br><span class="line">    g_signal_connect(GTK_OBJECT(window),&quot;destory&quot;,</span><br><span class="line">            G_CALLBACK(gtk_main_quit),NULL);</span><br><span class="line"></span><br><span class="line">    gtk_widget_add_events(window, GDK_POINTER_MOTION_MASK);</span><br><span class="line"></span><br><span class="line">    g_signal_connect(GTK_OBJECT(window), &quot;motion_notify_event&quot;,</span><br><span class="line">            G_CALLBACK(motion_event_handler),NULL);</span><br><span class="line"></span><br><span class="line">    gtk_widget_show(window);</span><br><span class="line"></span><br><span class="line">    gtk_main();</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="gtkwidget-functions"><a href="#GtkWidget_Functions" class="headerlink" title="GtkWidget Functions"></a>GtkWidget Functions</h3><ul>
+<li>&#x8A2D;&#x5B9A;gtk_widget_set_sensitive&#x70BA;FALSE&#x5982;&#x4E0B;<br>ex. gtk_widget_set_sensitive(window,FAlSE);</li>
+</ul>
+<img src="/2016/08/22/foundations-of-gtk-development/widget-set-sensitive.png" alt="widget-set-sensitive.png" title="">
+<ul>
+<li><p>gtk_widget_destroy (GtkWidget *widget)<br>destroy a widget by explicitly calling gtk_widget_destroy() on object</p>
+</li>
+<li><p>gtk_widget_set_size_request (GtkWidget *widget,gint width, gint height)<br>&#x8A2D;&#x5B9A;&#x6700;widget&#x6700;&#x5C0F;&#x7684;size</p>
+</li>
+<li><p>gtk_widget_grab_focus(GtkWidget *widget)<br>You can use gtk_widget_grab_focus() to force a widget to grab keyboard focus</p>
+</li>
+<li><p>gtk_widget_set_sensitive(GtkWidget *widget,gboolean sensitive)<br>Often, you will want to set a widget as inactive. By calling gtk_widget_set_sensitive</p>
+</li>
+</ul>
+<p>&#x8A2D;&#x5B9A;gtk_widget_set_sensitive&#x70BA;FALSE&#x5982;&#x4E0B;<br>ex. gtk_widget_set_sensitive(window,FAlSE);</p>
+<h3 id="gtkwindow-functions"><a href="#GtkWindow_Functions" class="headerlink" title="GtkWindow Functions"></a>GtkWindow Functions</h3><ul>
+<li><p>gtk_window_set_resizable<br>resizing the window</p>
+</li>
+<li><p>gtk_window_set_default_size(GtkWindow *window, gint width, gint height)</p>
+</li>
+<li><p>gtk_window_move(GtkWindow *window,gint x,gint y)<br>By default, the position of the window on the screen is calculated with respect to the top-left corner of the screen</p>
+</li>
+<li><p>gtk_window_set_gravity()<br>This function defines the gravity of the widget, which is the point that layout calculations will consider (0, 0).<br>&#x9810;&#x8A2D;&#x5DE6;&#x4E0A;&#x89D2;&#x70BA;(0,0)&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6B64;function&#x4F86;&#x66F4;&#x6539;</p>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://openhome.cc/Gossip/GTKGossip/" target="_blank" rel="external">&#x8A9E;&#x8A00;&#x6280;&#x8853;&#xFF1A;GTK Gossip</a></li>
+<li>gtk2<ul>
+<li><a href="https://developer.gnome.org/gtk2/stable/GtkWindow.html" target="_blank" rel="external">GtkWindow &#x2014; Toplevel which can contain other widgets</a></li>
+<li><a href="https://developer.gnome.org/gtk2/stable/GtkWidget.html" target="_blank" rel="external">GtkWidget</a></li>
+<li><a href="https://developer.gnome.org/gtk2/stable/gtk2-General.html" target="_blank" rel="external">Main loop and Events &#x2014; Library initialization, main event loop, and events</a></li>
+<li><a href="https://developer.gnome.org/gtk2/stable/GtkWindow.html#gtk-window-new" target="_blank" rel="external">Object Hierarchy</a></li>
+<li><a href="https://developer.gnome.org/gtk2/stable/GtkLabel.html" target="_blank" rel="external">GtkLabel</a> </li>
+<li><a href="https://developer.gnome.org/gtk3/stable/GtkWidget.html#GtkWidget-destroy" target="_blank" rel="external">GtkWidget-destroy</a> </li>
+<li><a href="https://developer.gnome.org/gdk2/stable/gdk2-Event-Structures.html" target="_blank" rel="external">Event Structures</a></li>
+</ul>
+</li>
+<li><p><a href="http://linux.die.net/man/1/pkg-config" target="_blank" rel="external">pkg-config</a></p>
+</li>
+<li><p><a href="http://openhome.cc/Gossip/GTKGossip/GtkLabel.html" target="_blank" rel="external">GtkLabel</a></p>
+</li>
+<li><a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html" target="_blank" rel="external">Pango Text Attribute Markup Language</a></li>
+<li><a href="http://openhome.cc/Gossip/GTKGossip/GTKEventHandler.html" target="_blank" rel="external">GTK &#x4E8B;&#x4EF6;&#x8655;&#x7406;&#x51FD;&#x5F0F;</a></li>
+<li><a href="https://developer.gimp.org/api/2.0/gdk/gdk-Events.html" target="_blank" rel="external">GDK Events </a></li>
+<li><a href="http://openhome.cc/Gossip/GTKGossip/EventMask.html" target="_blank" rel="external">&#x4E8B;&#x4EF6;&#x906E;&#x7F69;&#xFF08;Event Mask&#xFF09;</a></li>
+<li><a href="https://developer.gnome.org/gtk2/stable/gtk2-Standard-Enumerations.html#GtkReliefStyle" target="_blank" rel="external">enum GtkReliefStyle</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/書籍閱讀/" rel="tag">#書籍閱讀</a>
+          
+            <a href="/tags/gtk/" rel="tag">#gtk</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/18/js-lua/" rel="next" title="js-lua">
+                <i class="fa fa-chevron-left"></i> js-lua
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/29/shell-trap/" rel="prev" title="shell-trap">
+                shell-trap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gtk"><span class="nav-number">3.</span> <span class="nav-text">GTK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chapter2"><span class="nav-number">4.</span> <span class="nav-text">Chapter2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter2-1-helloworld"><span class="nav-number">4.1.</span> <span class="nav-text">Chapter2-1 helloworld</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gtk使用gobject-hierarchy-system"><span class="nav-number">4.2.</span> <span class="nav-text">GTK+使用GObject hierarchy  system</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter2-1-extending-hello-world"><span class="nav-number">4.3.</span> <span class="nav-text">Chapter2-1 Extending Hello World</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#signals-and-callbacks"><span class="nav-number">4.4.</span> <span class="nav-text">Signals and Callbacks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主動發出signal"><span class="nav-number">4.5.</span> <span class="nav-text">主動發出Signal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#events"><span class="nav-number">4.6.</span> <span class="nav-text">Events</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chapter2-3-button"><span class="nav-number">4.7.</span> <span class="nav-text">Chapter2-3 Button</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gtkwidget-function"><span class="nav-number">5.</span> <span class="nav-text">GtkWidget Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#event-test"><span class="nav-number">5.1.</span> <span class="nav-text">event test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何設定滑鼠移動事件"><span class="nav-number">5.2.</span> <span class="nav-text">如何設定滑鼠移動事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gtkwidget-functions"><span class="nav-number">5.3.</span> <span class="nav-text">GtkWidget Functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gtkwindow-functions"><span class="nav-number">5.4.</span> <span class="nav-text">GtkWindow Functions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">6.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/08/22/foundations-of-gtk-development/';
+      var disqus_title = 'foundations-of-gtk-development';
+      var disqus_url = 'http://yoursite.com/2016/08/22/foundations-of-gtk-development/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

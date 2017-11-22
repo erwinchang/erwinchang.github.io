@@ -1,0 +1,1062 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,pppoe," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解 PPPOE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pppoe">
+<meta property="og:url" content="http://yoursite.com/2016/07/25/pppoe/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解 PPPOE">
+<meta property="og:image" content="http://yoursite.com/2016/07/25/pppoe/pppoe-communication.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/25/pppoe/pppoe-wireshark.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/25/pppoe/PADS_pkt.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/25/pppoe/PPP_LCP_pkt.png">
+<meta property="og:image" content="http://yoursite.com/2016/07/25/pppoe/pppoe_sh.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.383Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pppoe">
+<meta name="twitter:description" content="了解 PPPOE">
+<meta name="twitter:image" content="http://yoursite.com/2016/07/25/pppoe/pppoe-communication.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> pppoe | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pppoe
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-25T13:21:07+08:00" content="2016-07-25">
+              2016-07-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/25/pppoe/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/25/pppoe/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/25/pppoe/" class="leancloud_visitors" data-flag-title="pppoe">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3; PPPOE</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160725</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#ppp">PPP</a><ul>
+<li><a href="#pppoe-kernel-&#x8A2D;&#x5B9A;">pppoe kernel &#x8A2D;&#x5B9A;</a></li>
+</ul>
+</li>
+<li><a href="#pppoe&#x64A5;&#x865F;&#x7A0B;&#x5E8F;">PPPOE&#x64A5;&#x865F;&#x7A0B;&#x5E8F;</a><ul>
+<li><a href="#ppp-&#x767C;&#x73FE;discovery&#x968E;&#x6BB5;">PPP &#x767C;&#x73FE;&#xFF08;Discovery&#xFF09;&#x968E;&#x6BB5;</a></li>
+<li><a href="#ppp&#x6703;&#x8A71;&#x968E;&#x6BB5;">PPP&#x6703;&#x8A71;&#x968E;&#x6BB5;</a></li>
+<li><a href="#pppoe-wireshark-log">PPPOE Wireshark log</a></li>
+</ul>
+</li>
+<li><a href="#&#x5982;&#x4F55;&#x4EE5;pppd&#x4F86;&#x64A5;&#x865F;">&#x5982;&#x4F55;&#x4EE5;pppd&#x4F86;&#x64A5;&#x865F;</a><ul>
+<li><a href="#pppd&#x53D6;&#x5F97;">pppd&#x53D6;&#x5F97;</a></li>
+<li><a href="#pppd-&#x64A5;&#x865F;">pppd &#x64A5;&#x865F;</a></li>
+<li><a href="#pppd-&#x6307;&#x4EE4;&#x8AAA;&#x660E;">pppd &#x6307;&#x4EE4;&#x8AAA;&#x660E;</a></li>
+<li><a href="#flow">flow</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a><ul>
+<li><a href="#&#x4EE5;&#x624B;&#x52D5;&#x65B9;&#x5F0F;&#x5EFA;&#x7ACB;-ppp-&#x9023;&#x7D50;3"><a href="http://linux.org.tw/CLDP/OLD/PPP-HOWTO-14.html" target="_blank" rel="external">&#x4EE5;&#x624B;&#x52D5;&#x65B9;&#x5F0F;&#x5EFA;&#x7ACB; PPP &#x9023;&#x7D50;</a></a></li>
+<li><a href="#ifconfig-ppp">ifconfig ppp</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="ppp"><a href="#PPP" class="headerlink" title="PPP"></a>PPP</h2><ul>
+<li>The Point-to-Point Protocol (PPP) provides a standard way to establish a network connection over a serial link</li>
+<li>&#x7531;user space (pppd)&#x53CA;&#x76F8;&#x95DC;&#x7684;kernel(pppoe kernel config)&#x4F86;&#x5B8C;&#x6210;</li>
+<li>This PPP implementation consists of two parts:<ul>
+<li>Kernel code</li>
+<li>The PPP daemon (pppd)<br>Pppd includes support for authentication</li>
+</ul>
+</li>
+</ul>
+<h3 id="pppoe-kernel-&#x8A2D;&#x5B9A;"><a href="#pppoe_kernel__u8A2D_u5B9A" class="headerlink" title="pppoe kernel &#x8A2D;&#x5B9A;"></a>pppoe kernel &#x8A2D;&#x5B9A;</h3><ul>
+<li>&#x4EE5;hisi 3535&#x70BA;&#x4F8B;&#x5B50;(kernel 3.8.x)&#x9700;&#x8981;&#x958B;&#x555F;&#x4E0B;&#x4F8B;kernel&#x9078;&#x9805; configs/hi3535_full_slave_defconfig</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">985 CONFIG_PPP=y</span><br><span class="line">986 # CONFIG_PPP_BSDCOMP is not set</span><br><span class="line">987 # CONFIG_PPP_DEFLATE is not set</span><br><span class="line">988 CONFIG_PPP_FILTER=y</span><br><span class="line">989 # CONFIG_PPP_MPPE is not set</span><br><span class="line">990 CONFIG_PPP_MULTILINK=y</span><br><span class="line">991 CONFIG_PPPOE=y</span><br><span class="line">992 # CONFIG_PPPOLAC is not set</span><br><span class="line">993 # CONFIG_PPPOPNS is not set</span><br><span class="line">994 # CONFIG_PPP_ASYNC is not set</span><br><span class="line">995 # CONFIG_PPP_SYNC_TTY is not set</span><br><span class="line">996 # CONFIG_SLIP is not set</span><br><span class="line">997 CONFIG_SLHC=y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>kernel config </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+<th style="text-align:left">local </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PPP</td>
+<td style="text-align:left">point-to-point protocol support</td>
+<td style="text-align:left">driver/net/ppp</td>
+</tr>
+<tr>
+<td style="text-align:left">PPPOE</td>
+<td style="text-align:left">PPP over Ethernet</td>
+<td style="text-align:left">driver/net/ppp</td>
+</tr>
+<tr>
+<td style="text-align:left">PPP_FILETER</td>
+<td style="text-align:left">PPP filter</td>
+<td style="text-align:left">driver/net/ppp</td>
+</tr>
+<tr>
+<td style="text-align:left">CONFIG_SLHC</td>
+<td style="text-align:left">&#x6B64;&#x8A2D;&#x5B9A;&#x662F;&#x76F8;&#x4F9D;PPP&#xFF0C;&#x56E0;&#x6B64;&#x6703;&#x81EA;&#x52D5;&#x958B;&#x555F;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="pppoe&#x64A5;&#x865F;&#x7A0B;&#x5E8F;"><a href="#PPPOE_u64A5_u865F_u7A0B_u5E8F" class="headerlink" title="PPPOE&#x64A5;&#x865F;&#x7A0B;&#x5E8F;"></a>PPPOE&#x64A5;&#x865F;&#x7A0B;&#x5E8F;</h2><ul>
+<li><p>&#x4E3B;&#x8981;&#x5206;&#x70BA;2&#x500B;&#x968E;&#x6BB5;</p>
+<ul>
+<li>&#x767C;&#x73FE;&#xFF08;Discovery&#xFF09;&#x968E;&#x6BB5;</li>
+<li>&#x6703;&#x8A71;&#x968E;&#x6BB5;</li>
+</ul>
+</li>
+<li><p>PPPOE&#x6E9D;&#x901A;&#x7A0B;&#x5E8F;&#x5982;&#x4E0B;&#x5716;</p>
+</li>
+</ul>
+<img src="/2016/07/25/pppoe/pppoe-communication.png" alt="[PPPOE]" title="[PPPOE]">
+<p>&#x4F86;&#x6E90;&#xFF1A;&#x57FA;&#x4E8E;&#x5D4C;&#x5165;&#x5F0F; Linux &#x7684; PPPoE &#x5B9E;&#x73B0;</p>
+<h3 id="ppp-&#x767C;&#x73FE;discovery&#x968E;&#x6BB5;"><a href="#PPP__u767C_u73FE_uFF08Discovery_uFF09_u968E_u6BB5" class="headerlink" title="PPP &#x767C;&#x73FE;&#xFF08;Discovery&#xFF09;&#x968E;&#x6BB5;"></a>PPP &#x767C;&#x73FE;&#xFF08;Discovery&#xFF09;&#x968E;&#x6BB5;</h3><ul>
+<li>client&#x767C;&#x51FA;broadcast(255.255.255.255)&#x7684;PADI<br>&#x5DF2;&#x6642;seesion id&#x70BA;0</li>
+<li>server &#x56DE;&#x61C9;PADO&#xFF0C;&#x6B64;&#x6642;pppoe_tag(AC-Name: CHCH-BRAS-2221)</li>
+<li>&#x7D93;&#x904E;&#x4E86;PADR&#x4E4B;&#x5F8C;&#xFF0C;server&#x5C07;&#x6703;&#x56DE;&#x61C9;PADS&#xFF0C;&#x6B64;&#x6642;&#x6703;&#x53D6;&#x5F97;session-id,&#x5B8C;&#x6210;Discovery&#x904E;&#x7A0B;</li>
+</ul>
+<h3 id="ppp&#x6703;&#x8A71;&#x968E;&#x6BB5;"><a href="#PPP_u6703_u8A71_u968E_u6BB5" class="headerlink" title="PPP&#x6703;&#x8A71;&#x968E;&#x6BB5;"></a>PPP&#x6703;&#x8A71;&#x968E;&#x6BB5;</h3><ul>
+<li>&#x4E00;&#x65E6;PPPoE&#x6703;&#x8A71;&#x958B;&#x59CB;&#xFF0C;PPP&#x6578;&#x64DA;&#x5C31;&#x53EF;&#x4EE5;&#x4EE5;&#x4EFB;&#x4F55;&#x5176;&#x5B83;&#x7684;PPP&#x5C01;&#x88DD;&#x5F62;&#x5F0F;&#x767C;&#x9001;</li>
+</ul>
+<h3 id="pppoe-wireshark-log"><a href="#PPPOE_Wireshark_log" class="headerlink" title="PPPOE Wireshark log"></a>PPPOE Wireshark log</h3><ul>
+<li>wireshark log</li>
+</ul>
+<img src="/2016/07/25/pppoe/pppoe-wireshark.png" alt="[PPPOE]" title="[PPPOE]">
+<ul>
+<li>step flow</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">step</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PPPoED</td>
+<td style="text-align:left">C-&gt;S , <strong>PADI</strong>: Active Discovery Initiation</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">S-&gt;C , <strong>PADO</strong>: Active Discovery Offer</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">C &gt;S , <strong>PADR</strong>: Active Discovery Request</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">S-&gt;C , <strong>PADS</strong>: Active Discovery Session-confirmation  (&#x767C;&#x73FE;&#x968E;&#x6BB5;&#x5B8C;&#x6210;)</td>
+</tr>
+<tr>
+<td style="text-align:left">PPP LCP</td>
+<td style="text-align:left">C-&gt;S , Configuration Reuest</td>
+</tr>
+<tr>
+<td style="text-align:left">..</td>
+<td style="text-align:left">..</td>
+</tr>
+<tr>
+<td style="text-align:left">PPP LCP</td>
+<td style="text-align:left">C-&gt;S , Echo Request</td>
+</tr>
+<tr>
+<td style="text-align:left">PPP PAP</td>
+<td style="text-align:left">C-&gt;S, Authenticate-Request (&#x5E36;&#x64A5;&#x865F;&#x5E33;&#x5BC6;)</td>
+</tr>
+<tr>
+<td style="text-align:left">PPP IPCP</td>
+<td style="text-align:left">S-&gt;C, Configuration Reuqst</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>PPPoED, PPP over Ethernet Discovery</li>
+<li>PPP LCP, PPP Link Control Protocol</li>
+<li>PPP PAP, PPP Password Authentication Protocol</li>
+<li><p>PPP IPCP, PPP IP control Protocol</p>
+</li>
+<li><p>PADS pkt<br>&#x6B64;&#x6642;&#x6700;&#x4F4E;&#x5C64;&#x70BA;PPPOE</p>
+</li>
+</ul>
+<img src="/2016/07/25/pppoe/PADS_pkt.png" alt="[PADS]" title="[PADS]">
+<ul>
+<li>PPP LCP pkt<br>&#x6B64;&#x6642;&#x6700;&#x4F4E;&#x5C64;&#x70BA;PPP<img src="/2016/07/25/pppoe/PPP_LCP_pkt.png" alt="[PPP LCP]" title="[PPP LCP]">
+</li>
+</ul>
+<hr>
+<h2 id="&#x5982;&#x4F55;&#x4EE5;pppd&#x4F86;&#x64A5;&#x865F;"><a href="#u5982_u4F55_u4EE5pppd_u4F86_u64A5_u865F" class="headerlink" title="&#x5982;&#x4F55;&#x4EE5;pppd&#x4F86;&#x64A5;&#x865F;"></a>&#x5982;&#x4F55;&#x4EE5;pppd&#x4F86;&#x64A5;&#x865F;</h2><h3 id="pppd&#x53D6;&#x5F97;"><a href="#pppd_u53D6_u5F97" class="headerlink" title="pppd&#x53D6;&#x5F97;"></a>pppd&#x53D6;&#x5F97;</h3><ul>
+<li><a href="https://download.samba.org/pub/ppp/ppp-2.4.7.tar.gz" target="_blank" rel="external">ppp-2.4.7.tar.gz download</a></li>
+<li>Cross Compiling Kernel Mode PPPoE &amp; PPPD for ARM</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ppp-2.4.7/</span><br><span class="line">./configure </span><br><span class="line">make CC=arm-hisiv200-linux-gcc</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x53D6;&#x5F97;pppd&#x53CA;rp-pppoe.so</li>
+</ul>
+<h3 id="pppd-&#x64A5;&#x865F;"><a href="#pppd__u64A5_u865F" class="headerlink" title="pppd &#x64A5;&#x865F;"></a>pppd &#x64A5;&#x865F;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pppd plugin /usr/lib/rp-pppoe.so eth0 user 7476xxx@hinet.net password wicpzcdkz persist usepeerdns defaultroute unit 2</span><br></pre></td></tr></table></figure>
+<h3 id="pppd-&#x6307;&#x4EE4;&#x8AAA;&#x660E;"><a href="#pppd__u6307_u4EE4_u8AAA_u660E" class="headerlink" title="pppd &#x6307;&#x4EE4;&#x8AAA;&#x660E;"></a>pppd &#x6307;&#x4EE4;&#x8AAA;&#x660E;</h3><ul>
+<li><a href="https://ppp.samba.org/pppd.html" target="_blank" rel="external">man pppd</a></li>
+</ul>
+<p>pppd [ options ] </p>
+<ul>
+<li><p>plugin filename</p>
+<ul>
+<li>Load the shared library object file filename as a plugin.</li>
+<li>If filename does not contain a slash (/), pppd will look in the /usr/lib/pppd/version directory for the plugin.</li>
+</ul>
+</li>
+<li><p>user name</p>
+<ul>
+<li>Sets the name used for authenticating the local system to the peer to name.  </li>
+</ul>
+</li>
+<li><p>password password-string</p>
+<ul>
+<li>Specifies the password to use for authenticating to the peer</li>
+</ul>
+</li>
+<li><p>persist </p>
+<ul>
+<li>Do not exit after a connection is terminated; instead try to reopen the connection.</li>
+</ul>
+</li>
+<li><p>usepeerdns</p>
+<ul>
+<li>Ask the peer for up to 2 DNS server addresses.</li>
+</ul>
+</li>
+<li><p>defaultroute</p>
+<ul>
+<li>Add a default route to the system routing tables, using the peer as the gateway, when IPCP negotiation is successfully completed.</li>
+</ul>
+</li>
+<li><p>unit num</p>
+<ul>
+<li>Sets the ppp unit number (for a ppp0 or ppp1 etc interface name) for outbound connections. </li>
+</ul>
+</li>
+</ul>
+<h3 id="flow"><a href="#flow" class="headerlink" title="flow"></a>flow</h3><p>state machine&#x6D41;&#x7A0B;</p>
+<img src="/2016/07/25/pppoe/pppoe_sh.png" alt="[PPPOE]" title="[PPPOE]">
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><h3 id="&#x4EE5;&#x624B;&#x52D5;&#x65B9;&#x5F0F;&#x5EFA;&#x7ACB;-ppp-&#x9023;&#x7D50;&#x4EE5;&#x624B;&#x52D5;&#x65B9;&#x5F0F;&#x5EFA;&#x7ACB;-ppp-&#x9023;&#x7D50;"><a href="#u4EE5_u624B_u52D5_u65B9_u5F0F_u5EFA_u7ACB_PPP__u9023_u7D50" class="headerlink" title="&lt;a href=" http:="" linux.org.tw="" cldp="" old="" ppp-howto-14.html"="">&#x4EE5;&#x624B;&#x52D5;&#x65B9;&#x5F0F;&#x5EFA;&#x7ACB; PPP &#x9023;&#x7D50;</a>&quot;&gt;<a href="http://linux.org.tw/CLDP/OLD/PPP-HOWTO-14.html" target="_blank" rel="external">&#x4EE5;&#x624B;&#x52D5;&#x65B9;&#x5F0F;&#x5EFA;&#x7ACB; PPP &#x9023;&#x7D50;</a></h3><p>pppd -d -detach /dev/ttySx 38400 &amp;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-d &#x9019;&#x500B;&#x9078;&#x9805;&#x958B;&#x555F;&#x5075;&#x932F;&#x529F;&#x80FD; &#xFF0D; ppp &#x9023;&#x7DDA;&#x8D77;&#x52D5;&#x6642;&#x7684;&#x201D;&#x4EA4;&#x8AC7;&#x201D;&#x5C07;&#x6703;&#x8A18;&#x9304;&#x5230;&#x4F60;&#x7684;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x88E1;&#x53BB; &#xFF0D; &#x5982;&#x679C;&#x4F60;&#x9047;&#x4E0A;&#x9EBB;&#x7169;&#x9019;&#x6703;&#x5F88;&#x6709;&#x7528;&#x7684;&#xFF0E;</span><br></pre></td></tr></table></figure>
+<h3 id="ifconfig-ppp"><a href="#ifconfig_ppp" class="headerlink" title="ifconfig ppp"></a>ifconfig ppp</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ppp2      Link encap:Point-to-Point Protocol  </span><br><span class="line">          inet addr:111.246.133.159  P-t-P:168.95.98.254  Mask:255.255.255.255</span><br><span class="line">          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1492  Metric:1</span><br><span class="line">          RX packets:4240 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:4536 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:3 </span><br><span class="line">          RX bytes:304494 (297.3 KiB)  TX bytes:309494 (302.2 KiB)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>inet addr: &#x8868;&#x793A;&#x4F60;&#x53D6;&#x5F97;ip</li>
+<li>P-t-P: &#x4F3A;&#x670D;&#x7AEF;&#x7684; IP &#x865F;&#x78BC;</li>
+</ul>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://linux.org.tw/CLDP/OLD/PPP-HOWTO.html#toc2" target="_blank" rel="external">PPP HOWTO &#x4E2D;&#x8B6F;&#x7248;</a></li>
+<li><a href="https://ppp.samba.org/README.html" target="_blank" rel="external">PPP</a></li>
+<li><a href="http://linux.org.tw/CLDP/OLD/PPP-HOWTO-14.html" target="_blank" rel="external">&#x4EE5;&#x624B;&#x52D5;&#x65B9;&#x5F0F;&#x5EFA;&#x7ACB; PPP &#x9023;&#x7D50;</a></li>
+<li><a href="https://ppp.samba.org/pppd.html" target="_blank" rel="external">man pppd</a></li>
+<li><a href="http://wiki.beyondlogic.org/index.php?title=Cross_Compiling_RP-PPPOE_for_ARM" target="_blank" rel="external">Cross Compiling Kernel Mode PPPoE &amp; PPPD for ARM</a></li>
+<li><p><a href="https://download.samba.org/pub/ppp/" target="_blank" rel="external">download.samba.org ppp</a></p>
+</li>
+<li><a href="/2016/07/25/pppoe/A200907-1139.pdf" title="local: &#x57FA;&#x4E8E;&#x5D4C;&#x5165;&#x5F0F; Linux &#x7684; PPPoE &#x5B9E;&#x73B0;">local: &#x57FA;&#x4E8E;&#x5D4C;&#x5165;&#x5F0F; Linux &#x7684; PPPoE &#x5B9E;&#x73B0;</a>
+</li>
+<li><p><a href="https://tools.ietf.org/html/rfc2516#section-5.2" target="_blank" rel="external">A Method for Transmitting PPP Over Ethernet (PPPoE) RFC2561</a><br>-PPPoE has two distinct stages.  There is a Discovery stage and a PPP Session stage</p>
+<ul>
+<li>The Discovery stage remains stateless until a PPP session is established</li>
+<li>Once a PPP session is established, both the Host and the Access Concentrator MUST allocate the resources for a PPP virtual interface</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/pppoe/" rel="tag">#pppoe</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/18/ite-it9510/" rel="next" title="ite-it9510">
+                <i class="fa fa-chevron-left"></i> ite-it9510
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/26/ubus/" rel="prev" title="ubus">
+                ubus <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ppp"><span class="nav-number">3.</span> <span class="nav-text">PPP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pppoe-kernel-設定"><span class="nav-number">3.1.</span> <span class="nav-text">pppoe kernel 設定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pppoe撥號程序"><span class="nav-number">4.</span> <span class="nav-text">PPPOE撥號程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ppp-發現discovery階段"><span class="nav-number">4.1.</span> <span class="nav-text">PPP 發現（Discovery）階段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ppp會話階段"><span class="nav-number">4.2.</span> <span class="nav-text">PPP會話階段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppoe-wireshark-log"><span class="nav-number">4.3.</span> <span class="nav-text">PPPOE Wireshark log</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何以pppd來撥號"><span class="nav-number">5.</span> <span class="nav-text">如何以pppd來撥號</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pppd取得"><span class="nav-number">5.1.</span> <span class="nav-text">pppd取得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppd-撥號"><span class="nav-number">5.2.</span> <span class="nav-text">pppd 撥號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppd-指令說明"><span class="nav-number">5.3.</span> <span class="nav-text">pppd 指令說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flow"><span class="nav-number">5.4.</span> <span class="nav-text">flow</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">6.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以手動方式建立-ppp-連結以手動方式建立-ppp-連結"><span class="nav-number">6.1.</span> <span class="nav-text">以手動方式建立 PPP 連結">以手動方式建立 PPP 連結</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ifconfig-ppp"><span class="nav-number">6.2.</span> <span class="nav-text">ifconfig ppp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">7.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/07/25/pppoe/';
+      var disqus_title = 'pppoe';
+      var disqus_url = 'http://yoursite.com/2016/07/25/pppoe/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,893 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,octopree," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Ubuntu 14.04 安裝Octopree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="octopress使用範例">
+<meta property="og:url" content="http://yoursite.com/2015/06/15/2015-06-15-octopress/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="Ubuntu 14.04 安裝Octopree">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.191Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="octopress使用範例">
+<meta name="twitter:description" content="Ubuntu 14.04 安裝Octopree">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> octopress使用範例 | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                octopress使用範例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-06-15T13:44:39+08:00" content="2015-06-15">
+              2015-06-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/15/2015-06-15-octopress/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/15/2015-06-15-octopress/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2015/06/15/2015-06-15-octopress/" class="leancloud_visitors" data-flag-title="octopress使用範例">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Ubuntu 14.04 &#x5B89;&#x88DD;Octopree</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20150615</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x5B89;&#x88DD;&#x5176;&#x5B83;&#x5FC5;&#x8981;&#x8EDF;&#x4F53;">&#x5B89;&#x88DD;&#x5176;&#x5B83;&#x5FC5;&#x8981;&#x8EDF;&#x4F53;</a></li>
+<li><a href="#&#x53C3;&#x8003;octopress-setup">&#x53C3;&#x8003;Octopress Setup</a><ul>
+<li><a href="#&#x8A2D;&#x5B9A;github-blog">&#x8A2D;&#x5B9A;github blog</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8AAA;&#x660E;">&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8AAA;&#x660E;</a></li>
+<li><a href="#&#x5148;&#x4F7F;&#x7528;preview&#x9810;&#x89BD;&#x7DB2;&#x9801;&#x5167;&#x5BB9;">&#x5148;&#x4F7F;&#x7528;preview&#x9810;&#x89BD;&#x7DB2;&#x9801;&#x5167;&#x5BB9;</a></li>
+<li><a href="#&#x6CE8;&#x610F;&#x8A18;&#x5F97;&#x5C07;source-&#x66F4;&#x65B0;-deploy">&#x6CE8;&#x610F;&#xFF1A;&#x8A18;&#x5F97;&#x5C07;source &#x66F4;&#x65B0; &amp; deploy</a></li>
+<li><a href="#&#x5DF2;&#x5B58;&#x5728;github&#x7DB2;&#x9801;&#x5982;&#x4F55;checkout&#x5230;octopress">&#x5DF2;&#x5B58;&#x5728;github&#x7DB2;&#x9801;&#xFF0C;&#x5982;&#x4F55;checkout&#x5230;octopress</a></li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x5B89;&#x88DD;&#x5176;&#x5B83;&#x5FC5;&#x8981;&#x8EDF;&#x4F53;"><a href="#u5B89_u88DD_u5176_u5B83_u5FC5_u8981_u8EDF_u4F53" class="headerlink" title="&#x5B89;&#x88DD;&#x5176;&#x5B83;&#x5FC5;&#x8981;&#x8EDF;&#x4F53;"></a>&#x5B89;&#x88DD;&#x5176;&#x5B83;&#x5FC5;&#x8981;&#x8EDF;&#x4F53;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ruby1.9.1-dev</span><br><span class="line">sudo apt-get install nodejs</span><br><span class="line">sudo apt-get install rbenv</span><br></pre></td></tr></table></figure>
+<h2 id="&#x53C3;&#x8003;octopress-setup"><a href="#u53C3_u8003Octopress_Setup" class="headerlink" title="&#x53C3;&#x8003;Octopress Setup"></a>&#x53C3;&#x8003;Octopress Setup</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git clone git://github.com/imathis/octopress.git octopress</span><br><span class="line">cd octopress</span><br><span class="line"></span><br><span class="line">sudo gem install bundler</span><br><span class="line">rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command</span><br><span class="line">bundle install</span><br><span class="line"></span><br><span class="line">- install octopress theme.</span><br><span class="line"></span><br><span class="line">rake install</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="&#x8A2D;&#x5B9A;github-blog"><a href="#u8A2D_u5B9Agithub_blog" class="headerlink" title="&#x8A2D;&#x5B9A;github blog"></a>&#x8A2D;&#x5B9A;github blog</h3><ul>
+<li>&#x5148;&#x5230;github&#x7533;&#x8ACB;&#xFF0C;&#x8A2D;&#x5B9A;&#x5EAB;&#x540D;&#x7A31;(username.github.io)</li>
+<li>&#x8F38;&#x5165; git@github.com:username/username.github.io.git</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rake setup_github_pages</span><br></pre></td></tr></table></figure>
+<h2 id="&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8AAA;&#x660E;"><a href="#u5176_u5B83_u76F8_u95DC_u8AAA_u660E" class="headerlink" title="&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8AAA;&#x660E;"></a>&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8AAA;&#x660E;</h2><ul>
+<li>octopress &#x7531;git clone&#x7522;&#x751F;</li>
+<li>octopress/source&#x6B64;&#x70BA;&#x4F7F;&#x7528;&#x8005;&#x500B;&#x4EBA;&#x7684;&#x7DB2;&#x9801;&#x4FEE;&#x6539;&#x8A18;&#x9304;(&#x8A18;&#x9304;&#x5728;source branch)</li>
+<li>octopress/_depoly&#x70BA;&#x4F7F;&#x7528;&#x8005;&#x500B;&#x4EBA;&#x7684;github(&#x8A18;&#x9304;&#x5728;master branch)</li>
+<li>&#x82E5;&#x6709;git&#x4F7F;&#x7528;&#x4E0A;&#x554F;&#x984C;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5230;octopress/_depoly&#x76EE;&#x9304;&#xFF0C;&#x76F4;&#x63A5;&#x57F7;&#x884C;git&#x6307;&#x4EE4;</li>
+</ul>
+<h2 id="&#x5148;&#x4F7F;&#x7528;preview&#x9810;&#x89BD;&#x7DB2;&#x9801;&#x5167;&#x5BB9;"><a href="#u5148_u4F7F_u7528preview_u9810_u89BD_u7DB2_u9801_u5167_u5BB9" class="headerlink" title="&#x5148;&#x4F7F;&#x7528;preview&#x9810;&#x89BD;&#x7DB2;&#x9801;&#x5167;&#x5BB9;"></a>&#x5148;&#x4F7F;&#x7528;preview&#x9810;&#x89BD;&#x7DB2;&#x9801;&#x5167;&#x5BB9;</h2><ul>
+<li>&#x7522;&#x751F;&#x65B0;&#x7684;&#x9801;&#x9762;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rake &apos;new_post[&quot;title&quot;]&apos;</span><br></pre></td></tr></table></figure></li>
+<li>rake generate &#xFF0C;&#x53C3;&#x8003;source&#x5167;&#x5BB9;&#x7522;&#x751F;_deploy&#x76EE;&#x9304;&#x5167;&#x5BB9;</li>
+<li>rake preview &#xFF0C;&#x9810;&#x89BD;&#x7522;&#x751F;&#x5167;&#x5BB9; </li>
+</ul>
+<h2 id="&#x6CE8;&#x610F;&#x8A18;&#x5F97;&#x5C07;source-&#x66F4;&#x65B0;-deploy"><a href="#u6CE8_u610F_uFF1A_u8A18_u5F97_u5C07source__u66F4_u65B0__26amp_3B_deploy" class="headerlink" title="&#x6CE8;&#x610F;&#xFF1A;&#x8A18;&#x5F97;&#x5C07;source &#x66F4;&#x65B0; &amp; deploy"></a>&#x6CE8;&#x610F;&#xFF1A;&#x8A18;&#x5F97;&#x5C07;source &#x66F4;&#x65B0; &amp; deploy</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;add new blog&quot;</span><br><span class="line">git push </span><br></pre></td></tr></table></figure>
+<ul>
+<li>rake deploy &#xFF0C;&#x66F4;&#x65B0;&#x767C;&#x5E03;&#x7DB2;&#x9801;&#x5167;&#x5BB9;(&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5230;_depoly&#x76EE;&#x9304;&#x5167;&#x4F7F;&#x7528;git&#x6307;&#x4EE4;)  </li>
+</ul>
+<h2 id="&#x5DF2;&#x5B58;&#x5728;github&#x7DB2;&#x9801;&#x5982;&#x4F55;checkout&#x5230;octopress"><a href="#u5DF2_u5B58_u5728github_u7DB2_u9801_uFF0C_u5982_u4F55checkout_u5230octopress" class="headerlink" title="&#x5DF2;&#x5B58;&#x5728;github&#x7DB2;&#x9801;&#xFF0C;&#x5982;&#x4F55;checkout&#x5230;octopress"></a>&#x5DF2;&#x5B58;&#x5728;github&#x7DB2;&#x9801;&#xFF0C;&#x5982;&#x4F55;checkout&#x5230;octopress</h2><ul>
+<li>&#x4E0B;&#x8F09;&#x5DF2;&#x5B58;&#x5728;github blog&#x53CA;&#x5207;&#x63DB;&#x5230;source branch</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:erwinchang/erwinchang.github.io.git blog</span><br><span class="line">cd blog</span><br><span class="line">git checkout --track origin/source</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x76EE;&#x524D;git&#x76EE;&#x9304;&#x8A0A;&#x606F;&#x5982;&#x4E0B;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(source-bdcf6ca)1h41m erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io$ cat .git/config                                                                                                                                  </span><br><span class="line">[core]</span><br><span class="line">        repositoryformatversion = 0</span><br><span class="line">        filemode = true</span><br><span class="line">        bare = false</span><br><span class="line">        logallrefupdates = true</span><br><span class="line">[remote &quot;origin&quot;]</span><br><span class="line">        url = git@github.com:erwinchang/erwinchang.github.io.git</span><br><span class="line">        fetch = +refs/heads/*:refs/remotes/origin/*</span><br><span class="line">[branch &quot;master&quot;]</span><br><span class="line">        remote = origin</span><br><span class="line">        merge = refs/heads/master</span><br><span class="line">[branch &quot;source&quot;]</span><br><span class="line">        remote = origin</span><br><span class="line">        merge = refs/heads/source</span><br><span class="line">(source-bdcf6ca)1h41m erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io$ git status</span><br><span class="line">On branch source</span><br><span class="line">Your branch is up-to-date with &apos;origin/source&apos;.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x5B89;&#x88DD;rake&#x76F8;&#x95DC;&#x5DE5;&#x5177; &#x53CA;&#x57F7;&#x884C;gen_deploy(&#x6B64;&#x6642;&#x6703;&#x6709;&#x932F;&#x8AA4;)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gem install bundler</span><br><span class="line">bundle install</span><br><span class="line">rake gen_deploy</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x7522;&#x751F;deploy&#x76EE;&#x9304;&#x53CA;&#x66F4;&#x65B0;&#x5230;&#x6700;&#x65B0;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir _deploy</span><br><span class="line">cd _deploy</span><br><span class="line">git init</span><br><span class="line">git remote add origin git@github.com:erwinchang/erwinchang.github.io.git</span><br><span class="line">git pull origin master</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x64CD;&#x4F5C;&#x8A0A;&#x606F;&#x5982;&#x4E0B;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> (master-) erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io/_deploy$ git init</span><br><span class="line">Reinitialized existing Git repository in /opt/data2/data/github/erwinchang.github.io/_deploy/.git/</span><br><span class="line">(master-) erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io/_deploy$ ls</span><br><span class="line">(master-) erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io/_deploy$ git remote add origin git@github.com:erwinchang/erwinchang.github.io.git</span><br><span class="line">fatal: remote origin already exists.</span><br><span class="line">(master-) erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io/_deploy$ ls</span><br><span class="line">(master-) erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io/_deploy$ git pull origin master</span><br><span class="line">Enter passphrase for key &apos;/home/erwin/.ssh/id_rsa_github&apos;: </span><br><span class="line">remote: Counting objects: 283, done.</span><br><span class="line">remote: Compressing objects: 100% (2/2), done.</span><br><span class="line">remote: Total 283 (delta 0), reused 0 (delta 0), pack-reused 281</span><br><span class="line">Receiving objects: 100% (283/283), 248.99 KiB | 299.00 KiB/s, done.</span><br><span class="line">Resolving deltas: 100% (92/92), done.</span><br><span class="line">From github.com:erwinchang/erwinchang.github.io</span><br><span class="line"> * branch            master     -&gt; FETCH_HEAD</span><br><span class="line"> * [new branch]      master     -&gt; origin/master</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x66F4;&#x65B0;branch source&#x5230;&#x6700;&#x65B0;&#x7684;&#x53CA;&#x7522;&#x751F;&#x65B0;&#x7684;&#x7DB2;&#x9801;&#x5167;&#x5BB9;(public)&#x4E14;&#x66F4;&#x65B0;&#x5230;git server(&#x7531;_depoly&#x76EE;&#x9304;&#x7522;&#x751F;)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git pull origin source</span><br><span class="line">rake generate</span><br><span class="line">rake preview</span><br><span class="line">rake deploy</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x64CD;&#x4F5C;&#x8A0A;&#x606F;&#x5982;&#x4E0B;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(source-bdcf6ca)2h16m erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io$ git pull origin source</span><br><span class="line">Enter passphrase for key &apos;/home/erwin/.ssh/id_rsa_github&apos;: </span><br><span class="line">From github.com:erwinchang/erwinchang.github.io</span><br><span class="line"> * branch            source     -&gt; FETCH_HEAD</span><br><span class="line">Already up-to-date.</span><br><span class="line">(source-bdcf6ca)2h16m erwin@erwin-minipc:/opt/data2/data/github/erwinchang.github.io$ git status</span><br><span class="line">On branch source</span><br><span class="line">Your branch is up-to-date with &apos;origin/source&apos;.</span><br><span class="line"></span><br><span class="line">nothing to commit, working directory clean</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x4E4B;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;rake geanerate/rake preive/rake deploy</li>
+</ul>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://octopress.org/docs/setup/" target="_blank" rel="external">Octopress Setup</a></li>
+<li><a href="http://octopress.org/docs/deploying/" target="_blank" rel="external">Deploying</a></li>
+<li><a href="http://wen00072-blog.logdown.com/posts/258497-octopress-installed-and-deployed-on-the-github-pages" target="_blank" rel="external">&#x5B89;&#x88DD;octopress&#x4E26;&#x4F48;&#x7F72;&#x5230;github pages&#x4E0A;&#x9762;</a></li>
+<li><a href="http://markdown.tw/" target="_blank" rel="external">Markdown&#x6587;&#x4EF6;</a></li>
+<li><p><a href="http://octopress.org/docs/plugins/codeblock/" target="_blank" rel="external">Codeblock</a></p>
+</li>
+<li><p>&#x4E0B;&#x4F8B;&#x70BA;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x5DF2;&#x5B58;&#x5728;&#x7684;github blog</p>
+</li>
+<li><p><a href="http://code.dblock.org/2012/01/17/octopress-setting-up-a-blog-and-contributing-to-an-existing-one.html" target="_blank" rel="external">Octopress: Setting up a Blog and Contributing to an Existing One</a></p>
+</li>
+<li><a href="http://fann.im/blog/2012/12/08/setup-octopress-from-existing-repo/" target="_blank" rel="external">Setup Octopress from existing repo</a> </li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/octopree/" rel="tag">#octopree</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/15/2015-06-15-mkimage/" rel="prev" title="mkimage使用說明">
+                mkimage使用說明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝其它必要軟体"><span class="nav-number">3.</span> <span class="nav-text">安裝其它必要軟体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考octopress-setup"><span class="nav-number">4.</span> <span class="nav-text">參考Octopress Setup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#設定github-blog"><span class="nav-number">4.1.</span> <span class="nav-text">設定github blog</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它相關說明"><span class="nav-number">5.</span> <span class="nav-text">其它相關說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#先使用preview預覽網頁內容"><span class="nav-number">6.</span> <span class="nav-text">先使用preview預覽網頁內容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意記得將source-更新-deploy"><span class="nav-number">7.</span> <span class="nav-text">注意：記得將source 更新 & deploy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#已存在github網頁如何checkout到octopress"><span class="nav-number">8.</span> <span class="nav-text">已存在github網頁，如何checkout到octopress</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">9.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2015/06/15/2015-06-15-octopress/';
+      var disqus_title = 'octopress使用範例';
+      var disqus_url = 'http://yoursite.com/2015/06/15/2015-06-15-octopress/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

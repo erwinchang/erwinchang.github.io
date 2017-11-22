@@ -1,0 +1,865 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="cchdtv,實作隨筆,it930x," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="ccHDtv測試">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dvb-t-02">
+<meta property="og:url" content="http://yoursite.com/2015/07/21/2015-07-21-dvb-t-02/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="ccHDtv測試">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/cchdtv/rx-id-mapping-compare.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/cchdtv/IT9300_Programming_Guid_Table6.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.191Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="dvb-t-02">
+<meta name="twitter:description" content="ccHDtv測試">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/cchdtv/rx-id-mapping-compare.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> dvb-t-02 | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                dvb-t-02
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-21T14:22:03+08:00" content="2015-07-21">
+              2015-07-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/21/2015-07-21-dvb-t-02/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/21/2015-07-21-dvb-t-02/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2015/07/21/2015-07-21-dvb-t-02/" class="leancloud_visitors" data-flag-title="dvb-t-02">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ccHDtv&#x6E2C;&#x8A66;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20150721</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#it9300-driver-native">it9300 driver native</a><ul>
+<li><a href="#driver-test">driver test</a></li>
+<li><a href="#rx-id-mapping">RX ID Mapping</a></li>
+<li><a href="#it930x-driver-native">it930x driver native</a></li>
+<li><a href="#check-eeprom-value">check eeprom value</a></li>
+</ul>
+</li>
+<li><a href="#rx-id-check">RX ID Check</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="it9300-driver-native"><a href="#it9300_driver_native" class="headerlink" title="it9300 driver native"></a>it9300 driver native</h2><h3 id="driver-test"><a href="#driver_test" class="headerlink" title="driver test"></a>driver test</h3><ul>
+<li>&#x4F7F;&#x7528;RX Board</li>
+</ul>
+<p>&#x8A18;&#x5F97;&#x4F7F;&#x7528;EEPROM Editor&#x5C07;RX Board&#x7684;9035&#x6539;&#x539F;&#x672C;&#x7684;9036&#xFF0C;&#x5982;&#x6B64;&#x624D;&#x80FD;&#x4F7F;&#x7528;linux driver<br>&#x76EE;&#x524D;&#x6E2C;&#x8A66;&#xFF0C;&#x4F7F;&#x7528;EEPROM Editor&#x67E5;&#x770B;RX Board&#x7684;ID&#x70BA;0x22&#xFF0C;&#x4F46;linux driver probe&#x8A0A;&#x606F;&#x5982;&#x4E0B;<br>Device_ID&#x70BA;65531 ??<br>(&#x63A1;&#x7528;rx mapping&#x65B9;&#x5F0F;&#x4FEE;&#x6B63;&#xFF0C;&#x5C31;&#x6B63;&#x5E38;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">  ======================================================</span><br><span class="line">DRIVER_RELEASE_VERSION:                 v15.01.13.7</span><br><span class="line">ENDEAVOUR_FW_RELEASE_VERSION:           V1_3_0_0</span><br><span class="line">ENDEAVOUR_FW_RELEASE_LINK_VERSION:      1.4.0.0</span><br><span class="line">ENDEAVOUR_FW_RELEASE_OFDM_VERSION:      1.0.0.0</span><br><span class="line">FW_RELEASE_LINK_VERSION:                12.53.14.0</span><br><span class="line">FW_RELEASE_OFDM_VERSION:                2.43.14.0</span><br><span class="line">API_RX_RELEASE_VERSION:         203.20140107.0</span><br><span class="line">Company:ITEtech</span><br><span class="line">======================================================</span><br><span class="line">===== it930x usb device pluged in =====</span><br><span class="line">- Enter IT930x_probe Function -</span><br><span class="line">Device test ok</span><br><span class="line">Device test ok</span><br><span class="line">Device test ok</span><br><span class="line">Device test ok</span><br><span class="line">Device test ok</span><br><span class="line">EEPROM - ========== Can read eeprom </span><br><span class="line">EEPROM - Board ID: 80 </span><br><span class="line">EEPROM - Number of IT9300 is 1 </span><br><span class="line">EEPROM - BR Chip Version is 1, BR Chip Type is 0x9306 </span><br><span class="line">EEPROM - 0 NLC(Receiver) NUM: 4 </span><br><span class="line">EEPROM - 0 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - 1 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - 2 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - 3 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - 4 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - Mapp disalbe, Rx device ID using default</span><br><span class="line">EEPROM - Device_ID = 65531 </span><br><span class="line">- DRV_GET_RX_ID success -</span><br><span class="line">EEPROM - 0, 0, RxDevice_ID = 65531 </span><br><span class="line">EEPROM - 0, 1, RxDevice_ID = 65530 </span><br><span class="line">EEPROM - 0, 2, RxDevice_ID = 65529 </span><br><span class="line">EEPROM - 0, 3, RxDevice_ID = 65528 </span><br><span class="line">- DRV_GetEEPROMConfig success -</span><br><span class="line">- Enter DRV_IT930x_device_init Function -</span><br><span class="line">IT9300_initialize ok </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 0  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 1  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 2  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 3  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">syncByte = 0x40 </span><br><span class="line">0, 0 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x41 </span><br><span class="line">0, 1 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x42 </span><br><span class="line">0, 2 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x43 </span><br><span class="line">0, 3 Ts Source Set in TsType OK!</span><br><span class="line">REGIST - 0, 0, change RxDevice_ID = 0 </span><br><span class="line">handle name --&gt;&gt; usb-it930x0</span><br><span class="line">REGIST - 0, 1, change RxDevice_ID = 1 </span><br><span class="line">handle name --&gt;&gt; usb-it930x1</span><br><span class="line">REGIST - 0, 2, change RxDevice_ID = 2 </span><br><span class="line">handle name --&gt;&gt; usb-it930x2</span><br><span class="line">REGIST - 0, 3, change RxDevice_ID = 3 </span><br><span class="line">handle name --&gt;&gt; usb-it930x3</span><br><span class="line">Throw shift data, urb length = 0</span><br><span class="line">- IT930x_probe success -</span><br></pre></td></tr></table></figure>
+<h3 id="rx-id-mapping"><a href="#RX_ID_Mapping" class="headerlink" title="RX ID Mapping"></a>RX ID Mapping</h3><ul>
+<li>&#x4F7F;&#x7528;EEPROM Editor&#x8A2D;&#x5B9A;RXID Mapping(&#x6253;&#x958B;)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"># usb 1-1.1: new high-speed USB device number 12 using hiusb-ehci</span><br><span class="line">..</span><br><span class="line">EEPROM - Device_ID = 8 </span><br><span class="line">- DRV_GET_RX_ID success -</span><br><span class="line">EEPROM - 0, 0, RxDevice_ID = 8 </span><br><span class="line">EEPROM - 0, 1, RxDevice_ID = 9 </span><br><span class="line">EEPROM - 0, 2, RxDevice_ID = 10 </span><br><span class="line">EEPROM - 0, 3, RxDevice_ID = 11 </span><br><span class="line">- DRV_GetEEPROMConfig success -</span><br><span class="line">- Enter DRV_IT930x_device_init Function -</span><br><span class="line">### _IT9300_loadFirmware ### </span><br><span class="line">IT9300_initialize ok </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 0  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 1  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 2  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 3  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">syncByte = 0x40 </span><br><span class="line">0, 0 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x41 </span><br><span class="line">0, 1 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x42 </span><br><span class="line">0, 2 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x43 </span><br><span class="line">0, 3 Ts Source Set in TsType OK!</span><br><span class="line">REGIST - 0, 0, change RxDevice_ID = 8 </span><br><span class="line">handle name --&gt;&gt; usb-it930x8</span><br><span class="line">REGIST - 0, 1, change RxDevice_ID = 9 </span><br><span class="line">handle name --&gt;&gt; usb-it930x9</span><br><span class="line">REGIST - 0, 2, change RxDevice_ID = 10 </span><br><span class="line">handle name --&gt;&gt; usb-it930x10</span><br><span class="line">REGIST - 0, 3, change RxDevice_ID = 11 </span><br><span class="line">handle name --&gt;&gt; usb-it930x11</span><br><span class="line">Throw shift data, urb length = 0</span><br><span class="line">- IT930x_probe success -</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>&#x6BD4;&#x8F03;&#x4FEE;&#x6B63;&#x524D;&#x5F8C;EEPROM&#x503C;<br>&#x53EA;&#x5DEE;&#x5728; [0x0-0x1] check sumb&#x53CA; [0x50] rx id mapping</p>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/cchdtv/rx-id-mapping-compare.png" alt="Alt text" title="rx-id mapping"></p>
+</li>
+</ul>
+<h3 id="it930x-driver-native"><a href="#it930x_driver_native" class="headerlink" title="it930x driver native"></a>it930x driver native</h3><ul>
+<li>IT930x_Driver</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> static struct usb_driver IT930x_Driver = {</span><br><span class="line">#if LINUX_VERSION_CODE &lt;=  KERNEL_VERSION(2, 6, 15)</span><br><span class="line">	.owner = THIS_MODULE,</span><br><span class="line">#endif</span><br><span class="line">	.name = &quot;usb-it930x&quot;,</span><br><span class="line">	.probe = IT930x_probe,</span><br><span class="line">	.disconnect = IT930x_disconnect,</span><br><span class="line">	.id_table = IT930x_usb_id_table,</span><br><span class="line">	.suspend = IT930x_suspend,</span><br><span class="line">	.resume = IT930x_resume,</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<h3 id="check-eeprom-value"><a href="#check_eeprom_value" class="headerlink" title="check eeprom value"></a>check eeprom value</h3><ul>
+<li><p>Two reference register addresses and their default values are listed in Table 6 and the user can verify the bus  integrity by reading these two registers. </p>
+</li>
+<li><p>driver &#x8B80;&#x5230;&#x8A0A;&#x606F;&#x5982;&#x4E0B;  </p>
+<ul>
+<li>chip_version_7_0 = 0x1222  </li>
+<li>EEPROM - BR Chip Version is 1, BR Chip Type is 0x9306  </li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> ///read chip type</span><br><span class="line">/*patch for read eeprom valid bit*/</span><br><span class="line">result = IT9300_readRegister ((Endeavour*) &amp;DC-&gt;it9300, 0, chip_version_7_0, &amp;chip_version); //chip =0</span><br><span class="line">result = IT9300_readRegisters((Endeavour*) &amp;DC-&gt;it9300, 0, chip_version_7_0+1, 2, var);</span><br><span class="line">	chip_Type = var[1]&lt;&lt;8 | var[0]; </span><br><span class="line">	deb_data(&quot;EEPROM - BR Chip Version is %d, BR Chip Type is 0x%lx \n&quot;, chip_version , chip_Type);</span><br></pre></td></tr></table></figure>
+<p> <img src="https://raw.githubusercontent.com/erwinchang/note/master/download/cchdtv/IT9300_Programming_Guid_Table6.png" alt="Alt text" title="it9306"> </p>
+<ul>
+<li><p>&#x76EE;&#x524D;hi3535&#x4F7F;&#x7528;kernel&#x7248;&#x672C; 3.4.35</p>
+<ul>
+<li>GetReturnChannelPackets_toVirtualCom()</li>
+<li>RETURNCHANNEL_PID: 0x201</li>
+</ul>
+</li>
+<li><p>it930x_driver_native</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">usb_fill_bulk_urb(</span><br><span class="line">	br_chip-&gt;urbs[urb_index],</span><br><span class="line">	dev-&gt;DC-&gt;usb_dev,</span><br><span class="line">	usb_rcvbulkpipe(dev-&gt;DC-&gt;usb_dev, 0x84),</span><br><span class="line">	br_chip-&gt;urbs[urb_index]-&gt;transfer_buffer,</span><br><span class="line">	BR_URB_BUFSIZE,</span><br><span class="line">	Rx_urbs_completion,</span><br><span class="line">	&amp;br_chip-&gt;urb_context[urb_index]);</span><br></pre></td></tr></table></figure>
+<p>[Rx_urbs_completion][10]<br>it930x_driver_native/it930x-core.c<br>GetReturnChannelPackets_toVirtualCom(dev, br_chip-&gt;urbs[context-&gt;index]-&gt;transfer_buffer, BR_URB_BUFSIZE); </p>
+<ul>
+<li>it930x-core.h</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">	#define URB_COUNT   4</span><br><span class="line">	#define BR_URB_COUNT   4</span><br><span class="line">	#define URB_BUFSIZE (188 * 816) //(188 * 348)</span><br><span class="line">	#define BR_URB_BUFSIZE (188 * 816) //(188 * 348)</span><br><span class="line">{% endcodeblock %}</span><br><span class="line"></span><br><span class="line">{% codeblock lang:csh %}</span><br><span class="line"># insmod ./tty_Virtual.ko</span><br><span class="line">[tty_Virtual] - tty0tty_init -</span><br><span class="line">tty0tty null modem driver v1.0</span><br><span class="line">#</span><br><span class="line"># ls /dev/tnt*</span><br><span class="line">ls: /dev/tnt*: No such file or directory</span><br><span class="line"># insmod ./tty_Virtual.ko</span><br><span class="line">[tty_Virtual] - tty0tty_init -</span><br><span class="line">tty0tty null modem driver v1.0</span><br><span class="line"># ls /dev/tnt*</span><br><span class="line">/dev/tnt0</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+<h2 id="rx-id-check"><a href="#RX_ID_Check" class="headerlink" title="RX ID Check"></a>RX ID Check</h2><ul>
+<li>&#x7B2C;&#x4E00;&#x500B;&#x677F;&#x5B50; RXID -&gt; 65535,34.. -&gt; 0,1,2,3</li>
+<li>&#x7B2C;&#x4E8C;&#x500B;&#x677F;&#x5B50; RXID -&gt; 65531,30.. -&gt; 4,5,6,7</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line">======================================================</span><br><span class="line">DRIVER_RELEASE_VERSION:                 v15.01.13.7</span><br><span class="line">ENDEAVOUR_FW_RELEASE_VERSION:           V1_3_0_0</span><br><span class="line">ENDEAVOUR_FW_RELEASE_LINK_VERSION:      1.4.0.0</span><br><span class="line">ENDEAVOUR_FW_RELEASE_OFDM_VERSION:      1.0.0.0</span><br><span class="line">FW_RELEASE_LINK_VERSION:                12.53.14.0</span><br><span class="line">FW_RELEASE_OFDM_VERSION:                2.43.14.0</span><br><span class="line">API_RX_RELEASE_VERSION:         203.20140107.0</span><br><span class="line">Company:ITEtech</span><br><span class="line">======================================================</span><br><span class="line">===== it930x usb device pluged in =====</span><br><span class="line">- Enter IT930x_probe Function -</span><br><span class="line">Device test ok</span><br><span class="line">Device test ok</span><br><span class="line">Device test ok</span><br><span class="line">Device test ok</span><br><span class="line">Device test ok</span><br><span class="line">EEPROM - ========== Can read eeprom </span><br><span class="line">EEPROM - Board ID: 80 </span><br><span class="line">EEPROM - Number of IT9300 is 1 </span><br><span class="line">EEPROM - BR Chip Version is 1, BR Chip Type is 0x9306 </span><br><span class="line">EEPROM - 0 NLC(Receiver) NUM: 4 </span><br><span class="line">EEPROM - 0 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - 1 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - 2 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - 3 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - 4 Receiver Chip Type is 0x1 </span><br><span class="line">EEPROM - Mapp disalbe, Rx device ID using default</span><br><span class="line">EEPROM - Device_ID = 65535 </span><br><span class="line">- DRV_GET_RX_ID success -</span><br><span class="line">EEPROM - 0, 0, RxDevice_ID = 65535 </span><br><span class="line">EEPROM - 0, 1, RxDevice_ID = 65534 </span><br><span class="line">EEPROM - 0, 2, RxDevice_ID = 65533 </span><br><span class="line">EEPROM - 0, 3, RxDevice_ID = 65532 </span><br><span class="line">- DRV_GetEEPROMConfig success -</span><br><span class="line">- Enter DRV_IT930x_device_init Function -</span><br><span class="line">### _IT9300_loadFirmware ### </span><br><span class="line">IT9300_initialize ok </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 0  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 1  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 2  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 3  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">syncByte = 0x40 </span><br><span class="line">0, 0 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x41 </span><br><span class="line">0, 1 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x42 </span><br><span class="line">0, 2 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x43 </span><br><span class="line">0, 3 Ts Source Set in TsType OK!</span><br><span class="line">REGIST - 0, 0, change RxDevice_ID = 0 </span><br><span class="line">handle name --&gt;&gt; usb-it930x0</span><br><span class="line">REGIST - 0, 1, change RxDevice_ID = 1 </span><br><span class="line">handle name --&gt;&gt; usb-it930x1</span><br><span class="line">REGIST - 0, 2, change RxDevice_ID = 2 </span><br><span class="line">handle name --&gt;&gt; usb-it930x2</span><br><span class="line">REGIST - 0, 3, change RxDevice_ID = 3 </span><br><span class="line">handle name --&gt;&gt; usb-it930x3</span><br><span class="line">Throw shift data, urb length = 0</span><br><span class="line">- IT930x_probe success -</span><br><span class="line"># </span><br><span class="line"># </span><br><span class="line"># </span><br><span class="line"># </span><br><span class="line"># </span><br><span class="line">..xx..</span><br><span class="line">EEPROM - Device_ID = 65531 </span><br><span class="line">- DRV_GET_RX_ID success -</span><br><span class="line">EEPROM - 0, 0, RxDevice_ID = 65531 </span><br><span class="line">EEPROM - 0, 1, RxDevice_ID = 65530 </span><br><span class="line">EEPROM - 0, 2, RxDevice_ID = 65529 </span><br><span class="line">EEPROM - 0, 3, RxDevice_ID = 65528 </span><br><span class="line">- DRV_GetEEPROMConfig success -</span><br><span class="line">- Enter DRV_IT930x_device_init Function -</span><br><span class="line">### _IT9300_loadFirmware ### </span><br><span class="line">IT9300_initialize ok </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 0  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 1  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 2  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">Init IT913x...!! </span><br><span class="line">0, 3  Ts Source initialize ok! </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; </span><br><span class="line">syncByte = 0x40 </span><br><span class="line">0, 0 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x41 </span><br><span class="line">0, 1 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x42 </span><br><span class="line">0, 2 Ts Source Set in TsType OK!</span><br><span class="line">syncByte = 0x43 </span><br><span class="line">0, 3 Ts Source Set in TsType OK!</span><br><span class="line">REGIST - 0, 0, change RxDevice_ID = 4 </span><br><span class="line">handle name --&gt;&gt; usb-it930x4</span><br><span class="line">REGIST - 0, 1, change RxDevice_ID = 5 </span><br><span class="line">handle name --&gt;&gt; usb-it930x5</span><br><span class="line">REGIST - 0, 2, change RxDevice_ID = 6 </span><br><span class="line">handle name --&gt;&gt; usb-it930x6</span><br><span class="line">REGIST - 0, 3, change RxDevice_ID = 7 </span><br><span class="line">handle name --&gt;&gt; usb-it930x7</span><br><span class="line">Throw shift data, urb length = 0</span><br><span class="line">- IT930x_probe success -</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cchdtv/" rel="tag">#cchdtv</a>
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/it930x/" rel="tag">#it930x</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/29/2015-06-29-cchdtv-01/" rel="next" title="ccHDtv-01">
+                <i class="fa fa-chevron-left"></i> ccHDtv-01
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/21/2015-08-21-tcpip-arp/" rel="prev" title="tcpip-arp">
+                tcpip-arp <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#it9300-driver-native"><span class="nav-number">3.</span> <span class="nav-text">it9300 driver native</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#driver-test"><span class="nav-number">3.1.</span> <span class="nav-text">driver test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rx-id-mapping"><span class="nav-number">3.2.</span> <span class="nav-text">RX ID Mapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#it930x-driver-native"><span class="nav-number">3.3.</span> <span class="nav-text">it930x driver native</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#check-eeprom-value"><span class="nav-number">3.4.</span> <span class="nav-text">check eeprom value</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rx-id-check"><span class="nav-number">4.</span> <span class="nav-text">RX ID Check</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2015/07/21/2015-07-21-dvb-t-02/';
+      var disqus_title = 'dvb-t-02';
+      var disqus_url = 'http://yoursite.com/2015/07/21/2015-07-21-dvb-t-02/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

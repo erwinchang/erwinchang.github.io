@@ -1,0 +1,1128 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,fedora,thread," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解pthread_create fail">
+<meta property="og:type" content="article">
+<meta property="og:title" content="threads-check">
+<meta property="og:url" content="http://yoursite.com/2016/11/02/threads-check/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解pthread_create fail">
+<meta property="og:image" content="http://yoursite.com/2016/11/02/threads-check/program-flow.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/02/threads-check/ldvr_init.png">
+<meta property="og:image" content="http://yoursite.com/2016/11/02/threads-check/st.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="threads-check">
+<meta name="twitter:description" content="了解pthread_create fail">
+<meta name="twitter:image" content="http://yoursite.com/2016/11/02/threads-check/program-flow.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> threads-check | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                threads-check
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-11-02T13:17:20+08:00" content="2016-11-02">
+              2016-11-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2016/11/02/threads-check/" class="leancloud_visitors" data-flag-title="threads-check">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;pthread_create fail</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161102</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x7D50;&#x8AD6;">&#x7D50;&#x8AD6;</a><ul>
+<li><a href="#systemd">systemd</a></li>
+</ul>
+</li>
+<li><a href="#fedora-24">fedora 24</a><ul>
+<li><a href="#&#x958B;&#x6A5F;&#x6642;pthread_create&#x5931;&#x6557;">&#x958B;&#x6A5F;&#x6642;pthread_create&#x5931;&#x6557;</a></li>
+</ul>
+</li>
+<li><a href="#fedora22">fedora22</a><ul>
+<li><a href="#&#x6BD4;&#x8F03;&#x4E0D;&#x540C;ch&#x9700;&#x8981;&#x958B;&#x555F;&#x591A;&#x5C11;thread">&#x6BD4;&#x8F03;&#x4E0D;&#x540C;CH&#x9700;&#x8981;&#x958B;&#x555F;&#x591A;&#x5C11;thread</a></li>
+</ul>
+</li>
+<li><a href="#&#x4FEE;&#x6539;&#x8A18;&#x9304;">&#x4FEE;&#x6539;&#x8A18;&#x9304;</a><ul>
+<li><a href="#&#x5C07;clinet-file_buf&#x53BB;&#x9664;&#x6539;&#x7531;malloc">&#x5C07;clinet file_buf&#x53BB;&#x9664;(&#x6539;&#x7531;malloc)</a></li>
+<li><a href="#&#x79FB;&#x9664;-package">&#x79FB;&#x9664; package</a></li>
+<li><a href="#&#x95DC;&#x9589;service">&#x95DC;&#x9589;service</a></li>
+<li><a href="#&#x589E;&#x52A0;ram&#x5230;8g">&#x589E;&#x52A0;RAM&#x5230;8G</a></li>
+<li><a href="#&#x628A;cms-cline&#x7531;128&#x6539;&#x70BA;64">&#x628A;CMS Cline&#x7531;128&#x6539;&#x70BA;64</a></li>
+</ul>
+</li>
+<li><a href="#&#x7A0B;&#x5E8F;">&#x7A0B;&#x5E8F;</a><ul>
+<li><a href="#&#x7A0B;&#x5E8F;&#x6D41;&#x7A0B;">&#x7A0B;&#x5E8F;&#x6D41;&#x7A0B;</a></li>
+<li><a href="#&#x74B0;&#x5883;&#x8A2D;&#x5B9A;">&#x74B0;&#x5883;&#x8A2D;&#x5B9A;</a></li>
+</ul>
+</li>
+<li><a href="#ulimit-&#x6BD4;&#x8F03;">ulimit &#x6BD4;&#x8F03;</a><ul>
+<li><a href="#&#x4E0D;&#x540C;ram&#x7684;ulimit">&#x4E0D;&#x540C;RAM&#x7684;ulimit</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a><ul>
+<li><a href="#&#x95DC;&#x9589;&#x4E00;&#x4E9B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;daemon">&#x95DC;&#x9589;&#x4E00;&#x4E9B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;daemon</a></li>
+<li><a href="#&#x9632;&#x6B62;fork-bomb&#x9650;&#x5236;">&#x9632;&#x6B62;fork bomb&#x9650;&#x5236;</a></li>
+<li><a href="#systemctl">systemctl</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x7D50;&#x8AD6;"><a href="#u7D50_u8AD6" class="headerlink" title="&#x7D50;&#x8AD6;"></a>&#x7D50;&#x8AD6;</h2><ul>
+<li><p>&#x958B;&#x6A5F;pthread_create EAGAIN fail<br>&#x6B64;&#x503C;&#x6703;&#x6C7A;&#x5B9A;&#xFF0C;&#x958B;&#x6A5F;&#x6642;&#x55AE;&#x4E00;proccess&#x53EF;&#x4EE5;&#x958B;&#x555F;&#x7684;thread&#x91CF;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /sys/fs/cgroup/pids/init.scope/pids.max </span><br><span class="line">512</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x4FEE;&#x6539;&#x65B9;&#x5F0F;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/systemd/system.conf | grep DefaultTasksMax</span><br><span class="line">#DefaultTasksMax=512</span><br><span class="line">DefaultTasksMax=1024</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>DefaultTasksMax<br> Configure the default value for the per-unit TasksMax= setting</p>
+<h3 id="systemd"><a href="#systemd" class="headerlink" title="systemd"></a>systemd</h3><ul>
+<li>systemd is a system and service manager for Linux,</li>
+<li></li>
+</ul>
+<h2 id="fedora-24"><a href="#fedora_24" class="headerlink" title="fedora 24"></a>fedora 24</h2><h3 id="&#x958B;&#x6A5F;&#x6642;pthread_create&#x5931;&#x6557;"><a href="#u958B_u6A5F_u6642pthread_create_u5931_u6557" class="headerlink" title="&#x958B;&#x6A5F;&#x6642;pthread_create&#x5931;&#x6557;"></a>&#x958B;&#x6A5F;&#x6642;pthread_create&#x5931;&#x6557;</h3><ul>
+<li><p>error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3042&gt; Listen to 5566</span><br><span class="line">MFailed to connect with server0</span><br><span class="line">create xxx_client_recv thread 102 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html" target="_blank" rel="external">Errors: Linux System Errors</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define EAGAIN          11      /* Try again */</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>EAGAIN (Resource temporarily unavailable)</p>
+<ul>
+<li><a href="http://man7.org/linux/man-pages/man3/pthread_create.3.html" target="_blank" rel="external">pthread_create</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">EAGAIN Insufficient resources to create another thread.</span><br><span class="line"></span><br><span class="line">EAGAIN A system-imposed limit on the number of threads was</span><br><span class="line">       encountered.  There are a number of limits that may trigger</span><br><span class="line">       this error: the RLIMIT_NPROC soft resource limit (set via</span><br><span class="line">       setrlimit(2)), which limits the number of processes and</span><br><span class="line">       threads for a real user ID, was reached; the kernel&apos;s system-</span><br><span class="line">       wide limit on the number of processes and threads,</span><br><span class="line">       /proc/sys/kernel/threads-max, was reached (see proc(5)); or</span><br><span class="line">       the maximum number of PIDs, /proc/sys/kernel/pid_max, was</span><br><span class="line">       reached (see proc(5)).</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="fedora22"><a href="#fedora22" class="headerlink" title="fedora22"></a>fedora22</h2><p>&#x6E2C;&#x8A66;&#x81EA;&#x5DF2;&#x5EFA;&#x7ACB;fedora22 dom,&#x6C92;&#x6709;&#x7279;&#x5225;&#x53BB;&#x8ABF;&#x6574;&#x74B0;&#x5883;,36CH/64CH&#x90FD;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x5E36;&#x8D77;&#x4F86;,<br>&#x770B;&#x4F86;fedora24&#xFF0C;&#x6BD4;fedora22&#x5403;&#x66F4;&#x591A;&#x8CC7;&#x6E90;</p>
+<ul>
+<li><p>fedora22</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost limits.d]# uname -a</span><br><span class="line">Linux localhost.localdomain 4.4.13-200.fc22.x86_64 #1 SMP Wed Jun 8 15:59:40 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fedora24</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# uname -a</span><br><span class="line">Linux localhost.localdomain 4.6.5-300.fc24.x86_64 #1 SMP Thu Jul 28 01:10:12 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fedora22&#x539F;&#x672C;&#x5C31;&#x6709;&#x4E0B;&#x4F8B;&#x6A94;&#x6848;&#xFF0C;&#x4F46;&#x5728;fedora24&#x662F;&#x6C92;&#x6709;&#xFF0C;why?<br><a href="http://rudametw.github.io/blog/posts/2014.04.10/not-enough-threads.html" target="_blank" rel="external">Not enough threads or processes : &#x201C;thread create failed&#x201D; </a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost limits.d]# ls -l /etc/security/limits.d/</span><br><span class="line">total 8</span><br><span class="line">-rw-r--r--. 1 root root 191 Jun 26  2015 20-nproc.conf</span><br><span class="line">-rw-r--r--. 1 root root 151 May 12  2015 95-jack.conf</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x6BD4;&#x8F03;&#x4E0D;&#x540C;ch&#x9700;&#x8981;&#x958B;&#x555F;&#x591A;&#x5C11;thread"><a href="#u6BD4_u8F03_u4E0D_u540CCH_u9700_u8981_u958B_u555F_u591A_u5C11thread" class="headerlink" title="&#x6BD4;&#x8F03;&#x4E0D;&#x540C;CH&#x9700;&#x8981;&#x958B;&#x555F;&#x591A;&#x5C11;thread"></a>&#x6BD4;&#x8F03;&#x4E0D;&#x540C;CH&#x9700;&#x8981;&#x958B;&#x555F;&#x591A;&#x5C11;thread</h3><p>&#x6BD4;&#x8F03;fedora22 &#x4E0D;&#x540C;CH&#x9700;&#x8981;&#x958B;&#x555F;&#x591A;&#x5C11;thread</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">CH</th>
+<th style="text-align:left">threads</th>
+<th style="text-align:left">diff</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">16</td>
+<td style="text-align:left">528</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">32</td>
+<td style="text-align:left">656</td>
+<td style="text-align:left">&#x6BD4;16CH&#x591A;&#x4E86;128</td>
+</tr>
+<tr>
+<td style="text-align:left">64</td>
+<td style="text-align:left">824</td>
+<td style="text-align:left">&#x6BD4;36CH&#x591A;&#x4E86;168</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x81EA;&#x5DF2;&#x5EFA;&#x7ACB;fedora22 dom</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">16</td>
+<td style="text-align:left">549</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">32</td>
+<td style="text-align:left">672</td>
+<td style="text-align:left">&#x6BD4;CH16&#x591A;123</td>
+</tr>
+<tr>
+<td style="text-align:left">64</td>
+<td style="text-align:left">839</td>
+<td style="text-align:left">&#x6BD4;CH36&#x591A;167</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x672A;startx&#x4E4B;&#x524D;</td>
+<td style="text-align:left">131</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">startx&#x4E4B;&#x5F8C;</td>
+<td style="text-align:left">338</td>
+<td style="text-align:left">&#x591A;&#x4E86;207</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>log<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">fedora22 (&#x81EA;&#x5DF2;&#x5EFA;&#x7ACB;DOM)</span><br><span class="line">--------------------------------------------</span><br><span class="line">CH16</span><br><span class="line">[root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">549</span><br><span class="line"></span><br><span class="line">CH36</span><br><span class="line">[root@localhost ~]# ps -elfT |  wc -l</span><br><span class="line">672   (&#x6BD4;CH16&#x591A;123)</span><br><span class="line"></span><br><span class="line">CH64</span><br><span class="line">[root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">839   (&#x6BD4;CH36&#x591A;167)</span><br><span class="line"></span><br><span class="line">&#x6E2C;&#x8A66;startx&#x7528;&#x4E86;&#x591A;&#x4E86;thread (207)</span><br><span class="line">&#x672A;startx&#x4E4B;&#x524D;</span><br><span class="line">[root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">131</span><br><span class="line"></span><br><span class="line">startx&#x4E4B;&#x5F8C;</span><br><span class="line">[root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">338</span><br><span class="line"></span><br><span class="line">&#x539F;&#x672C;fedor22 dom</span><br><span class="line">-------------------------------------</span><br><span class="line">CH16</span><br><span class="line">[root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">528</span><br><span class="line"></span><br><span class="line">CH36</span><br><span class="line">[root@localhost disks]# ps -elfT | wc -l</span><br><span class="line">656 (&#x6BD4;CH16&#x591A;128)</span><br><span class="line"></span><br><span class="line">CH64</span><br><span class="line">[root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">824 (&#x6BD4;CH36&#x591A;168)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>startx &#x6BD4;&#x8F03;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">fedora</th>
+<th style="text-align:left">&#x672A;startx&#x4E4B;&#x524D;</th>
+<th style="text-align:left">startx&#x4E4B;&#x5F8C;</th>
+<th style="text-align:left">xgui</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">fedora22</td>
+<td style="text-align:left">131</td>
+<td style="text-align:left">338</td>
+<td style="text-align:left">207</td>
+</tr>
+<tr>
+<td style="text-align:left">fedora24</td>
+<td style="text-align:left">163</td>
+<td style="text-align:left">392</td>
+<td style="text-align:left">229</td>
+</tr>
+<tr>
+<td style="text-align:left">diff</td>
+<td style="text-align:left">32</td>
+<td style="text-align:left">54</td>
+<td style="text-align:left">22</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>fedora 24 startx<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> [root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">163</span><br><span class="line">[root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">392</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x4FEE;&#x6539;&#x8A18;&#x9304;"><a href="#u4FEE_u6539_u8A18_u9304" class="headerlink" title="&#x4FEE;&#x6539;&#x8A18;&#x9304;"></a>&#x4FEE;&#x6539;&#x8A18;&#x9304;</h2><h3 id="&#x5C07;clinet-file_buf&#x53BB;&#x9664;&#x6539;&#x7531;malloc"><a href="#u5C07clinet_file_buf_u53BB_u9664_28_u6539_u7531malloc_29" class="headerlink" title="&#x5C07;clinet file_buf&#x53BB;&#x9664;(&#x6539;&#x7531;malloc)"></a>&#x5C07;clinet file_buf&#x53BB;&#x9664;(&#x6539;&#x7531;malloc)</h3><p>&#x591A;&#x7522;&#x751F; 20&#x500B;thread</p>
+<p>&#x4FEE;&#x6539;&#x524D;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3042&gt; Listen to 5566</span><br><span class="line">MFailed to connect with server0</span><br><span class="line">create xxx_client_recv thread 102 error, errno:11.</span><br></pre></td></tr></table></figure></p>
+<p>&#x4FEE;&#x6539;&#x5F8C;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ldvr-&gt;core-&gt;ch_num:36</span><br><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxx_netservice.c xxxx_client_listen&lt;line:3054&gt; Listen to 5566</span><br><span class="line">create xxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure></p>
+<h3 id="&#x79FB;&#x9664;-package"><a href="#u79FB_u9664_package" class="headerlink" title="&#x79FB;&#x9664; package"></a>&#x79FB;&#x9664; package</h3><p>&#x958B;&#x6A5F;&#x5F8C;<br>&#x7531;&#x539F;&#x672C;&#x7684;163&#xFF0C;&#x6E1B;&#x5C11;&#x70BA;141 (&#x5C11;&#x4E86;22)<br>&#x4E0D;&#x904E;&#x770B;&#x8D77;&#x4F86;,,&#x9084;&#x662F;&#x8981;&#x6539;&#x7A0B;&#x5F0F;,,&#x5C07;thread/MEM&#x7B49;&#x6E1B;&#x5C11;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ps -elfT | wc -l</span><br><span class="line">141</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p><a href="https://access.redhat.com/solutions/30316" target="_blank" rel="external">Resource temporarily unavailable</a><br>EAGIN&#x662F;&#x6307;thread,&#x4E0D;&#x662F;processes,&#x96E3;&#x602A;&#x9664;&#x522A;package&#x90FD;&#x6C92;&#x6709;&#x5DEE;,,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The user fails to log in because an EAGAIN error occurs if the user&apos;s number of executing threads has reached the nproc resource limit.</span><br><span class="line">Note: Despite the name, this is a limit on threads, not processes.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.&#x79FB;&#x9664;nomachine<br>&#x4FEE;&#x6539;&#x5F8C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3054&gt; Listen to 5566</span><br><span class="line">create xxxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.&#x79FB;&#x9664;colord<br>dnf remove colord.x86_64<br>&#x4FEE;&#x6539;&#x5F8C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3054&gt; Listen to 5566</span><br><span class="line">create xxxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.&#x79FB;&#x9664;firewalld<br>firewalld.noarch<br>&#x4FEE;&#x6539;&#x5F8C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3054&gt; Listen to 5566</span><br><span class="line">create xxxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4.&#x79FB;&#x9664;upower.x86_64<br>dnf remove upower.x86_64<br>&#x4FEE;&#x6539;&#x5F8C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3054&gt; Listen to 5566</span><br><span class="line">create xxxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5.&#x79FB;&#x9664;wpa<br>wpa_supplicant.x86_64<br>&#x4FEE;&#x6539;&#x5F8C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3054&gt; Listen to 5566</span><br><span class="line">create xxxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>6.&#x79FB;&#x9664;<br>ModemManager.x86_64<br>mlocate.x86_64<br>&#x4FEE;&#x6539;&#x5F8C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3054&gt; Listen to 5566</span><br><span class="line">create xxxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x95DC;&#x9589;service"><a href="#u95DC_u9589service" class="headerlink" title="&#x95DC;&#x9589;service"></a>&#x95DC;&#x9589;service</h3><ul>
+<li>systemctl disable packagekit.service<br>&#x6C92;&#x6709;&#x6539;&#x5584;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3054&gt; Listen to 5566</span><br><span class="line">create xxxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x589E;&#x52A0;ram&#x5230;8g"><a href="#u589E_u52A0RAM_u52308G" class="headerlink" title="&#x589E;&#x52A0;RAM&#x5230;8G"></a>&#x589E;&#x52A0;RAM&#x5230;8G</h3><ul>
+<li><p>&#x589E;&#x52A0;RAM&#x5230;8G<br>&#x6C92;&#x6709;&#x660E;&#x986F;&#x6539;&#x5584;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9854&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3050&gt; Listen to 5566</span><br><span class="line">create xxxx_client_recv thread 122 error, errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x8DDF;&#x8A18;&#x61B6;&#x4E0D;&#x8DB3;&#x6C92;&#x95DC;&#xFF0C;&#x5728;4G&#x6642;&#xFF0C;&#x9084;&#x6709;3.XG&#x7A7A;&#x9593;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /disks/1/nvr.log </span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           7.7G        107M        7.3G         81M        240M        7.3G</span><br><span class="line">Swap:            0B          0B          0B</span><br><span class="line">----------</span><br><span class="line">core file size          (blocks, -c) unlimited</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 0</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 31382</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) 31382</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br><span class="line">----------</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x628A;cms-cline&#x7531;128&#x6539;&#x70BA;64"><a href="#u628ACMS_Cline_u7531128_u6539_u70BA64" class="headerlink" title="&#x628A;CMS Cline&#x7531;128&#x6539;&#x70BA;64"></a>&#x628A;CMS Cline&#x7531;128&#x6539;&#x70BA;64</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">CH</th>
+<th style="text-align:left">total ps</th>
+<th style="text-align:left">nvr thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">16</td>
+<td style="text-align:left">432</td>
+<td style="text-align:left">251</td>
+</tr>
+<tr>
+<td style="text-align:left">36</td>
+<td style="text-align:left">563</td>
+<td style="text-align:left">374</td>
+</tr>
+</tbody>
+</table>
+<p>16x6 + 64x2 + 27(22?) = 251<br>36x6 + 64x2+ 30(22?) = 374 (251 + 120)<br>64x6 + 64x2 + ? == 374 + 168 = 542</p>
+<ul>
+<li>64CH<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main&lt;line:9866&gt; @_@_@_@_@_@_@_@_@_@_@_@ init ok,start create thread...</span><br><span class="line">xxxx_netservice.c xxxx_client_listen&lt;line:3050&gt; Listen to 5566</span><br><span class="line">create fuho_recv thread 38 error,errno:11.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x82E5;CMS Clinet&#x70BA;128<br>16x6 + 128x2 + 27(22?) =&gt; 379 (251 + 128)<br>36x6 + 128x2+ 30(22?) =&gt; 502 ( 374 + 128)<br>64x6 + 128x2 + ? =&gt; 670 (542 + 128)</p>
+<hr>
+<h2 id="&#x7A0B;&#x5E8F;"><a href="#u7A0B_u5E8F" class="headerlink" title="&#x7A0B;&#x5E8F;"></a>&#x7A0B;&#x5E8F;</h2><h3 id="&#x7A0B;&#x5E8F;&#x6D41;&#x7A0B;"><a href="#u7A0B_u5E8F_u6D41_u7A0B" class="headerlink" title="&#x7A0B;&#x5E8F;&#x6D41;&#x7A0B;"></a>&#x7A0B;&#x5E8F;&#x6D41;&#x7A0B;</h3><ul>
+<li><p>main flow</p>
+<img src="/2016/11/02/threads-check/program-flow.png" alt="[main flow]" title="[main flow]">
+</li>
+<li><p>ldvr init</p>
+<img src="/2016/11/02/threads-check/ldvr_init.png" alt="[ldvr init]" title="[ldvr init]">
+</li>
+<li><p>var struct</p>
+<img src="/2016/11/02/threads-check/st.png" alt="st.png" title="">
+</li>
+<li><p>16CH thread&#x91CF;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">128x2 = 256 (CMS&#x7684;send&#x53CA; recv)</span><br><span class="line">9</span><br><span class="line">16x6 = 96</span><br><span class="line">----------</span><br><span class="line">&#x7D04;400</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x74B0;&#x5883;&#x8A2D;&#x5B9A;"><a href="#u74B0_u5883_u8A2D_u5B9A" class="headerlink" title="&#x74B0;&#x5883;&#x8A2D;&#x5B9A;"></a>&#x74B0;&#x5883;&#x8A2D;&#x5B9A;</h3><ul>
+<li><a href="https://access.redhat.com/documentation/zh-TW/Red_Hat_Enterprise_Linux/6/html/Performance_Tuning_Guide/s-memory-captun.html" target="_blank" rel="external">overcommit_memory</a><br>&#x5B9A;&#x7FA9;&#x63A5;&#x53D7;&#x6216;&#x62D2;&#x7D55;&#x5927;&#x578B;&#x8A18;&#x61B6;&#x9AD4;&#x9700;&#x6C42;&#x7684;&#x72C0;&#x6CC1;&#x3002;&#x6B64;&#x53C3;&#x6578;&#x6709;&#x4E09;&#x7A2E;&#x53EF;&#x7528;&#x503C;: 0,1,2<br>1 - kernel &#x4E0D;&#x9032;&#x884C;&#x8A18;&#x61B6;&#x9AD4;&#x904E;&#x5EA6;&#x5BEB;&#x5165;&#x8655;&#x7406;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># echo 1 &gt; /proc/sys/vm/overcommit_memory</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="ulimit-&#x6BD4;&#x8F03;"><a href="#ulimit__u6BD4_u8F03" class="headerlink" title="ulimit &#x6BD4;&#x8F03;"></a>ulimit &#x6BD4;&#x8F03;</h2><ul>
+<li><p>fedor22</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vm]# ulimit -a</span><br><span class="line">core file size          (blocks, -c) 0</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 0</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 15155</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) 15155</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fedora 24</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ulimit -a</span><br><span class="line">core file size          (blocks, -c) unlimited</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 0</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 15254</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) 15254</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>uimit parameter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">-a     All current limits are reported</span><br><span class="line">-b     The maximum socket buffer size</span><br><span class="line">-c     The maximum size of core files created</span><br><span class="line">-d     The maximum size of a process&apos;s data segment</span><br><span class="line">-e     The maximum scheduling priority (&quot;nice&quot;)</span><br><span class="line">-f     The maximum size of files written by the shell and its children</span><br><span class="line">-i     The maximum number of pending signals</span><br><span class="line">-l     The maximum size that may be locked into memory</span><br><span class="line">-m     The maximum resident set size (many systems do not honor this limit)</span><br><span class="line">-n     The maximum number of open file descriptors (most systems do not allow this value to be set)</span><br><span class="line">-p     The pipe size in 512-byte blocks (this may not be set)</span><br><span class="line">-q     The maximum number of bytes in POSIX message queues</span><br><span class="line">-r     The maximum real-time scheduling priority</span><br><span class="line">-s     The maximum stack size</span><br><span class="line">-t     The maximum amount of cpu time in seconds</span><br><span class="line">-u     The maximum number of processes available to a single user</span><br><span class="line">-v     The maximum amount of virtual memory available to the shell and, on some systems, to its children</span><br><span class="line">-x     The maximum number of file locks</span><br><span class="line">-T     The maximum number of threads</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x4E0D;&#x540C;ram&#x7684;ulimit"><a href="#u4E0D_u540CRAM_u7684ulimit" class="headerlink" title="&#x4E0D;&#x540C;RAM&#x7684;ulimit"></a>&#x4E0D;&#x540C;RAM&#x7684;ulimit</h3><p>4G RAM (FC24)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ulimit -a</span><br><span class="line">core file size          (blocks, -c) 0</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 0</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 15155</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) 15155</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br></pre></td></tr></table></figure></p>
+<p>8G RAM (FC24)<br>max user processes&#x8B8A;&#x5C0F; ?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ulimit -a</span><br><span class="line">core file size          (blocks, -c) unlimited</span><br><span class="line">data seg size           (kbytes, -d) unlimited</span><br><span class="line">scheduling priority             (-e) 0</span><br><span class="line">file size               (blocks, -f) unlimited</span><br><span class="line">pending signals                 (-i) 31382</span><br><span class="line">max locked memory       (kbytes, -l) 64</span><br><span class="line">max memory size         (kbytes, -m) unlimited</span><br><span class="line">open files                      (-n) 1024</span><br><span class="line">pipe size            (512 bytes, -p) 8</span><br><span class="line">POSIX message queues     (bytes, -q) 819200</span><br><span class="line">real-time priority              (-r) 0</span><br><span class="line">stack size              (kbytes, -s) 8192</span><br><span class="line">cpu time               (seconds, -t) unlimited</span><br><span class="line">max user processes              (-u) 8096</span><br><span class="line">virtual memory          (kbytes, -v) unlimited</span><br><span class="line">file locks                      (-x) unlimited</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><ul>
+<li><p>&#x67E5;&#x770B;&#x76EE;&#x524D;&#x958B;&#x555F;&#x591A;&#x5C11;threads</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -elfT | wc -l</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ps parameter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">       -e     Select all processes.  Identical to -A.</span><br><span class="line">       T      Select all processes associated with this terminal.  Identical to the t option without any argument.</span><br><span class="line"></span><br><span class="line">THREAD DISPLAY</span><br><span class="line">       H      Show threads as if they were processes.</span><br><span class="line"></span><br><span class="line">       -L     Show threads, possibly with LWP and NLWP columns.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5B89;&#x88DD;&#x5957;&#x4EF6;&#x6BD4;&#x8F03;<br>To list all units installed on the system, use the list-unit-files command instead.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl list-unit-files</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x95DC;&#x9589;&#x4E00;&#x4E9B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;daemon"><a href="#u95DC_u9589_u4E00_u4E9B_u4E0D_u5FC5_u8981_u7684daemon" class="headerlink" title="&#x95DC;&#x9589;&#x4E00;&#x4E9B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;daemon"></a>&#x95DC;&#x9589;&#x4E00;&#x4E9B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;daemon</h3><p>&#x6BD4;&#x8F03;systemctl &#x2013;all (fc22&#x53CA;fc24)&#xFF0C;&#x6C7A;&#x5B9A;fc24&#x8981;&#x95DC;&#x9589;&#x90A3;&#x4E9B;&#x7A0B;&#x5E8F;</p>
+<ul>
+<li><p>&#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x72C0;&#x614B;<br>systemctl status &#x2013;all </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# systemctl status abrt-xorg.service </span><br><span class="line">&#x25CF; abrt-xorg.service - ABRT Xorg log watcher</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/abrt-xorg.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Wed 2016-11-02 14:10:22 CST; 1h 11min ago</span><br><span class="line"> Main PID: 701 (abrt-dump-journ)</span><br><span class="line">    Tasks: 1 (limit: 512)</span><br><span class="line">   CGroup: /system.slice/abrt-xorg.service</span><br><span class="line">           &#x2514;&#x2500;701 /usr/bin/abrt-dump-journal-xorg -fxtD</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x95DC;&#x9589;&#x7A0B;&#x5E8F;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop abrt-xorg.service</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x9632;&#x6B62;fork-bomb&#x9650;&#x5236;"><a href="#u9632_u6B62fork_bomb_u9650_u5236" class="headerlink" title="&#x9632;&#x6B62;fork bomb&#x9650;&#x5236;"></a>&#x9632;&#x6B62;fork bomb&#x9650;&#x5236;</h3><ul>
+<li>nproc.conf<br>&#x9632;&#x6B62;fork bomb&#x9650;&#x5236;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost limits.d]# cat 20-nproc.conf </span><br><span class="line"># Default limit for number of user&apos;s processes to prevent</span><br><span class="line"># accidental fork bombs.</span><br><span class="line"># See rhbz #432903 for reasoning.</span><br><span class="line"></span><br><span class="line">*          soft    nproc     4096</span><br><span class="line">root       soft    nproc     unlimited</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="systemctl"><a href="#systemctl" class="headerlink" title="systemctl"></a>systemctl</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">systemctl</span><br><span class="line"></span><br><span class="line">       start PATTERN...</span><br><span class="line">           Start (activate) one or more units specified on the command line.</span><br><span class="line"></span><br><span class="line">       stop PATTERN...</span><br><span class="line">           Stop (deactivate) one or more units specified on the command line.</span><br><span class="line"></span><br><span class="line">       status [PATTERN...|PID...]]</span><br><span class="line">           Show terse runtime status information about one or more units, followed by most recent log data from the journal.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       disable NAME...</span><br><span class="line">           Disables one or more units. This removes all symlinks to the specified unit files from the unit configuration directory, and hence undoes the changes made by enable.</span><br><span class="line">	</span><br><span class="line">       -a, --all</span><br><span class="line">           When listing units, show all loaded units, regardless of their state, including inactive units.</span><br><span class="line"></span><br><span class="line">	To list all units installed on the system, use the list-unit-files command instead.</span><br></pre></td></tr></table></figure>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://rudametw.github.io/blog/posts/2014.04.10/not-enough-threads.html" target="_blank" rel="external">Not enough threads or processes : &#x201C;thread create failed&#x201D; </a></li>
+<li><a href="https://access.redhat.com/documentation/zh-TW/Red_Hat_Enterprise_Linux/6/html/Performance_Tuning_Guide/s-memory-captun.html" target="_blank" rel="external">overcommit_memory</a></li>
+<li><a href="http://www.cyberciti.biz/tips/linux-limiting-user-process.html" target="_blank" rel="external">How to: Prevent a fork bomb by limiting user process</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Fork%E7%82%B8%E5%BC%B9" target="_blank" rel="external">fork&#x70B8;&#x5F39;</a></li>
+<li><a href="http://blog.ilc.edu.tw/blog/blog/25793/post/78462/511719" target="_blank" rel="external">systemctl &#x6307;&#x4EE4;</a></li>
+<li><a href="http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html" target="_blank" rel="external">Errors: Linux System Errors</a></li>
+<li><a href="http://man7.org/linux/man-pages/man3/pthread_create.3.html" target="_blank" rel="external">pthread_create</a></li>
+<li><a href="https://access.redhat.com/search/#/?q=pthread_create" target="_blank" rel="external">redhat pthread_create search</a></li>
+<li><a href="http://kumu1988.blog.51cto.com/4075018/1091369" target="_blank" rel="external">&#x5173;&#x4E8E;RHEL6&#x4E2D;ulimit&#x7684;nproc&#x9650;&#x5236; </a></li>
+<li><a href="https://access.redhat.com/solutions/61334" target="_blank" rel="external">How to set ulimit values </a></li>
+<li><a href="https://access.redhat.com/solutions/30316" target="_blank" rel="external">Resource temporarily unavailable</a></li>
+<li><a href="https://dustycodes.wordpress.com/2012/02/09/increasing-number-of-threads-per-process/" target="_blank" rel="external">Increasing number of threads per process </a><br>&#x6E1B;&#x5C0F;&#x4F7F;&#x7528;mem&#xFF0C;&#x53EF;&#x4EE5;&#x589E;&#x52A0;&#x958B;&#x555F;&#x7684;thread</li>
+<li><a href="https://fedoraproject.org/wiki/Systemd/zh-cn" target="_blank" rel="external">Systemd/zh-cn</a></li>
+<li>pids.max check<ul>
+<li><a href="http://blog.scoutapp.com/articles/2014/11/04/restricting-process-cpu-usage-using-nice-cpulimit-and-cgroups" target="_blank" rel="external">Restricting process CPU usage using nice, cpulimit, and cgroups</a></li>
+<li><a href="https://www.kernel.org/doc/Documentation/cgroup-v1/pids.txt" target="_blank" rel="external">Process Number Controller</a></li>
+<li><a href="http://unix.stackexchange.com/questions/170998/how-to-create-user-cgroups-with-systemd" target="_blank" rel="external">How to create user cgroups with systemd</a></li>
+<li><a href="http://unix.stackexchange.com/questions/19111/use-cgroup-to-limit-the-memory-usage-of-virtualbox" target="_blank" rel="external">Use cgroup to limit the memory usage of virtualbox</a></li>
+<li><a href="http://koji.fedoraproject.org/koji/packageinfo?packageID=8" target="_blank" rel="external">Information for package kernel</a></li>
+</ul>
+</li>
+<li><a href="https://wiki.archlinux.org/index.php/Systemd_(%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87)" target="_blank" rel="external">systemd</a></li>
+<li><a href="https://fedoraproject.org/wiki/Systemd" target="_blank" rel="external">fedora systemd</a></li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd-system.conf.html" target="_blank" rel="external">systemd-system.conf</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+            <a href="/tags/thread/" rel="tag">#thread</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/27/usb-descriptor/" rel="next" title="usb-descriptor">
+                <i class="fa fa-chevron-left"></i> usb-descriptor
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/04/kernel-upgrade/" rel="prev" title="kernel-upgrade">
+                kernel-upgrade <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結論"><span class="nav-number">3.</span> <span class="nav-text">結論</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#systemd"><span class="nav-number">3.1.</span> <span class="nav-text">systemd</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fedora-24"><span class="nav-number">4.</span> <span class="nav-text">fedora 24</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#開機時pthread_create失敗"><span class="nav-number">4.1.</span> <span class="nav-text">開機時pthread_create失敗</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fedora22"><span class="nav-number">5.</span> <span class="nav-text">fedora22</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#比較不同ch需要開啟多少thread"><span class="nav-number">5.1.</span> <span class="nav-text">比較不同CH需要開啟多少thread</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改記錄"><span class="nav-number">6.</span> <span class="nav-text">修改記錄</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#將clinet-file_buf去除改由malloc"><span class="nav-number">6.1.</span> <span class="nav-text">將clinet file_buf去除(改由malloc)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移除-package"><span class="nav-number">6.2.</span> <span class="nav-text">移除 package</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#關閉service"><span class="nav-number">6.3.</span> <span class="nav-text">關閉service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加ram到8g"><span class="nav-number">6.4.</span> <span class="nav-text">增加RAM到8G</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把cms-cline由128改為64"><span class="nav-number">6.5.</span> <span class="nav-text">把CMS Cline由128改為64</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序"><span class="nav-number">7.</span> <span class="nav-text">程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#程序流程"><span class="nav-number">7.1.</span> <span class="nav-text">程序流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#環境設定"><span class="nav-number">7.2.</span> <span class="nav-text">環境設定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ulimit-比較"><span class="nav-number">8.</span> <span class="nav-text">ulimit 比較</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不同ram的ulimit"><span class="nav-number">8.1.</span> <span class="nav-text">不同RAM的ulimit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">9.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#關閉一些不必要的daemon"><span class="nav-number">9.1.</span> <span class="nav-text">關閉一些不必要的daemon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止fork-bomb限制"><span class="nav-number">9.2.</span> <span class="nav-text">防止fork bomb限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#systemctl"><span class="nav-number">9.3.</span> <span class="nav-text">systemctl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">10.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/11/02/threads-check/';
+      var disqus_title = 'threads-check';
+      var disqus_url = 'http://yoursite.com/2016/11/02/threads-check/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

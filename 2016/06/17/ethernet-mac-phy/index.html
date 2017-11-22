@@ -1,0 +1,1249 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,ethernet," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="工作上遇到網路不通(即PHY not link)，了解一下整個流程在ISO 7層中的physical，即為目前phy chip(RTL8211EG)使用MII介面串接到SOC，因此在SOC裡會有MAC程式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ethernet-mac-phy">
+<meta property="og:url" content="http://yoursite.com/2016/06/17/ethernet-mac-phy/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="工作上遇到網路不通(即PHY not link)，了解一下整個流程在ISO 7層中的physical，即為目前phy chip(RTL8211EG)使用MII介面串接到SOC，因此在SOC裡會有MAC程式">
+<meta property="og:image" content="http://yoursite.com/2016/06/17/ethernet-mac-phy/OSI-Model.png">
+<meta property="og:image" content="http://yoursite.com/2016/06/17/ethernet-mac-phy/ieee-std-802.png">
+<meta property="og:image" content="http://yoursite.com/2016/06/17/ethernet-mac-phy/ieee-802-3-starndard-relationship.png">
+<meta property="og:image" content="http://yoursite.com/2016/06/17/ethernet-mac-phy/o_image_thumb_2.png">
+<meta property="og:image" content="http://yoursite.com/2016/06/17/ethernet-mac-phy/hi3521-toe-block.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ethernet-mac-phy">
+<meta name="twitter:description" content="工作上遇到網路不通(即PHY not link)，了解一下整個流程在ISO 7層中的physical，即為目前phy chip(RTL8211EG)使用MII介面串接到SOC，因此在SOC裡會有MAC程式">
+<meta name="twitter:image" content="http://yoursite.com/2016/06/17/ethernet-mac-phy/OSI-Model.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ethernet-mac-phy | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ethernet-mac-phy
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-06-17T15:44:46+08:00" content="2016-06-17">
+              2016-06-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/17/ethernet-mac-phy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/06/17/ethernet-mac-phy/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/06/17/ethernet-mac-phy/" class="leancloud_visitors" data-flag-title="ethernet-mac-phy">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x5DE5;&#x4F5C;&#x4E0A;&#x9047;&#x5230;&#x7DB2;&#x8DEF;&#x4E0D;&#x901A;(&#x5373;PHY not link)&#xFF0C;&#x4E86;&#x89E3;&#x4E00;&#x4E0B;&#x6574;&#x500B;&#x6D41;&#x7A0B;<br>&#x5728;ISO 7&#x5C64;&#x4E2D;&#x7684;physical&#xFF0C;&#x5373;&#x70BA;&#x76EE;&#x524D;phy chip(RTL8211EG)<br>&#x4F7F;&#x7528;MII&#x4ECB;&#x9762;&#x4E32;&#x63A5;&#x5230;SOC&#xFF0C;&#x56E0;&#x6B64;&#x5728;SOC&#x88E1;&#x6703;&#x6709;MAC&#x7A0B;&#x5F0F;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160617</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x57FA;&#x672C;&#x539F;&#x7406;&#x4E86;&#x89E3;">&#x57FA;&#x672C;&#x539F;&#x7406;&#x4E86;&#x89E3;</a><ul>
+<li><a href="#osi-model">OSI model</a></li>
+<li><a href="#ieee-std-802">IEEE STD 802</a></li>
+<li><a href="#csmacd">CSMA/CD</a></li>
+<li><a href="#ieee-8023-standard-relationship">IEEE 802.3 Standard relationship</a></li>
+</ul>
+</li>
+<li><a href="#&#x5BE6;&#x4F53;&#x4ECB;&#x9762;">&#x5BE6;&#x4F53;&#x4ECB;&#x9762;</a><ul>
+<li><a href="#mii">MII</a></li>
+<li><a href="#mii-rgmii">MII /RGMII</a></li>
+</ul>
+</li>
+<li><a href="#hi3521-mac">Hi3521 MAC</a><ul>
+<li><a href="#rmii">RMII</a></li>
+<li><a href="#hi3521-ethernet-port">Hi3521 Ethernet Port</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x57FA;&#x672C;&#x539F;&#x7406;&#x4E86;&#x89E3;"><a href="#u57FA_u672C_u539F_u7406_u4E86_u89E3" class="headerlink" title="&#x57FA;&#x672C;&#x539F;&#x7406;&#x4E86;&#x89E3;"></a>&#x57FA;&#x672C;&#x539F;&#x7406;&#x4E86;&#x89E3;</h2><h3 id="osi-model"><a href="#OSI_model" class="headerlink" title="OSI model"></a>OSI model</h3><p>&#x5BEB;driver&#x81F3;&#x5C11;&#x8981;&#x4E86;&#x89E3;&#x6700;&#x5E95;&#x5C64;&#x5169;&#x5C64; physical &amp; data link layer</p>
+<ul>
+<li><p>&#x51FA;&#x8655;-<a href="http://technet2u.com/what-is-osi-model/" target="_blank" rel="external">What is OSI Model</a></p>
+<img src="/2016/06/17/ethernet-mac-phy/OSI-Model.png" width="520">
+</li>
+<li><p>OSI Model(Open System Interconnetion Model)</p>
+</li>
+<li><p>&#x4E00;&#x5171;&#x6709;7&#x5C64;&#x5982;&#x4E0A;&#x5716;&#x6240;&#x793A;,IEEE 802&#x5B9A;&#x7FA9;data link&#x53CA;physical&#x7684;&#x95DC;&#x7CFB;</p>
+</li>
+<li><p>Physical Layer</p>
+<ul>
+<li>&#x4E3B;&#x8981;&#x70BA;&#x786C;&#x4F53;&#x90E8;&#x5206;&#xFF0C;ex Repeater,hub</li>
+<li>&#x5C07;&#x5E95;&#x5C64;&#x7684;bit&#x6599;&#x5C64;&#x9001;&#x5230;data link layer</li>
+<li>&#x5B9A;&#x7FA9;&#x786C;&#x4F53;&#x7684;&#x96FB;&#x6027;&#x898F;&#x683C;(ex. timing, voltage) &#x3001;&#x4F48;&#x7DDA;&#x65B9;&#x5F0F;(topology)&#x7B49;</li>
+</ul>
+</li>
+<li><p>Data link Layer</p>
+<ul>
+<li>IEEE 802&#x898F;&#x683C;&#x5C07;&#x6B64;&#x5C64;&#x5206;&#x70BA;LLC(802.2)&#x8207;MAC(802.3,802.4&#x7B49;)</li>
+<li>encode the bit into packet and edcode the packet into bit</li>
+<li>Its provide error free transfer the frame one node to another node.</li>
+<li>function of the Data Link Layter</li>
+<li>Logical Link Control</li>
+<li>Data Framing</li>
+<li>Hardware Addresing</li>
+<li>Error detection and Handling</li>
+</ul>
+</li>
+</ul>
+<h3 id="ieee-std-802"><a href="#IEEE_STD_802" class="headerlink" title="IEEE STD 802"></a>IEEE STD 802</h3><img src="/2016/06/17/ethernet-mac-phy/ieee-std-802.png" width="720">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">IEEE 802.1</td>
+<td style="text-align:left">Higher Layer LAN Protocols</td>
+</tr>
+<tr>
+<td style="text-align:left">IEEE 802.2</td>
+<td style="text-align:left">LLC (Logical Link control)</td>
+</tr>
+<tr>
+<td style="text-align:left">IEEE 802.3</td>
+<td style="text-align:left">Ethernet</td>
+</tr>
+<tr>
+<td style="text-align:left">IEEE 802.4</td>
+<td style="text-align:left">Token bus</td>
+</tr>
+<tr>
+<td style="text-align:left">IEEE 802.11</td>
+<td style="text-align:left">Wirless LAN(WLAN)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>IEEE Standard for Local and Metropolitan Area Networks</li>
+<li>IEEE 802&#x5B9A;&#x7FA9; lower two layer(Data Link and Physical)&#x5354;&#x5B9A;&#x53CA;&#x898F;&#x683C;</li>
+<li>&#x5B9A;&#x7FA9;physical Layer &#x53CA; data link layer&#x76F8;&#x95DC;</li>
+<li>IEEE 802&#x5C07;Data Link Layer&#x5206;&#x6210;&#x5169;&#x90E8;&#x5206;&#xFF1A;<ul>
+<li>LLC Sublayer </li>
+<li>Mac Sublayer</li>
+</ul>
+</li>
+</ul>
+<h3 id="csmacd"><a href="#CSMA/CD" class="headerlink" title="CSMA/CD"></a>CSMA/CD</h3><ul>
+<li>&#x4F86;&#x6E90;-<a href="/2016/06/17/ethernet-mac-phy/Ethernet.pdf" title="Ethernet]">Ethernet]</a></li>
+<li>&#x6BCF;&#x500B;&#x7DB2;&#x8DEF;&#x8A2D;&#x5099;&#x90FD;&#x6709;&#x4E00;&#x500B;&#x552F;&#x4E00;&#x7684;MAC(medium access control)</li>
+<li>&#x6B64;mac&#x90FD;&#x5E38;&#x662F;&#x8A18;&#x9304;&#x5728;&#x7DB2;&#x8DEF;&#x5361;NIC(network interface card)&#x88E1;&#x9762;&#x7684;ROM</li>
+<li>&#x4F86;&#x6E90;-<a href="http://www.cs.nthu.edu.tw/~nfhuang/chap04.htm" target="_blank" rel="external">IEEE 802.3 CSMA/CD&#x7DB2;&#x8DEF;</a></li>
+<li>Carrier Sensing Multiple Access with Collistion Detection</li>
+<li>IEEE 802.3&#x6A19;&#x6E96;&#x5236;&#x5B9A;&#x4E86;CSMA/CD<ul>
+<li>&#x901A;&#x8A0A;&#x5354;&#x5B9A;&#x63A1;&#x7528; CSMA/CD&#xFF0C;&#x6C92;&#x6709;&#x63D0;&#x4F9B;&#x512A;&#x5148;&#x6B0A;&#x50B3;&#x8F38;&#x670D;&#x52D9;</li>
+<li>&#x8A0A;&#x6846;&#x683C;&#x5F0F;&#x70BA; IEEE 802.3 CSMA/CD &#x8A0A;&#x6846;</li>
+</ul>
+</li>
+<li><p>PHY&#x91CD;&#x8981;&#x7684;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x5BE6;&#x73FE;CSMA/CD&#x7684;&#x90E8;&#x5206;&#x529F;&#x80FD;</p>
+<ul>
+<li>&#x5B83;&#x53EF;&#x4EE5;&#x6AA2;&#x6E2C;&#x5230;&#x7DB2;&#x8DEF;&#x4E0A;&#x662F;&#x5426;&#x6709;&#x6578;&#x64DA;&#x5728;&#x50B3;&#x9001;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x6578;&#x64DA;&#x5728;&#x50B3;&#x9001;&#x4E2D;&#x5C31;&#x7B49;&#x5F85;</li>
+<li>&#x4E00;&#x65E6;&#x6AA2;&#x6E2C;&#x5230;&#x7DB2;&#x8DEF;&#x7A7A;&#x9591;&#xFF0C;&#x518D;&#x7B49;&#x5F85;&#x4E00;&#x500B;&#x96A8;&#x6A5F;&#x6642;&#x9593;&#x540E;&#x5C07;&#x9001;&#x6578;&#x64DA;&#x51FA;&#x53BB;</li>
+</ul>
+</li>
+<li><p>IEEE 802.3 CSMA/CD &#x8A0A;&#x6846;</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">size</th>
+<th style="text-align:left">item</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">Preamble</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">SOF(Start-of-Frame DElimiter)</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">Destiantion Address</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">Source Address</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">Length</td>
+</tr>
+<tr>
+<td style="text-align:left">46-15000</td>
+<td style="text-align:left">802.2 Header and Data</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">FCS (Frame Check Sequence)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ieee-8023-standard-relationship"><a href="#IEEE_802-3_Standard_relationship" class="headerlink" title="IEEE 802.3 Standard relationship"></a>IEEE 802.3 Standard relationship</h3><ul>
+<li>&#x51FA;&#x8655;-IEEE Standard for Ethernet.pdf(IEEE Std 802.3-2012) page 3</li>
+<li>
+</li>
+</ul>
+<img src="/2016/06/17/ethernet-mac-phy/ieee-802-3-starndard-relationship.png" width="520">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Interface</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PHY</td>
+<td style="text-align:left">physical layer device (&#x7531;PCS,PMA,PMD&#x7D44;&#x6210;)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">PCS physical conding sublayer</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">PMA physical medium attachment</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">PMD physical medium dependnet</td>
+</tr>
+<tr>
+<td style="text-align:left">MII</td>
+<td style="text-align:left">medium independent interafce</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">MII for 100BASE-T</td>
+</tr>
+<tr>
+<td style="text-align:left">AUI</td>
+<td style="text-align:left">attachment unit interface</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">AUI for 10BASE-T</td>
+</tr>
+<tr>
+<td style="text-align:left">MDI</td>
+<td style="text-align:left">medium dependent interface</td>
+</tr>
+<tr>
+<td style="text-align:left">xMII</td>
+<td style="text-align:left">MII for implementation of 100Mb/s and above</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">GMII for 1Gb/s</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">XGMII for 10Gb/s</td>
+</tr>
+</tbody>
+</table>
+<h2 id="&#x5BE6;&#x4F53;&#x4ECB;&#x9762;"><a href="#u5BE6_u4F53_u4ECB_u9762" class="headerlink" title="&#x5BE6;&#x4F53;&#x4ECB;&#x9762;"></a>&#x5BE6;&#x4F53;&#x4ECB;&#x9762;</h2><img src="/2016/06/17/ethernet-mac-phy/o_image_thumb_2.png" width="520">
+<ul>
+<li>PHY (ex.RTL8211EG IC&#x7528;&#x4F86;&#x5BE6;&#x505A;PHY)<ul>
+<li>INTEGRATED 10/100/1000M ETHERNET TRANSCEIVER</li>
+<li><a href="http://download3.dvd-driver.cz/realtek/datasheets/pdf/rtl8211e(g)-vb(vl)-cg_datasheet_1.6.pdf" target="_blank" rel="external">rtl8211e(g)-vb(vl)-cg_datasheet_1.6.pdf</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="mii"><a href="#MII" class="headerlink" title="MII"></a>MII</h3><ul>
+<li>&#x51FA;&#x8655;-<a href="http://cocdig.com/docs/show-post-38053.html" target="_blank" rel="external">MII,RMII,GMII&#x4ECB;&#x9762;&#x8A73;&#x7D30;&#x89E3;&#x91CB;</a></li>
+<li>&#x4E59;&#x592A;&#x7DB2;&#x5A92;&#x9AD4;&#x4ECB;&#x9762;&#x6709;&#xFF1A;MII RMII SMII GMII</li>
+<li>MII&#x662F;(Medium Independent Interface&#xFF09;&#x7684;&#x610F;&#x601D;&#xFF0C;&#x662F;&#x6307;&#x4E0D;&#x7528;&#x8003;&#x616E;&#x5A92;&#x9AD4;&#x662F;&#x9285;&#x8EF8;&#x3001;&#x5149;&#x7E96;&#x3001;&#x96FB;&#x7E9C;&#x7B49;&#xFF0C;</li>
+<li>&#x56E0;&#x70BA;&#x9019;&#x4E9B;&#x5A92;&#x9AD4;&#x8655;&#x7406;&#x7684;&#x76F8;&#x95DC;&#x5DE5;&#x4F5C;&#x90FD;&#x6709;PHY&#x6216;&#x8005;&#x53EB;&#x505A;MAC&#x7684;&#x6676;&#x5143;&#x5B8C;&#x6210;&#x3002;</li>
+<li>&#x201C;&#x5A92;&#x9AD4;&#x7368;&#x7ACB;&#x201D;&#x8868;&#x660E;&#x5728;&#x4E0D;&#x5C0D;MAC&#x786C;&#x9AD4;&#x91CD;&#x65B0;&#x8A2D;&#x8A08;&#x6216;&#x66FF;&#x63DB;&#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;&#x4EFB;&#x4F55;&#x985E;&#x578B;&#x7684;PHY&#x8A2D;&#x5099;&#x90FD;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;&#x3002;</li>
+<li>MII&#x6578;&#x64DA;&#x4ECB;&#x9762;&#x7E3D;&#x5171;&#x9700;&#x8981;16&#x500B;&#x4FE1;&#x865F;</li>
+<li>MII&#x7BA1;&#x7406;&#x4ECB;&#x9762;&#x662F;&#x500B;&#x96D9;&#x4FE1;&#x865F;&#x4ECB;&#x9762;&#xFF0C;&#x4E00;&#x500B;&#x662F;&#x6642;&#x9418;&#x4FE1;&#x865F;&#xFF0C;&#x53E6;&#x4E00;&#x500B;&#x662F;&#x6578;&#x64DA;&#x4FE1;&#x865F;&#x3002;</li>
+<li>PHY&#x88E1;&#x9762;&#x7684;&#x90E8;&#x5206;&#x5BC4;&#x5B58;&#x5668;&#x662F;IEEE&#x5B9A;&#x7FA9;&#x7684;&#xFF0C;&#x9019;&#x6A23;PHY&#x628A;&#x81EA;&#x5DF1;&#x7684;&#x76EE;&#x524D;&#x7684;&#x72C0;&#x614B;&#x53CD;&#x6620;&#x5230;&#x5BC4;&#x5B58;&#x5668;&#x88E1;&#x9762;</li>
+</ul>
+<h3 id="mii-rgmii"><a href="#MII_/RGMII" class="headerlink" title="MII /RGMII"></a>MII /RGMII</h3><ul>
+<li><a href="http://download3.dvd-driver.cz/realtek/datasheets/pdf/rtl8211e(g)-vb(vl)-cg_datasheet_1.6.pdf" target="_blank" rel="external">rtl8211e(g)-vb(vl)-cg_datasheet_1.6.pdf</a></li>
+<li>MII,RGMII</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">Transmitter</th>
+<th style="text-align:left">Reciveer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">MII(10Mbps)</td>
+<td style="text-align:left">transmit  4-bit, TXD[3:0]</td>
+<td style="text-align:left">4bit</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">clock: 2.5MHz(TXCLK)</td>
+<td style="text-align:left">2.5Mhz</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Manchester-encode data stream</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">MII(100Mbps)</td>
+<td style="text-align:left">trasmit 4-bit TX[3:0]</td>
+<td style="text-align:left">4bit</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">clock: 25MHz(TXCLK)</td>
+<td style="text-align:left">25Mhz</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">4B/5B coding technology</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">GMII(1000Mbps)</td>
+<td style="text-align:left">125Mbaud/s</td>
+<td style="text-align:left">8bit</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">4D-PAM5 coding techology</td>
+<td style="text-align:left">125MHz</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hi3521-mac"><a href="#Hi3521_MAC" class="headerlink" title="Hi3521 MAC"></a>Hi3521 MAC</h2><h3 id="rmii"><a href="#RMII" class="headerlink" title="RMII"></a>RMII</h3><ul>
+<li>&#x4F7F;&#x7528;RTL8211EG PHY&#xFF0C;&#x901A;&#x904E;RMII&#x4ECB;&#x9762;&#x4E32;&#x63A5;&#x5230;Hi3521</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">pin</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">TXD[0-3]</td>
+<td style="text-align:left">MAC to PHY</td>
+</tr>
+<tr>
+<td style="text-align:left">TXEN</td>
+<td style="text-align:left">Transmit Enable</td>
+</tr>
+<tr>
+<td style="text-align:left">TXCK</td>
+<td style="text-align:left">transmit clok 2.5MHz or 25MHz</td>
+</tr>
+<tr>
+<td style="text-align:left">TXCKOUT</td>
+<td style="text-align:left">transmit clock 125MHz</td>
+</tr>
+<tr>
+<td style="text-align:left">RXD[0-3]</td>
+<td style="text-align:left">PHY to MAC</td>
+</tr>
+<tr>
+<td style="text-align:left">RXDV</td>
+<td style="text-align:left">receive data vad</td>
+</tr>
+<tr>
+<td style="text-align:left">RX_CK</td>
+<td style="text-align:left">phy. RXCLK source the 125MHz receive clock</td>
+</tr>
+<tr>
+<td style="text-align:left">MDC</td>
+<td style="text-align:left">Management Data Clock.</td>
+</tr>
+<tr>
+<td style="text-align:left">MDIO</td>
+<td style="text-align:left">Input/Output of Management Data.</td>
+</tr>
+<tr>
+<td style="text-align:left">CRS</td>
+<td style="text-align:left">Carrier Sense  (&#x7531;phy&#x7522;&#x751F;)</td>
+</tr>
+<tr>
+<td style="text-align:left">COL</td>
+<td style="text-align:left">Collision In Half Duplex Mode.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>the MDC and MDIO pins as described in IEEE 802.3u section 22.</li>
+<li>The MDC signal, provided by the MAC, is the management data clock reference to the MDIO signal</li>
+</ul>
+<h3 id="hi3521-ethernet-port"><a href="#Hi3521_Ethernet_Port" class="headerlink" title="Hi3521 Ethernet Port"></a>Hi3521 Ethernet Port</h3><img src="/2016/06/17/ethernet-mac-phy/hi3521-toe-block.png" width="520">
+<ul>
+<li><p>gigabit media access control GMAC)</p>
+<ul>
+<li>RGMII or MII mode</li>
+<li>10/100 Mbit/s full-duplex or half-duplex mode</li>
+<li>1000 Mbit/s full-duplex mode</li>
+<li>TOE for reducing the CPU usage</li>
+<li>provide a management data input/output (MDIO) interface</li>
+</ul>
+</li>
+<li><p>GMAC pin</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">pin</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">RGMII_COL</td>
+<td style="text-align:left">RGMII-&gt; Collision indicator signal</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">MII -&gt; RGMII_TXER</td>
+</tr>
+<tr>
+<td style="text-align:left">RGMII_CRS</td>
+<td style="text-align:left">RGMII -&gt; RGMII_CRS</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">MII -&gt; RGMII_RXER</td>
+</tr>
+<tr>
+<td style="text-align:left">RGMII_RXCLK</td>
+<td style="text-align:left">Receive clock for the RGMII or MII</td>
+</tr>
+<tr>
+<td style="text-align:left">RGMII_RXD[0-3]</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">RGMII_RXDV</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">RGMII_TXCK</td>
+<td style="text-align:left">MII -&gt; RGMII_TXCK</td>
+</tr>
+<tr>
+<td style="text-align:left">RGMII_TXCKOUT</td>
+<td style="text-align:left">RGMII</td>
+</tr>
+<tr>
+<td style="text-align:left">RGMII_TXD[0-3]</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">RGMII_TXEN</td>
+<td style="text-align:left">transmit data enable of the RGMII or MII</td>
+</tr>
+</tbody>
+</table>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://technet2u.com/what-is-osi-model/" target="_blank" rel="external">What is OSI Model</a></li>
+<li><a href="https://www.csie.ntu.edu.tw/~b6506066/Micro2/o_s_i.htm" target="_blank" rel="external">OSI</a></li>
+<li><a href="https://en.wikipedia.org/wiki/OSI_model" target="_blank" rel="external">wiki OSI</a></li>
+<li><a href="http://www.cs.nthu.edu.tw/~nfhuang/chap04.htm" target="_blank" rel="external">IEEE 802.3 CSMA/CD&#x7DB2;&#x8DEF;</a></li>
+<li><a href="http://cocdig.com/docs/show-post-38053.html" target="_blank" rel="external">MII,RMII,GMII&#x4ECB;&#x9762;&#x8A73;&#x7D30;&#x89E3;&#x91CB;</a></li>
+<li><a href="http://download3.dvd-driver.cz/realtek/datasheets/pdf/rtl8211e(g)-vb(vl)-cg_datasheet_1.6.pdf" target="_blank" rel="external">rtl8211e(g)-vb(vl)-cg_datasheet_1.6.pdf</a></li>
+<li><a href="http://blog.csdn.net/sahusoft/article/details/6908753" target="_blank" rel="external">&#x6D45;&#x8C08;MAC&#x3001;MII&#x3001;PHY </a></li>
+<li><a href="http://blog.csdn.net/dark_goldz/article/details/4691773" target="_blank" rel="external">IEEE 802.3&#x548C;&#x4EE5;&#x592A;&#x7F51; </a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/ethernet/" rel="tag">#ethernet</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/16/ioctl-basic/" rel="next" title="ioctl-basic">
+                <i class="fa fa-chevron-left"></i> ioctl-basic
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/23/web-server/" rel="prev" title="web-server">
+                web-server <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理了解"><span class="nav-number">3.</span> <span class="nav-text">基本原理了解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#osi-model"><span class="nav-number">3.1.</span> <span class="nav-text">OSI model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ieee-std-802"><span class="nav-number">3.2.</span> <span class="nav-text">IEEE STD 802</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csmacd"><span class="nav-number">3.3.</span> <span class="nav-text">CSMA/CD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ieee-8023-standard-relationship"><span class="nav-number">3.4.</span> <span class="nav-text">IEEE 802.3 Standard relationship</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實体介面"><span class="nav-number">4.</span> <span class="nav-text">實体介面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mii"><span class="nav-number">4.1.</span> <span class="nav-text">MII</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mii-rgmii"><span class="nav-number">4.2.</span> <span class="nav-text">MII /RGMII</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hi3521-mac"><span class="nav-number">5.</span> <span class="nav-text">Hi3521 MAC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rmii"><span class="nav-number">5.1.</span> <span class="nav-text">RMII</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hi3521-ethernet-port"><span class="nav-number">5.2.</span> <span class="nav-text">Hi3521 Ethernet Port</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">6.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/06/17/ethernet-mac-phy/';
+      var disqus_title = 'ethernet-mac-phy';
+      var disqus_url = 'http://yoursite.com/2016/06/17/ethernet-mac-phy/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

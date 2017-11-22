@@ -1,0 +1,966 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,rt_table," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="發現rootfs裡面有個檔案 /etc/iptable2/rt_tables了解一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="routing-tables">
+<meta property="og:url" content="http://yoursite.com/2016/08/04/routing-tables/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="發現rootfs裡面有個檔案 /etc/iptable2/rt_tables了解一下">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.543Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="routing-tables">
+<meta name="twitter:description" content="發現rootfs裡面有個檔案 /etc/iptable2/rt_tables了解一下">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> routing-tables | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                routing-tables
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-08-04T14:17:31+08:00" content="2016-08-04">
+              2016-08-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/04/routing-tables/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/04/routing-tables/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/04/routing-tables/" class="leancloud_visitors" data-flag-title="routing-tables">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x767C;&#x73FE;rootfs&#x88E1;&#x9762;&#x6709;&#x500B;&#x6A94;&#x6848; /etc/iptable2/rt_tables<br>&#x4E86;&#x89E3;&#x4E00;&#x4E0B;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160804</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#routing-tables">Routing Tables</a></li>
+<li><a href="#ip-routing">IP Routing</a></li>
+<li><a href="#&#x677F;&#x7AEF;&#x5BE6;&#x969B;&#x72C0;&#x614B;">&#x677F;&#x7AEF;&#x5BE6;&#x969B;&#x72C0;&#x614B;</a><ul>
+<li><a href="#&#x53EA;&#x6709;eth0&#x4ECB;&#x9762;">&#x53EA;&#x6709;eth0&#x4ECB;&#x9762;</a></li>
+<li><a href="#&#x53EA;&#x6709;eth0-ppp2-&#x4ECB;&#x9762;">&#x53EA;&#x6709;eth0&amp; ppp2 &#x4ECB;&#x9762;</a></li>
+<li><a href="#ip-command">ip command</a></li>
+<li><a href="#ip-rule-show-&#x67E5;&#x770B;&#x76EE;&#x524D;&#x6709;&#x591A;&#x5C11;table&#x8868;">ip rule show &#x67E5;&#x770B;&#x76EE;&#x524D;&#x6709;&#x591A;&#x5C11;table&#x8868;</a></li>
+<li><a href="#ip-route-show-xx-&#x67E5;&#x770B;table&#x5167;&#x5BB9;">ip route show xx (&#x67E5;&#x770B;table&#x5167;&#x5BB9;)</a></li>
+<li><a href="#listing-the-routing-policy-database-rpdb">Listing the Routing Policy Database (RPDB)</a></li>
+</ul>
+</li>
+<li><a href="#other">Other</a><ul>
+<li><a href="#promiscuous-mode">Promiscuous mode</a></li>
+<li><a href="#kernel-config">kernel config</a></li>
+</ul>
+</li>
+<li><a href="#rt_tables&#x5BE6;&#x969B;&#x4F8B;&#x5B50;">rt_tables&#x5BE6;&#x969B;&#x4F8B;&#x5B50;</a><ul>
+<li><a href="#&#x554F;&#x984C;&#x7121;&#x6CD5;&#x7531;&#x5916;&#x90E8;ping&#x5230;1986100176">&#x554F;&#x984C;&#xFF1A;&#x7121;&#x6CD5;&#x7531;&#x5916;&#x90E8;ping&#x5230;19.86.100.176</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="routing-tables"><a href="#Routing_Tables" class="headerlink" title="Routing Tables"></a>Routing Tables</h2><ul>
+<li>Linux kernel 2.2 and 2.4 support multiple routing tables</li>
+<li>Beyond the two commonly used routing tables<ul>
+<li>the local and main routing tables</li>
+<li>the kernel supports up to 252 additional routing tables</li>
+</ul>
+</li>
+<li>kernel config &#x53EF;&#x4EE5;&#x8A2D;&#x5B9A;&#x662F;&#x5426;&#x958B;&#x555F;&#x652F;&#x63F4;ip multiple table<br>&#x76EE;&#x524D;&#x9810;&#x8A2D;&#x90FD;&#x662F;&#x6253;&#x958B; CONFIG_IP_MULTIPLE_TABLES</li>
+<li>ip table&#x512A;&#x5148;&#x9806;&#x5E8F;&#x5BEB;&#x5728;/etc/iptabe2/rt_tables&#x88E1;&#x9762; (&#x6578;&#x5B57;&#x8D8A;&#x5C0F;&#x7684;&#x6700;&#x5148;&#x6BD4;&#x8F03;&#x5224;&#x65B7;&#xFF0C;&#x5373;0&#x70BA;&#x6700;&#x9AD8;&#x512A;&#x5148;table)</li>
+<li>&#x5373;&#x4F7F;&#x6C92;&#x6709;/etc/iptable2/rt_tables&#x6A94;&#x6848;&#xFF0C;&#x7CFB;&#x7D71;&#x88E1;&#x9762;&#x9084;&#x6709;&#x9810;&#x8A2D;(local&#x53CA;main&#x7684;table)</li>
+</ul>
+<h2 id="ip-routing"><a href="#IP_Routing" class="headerlink" title="IP Routing"></a>IP Routing</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat /etc/iproute2/rt_tables </span><br><span class="line">#</span><br><span class="line"># reserved values</span><br><span class="line">#</span><br><span class="line">255     local   -&gt;  &lt;1&gt;</span><br><span class="line">254     main   -&gt; &lt;2&gt;</span><br><span class="line">253     default</span><br><span class="line">0       unspec</span><br><span class="line">#</span><br><span class="line"># local</span><br><span class="line">#</span><br><span class="line">#1      inr.ruhep</span><br></pre></td></tr></table></figure>
+<ul>
+<li><1> The local table is a special routing table maintained by the kernel</1></li>
+<li><2> The main routing table is the table operated upon by route and, when not otherwise specified, by ip route</2></li>
+</ul>
+<hr>
+<h2 id="&#x677F;&#x7AEF;&#x5BE6;&#x969B;&#x72C0;&#x614B;"><a href="#u677F_u7AEF_u5BE6_u969B_u72C0_u614B" class="headerlink" title="&#x677F;&#x7AEF;&#x5BE6;&#x969B;&#x72C0;&#x614B;"></a>&#x677F;&#x7AEF;&#x5BE6;&#x969B;&#x72C0;&#x614B;</h2><h3 id="&#x53EA;&#x6709;eth0&#x4ECB;&#x9762;"><a href="#u53EA_u6709eth0_u4ECB_u9762" class="headerlink" title="&#x53EA;&#x6709;eth0&#x4ECB;&#x9762;"></a>&#x53EA;&#x6709;eth0&#x4ECB;&#x9762;</h3><ul>
+<li>netstat -rn (&#x540C;route -n)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# netstat -rn</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface</span><br><span class="line">192.168.0.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>rule tabe</li>
+</ul>
+<p>&#x76EE;&#x524D;&#x6709; local &gt; main &gt; default (3&#x500B;table)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip rule show</span><br><span class="line">0:      from all lookup local </span><br><span class="line">32766:  from all lookup main </span><br><span class="line">32767:  from all lookup default</span><br></pre></td></tr></table></figure>
+<p>default table &#x5167;&#x5BB9;&#x70BA;&#x7A7A;&#x7684;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip route show table local</span><br><span class="line">broadcast 127.0.0.0 dev lo  src 127.0.0.1 </span><br><span class="line">local 127.0.0.0/8 dev lo  src 127.0.0.1 </span><br><span class="line">local 127.0.0.1 dev lo  src 127.0.0.1 </span><br><span class="line">broadcast 127.255.255.255 dev lo  src 127.0.0.1 </span><br><span class="line">broadcast 192.168.0.0 dev eth0  src 192.168.0.130 </span><br><span class="line">local 192.168.0.130 dev eth0  src 192.168.0.130 </span><br><span class="line">broadcast 192.168.0.255 dev eth0  src 192.168.0.130 </span><br><span class="line"></span><br><span class="line">gk350a :[~]# ip route show table main </span><br><span class="line">192.168.0.0/24 dev eth0  src 192.168.0.130 </span><br><span class="line"></span><br><span class="line">gk350a :[~]# ip route show table default</span><br><span class="line">gk350a :[~]#</span><br></pre></td></tr></table></figure>
+<h3 id="&#x53EA;&#x6709;eth0-ppp2-&#x4ECB;&#x9762;"><a href="#u53EA_u6709eth0_26amp_3B_ppp2__u4ECB_u9762" class="headerlink" title="&#x53EA;&#x6709;eth0&amp; ppp2 &#x4ECB;&#x9762;"></a>&#x53EA;&#x6709;eth0&amp; ppp2 &#x4ECB;&#x9762;</h3><ul>
+<li>netstat -rn</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# netstat -rn</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface</span><br><span class="line">0.0.0.0         0.0.0.0         0.0.0.0         U         0 0          0 ppp2</span><br><span class="line">168.95.98.254   0.0.0.0         255.255.255.255 UH        0 0          0 ppp2</span><br><span class="line">192.168.0.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>rule tabe</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip rule show</span><br><span class="line">0:      from all lookup local </span><br><span class="line">32766:  from all lookup main </span><br><span class="line">32767:  from all lookup default</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip route show table local</span><br><span class="line">local 1.165.95.2 dev ppp2  src 1.165.95.2 </span><br><span class="line">broadcast 127.0.0.0 dev lo  src 127.0.0.1 </span><br><span class="line">local 127.0.0.0/8 dev lo  src 127.0.0.1 </span><br><span class="line">local 127.0.0.1 dev lo  src 127.0.0.1 </span><br><span class="line">broadcast 127.255.255.255 dev lo  src 127.0.0.1 </span><br><span class="line">broadcast 192.168.0.0 dev eth0  src 192.168.0.130 </span><br><span class="line">local 192.168.0.130 dev eth0  src 192.168.0.130 </span><br><span class="line">broadcast 192.168.0.255 dev eth0  src 192.168.0.130 </span><br><span class="line"></span><br><span class="line">gk350a :[~]# ip route show table main</span><br><span class="line">default dev ppp2 </span><br><span class="line">168.95.98.254 dev ppp2  src 1.165.95.2 </span><br><span class="line">192.168.0.0/24 dev eth0  src 192.168.0.130 </span><br><span class="line"></span><br><span class="line">gk350a :[~]# ip route show table default</span><br><span class="line">gk350a :[~]#</span><br></pre></td></tr></table></figure>
+<h3 id="ip-command"><a href="#ip_command" class="headerlink" title="ip command"></a>ip command</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip</span><br><span class="line">BusyBox v1.16.1 (2016-02-19 09:03:37 UTC) multi-call binary.</span><br><span class="line"></span><br><span class="line">Usage: ip [OPTIONS] {address | route | link | tunnel | rule} {COMMAND}</span><br><span class="line"></span><br><span class="line">ip [OPTIONS] OBJECT {COMMAND}</span><br><span class="line">where OBJECT := {address | route | link | tunnel | rule}</span><br><span class="line">OPTIONS := { -f[amily] { inet | inet6 | link } | -o[neline] }</span><br></pre></td></tr></table></figure>
+<h3 id="ip-rule-show-&#x67E5;&#x770B;&#x76EE;&#x524D;&#x6709;&#x591A;&#x5C11;table&#x8868;"><a href="#ip_rule_show__u67E5_u770B_u76EE_u524D_u6709_u591A_u5C11table_u8868" class="headerlink" title="ip rule show &#x67E5;&#x770B;&#x76EE;&#x524D;&#x6709;&#x591A;&#x5C11;table&#x8868;"></a>ip rule show &#x67E5;&#x770B;&#x76EE;&#x524D;&#x6709;&#x591A;&#x5C11;table&#x8868;</h3><ul>
+<li>&#x76EE;&#x524D;&#x6709;local &gt; pppoe &gt; main &gt; default (&#x5171;4&#x500B;table)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip rule show</span><br><span class="line">0:      from all lookup local </span><br><span class="line"> 2765:  from 192.168.0.120 lookup pppoe</span><br><span class="line">32766:  from all lookup main </span><br><span class="line">32767:  from all lookup default</span><br></pre></td></tr></table></figure>
+<h3 id="ip-route-show-xx-&#x67E5;&#x770B;table&#x5167;&#x5BB9;"><a href="#ip_route_show_xx__28_u67E5_u770Btable_u5167_u5BB9_29" class="headerlink" title="ip route show xx (&#x67E5;&#x770B;table&#x5167;&#x5BB9;)"></a>ip route show xx (&#x67E5;&#x770B;table&#x5167;&#x5BB9;)</h3><ul>
+<li>ip route show (&#x9810;&#x8A2D;&#x662F;man table)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip route show </span><br><span class="line">default dev ppp2 </span><br><span class="line">168.95.98.254 dev ppp2  src 111.246.132.72 </span><br><span class="line">192.168.0.0/24 dev eth0  src 192.168.0.130 </span><br><span class="line"></span><br><span class="line">gk350a :[~]# ip route show table main</span><br><span class="line">default dev ppp2 </span><br><span class="line">168.95.98.254 dev ppp2  src 111.246.132.72 </span><br><span class="line">192.168.0.0/24 dev eth0  src 192.168.0.130</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ip route show table local</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip route show table local</span><br><span class="line">local 111.246.132.72 dev ppp2  src 111.246.132.72 </span><br><span class="line">broadcast 127.0.0.0 dev lo  src 127.0.0.1 </span><br><span class="line">local 127.0.0.0/8 dev lo  src 127.0.0.1 </span><br><span class="line">local 127.0.0.1 dev lo  src 127.0.0.1 </span><br><span class="line">broadcast 127.255.255.255 dev lo  src 127.0.0.1 </span><br><span class="line">broadcast 192.168.0.0 dev eth0  src 192.168.0.130 </span><br><span class="line">local 192.168.0.130 dev eth0  src 192.168.0.130 </span><br><span class="line">broadcast 192.168.0.255 dev eth0  src 192.168.0.130 </span><br><span class="line">gk350a :[~]# ip route show table pppoe</span><br><span class="line">ip: invalid argument &apos;pppoe&apos; to &apos;table&apos;</span><br><span class="line">gk350a :[~]# ip route show table ppp2 </span><br><span class="line">ip: invalid argument &apos;ppp2&apos; to &apos;table</span><br></pre></td></tr></table></figure>
+<h3 id="listing-the-routing-policy-database-rpdb"><a href="#Listing_the_Routing_Policy_Database__28RPDB_29" class="headerlink" title="Listing the Routing Policy Database (RPDB)"></a>Listing the Routing Policy Database (RPDB)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[~]# ip rule show</span><br><span class="line">0:      from all lookup local </span><br><span class="line"> 2765:  from 192.168.0.120 lookup pppoe</span><br><span class="line">32766:  from all lookup main </span><br><span class="line">32767:  from all lookup default</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="other"><a href="#Other" class="headerlink" title="Other"></a>Other</h2><h3 id="promiscuous-mode"><a href="#Promiscuous_mode" class="headerlink" title="Promiscuous mode"></a>Promiscuous mode</h3><p>&#x7576;&#x4F60;&#x67E5;&#x770B;ifconfig&#x8A2D;&#x5B9A;&#x503C;&#x90FD;&#x6B63;&#x78BA;&#xFF0C;&#x4F46;&#x7DB2;&#x8DEF;&#x5C01;&#x5305;&#x5C31;&#x662F;&#x51FA;&#x7684;&#x53BB;&#x9032;&#x4E0D;&#x4F86;&#xFF0C;<br>&#x6B64;&#x6642;&#x53EF;&#x4EE5;&#x958B;&#x555F;(Promiscuous mode)&#xFF0C;&#x6E2C;&#x8A66;&#x82E5;&#x5C31;&#x9032;&#x7684;&#x4F86;&#xFF0C;&#x8868;&#x793A;&#x4F60;&#x7684;routing table&#x6709;&#x554F;&#x984C;</p>
+<ul>
+<li>Following will put the interface in promiscuous mode.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 promisc</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Following will put the interface in normal mode.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 -promisc</span><br></pre></td></tr></table></figure>
+<h3 id="kernel-config"><a href="#kernel_config" class="headerlink" title="kernel config"></a>kernel config</h3><ul>
+<li>IP: policy routing<br>&#x6C7A;&#x5B9A;&#x662F;&#x5426;&#x958B;&#x555F;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[*] TCP/IP networking</span><br><span class="line">[*]   IP: multicasting</span><br><span class="line">[*]   IP: advanced router</span><br><span class="line">[ ]     FIB TRIE statistics</span><br><span class="line">[*]     IP: policy routing    -&gt; IP_MULTIPLE_TABLES [=y]</span><br><span class="line">[*]     IP: equal cost multipath</span><br><span class="line">[*]     IP: verbose route monitoring</span><br><span class="line">[*]   IP: kernel level autoconfiguration</span><br><span class="line">[ ]     IP: DHCP support</span><br><span class="line">[ ]     IP: BOOTP support </span><br><span class="line">[ ]     IP: RARP support</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CONFIG_IP_MULTIPLE_TABLES:</span><br><span class="line">Normally, a router decides what to do with a received packet based</span><br><span class="line">solely on the packet&apos;s final destination address. If you say Y here,</span><br><span class="line">the Linux router will also be able to take the packet&apos;s source</span><br><span class="line">address into account. Furthermore, the TOS (Type-Of-Service) field</span><br><span class="line">of the packet can be used for routing decisions as well.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x53C3;&#x8003;&#x8AAA;&#x660E;&#x4F86;&#x6E90;: <a href="http://www.compendium.com.ar/policy-routing.txt" target="_blank" rel="external">Policy based routing MICRO-HOWTO</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">4.1. Listing rules.</span><br><span class="line"></span><br><span class="line">The command to list the rules table is &quot;ip rule list&quot;, more often</span><br><span class="line">abbreviate as &quot;ip ru ls&quot;.</span><br><span class="line"></span><br><span class="line">Look at its output:</span><br><span class="line"></span><br><span class="line">0:      from all lookup local</span><br><span class="line">32766:  from all lookup main</span><br><span class="line">32767:  from all lookup default</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="rt_tables&#x5BE6;&#x969B;&#x4F8B;&#x5B50;"><a href="#rt_tables_u5BE6_u969B_u4F8B_u5B50" class="headerlink" title="rt_tables&#x5BE6;&#x969B;&#x4F8B;&#x5B50;"></a>rt_tables&#x5BE6;&#x969B;&#x4F8B;&#x5B50;</h2><ul>
+<li><p>&#x6709;&#x7A7A;&#x627E;&#x500B;&#x5BE6;&#x969B;&#x7684;&#x786C;&#x4F53;&#x4F86;&#x8A66;&#x4E00;&#x4E0B;</p>
+</li>
+<li><p><a href="http://www.thegeekstuff.com/2014/08/add-route-ip-command/" target="_blank" rel="external">How to Add Multiple Routes in Linux Using ip </a></p>
+</li>
+<li><p>&#x6709;&#x5169;&#x500B;&#x7DB2;&#x5361;&#xFF0C;&#x9810;&#x8A2D;gateway&#x70BA;eth0 (19.86.101.x)</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># ifconfig -a</span><br><span class="line">eth0      Link encap:Ethernet  HWaddr 00:50:56:8E:0B:EC</span><br><span class="line">          inet addr:19.86.101.54  Bcast:19.86.101.255  Mask:255.255.255.0</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:3735 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:336 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:295679 (288.7 Kb)  TX bytes:50312 (49.1 Kb)</span><br><span class="line"></span><br><span class="line">eth1      Link encap:Ethernet  HWaddr 00:50:56:8E:27:0D</span><br><span class="line">          inet addr:19.86.100.176  Bcast:19.86.100.255  Mask:255.255.255.0</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:14 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:840 (840.0 b)  TX bytes:0 (0.0 b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># netstat -rn</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface</span><br><span class="line">0.0.0.0         19.86.101.1     0.0.0.0         UG        0 0          0 eth0</span><br><span class="line">19.86.100.0     0.0.0.0         255.255.255.0   U         0 0          0 eth1</span><br><span class="line">19.86.101.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0</span><br><span class="line">127.0.0.0       0.0.0.0         255.0.0.0       U         0 0          0 lo</span><br><span class="line">169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0</span><br></pre></td></tr></table></figure>
+<h3 id="&#x554F;&#x984C;&#x7121;&#x6CD5;&#x7531;&#x5916;&#x90E8;ping&#x5230;1986100176"><a href="#u554F_u984C_uFF1A_u7121_u6CD5_u7531_u5916_u90E8ping_u523019-86-100-176" class="headerlink" title="&#x554F;&#x984C;&#xFF1A;&#x7121;&#x6CD5;&#x7531;&#x5916;&#x90E8;ping&#x5230;19.86.100.176"></a>&#x554F;&#x984C;&#xFF1A;&#x7121;&#x6CD5;&#x7531;&#x5916;&#x90E8;ping&#x5230;19.86.100.176</h3><ul>
+<li>When you ping the IP address 19.86.100.176 from outside your network you may notice that it will not be pingable.</li>
+<li><p>In order to implement this, you need a create a new policy in the routing table</p>
+</li>
+<li><p>create a new policy routing table entry in /etc/iproute2/rt_tables file</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;1 admin&quot; &gt;&gt; /etc/iproute2/rt_tables</span><br></pre></td></tr></table></figure>
+<ul>
+<li>add the routing entries in the admin table</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip route add 19.86.100.0/24 dev eth1 src 19.86.100.176 table admin</span><br><span class="line">ip route add default via 19.86.100.1 dev eth1 table admin</span><br></pre></td></tr></table></figure>
+<ul>
+<li>All the rules are executed in the ascending order.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;1&gt; ip rule add from 19.86.100.176/24 table admin</span><br><span class="line">&lt;2&gt; ip rule add to 19.86.100.176/24 table admin</span><br><span class="line">&lt;3&gt; ip route flush cache</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>&#x8AAA;&#x660E;</p>
+<ul>
+<li><1> all the traffic going <strong>to eth1&#x2019;s IP</strong> needs to use the &#x201C;admin&#x201D; routing table instead of &#x201C;main&#x201D;</1></li>
+<li><2> all the outgoing traffic <strong>from eth1&#x2019;s IP</strong> needs to use the &#x201C;admin&#x201D; routing table instead of &#x201C;main&#x201D; one.</2></li>
+<li><3> used to commit all these changes in the previous commands</3></li>
+</ul>
+</li>
+<li><p>verify that your changes are made appropriately using the following command</p>
+</li>
+</ul>
+<pre><code># ip rule show
+0:      from all lookup local
+32764:  from all to 19.86.100.176/24 lookup admin
+32765:  from 19.86.100.176/24 lookup admin
+32766:  from all lookup main
+32767:  from all lookup default
+</code></pre><h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://www.study-area.org/tips/adv-route/Adv-Routing-HOWTO-3.html" target="_blank" rel="external">&#x4ECB;&#x7D39; iproute2</a></li>
+<li><a href="https://wiki.linuxfoundation.org/networking/iproute2" target="_blank" rel="external">iproute2</a></li>
+<li><a href="http://www.thegeekstuff.com/2009/03/ifconfig-7-examples-to-configure-network-interface" target="_blank" rel="external">Ifconfig: 7 Examples To Configure Network Interface</a></li>
+<li><a href="http://linux-ip.net/html/routing-tables.html#list-routing-route-types" target="_blank" rel="external">Chapter 4. IP Routing</a></li>
+<li><a href="http://www.compendium.com.ar/policy-routing.txt" target="_blank" rel="external">Policy based routing MICRO-HOWTO</a></li>
+<li><a href="http://www.thegeekstuff.com/2014/08/add-route-ip-command/" target="_blank" rel="external">How to Add Multiple Routes in Linux Using ip </a></li>
+<li><a href="http://www.study-area.org/tips/adv-route/Adv-Routing-HOWTO.html#toc9" target="_blank" rel="external">Linux 2.4 Advanced Routing HOWTO</a></li>
+<li><a href="http://blog.scottlowe.org/2013/05/29/a-quick-introduction-to-linux-policy-routing/" target="_blank" rel="external">A Quick Introduction to Linux Policy Routing</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/rt-table/" rel="tag">#rt_table</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/29/shell-script/" rel="next" title="shell-script">
+                <i class="fa fa-chevron-left"></i> shell-script
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/08/pppd-script/" rel="prev" title="pppd-script">
+                pppd-script <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#routing-tables"><span class="nav-number">3.</span> <span class="nav-text">Routing Tables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ip-routing"><span class="nav-number">4.</span> <span class="nav-text">IP Routing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#板端實際狀態"><span class="nav-number">5.</span> <span class="nav-text">板端實際狀態</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#只有eth0介面"><span class="nav-number">5.1.</span> <span class="nav-text">只有eth0介面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只有eth0-ppp2-介面"><span class="nav-number">5.2.</span> <span class="nav-text">只有eth0& ppp2 介面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ip-command"><span class="nav-number">5.3.</span> <span class="nav-text">ip command</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ip-rule-show-查看目前有多少table表"><span class="nav-number">5.4.</span> <span class="nav-text">ip rule show 查看目前有多少table表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ip-route-show-xx-查看table內容"><span class="nav-number">5.5.</span> <span class="nav-text">ip route show xx (查看table內容)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#listing-the-routing-policy-database-rpdb"><span class="nav-number">5.6.</span> <span class="nav-text">Listing the Routing Policy Database (RPDB)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#other"><span class="nav-number">6.</span> <span class="nav-text">Other</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#promiscuous-mode"><span class="nav-number">6.1.</span> <span class="nav-text">Promiscuous mode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kernel-config"><span class="nav-number">6.2.</span> <span class="nav-text">kernel config</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rt_tables實際例子"><span class="nav-number">7.</span> <span class="nav-text">rt_tables實際例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#問題無法由外部ping到1986100176"><span class="nav-number">7.1.</span> <span class="nav-text">問題：無法由外部ping到19.86.100.176</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">8.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/08/04/routing-tables/';
+      var disqus_title = 'routing-tables';
+      var disqus_url = 'http://yoursite.com/2016/08/04/routing-tables/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

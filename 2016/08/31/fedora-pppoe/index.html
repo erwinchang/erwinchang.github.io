@@ -1,0 +1,952 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,fedora,dom,pppoe," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解dom fedora pppoe程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fedora-pppoe">
+<meta property="og:url" content="http://yoursite.com/2016/08/31/fedora-pppoe/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解dom fedora pppoe程序">
+<meta property="og:image" content="http://yoursite.com/2016/08/31/fedora-pppoe/pppoe_client.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/31/fedora-pppoe/pppoe-start.png">
+<meta property="og:image" content="http://yoursite.com/2016/08/31/fedora-pppoe/pppoe-connect.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="fedora-pppoe">
+<meta name="twitter:description" content="了解dom fedora pppoe程序">
+<meta name="twitter:image" content="http://yoursite.com/2016/08/31/fedora-pppoe/pppoe_client.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> fedora-pppoe | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                fedora-pppoe
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-08-31T10:36:34+08:00" content="2016-08-31">
+              2016-08-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/31/fedora-pppoe/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/31/fedora-pppoe/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/31/fedora-pppoe/" class="leancloud_visitors" data-flag-title="fedora-pppoe">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;dom fedora pppoe&#x7A0B;&#x5E8F;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160831</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+<tr>
+<td style="text-align:left">20160902</td>
+<td style="text-align:left">&#x65B0;&#x589E;: pppoe-start &#x6D41;&#x7A0B;&#x5716;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">&#x65B0;&#x589E;: pppoe-connect &#x6D41;&#x7A0B;&#x5716;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#dom-fedora">dom fedora</a><ul>
+<li><a href="#ldvr_pppoe_client">ldvr_pppoe_client</a></li>
+<li><a href="#pppoe-start-script">pppoe-start script</a></li>
+<li><a href="#pppoe-connect-script">pppoe-connect script</a></li>
+<li><a href="#pppoe_stop">pppoe_stop</a></li>
+<li><a href="#pppoe-status">pppoe-status</a></li>
+</ul>
+</li>
+<li><a href="#process-&#x7A0B;&#x5E8F;">process &#x7A0B;&#x5E8F;</a><ul>
+<li><a href="#pppoe-connect-pppd-pppoe">pppoe-connect , pppd, pppoe</a></li>
+</ul>
+</li>
+<li><a href="#pppoe-&#x76F8;&#x95DC;&#x6A94;&#x6848;">pppoe &#x76F8;&#x95DC;&#x6A94;&#x6848;</a><ul>
+<li><a href="#pppd">pppd</a></li>
+<li><a href="#ppp-script">ppp script</a></li>
+<li><a href="#&#x6A94;&#x6848;&#x67B6;&#x69CB;">&#x6A94;&#x6848;&#x67B6;&#x69CB;</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="dom-fedora"><a href="#dom_fedora" class="headerlink" title="dom fedora"></a>dom fedora</h2><h3 id="ldvr_pppoe_client"><a href="#ldvr_pppoe_client" class="headerlink" title="ldvr_pppoe_client"></a>ldvr_pppoe_client</h3><ul>
+<li>&#x6BCF;2&#x5206;&#x9418;&#x6AA2;&#x67E5;&#x4E00;&#x6B21;</li>
+<li>&#x82E5;&#x8A2D;&#x5B9A;&#x503C;&#x70BA;&#x9023;&#x7DDA;<ul>
+<li>&#x5247;&#x78BA;&#x5B9A;&#x662F;&#x5426;&#x6709;pppoe&#x4ECB;&#x9762;(&#x5373;ifconfig | grep ppp0)</li>
+<li>&#x82E5;&#x7121;&#x5247;&#x91CD;&#x65B0;&#x64A5;&#x865F;(&#x5373;pppoe_stop&#x518D;pppoe_start) </li>
+</ul>
+</li>
+<li>pppoe_start: &#x5373;system(pppoe-start)</li>
+<li>pppoe_stop: &#x5373;system(pppoe-stop) </li>
+</ul>
+<img src="/2016/08/31/fedora-pppoe/pppoe_client.png" alt="[ldvr_pppoe_client]" title="[ldvr_pppoe_client]">
+<h3 id="pppoe-start-script"><a href="#pppoe-start_script" class="headerlink" title="pppoe-start script"></a>pppoe-start script</h3><ul>
+<li>/var/run/pppoe-adsl.pid(&#x5132;&#x5B58;pppoe-connect&#x7684;pid)</li>
+<li>/var/run/pppoe-adsl.pid.pppd(&#x5132;&#x5B58;pppd&#x7684;pid)</li>
+<li>/var/run/pppoe-adsl.pid.pppoe(&#x5132;&#x5B58;pppoe&#x7684;pid)</li>
+</ul>
+<img src="/2016/08/31/fedora-pppoe/pppoe-start.png" alt="[pppoe-start]" title="[pppoe-start]">
+<ul>
+<li><p>1.&#x78BA;&#x8A8D;/var/run/pppoe-adsl.pid (&#x6B64;&#x70BA;pppoe-connect&#x7684;pid)<br>&#x78BA;&#x8A8D;pid&#x662F;&#x5426;&#x5B58;&#x5728;(kill -0 $pid)<br>&#x82E5;&#x5B58;&#x5728;&#x5247;&#x96E2;&#x958B;&#x8868;&#x793A;&#xFF0C;&#x8868;&#x793A;&#x6B63;&#x5728;pppoe-connect</p>
+</li>
+<li><p>2.&#x82E5;&#x7121;&#x5247;<br>&#x7522;&#x751F;/var/run/pppoe-adsl.pid.start (&#x6B64;&#x70BA;pppoe-start&#x7684;pid)</p>
+</li>
+<li><p>3.&#x958B;&#x59CB;&#x64A5;&#x63A5;<br>/usr/sbin/pppoe-connect</p>
+</li>
+<li><p>4.&#x82E5;CONNECT_TIMEOUT=0&#xFF0C;&#x5247;&#x96E2;&#x958B;<br>&#x5247;&#x8868;&#x793A;&#x4E00;&#x76F4;&#x57F7;&#x884C;pppo-connect&#x4E0D;&#x6703;&#x6709;timeoutn</p>
+</li>
+<li><p>5.&#x7B49;&#x5F97;timeout (CONNECT_TIMEOUT=60)<br>&#x6BCF;&#x6B21;&#x7B49;6S (CONNECT_POLL=6)&#xFF0C;&#x4F7F;&#x7528;pppoe-status&#x4F86;&#x78BA;&#x8A8D;&#x662F;&#x5426;&#x5DF2;&#x9023;&#x7DDA;</p>
+</li>
+<li><p>6.&#x7522;&#x751F;timeout<br>&#x6B64;&#x6642;kill pppoe-connect<br>&#x6E05;&#x9664;/var/run/pppoe-adsl.pid.pppd, /var/run/pppoe-adsl.pid.pppoe, /var/run/pppoe-adsl.pid.start<br>&#x8A2D;&#x5B9A;&#x56DE;&#x539F;&#x672C;&#x7684;gateway</p>
+</li>
+</ul>
+<h3 id="pppoe-connect-script"><a href="#pppoe-connect_script" class="headerlink" title="pppoe-connect script"></a>pppoe-connect script</h3><img src="/2016/08/31/fedora-pppoe/pppoe-connect.png" alt="[pppoe-connect]" title="[pppoe-connect]">
+<ul>
+<li><p>Shell script to connect to an PPPoE provider using PPPoE</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Usage: pppoe-connect [config_file]</span></span><br><span class="line"><span class="comment">#        pppoe-connect interface user [config_file]</span></span><br><span class="line"><span class="comment"># Second form overrides USER and ETH from config file.</span></span><br><span class="line"><span class="comment"># If config_file is omitted, defaults to /etc/ppp/pppoe.conf</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x958B;&#x59CB;&#x5EFA;&#x7ACB;pppoe&#x9023;&#x7DDA;&#x4E4B;&#x524D;&#xFF0C;&#x82E5;DEFROUTE != no,,&#x5247;&#x6703;&#x5148;&#x79FB;&#x9664;&#x76EE;&#x524D;&#x7684;gateway</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">${DEFROUTE}</span>&quot;</span> != <span class="string">&quot;no&quot;</span> ] ; <span class="keyword">then</span></span><br><span class="line">    DEFRT=$(ip route list match 0/0)</span><br><span class="line">    [ -n <span class="string">&quot;<span class="variable">${DEFRT}</span>&quot;</span> ] &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$DEFRT</span>&quot;</span> &gt; /etc/default-routes</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$DEFRT</span>&quot;</span> | <span class="keyword">while</span> <span class="built_in">read</span> spec; <span class="keyword">do</span></span><br><span class="line">        <span class="variable">$IP</span> route del <span class="variable">$spec</span>;</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x79FB;&#x9664;&#x4E4B;&#x5F8C;&#x72C0;&#x614B;&#x5982;&#x4E0B;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tt]<span class="comment"># route -n</span></span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">192.168.22.0    0.0.0.0         255.255.255.0   U     100    0        0 enp1s0</span><br><span class="line">[root@localhost tt]<span class="comment"># cat /etc/default-routes </span></span><br><span class="line">default via 192.168.22.1 dev enp1s0  proto static  metric 100</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pppd call</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/pppd pty /usr/sbin/pppoe -p /var/run/pppoe-adsl.pid.pppoe -I enp1s0 -T 80 -U  -m 1412    ipparam ppp0 linkname ppp0 noipdefault noauth default-asyncmap defaultroute hide-password nodetach usepeerdns mtu 1492 mru 1492 noaccomp nodeflate nopcomp novj novjccomp user sz3lmc48@163.gd lcp-echo-interval 20 lcp-echo-failure 3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pppd_cmd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PPPOE_CMD:/usr/sbin/pppoe -p /var/run/pppoe-adsl.pid.pppoe -I enp1s0 -T 80 -U  -m 1412</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="pppoe_stop"><a href="#pppoe_stop" class="headerlink" title="pppoe_stop"></a>pppoe_stop</h3><p>1-&#x78BA;&#x8A8D;/var/run/pppoe-adsl.pid.pppd&#x662F;&#x5426;&#x5B58;&#x5728;<br>2-&#x82E5;&#x6709;&#x5247;kill pppoe pid<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CONFIG:/etc/sysconfig/network-scripts/ifcfg-ppp0</span><br><span class="line">PPPOE_PIDFILE:/var/run/pppoe-adsl.pid.pppoe</span><br><span class="line">PPPD_PIDFILE:/var/run/pppoe-adsl.pid.pppd</span><br><span class="line">STARTPID:/var/run/pppoe-adsl.pid.start</span><br><span class="line">DEMAND:no</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>[root@localhost tt]# cat /etc/sysconfig/network-scripts/ifcfg-ppp0<br><strong>PIDFILE=/var/run/pppoe-adsl.pid</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">USERCTL=yes</span><br><span class="line">BOOTPROTO=dialup</span><br><span class="line">NAME=DSLppp0</span><br><span class="line">DEVICE=ppp0</span><br><span class="line">TYPE=xDSL</span><br><span class="line">ONBOOT=no</span><br><span class="line">PIDFILE=/var/run/pppoe-adsl.pid</span><br><span class="line">FIREWALL=NONE</span><br><span class="line">PING=.</span><br><span class="line">PPPOE_TIMEOUT=80</span><br><span class="line">LCP_FAILURE=3</span><br><span class="line">LCP_INTERVAL=20</span><br><span class="line">CLAMPMSS=1412</span><br><span class="line">CONNECT_POLL=6</span><br><span class="line">CONNECT_TIMEOUT=60</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">SYNCHRONOUS=no</span><br><span class="line">ETH=enp1s0</span><br><span class="line">PROVIDER=DSLppp0</span><br><span class="line">USER=sz3lmc48@163.gd</span><br><span class="line">PEERDNS=yes</span><br><span class="line">DEMAND=no</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CONNECT_POLL=6<br>&#x8A2D;&#x5B9A;pppoe-start&#x6642;, &#x6BCF;6&#x79D2;&#x505A;&#x4E00;&#x6B21;pppoe-status&#xFF0C;&#x78BA;&#x8A8D;&#x662F;&#x5426;&#x64A5;&#x63A5;&#x6210;&#x529F;(&#x5373;interfac came up)</p>
+</li>
+<li><p>CONNECT_TIMEOUT=60<br>&#x8A2D;&#x5B9A;pppoe-start&#x6642;&#xFF0C;&#x9810;&#x8A08;&#x9023;&#x7DDA;&#x5224;&#x65B7;&#x6642;&#x9593;(&#x5373;&#x7B49;&#x5F85;60S&#xFF0C;&#x4F86;&#x78BA;&#x8A8D;&#x9023;&#x7DDA;&#x5EFA;&#x7ACB;&#x7A0B;&#x5E8F;)</p>
+</li>
+<li><p>&#x82E5;pppoe-start&#x5931;&#x6557;</p>
+<ul>
+<li>kill $CONNECT_PID</li>
+<li>clean up PIDFILE<br>/var/run/pppoe-adsl.pid<br>/var/run/pppoe-adsl.pid.pppd<br>/var/run/pppoe-adsl.pid.pppoe<br>/var/run/pppoe-adsl.pid.start</li>
+</ul>
+</li>
+</ul>
+<h3 id="pppoe-status"><a href="#pppoe-status" class="headerlink" title="pppoe-status"></a>pppoe-status</h3><ul>
+<li>Shell script to report on status of PPPoE connection<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Usage: pppoe-status [config_file]</span></span><br><span class="line"><span class="comment"># If config_file is omitted, defaults to /etc/ppp/pppoe.conf</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="process-&#x7A0B;&#x5E8F;"><a href="#process__u7A0B_u5E8F" class="headerlink" title="process &#x7A0B;&#x5E8F;"></a>process &#x7A0B;&#x5E8F;</h2><h3 id="pppoe-connect-pppd-pppoe"><a href="#pppoe-connect__2C_pppd_2C_pppoe" class="headerlink" title="pppoe-connect , pppd, pppoe"></a>pppoe-connect , pppd, pppoe</h3><ul>
+<li><p>pppoe-connect&#x5148;&#x57F7;&#x884C;<br>&#x518D;&#x57F7;&#x884C; pppd pty pppoe -p xx xx<br>&#x7531;pppd&#x53BB;&#x5E36;&#x8D77;pppoe</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root     25411 16537  0 15:25 pts/1    00:00:00 /bin/bash ./pppoe-connect</span><br><span class="line">root     25435     2  0 15:25 ?        00:00:00 [kworker/u8:0]</span><br><span class="line">root     25546 25411  0 15:25 ?        00:00:00 /usr/sbin/pppd pty /usr/sbin/pppoe -p /var/run/pppoe-adsl.pid.pppoe -I enp1s0 -T 80 -U  -m 1412    ipparam p</span><br><span class="line">root     25547 25546  0 15:25 ?        00:00:00 /usr/sbin/pppoe -p /var/run/pppoe-adsl.pid.pppoe -I enp1s0 -T 80 -U -m 1412</span><br><span class="line">root     25554 18056  0 15:25 pts/2    00:00:00 ps -ef</span><br><span class="line">[root@localhost tt]# cat /var/run/pppoe-adsl.pid.pppoe </span><br><span class="line">25547</span><br><span class="line">[root@localhost tt]# cat /var/run/pppoe-adsl.pid</span><br><span class="line">25411</span><br><span class="line">[root@localhost tt]# cat /var/run/pppoe-adsl.pid.ppp</span><br><span class="line">pppoe-adsl.pid.pppd   pppoe-adsl.pid.pppoe  </span><br><span class="line">[root@localhost tt]# cat /var/run/pppoe-adsl.pid.pppd</span><br><span class="line">25546</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/var/run/pppoe-adsl.pid<br>&#x70BA;pppoe-connect&#x7684;pid</p>
+</li>
+<li><p>/var/run/pppoe-adsl.pid.pppd<br>&#x70BA;pppd&#x7684;pid</p>
+</li>
+<li><p>/var/run/pppoe-adsl.pid.pppoe<br>&#x70BA;pppoe&#x7684;pid</p>
+</li>
+</ul>
+<hr>
+<h2 id="pppoe-&#x76F8;&#x95DC;&#x6A94;&#x6848;"><a href="#pppoe__u76F8_u95DC_u6A94_u6848" class="headerlink" title="pppoe &#x76F8;&#x95DC;&#x6A94;&#x6848;"></a>pppoe &#x76F8;&#x95DC;&#x6A94;&#x6848;</h2><h3 id="pppd"><a href="#pppd" class="headerlink" title="pppd"></a>pppd</h3><ul>
+<li>pppd<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tt]<span class="comment"># pppd -v</span></span><br><span class="line">pppd: unrecognized option <span class="string">&apos;-v&apos;</span></span><br><span class="line">pppd version 2.4.7</span><br><span class="line">Usage: pppd [ options ], <span class="built_in">where</span> options are:</span><br><span class="line">	&lt;device&gt;	Communicate over the named device</span><br><span class="line">	&lt;speed&gt;		Set the baud rate to &lt;speed&gt;</span><br><span class="line">	&lt;loc&gt;:&lt;rem&gt;	Set the <span class="built_in">local</span> and/or remote interface IP</span><br><span class="line">			addresses.  Either one may be omitted.</span><br><span class="line">	asyncmap &lt;n&gt;	Set the desired async map to hex &lt;n&gt;</span><br><span class="line">	auth		Require authentication from peer</span><br><span class="line">        connect &lt;p&gt;     Invoke shell <span class="built_in">command</span> &lt;p&gt; to <span class="built_in">set</span> up the serial line</span><br><span class="line">	crtscts		Use hardware RTS/CTS flow control</span><br><span class="line">	defaultroute	Add default route through interface</span><br><span class="line">	file &lt;f&gt;	Take options from file &lt;f&gt;</span><br><span class="line">	modem		Use modem control lines</span><br><span class="line">	mru &lt;n&gt;		Set MRU value to &lt;n&gt; <span class="keyword">for</span> negotiation</span><br><span class="line">See pppd(8) <span class="keyword">for</span> more options.</span><br><span class="line">[root@localhost tt]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="ppp-script"><a href="#ppp_script" class="headerlink" title="ppp script"></a>ppp script</h3><ul>
+<li>ppp-script<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tt]<span class="comment"># ls -l /usr/sbin/ppp*</span></span><br><span class="line">-rwxr-xr-x 1 root root 394464 Feb  5  2016 /usr/sbin/pppd</span><br><span class="line">-rwxr-xr-x 1 root root  54376 Feb  5  2016 /usr/sbin/pppdump</span><br><span class="line">-rwxr-xr-x 1 root root  40456 Feb  5  2016 /usr/sbin/pppoe</span><br><span class="line">-rwxr-xr-x 1 root root  11053 Feb  5  2016 /usr/sbin/pppoe-connect</span><br><span class="line">-rwxr-xr-x 1 root root  24336 Feb  5  2016 /usr/sbin/pppoe-discovery</span><br><span class="line">-rwxr-xr-x 1 root root  36424 Feb  5  2016 /usr/sbin/pppoe-relay</span><br><span class="line">-rwxr-xr-x 1 root root  57440 Feb  5  2016 /usr/sbin/pppoe-server</span><br><span class="line">-rwxr-xr-x 1 root root  12867 Feb  5  2016 /usr/sbin/pppoe-setup</span><br><span class="line">-rwxr-xr-x 1 root root  23880 Feb  5  2016 /usr/sbin/pppoe-sniff</span><br><span class="line">-rwxr-xr-x 1 root root   6456 Feb  5  2016 /usr/sbin/pppoe-start</span><br><span class="line">-rwxr-xr-x 1 root root   2680 Feb  5  2016 /usr/sbin/pppoe-status</span><br><span class="line">-rwxr-xr-x 1 root root   3601 Feb  5  2016 /usr/sbin/pppoe-stop</span><br><span class="line">-rwxr-xr-x 1 root root  15696 Feb  5  2016 /usr/sbin/pppstats</span><br><span class="line">-rwxr-xr-x 1 root root  23776 Feb  5  2016 /usr/sbin/ppp-watch</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x6A94;&#x6848;&#x67B6;&#x69CB;"><a href="#u6A94_u6848_u67B6_u69CB" class="headerlink" title="&#x6A94;&#x6848;&#x67B6;&#x69CB;"></a>&#x6A94;&#x6848;&#x67B6;&#x69CB;</h3><ul>
+<li><p>/etc/ppp</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tt]<span class="comment"># cd /etc/ppp</span></span><br><span class="line">[root@localhost ppp]<span class="comment"># tree</span></span><br><span class="line">.</span><br><span class="line">&#x251C;&#x2500;&#x2500; chap-secrets</span><br><span class="line">&#x251C;&#x2500;&#x2500; eaptls-client</span><br><span class="line">&#x251C;&#x2500;&#x2500; eaptls-server</span><br><span class="line">&#x251C;&#x2500;&#x2500; firewall-masq</span><br><span class="line">&#x251C;&#x2500;&#x2500; firewall-standalone</span><br><span class="line">&#x251C;&#x2500;&#x2500; ip-down</span><br><span class="line">&#x251C;&#x2500;&#x2500; ip-down.ipv6to4</span><br><span class="line">&#x251C;&#x2500;&#x2500; ip-up</span><br><span class="line">&#x251C;&#x2500;&#x2500; ip-up.ipv6to4</span><br><span class="line">&#x251C;&#x2500;&#x2500; ipv6-down</span><br><span class="line">&#x251C;&#x2500;&#x2500; ipv6-up</span><br><span class="line">&#x251C;&#x2500;&#x2500; options</span><br><span class="line">&#x251C;&#x2500;&#x2500; options.pptp</span><br><span class="line">&#x251C;&#x2500;&#x2500; pap-secrets</span><br><span class="line">&#x251C;&#x2500;&#x2500; peers</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x2514;&#x2500;&#x2500; wvdial</span><br><span class="line">&#x2514;&#x2500;&#x2500; pppoe-server-options</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/etc/sysconfig/network-scripts/</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost network-scripts]<span class="comment"># tree</span></span><br><span class="line">&#x251C;&#x2500;&#x2500; ifcfg-enp4s0</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifcfg-enp7s2</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifcfg-lo</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifcfg-ppp0</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifcfg-Wired_connection_1</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown -&gt; ../../../usr/sbin/ifdown</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-bnep</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-eth</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-ippp</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-ipv6</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-isdn -&gt; ifdown-ippp</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-post</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-ppp</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-routes</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-sit</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-Team</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-TeamPort</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifdown-tunnel</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup -&gt; ../../../usr/sbin/ifup</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-aliases</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-bnep</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-eth</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-ippp</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-ipv6</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-isdn -&gt; ifup-ippp</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-plip</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-plusb</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-post</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-ppp</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-routes</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-sit</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-Team</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-TeamPort</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-tunnel</span><br><span class="line">&#x251C;&#x2500;&#x2500; ifup-wireless</span><br><span class="line">&#x251C;&#x2500;&#x2500; init.ipv6-global</span><br><span class="line">&#x251C;&#x2500;&#x2500; network-functions</span><br><span class="line">&#x2514;&#x2500;&#x2500; network-functions-ipv6</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+            <a href="/tags/dom/" rel="tag">#dom</a>
+          
+            <a href="/tags/pppoe/" rel="tag">#pppoe</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/30/node-addon-example/" rel="next" title="node-addon-example">
+                <i class="fa fa-chevron-left"></i> node-addon-example
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/07/json-script-ex/" rel="prev" title="json_script-ex">
+                json_script-ex <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dom-fedora"><span class="nav-number">3.</span> <span class="nav-text">dom fedora</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ldvr_pppoe_client"><span class="nav-number">3.1.</span> <span class="nav-text">ldvr_pppoe_client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppoe-start-script"><span class="nav-number">3.2.</span> <span class="nav-text">pppoe-start script</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppoe-connect-script"><span class="nav-number">3.3.</span> <span class="nav-text">pppoe-connect script</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppoe_stop"><span class="nav-number">3.4.</span> <span class="nav-text">pppoe_stop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppoe-status"><span class="nav-number">3.5.</span> <span class="nav-text">pppoe-status</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#process-程序"><span class="nav-number">4.</span> <span class="nav-text">process 程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pppoe-connect-pppd-pppoe"><span class="nav-number">4.1.</span> <span class="nav-text">pppoe-connect , pppd, pppoe</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pppoe-相關檔案"><span class="nav-number">5.</span> <span class="nav-text">pppoe 相關檔案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pppd"><span class="nav-number">5.1.</span> <span class="nav-text">pppd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ppp-script"><span class="nav-number">5.2.</span> <span class="nav-text">ppp script</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#檔案架構"><span class="nav-number">5.3.</span> <span class="nav-text">檔案架構</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/08/31/fedora-pppoe/';
+      var disqus_title = 'fedora-pppoe';
+      var disqus_url = 'http://yoursite.com/2016/08/31/fedora-pppoe/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

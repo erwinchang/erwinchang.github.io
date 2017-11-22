@@ -1,0 +1,950 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,fedora,grub," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="dom fedora UI無法開啟，需改用更改開機選單(使用終端機模式)記錄一下修改方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="grub">
+<meta property="og:url" content="http://yoursite.com/2016/09/12/grub/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="dom fedora UI無法開啟，需改用更改開機選單(使用終端機模式)記錄一下修改方式">
+<meta property="og:image" content="http://yoursite.com/2016/09/12/grub/grub-gfxterm.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.259Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="grub">
+<meta name="twitter:description" content="dom fedora UI無法開啟，需改用更改開機選單(使用終端機模式)記錄一下修改方式">
+<meta name="twitter:image" content="http://yoursite.com/2016/09/12/grub/grub-gfxterm.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> grub | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                grub
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-09-12T09:41:28+08:00" content="2016-09-12">
+              2016-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/12/grub/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/12/grub/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/09/12/grub/" class="leancloud_visitors" data-flag-title="grub">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>dom fedora UI&#x7121;&#x6CD5;&#x958B;&#x555F;&#xFF0C;&#x9700;&#x6539;&#x7528;&#x66F4;&#x6539;&#x958B;&#x6A5F;&#x9078;&#x55AE;(&#x4F7F;&#x7528;&#x7D42;&#x7AEF;&#x6A5F;&#x6A21;&#x5F0F;)<br>&#x8A18;&#x9304;&#x4E00;&#x4E0B;&#x4FEE;&#x6539;&#x65B9;&#x5F0F;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160912</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+<tr>
+<td style="text-align:left">20170125</td>
+<td style="text-align:left">&#x5982;&#x4F55;&#x8A2D;&#x5B9A;grub2&#x7684;&#x958B;&#x6A5F;&#x5716;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x5982;&#x4F55;&#x8A2D;&#x5B9A;grub2&#x7684;&#x958B;&#x6A5F;&#x5716;">&#x5982;&#x4F55;&#x8A2D;&#x5B9A;grub2&#x7684;&#x958B;&#x6A5F;&#x5716;</a><ul>
+<li><a href="#&#x4F7F;&#x7528;&#x5DE5;&#x5177;grub-customizer&#x9078;&#x64C7;&#x958B;&#x6A5F;&#x5716;&#x6A94;">&#x4F7F;&#x7528;&#x5DE5;&#x5177;(grub-customizer)&#xFF0C;&#x9078;&#x64C7;&#x958B;&#x6A5F;&#x5716;&#x6A94;</a></li>
+<li><a href="#&#x5176;&#x5B83;&#x66F4;&#x6539;&#x8A2D;&#x5B9A;&#x6A94;&#x95DC;&#x9589;&#x7D42;&#x7AEF;&#x8F38;&#x51FA;&#x6A21;&#x5F0F;">&#x5176;&#x5B83;&#x66F4;&#x6539;&#x8A2D;&#x5B9A;&#x6A94;&#xFF0C;&#x95DC;&#x9589;&#x7D42;&#x7AEF;&#x8F38;&#x51FA;&#x6A21;&#x5F0F;</a></li>
+<li><a href="#&#x66F4;&#x65B0;boot&#x5340;grub&#x8A2D;&#x5B9A;&#x6A94;">&#x66F4;&#x65B0;boot&#x5340;grub&#x8A2D;&#x5B9A;&#x6A94;</a></li>
+</ul>
+</li>
+<li><a href="#grub">Grub</a><ul>
+<li><a href="#&#x5982;&#x4F55;&#x66F4;&#x6539;&#x958B;&#x6A5F;&#x9078;&#x55AE;&#x4F7F;&#x7528;&#x7D42;&#x7AEF;&#x6A5F;&#x6A21;&#x5F0F;">&#x5982;&#x4F55;&#x66F4;&#x6539;&#x958B;&#x6A5F;&#x9078;&#x55AE;(&#x4F7F;&#x7528;&#x7D42;&#x7AEF;&#x6A5F;&#x6A21;&#x5F0F;)</a></li>
+</ul>
+</li>
+<li><a href="#partitioning">Partitioning</a><ul>
+<li><a href="#partition-table">Partition table</a></li>
+<li><a href="#grub-partition">Grub Partition</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a><ul>
+<li><a href="#&#x5982;&#x4F55;&#x67E5;&#x5F97;grub2&#x7248;&#x672C;">&#x5982;&#x4F55;&#x67E5;&#x5F97;grub2&#x7248;&#x672C;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x5982;&#x4F55;&#x8A2D;&#x5B9A;grub2&#x7684;&#x958B;&#x6A5F;&#x5716;"><a href="#u5982_u4F55_u8A2D_u5B9Agrub2_u7684_u958B_u6A5F_u5716" class="headerlink" title="&#x5982;&#x4F55;&#x8A2D;&#x5B9A;grub2&#x7684;&#x958B;&#x6A5F;&#x5716;"></a>&#x5982;&#x4F55;&#x8A2D;&#x5B9A;grub2&#x7684;&#x958B;&#x6A5F;&#x5716;</h2><p>&#x5728;fedora24&#x4E0A;&#x9762;&#x6E2C;&#x8A66;&#xFF0C;&#x6D41;&#x7A0B;&#x5982;&#x4E0B;<br>1.&#x8A2D;&#x5B9A;/etc/default/grub<br>2.&#x95DC;&#x9589;GRUB_TERMINAL_OUTPUT<br>3.&#x66F4;&#x65B0;/boot/grub2/gurb.cfg</p>
+<h3 id="&#x4F7F;&#x7528;&#x5DE5;&#x5177;grub-customizer&#x9078;&#x64C7;&#x958B;&#x6A5F;&#x5716;&#x6A94;"><a href="#u4F7F_u7528_u5DE5_u5177_28grub-customizer_29_uFF0C_u9078_u64C7_u958B_u6A5F_u5716_u6A94" class="headerlink" title="&#x4F7F;&#x7528;&#x5DE5;&#x5177;(grub-customizer)&#xFF0C;&#x9078;&#x64C7;&#x958B;&#x6A5F;&#x5716;&#x6A94;"></a>&#x4F7F;&#x7528;&#x5DE5;&#x5177;(grub-customizer)&#xFF0C;&#x9078;&#x64C7;&#x958B;&#x6A5F;&#x5716;&#x6A94;</h3><ul>
+<li><p>fedora24&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x958B;&#x6A5F;&#x5716;&#x793A;<br>&#x4F7F;&#x7528;&#x5DE5;&#x5177;&#x8A2D;&#x5B9A;&#xFF0C;&#x5B89;&#x88DD;&#x65B9;&#x5F0F;&#x5982;&#x4E0B;<br>&#x4E0D;&#x904E;&#x8A2D;&#x5B9A;&#x4E4B;&#x5F8C;&#x7121;&#x5716;&#x793A;&#xFF0C;&#x9084;&#x5728;&#x4E86;&#x89E3;&#x70BA;&#x4EC0;&#x9EBC;&#x8DD1;&#x4E0D;&#x51FA;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnf install grub-customizer</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6CE8;&#x610F;&#x4F7F;&#x7528;&#x5716;&#x7247;&#x9650;&#x5236;&#x5982;&#x4E0B;</p>
+<ul>
+<li>JPG/JPEG images must be 8-bit (256 color).</li>
+<li>Images should be non-indexed, RGB. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>/etc/default/grub &#x8A2D;&#x5B9A;&#x524D;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost default]# cat grub </span><br><span class="line">GRUB_TIMEOUT=5</span><br><span class="line">GRUB_DISTRIBUTOR=&quot;$(sed &apos;s, release .*$,,g&apos; /etc/system-release)&quot;</span><br><span class="line">GRUB_DEFAULT=saved</span><br><span class="line">GRUB_DISABLE_SUBMENU=true</span><br><span class="line">GRUB_TERMINAL_OUTPUT=&quot;console&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;rhgb quiet&quot;</span><br><span class="line">GRUB_DISABLE_RECOVERY=&quot;true&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/etc/default/grub &#x8A2D;&#x5B9A;&#x5F8C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/default/grub </span><br><span class="line">GRUB_TIMEOUT=&quot;5&quot;</span><br><span class="line">GRUB_DISTRIBUTOR=&quot;$(sed &apos;s, release .*$,,g&apos; /etc/system-release)&quot;</span><br><span class="line">GRUB_DEFAULT=&quot;saved&quot;</span><br><span class="line">GRUB_DISABLE_SUBMENU=&quot;true&quot;</span><br><span class="line">GRUB_TERMINAL_OUTPUT=&quot;console&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;rhgb quiet&quot;</span><br><span class="line">GRUB_DISABLE_RECOVERY=&quot;true&quot;</span><br><span class="line"></span><br><span class="line">export GRUB_COLOR_NORMAL=&quot;light-gray/black&quot;</span><br><span class="line">export GRUB_COLOR_HIGHLIGHT=&quot;magenta/black&quot;</span><br><span class="line">GRUB_BACKGROUND=&quot;/root/pc200-logo-640.png&quot;</span><br><span class="line">#GRUB_GFXMODE=&quot;saved&quot;</span><br><span class="line">#GRUB_THEME=&quot;/boot/grub2/themes/system/theme.txt&quot;</span><br><span class="line">#GRUB_HIDDEN_TIMEOUT=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5176;&#x5B83;&#x66F4;&#x6539;&#x8A2D;&#x5B9A;&#x6A94;&#x95DC;&#x9589;&#x7D42;&#x7AEF;&#x8F38;&#x51FA;&#x6A21;&#x5F0F;"><a href="#u5176_u5B83_u66F4_u6539_u8A2D_u5B9A_u6A94_uFF0C_u95DC_u9589_u7D42_u7AEF_u8F38_u51FA_u6A21_u5F0F" class="headerlink" title="&#x5176;&#x5B83;&#x66F4;&#x6539;&#x8A2D;&#x5B9A;&#x6A94;&#xFF0C;&#x95DC;&#x9589;&#x7D42;&#x7AEF;&#x8F38;&#x51FA;&#x6A21;&#x5F0F;"></a>&#x5176;&#x5B83;&#x66F4;&#x6539;&#x8A2D;&#x5B9A;&#x6A94;&#xFF0C;&#x95DC;&#x9589;&#x7D42;&#x7AEF;&#x8F38;&#x51FA;&#x6A21;&#x5F0F;</h3><p>&#x5373;&#x95DC;&#x9589;GRUB_TERMINAL_OUTPUT&#x8A2D;&#x5B9A;</p>
+<ul>
+<li>&#x95DC;&#x9589;&#x7D42;&#x7AEF;&#x8F38;&#x51FA;&#x6A21;&#x5F0F;,&#x8A2D;&#x5B9A;&#x6A94;&#x5982;&#x4E0B;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/default/grub </span><br><span class="line">GRUB_TIMEOUT=&quot;5&quot;</span><br><span class="line">GRUB_DISTRIBUTOR=&quot;$(sed &apos;s, release .*$,,g&apos; /etc/system-release)&quot;</span><br><span class="line">GRUB_DEFAULT=&quot;saved&quot;</span><br><span class="line">GRUB_DISABLE_SUBMENU=&quot;true&quot;</span><br><span class="line">#GRUB_TERMINAL_OUTPUT=&quot;console&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;rhgb quiet&quot;</span><br><span class="line">GRUB_DISABLE_RECOVERY=&quot;true&quot;</span><br><span class="line"></span><br><span class="line">export GRUB_COLOR_NORMAL=&quot;light-gray/black&quot;</span><br><span class="line">export GRUB_COLOR_HIGHLIGHT=&quot;magenta/black&quot;</span><br><span class="line">GRUB_BACKGROUND=&quot;/root/pc200-logo-640.png&quot;</span><br><span class="line">#GRUB_GFXMODE=&quot;saved&quot;</span><br><span class="line">#GRUB_THEME=&quot;/boot/grub2/themes/system/theme.txt&quot;</span><br><span class="line">#GRUB_HIDDEN_TIMEOUT=&quot;0&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x66F4;&#x65B0;boot&#x5340;grub&#x8A2D;&#x5B9A;&#x6A94;"><a href="#u66F4_u65B0boot_u5340grub_u8A2D_u5B9A_u6A94" class="headerlink" title="&#x66F4;&#x65B0;boot&#x5340;grub&#x8A2D;&#x5B9A;&#x6A94;"></a>&#x66F4;&#x65B0;boot&#x5340;grub&#x8A2D;&#x5B9A;&#x6A94;</h3><ul>
+<li><p>&#x8A18;&#x5F97;&#x4E00;&#x5B9A;&#x8981;&#x66F4;&#x65B0;boot&#x5340;&#x8A2D;&#x5B9A;&#x6A94;&#xFF0C;&#x4E0D;&#x7136;&#x8A2D;&#x5B9A;&#x4E0D;&#x6703;&#x6709;&#x6548;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x589E;&#x52A0;&#x8A2D;&#x5B9A;&#x5167;&#x5BB9;&#x5982;&#x4E0B;</p>
+</li>
+</ul>
+<img src="/2016/09/12/grub/grub-gfxterm.png" alt="[grub gfxterm]" title="[grub gfxterm]">
+<hr>
+<h2 id="grub"><a href="#Grub" class="headerlink" title="Grub"></a>Grub</h2><ul>
+<li>GRUB2 &#x662F;&#x65B0;&#x4E00;&#x4EE3;&#x7684; GRand Unified Bootloader (GRUB/&#x958B;&#x6A5F;&#x5F15;&#x5C0E;&#x7A0B;&#x5F0F;)</li>
+</ul>
+<h3 id="&#x5982;&#x4F55;&#x66F4;&#x6539;&#x958B;&#x6A5F;&#x9078;&#x55AE;&#x4F7F;&#x7528;&#x7D42;&#x7AEF;&#x6A5F;&#x6A21;&#x5F0F;"><a href="#u5982_u4F55_u66F4_u6539_u958B_u6A5F_u9078_u55AE_28_u4F7F_u7528_u7D42_u7AEF_u6A5F_u6A21_u5F0F_29" class="headerlink" title="&#x5982;&#x4F55;&#x66F4;&#x6539;&#x958B;&#x6A5F;&#x9078;&#x55AE;(&#x4F7F;&#x7528;&#x7D42;&#x7AEF;&#x6A5F;&#x6A21;&#x5F0F;)"></a>&#x5982;&#x4F55;&#x66F4;&#x6539;&#x958B;&#x6A5F;&#x9078;&#x55AE;(&#x4F7F;&#x7528;&#x7D42;&#x7AEF;&#x6A5F;&#x6A21;&#x5F0F;)</h3><ul>
+<li><p>&#x958B;&#x6A5F;&#x9078;&#x55AE;&#x4E2D;&#xFF0C;&#x6309;&#x4E0B;e (&#x5373;&#x7DE8;&#x8F2F;&#x958B;&#x6A5F;&#x9078;&#x55AE;&#x4E2D;&#x5167;&#x5BB9;)</p>
+</li>
+<li><p>cat boot/grub2/grub.cfg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux16 /vmlinuz-4.3.4-200.fc22.x86_64 root=LABEL=dom-root-160219 ro rd.lvm.lv=fedora/swap rhgb quiet</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x589E;&#x52A0;single&#x5982;&#x4E0B;,&#x5373;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7D42;&#x7AEF;&#x6A5F;&#x6A21;&#x5F0F;<br>&#x8A18;&#x5F97;ctrl + x &#x76F4;&#x63A5;&#x57F7;&#x884C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux16 /vmlinuz-4.3.4-200.fc22.x86_64 root=LABEL=dom-root-160219 ro rd.lvm.lv=fedora/swap rhgb quiet single</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="partitioning"><a href="#Partitioning" class="headerlink" title="Partitioning"></a>Partitioning</h2><ul>
+<li>Partitioning a hard drive divides the available space into sections that can be accessed independently</li>
+<li>The required information is stored in a <strong>Partition table</strong> scheme such as <strong>MBR</strong> or <strong>GPT</strong>. </li>
+<li>Tables are modified using a <strong>Partitioning tool</strong> which must be compatible to the chosen scheme of partitioning table<br>Available tools include <strong>fdisk</strong> and <strong>parted</strong>. </li>
+</ul>
+<h3 id="partition-table"><a href="#Partition_table" class="headerlink" title="Partition table"></a>Partition table</h3><ul>
+<li>GUID Partition Table (GPT) is an alternative, contemporary, partitioning style; it is intended to replace the old Master Boot Record (MBR) system.</li>
+<li>PC&#x958B;&#x6A5F;&#x9806;&#x5E8F;: BIOS-&gt;POST-&gt;MBR-&gt;Boot sector-&gt;OS<br>MBR&#x662F;&#x786C;&#x789F;&#x7684;&#x7B2C;1&#x500B;Sector, &#x6BCF;&#x500B;Sector&#x662F;512Byte</li>
+<li>The <strong>MBR</strong> (which is always located on the first sector of a hard disk) contains that disk&#x2019;s Master (or Primary) <strong>Partition Table</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> [root@localhost boot]# parted -s /dev/sdb print</span><br><span class="line">Model: ATA SATADOM-SV 3SE (scsi)</span><br><span class="line">Disk /dev/sdb: 4012MB</span><br><span class="line">Sector size (logical/physical): 512B/512B</span><br><span class="line">Partition Table: msdos</span><br><span class="line">Disk Flags: </span><br><span class="line"></span><br><span class="line">Number  Start   End     Size    Type     File system  Flags</span><br><span class="line"> 1      1049kB  127MB   126MB   primary  ext4         boot</span><br><span class="line"> 2      127MB   4012MB  3885MB  primary  ext4</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="grub-partition"><a href="#Grub_Partition" class="headerlink" title="Grub Partition"></a>Grub Partition</h3><ul>
+<li><p>Preliminary Requirements for GRUB2 / BIOS &#x7CFB;&#x7D71;</p>
+<ul>
+<li><p>GPT specific instructions<br>partition type (&#x201C;EF02&#x201D;)</p>
+</li>
+<li><p>MBR aka msdos partitioning specific instructions<br>Usually the post-MBR gap (after the 512 byte MBR region and before the start of the 1st partition) </p>
+</li>
+<li><p>UEFI &#x7CFB;&#x7D71;<br>Unified Extensible Firmware Interface<br>UEFI started as Intel&#x2019;s EFI in versions 1.x.</p>
+</li>
+</ul>
+</li>
+<li><p>/boot</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost boot]# ls -l</span><br><span class="line">total 26482</span><br><span class="line">drwxr-xr-x 3 root root     1024 Feb 19  2016 boot</span><br><span class="line">-rw-r--r-- 1 root root   161946 Jan 25  2016 config-4.3.4-200.fc22.x86_64</span><br><span class="line">drwxr-xr-x 4 root root     1024 May 22  2015 efi</span><br><span class="line">-rw-r--r-- 1 root root 17689548 Feb 19  2016 initramfs-4.3.4-200.fc22.x86_64.img</span><br><span class="line">drwx------ 2 root root    12288 Feb 19  2016 lost+found</span><br><span class="line">-rw------- 1 root root  3192611 Jan 25  2016 System.map-4.3.4-200.fc22.x86_64</span><br><span class="line">-rwxr-xr-x 1 root root  6056008 Jan 25  2016 vmlinuz-4.3.4-200.fc22.x86_64</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><h3 id="&#x5982;&#x4F55;&#x67E5;&#x5F97;grub2&#x7248;&#x672C;"><a href="#u5982_u4F55_u67E5_u5F97grub2_u7248_u672C" class="headerlink" title="&#x5982;&#x4F55;&#x67E5;&#x5F97;grub2&#x7248;&#x672C;"></a>&#x5982;&#x4F55;&#x67E5;&#x5F97;grub2&#x7248;&#x672C;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost grub2]# grub2-install --version</span><br><span class="line">grub2-install (GRUB) 2.02~beta3</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="https://wiki.archlinux.org/index.php/GRUB_(%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87)" target="_blank" rel="external">GRUB (&#x6B63;&#x9AD4;&#x4E2D;&#x6587;)</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Partitioning#GUID_Partition_Table" target="_blank" rel="external">Partitioning</a></li>
+<li><a href="http://kezeodsnx.pixnet.net/blog/post/28636651-mbr-to-ubuntu-usb-install-key-" target="_blank" rel="external">MBR to ubuntu usb install key</a></li>
+<li><a href="http://thestarman.pcministry.com/asm/mbr/PartTables.htm" target="_blank" rel="external">MBR/EBR Partition Tables</a></li>
+<li><a href="https://wiki.centos.org/zh-tw/HowTos/Grub2" target="_blank" rel="external">&#x5728; CentOS 7 &#x4E0A;&#x8A2D;&#x7F6E; grub2</a></li>
+<li><a href="http://askubuntu.com/questions/132965/how-do-i-boot-into-single-user-mode-from-grub/132983#132983" target="_blank" rel="external">How do I boot into single-user mode from GRUB?</a></li>
+<li><p><a href="https://wiki.archlinux.org/index.php/Category:Boot_loaders" target="_blank" rel="external">Boot loaders</a></p>
+</li>
+<li><p>&#x5982;&#x4F55;&#x8A2D;&#x5B9A;grub2&#x7684;&#x958B;&#x6A5F;&#x5716; </p>
+<ul>
+<li><a href="https://newtoypia.blogspot.tw/2015/06/grub2-iso.html" target="_blank" rel="external">grub2&#xFF1A; &#x958B;&#x6A5F;&#x5149;&#x789F;&#x8490;&#x96C6;&#x72C2;&#x4EBA;&#x7684;&#x74B0;&#x4FDD;&#x888B; </a></li>
+<li><a href="https://help.ubuntu.com/community/Grub2/Displays" target="_blank" rel="external">Grub2/Displays</a></li>
+<li><a href="https://ask.fedoraproject.org/en/question/28363/how-to-change-the-booting-image-in-fedora/" target="_blank" rel="external">how to change the booting image in fedora</a></li>
+<li>VESA BIOS Extensions (VBE), <a href="https://www.gnu.org/software/grub/manual/grub.html#gfxmode" target="_blank" rel="external">gfxmode</a></li>
+<li><a href="http://wuyou.net/forum.php?mod=viewthread&amp;tid=385353&amp;extra=" target="_blank" rel="external">GRUB2&#xFF1A;&#x4ECE;&#x5165;&#x95E8;&#x5230;&#x7CBE;&#x901A;</a></li>
+<li><a href="http://www.programgo.com/article/21962001902/" target="_blank" rel="external">GRUB&#x624B;&#x518C;</a></li>
+<li><a href="http://www.ntex.tw/wordpress/389.html" target="_blank" rel="external">Ubuntu 10.10 &#x66F4;&#x63DB;&#x958B;&#x6A5F;GRUB2&#x9078;&#x64C7;&#x756B;&#x9762;&#x5E95;&#x5716;</a></li>
+<li><a href="http://www.ubuntu-tw.org/modules/newbb/viewtopic.php?post_id=148172#forumpost148172" target="_blank" rel="external">GRUB 2 &#x4E2D;&#x6587;&#x6307;&#x5357; 10.10</a></li>
+<li><a href="https://www.gnu.org/software/grub/" target="_blank" rel="external">GNU GRUB</a></li>
+<li><a href="https://www.reddit.com/r/Fedora/comments/1uhz06/why_not_viewing_grub2_splash_image/" target="_blank" rel="external">Why NOT viewing GRUB2 Splash Image</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+            <a href="/tags/grub/" rel="tag">#grub</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/09/json-c/" rel="next" title="json-c">
+                <i class="fa fa-chevron-left"></i> json-c
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/19/arm/" rel="prev" title="arm">
+                arm <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何設定grub2的開機圖"><span class="nav-number">3.</span> <span class="nav-text">如何設定grub2的開機圖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用工具grub-customizer選擇開機圖檔"><span class="nav-number">3.1.</span> <span class="nav-text">使用工具(grub-customizer)，選擇開機圖檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它更改設定檔關閉終端輸出模式"><span class="nav-number">3.2.</span> <span class="nav-text">其它更改設定檔，關閉終端輸出模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新boot區grub設定檔"><span class="nav-number">3.3.</span> <span class="nav-text">更新boot區grub設定檔</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grub"><span class="nav-number">4.</span> <span class="nav-text">Grub</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何更改開機選單使用終端機模式"><span class="nav-number">4.1.</span> <span class="nav-text">如何更改開機選單(使用終端機模式)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partitioning"><span class="nav-number">5.</span> <span class="nav-text">Partitioning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#partition-table"><span class="nav-number">5.1.</span> <span class="nav-text">Partition table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#grub-partition"><span class="nav-number">5.2.</span> <span class="nav-text">Grub Partition</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">6.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何查得grub2版本"><span class="nav-number">6.1.</span> <span class="nav-text">如何查得grub2版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">7.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/09/12/grub/';
+      var disqus_title = 'grub';
+      var disqus_url = 'http://yoursite.com/2016/09/12/grub/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,894 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,libuv書籍,tcp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="使用libuv建立tcp server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="libuv-tcp-echo">
+<meta property="og:url" content="http://yoursite.com/2016/05/17/libuv-tcp-echo/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="使用libuv建立tcp server">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/dia/libuv-tcp-echo.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.295Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="libuv-tcp-echo">
+<meta name="twitter:description" content="使用libuv建立tcp server">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/dia/libuv-tcp-echo.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> libuv-tcp-echo | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                libuv-tcp-echo
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-05-17T10:04:15+08:00" content="2016-05-17">
+              2016-05-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/17/libuv-tcp-echo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/05/17/libuv-tcp-echo/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/05/17/libuv-tcp-echo/" class="leancloud_visitors" data-flag-title="libuv-tcp-echo">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4F7F;&#x7528;libuv&#x5EFA;&#x7ACB;tcp server</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160517</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#libuv-tcp-server">libuv tcp server</a><ul>
+<li><a href="#&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;">&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;</a></li>
+<li><a href="#&#x7BC4;&#x4F8B;&#x5167;&#x5BB9;">&#x7BC4;&#x4F8B;&#x5167;&#x5BB9;</a><ul>
+<li><a href="#on_new_connection">on_new_connection</a></li>
+<li><a href="#echo_read">echo_read</a></li>
+<li><a href="#tcp-client">tcp client</a></li>
+</ul>
+</li>
+<li><a href="#&#x7BC4;&#x4F8B;&#x6E2C;&#x8A66;">&#x7BC4;&#x4F8B;&#x6E2C;&#x8A66;</a><ul>
+<li><a href="#tcp-server">tcp server</a></li>
+<li><a href="#tcp-client-1">tcp client</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a><ul>
+<li><a href="#getaddrinfo&#x53D6;&#x5F97;&#x76F8;&#x95DC;&#x8A0A;&#x606F;">getaddrinfo&#x53D6;&#x5F97;&#x76F8;&#x95DC;&#x8A0A;&#x606F;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="libuv-tcp-server"><a href="#libuv_tcp_server" class="headerlink" title="libuv tcp server"></a>libuv tcp server</h2><h3 id="&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;"><a href="#u7BC4_u4F8B_u8AAA_u660E" class="headerlink" title="&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;"></a>&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;</h3><ul>
+<li><a href="https://github.com/erwinchang/note/blob/master/example_practice/libuv_example/t07_tcp-echo-server/main.c" target="_blank" rel="external">source code</a></li>
+<li>uv_tcp_t is a subclass of uv_stream_t.<ul>
+<li>Represents a TCP stream or TCP server.</li>
+</ul>
+</li>
+<li>uv_ip4_addr(ip, port, addr) : &#x7531;ip/port&#x53D6;&#x5F97;ip4 addr</li>
+<li>uv_tcp_bind</li>
+<li>Call uv_listen on the handle to have a callback invoked whenever a new connection is established by a client.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/dia/libuv-tcp-echo.png" alt="tcp" title="tcp"></p>
+<h3 id="&#x7BC4;&#x4F8B;&#x5167;&#x5BB9;"><a href="#u7BC4_u4F8B_u5167_u5BB9" class="headerlink" title="&#x7BC4;&#x4F8B;&#x5167;&#x5BB9;"></a>&#x7BC4;&#x4F8B;&#x5167;&#x5BB9;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int main() {</span><br><span class="line">..</span><br><span class="line"></span><br><span class="line">    uv_tcp_t server;</span><br><span class="line">    uv_tcp_init(loop, &amp;server);</span><br><span class="line"></span><br><span class="line">    uv_ip4_addr(&quot;0.0.0.0&quot;, DEFAULT_PORT, &amp;addr);</span><br><span class="line"></span><br><span class="line">    uv_tcp_bind(&amp;server, (const struct sockaddr*)&amp;addr, 0);</span><br><span class="line">    int r = uv_listen((uv_stream_t*) &amp;server, DEFAULT_BACKLOG, on_new_connection);</span><br><span class="line">..</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h4 id="on_new_connection"><a href="#on_new_connection" class="headerlink" title="on_new_connection"></a>on_new_connection</h4><ul>
+<li>Use uv_accept to accept the connection.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void on_new_connection(uv_stream_t *server, int status) {</span><br><span class="line">...</span><br><span class="line">    uv_tcp_t *client = (uv_tcp_t*) malloc(sizeof(uv_tcp_t));</span><br><span class="line">    uv_tcp_init(loop, client);</span><br><span class="line">    if (uv_accept(server, (uv_stream_t*) client) == 0) {</span><br><span class="line">        uv_read_start((uv_stream_t*) client, alloc_buffer, echo_read);</span><br><span class="line">    }</span><br><span class="line">...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h4 id="echo_read"><a href="#echo_read" class="headerlink" title="echo_read"></a>echo_read</h4><ul>
+<li>&#x5206;&#x6790;&#x53D6;&#x5F97;&#x8CC7;&#x6599;</li>
+<li>&#x53CA;&#x56DE;&#x61C9;client(response)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">void echo_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {</span><br><span class="line">    int i;</span><br><span class="line">    LOG(&quot;   [echo_read]&quot;);</span><br><span class="line"></span><br><span class="line">    if (nread &lt; 0) {</span><br><span class="line">..</span><br><span class="line">    } else if (nread &gt; 0) {</span><br><span class="line"></span><br><span class="line">        printf(&quot;nread size:%d\n&quot;,nread);</span><br><span class="line">        printf(&quot;buf:\n&quot;);</span><br><span class="line">        for(i=0; i&lt;nread; i++)</span><br><span class="line">            printf(&quot;%c&quot;,buf-&gt;base[i]);</span><br><span class="line"></span><br><span class="line">        uv_write_t *req = (uv_write_t *) malloc(sizeof(uv_write_t));</span><br><span class="line">        uv_buf_t wrbuf = uv_buf_init(buf-&gt;base, nread);</span><br><span class="line">        uv_write(req, client, &amp;wrbuf, 1, echo_write);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    if (buf-&gt;base)</span><br><span class="line">        free(buf-&gt;base);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h4 id="tcp-client"><a href="#tcp_client" class="headerlink" title="tcp client"></a>tcp client</h4><ul>
+<li><a href="https://github.com/erwinchang/note/blob/master/example_practice/libuv_example/t07_tcp-client/main.c" target="_blank" rel="external">source code</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">void on_connect(uv_connect_t *req, int status)</span><br><span class="line">{</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">    char *req_message = &quot;POST /signup HTTP/1.1\n&quot;</span><br><span class="line">                        &quot;User-Agent: HTTPTool/1.0\n&quot;;</span><br><span class="line">    uv_buf_t bufs[] = {</span><br><span class="line">        { .len  = strlen(req_message), .base = req_message }</span><br><span class="line">    };</span><br><span class="line">    int bufs_len = sizeof(bufs)/sizeof(uv_buf_t);</span><br><span class="line"></span><br><span class="line">    uv_stream_t *tcp = req-&gt;handle;</span><br><span class="line">    uv_write_t write_req;</span><br><span class="line">    uv_write(&amp;write_req, tcp, bufs, bufs_len, after_write);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">int main(int argc, char const *argv[])</span><br><span class="line">{</span><br><span class="line">    uv_tcp_t socket;</span><br><span class="line">    assert(!uv_tcp_init(uv_default_loop(), &amp;socket));</span><br><span class="line"></span><br><span class="line">    struct sockaddr_in dest;</span><br><span class="line">    assert(!uv_ip4_addr(&quot;127.0.0.1&quot;, DEFAULT_PORT, &amp;dest));</span><br><span class="line"></span><br><span class="line">    uv_connect_t connect;</span><br><span class="line">    assert(!uv_tcp_connect(&amp;connect, &amp;socket, (struct sockaddr *) &amp;dest, on_connect));</span><br><span class="line">    uv_run(uv_default_loop(), UV_RUN_ONCE);</span><br><span class="line">    return 0;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="&#x7BC4;&#x4F8B;&#x6E2C;&#x8A66;"><a href="#u7BC4_u4F8B_u6E2C_u8A66" class="headerlink" title="&#x7BC4;&#x4F8B;&#x6E2C;&#x8A66;"></a>&#x7BC4;&#x4F8B;&#x6E2C;&#x8A66;</h3><h4 id="tcp-server"><a href="#tcp_server" class="headerlink" title="tcp server"></a>tcp server</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[ubuntu](master-79103b8)15h41m root@e8b0cd737680:[t07_tcp-echo-server]$ ./t07-main-ubuntu </span><br><span class="line">listening on 0.0.0.0:7000</span><br><span class="line">   [on_new_connection]</span><br><span class="line">   [echo_read]</span><br><span class="line">nread size:47</span><br><span class="line">buf:</span><br><span class="line">POST /signup HTTP/1.1</span><br><span class="line">User-Agent: HTTPTool/1.0</span><br><span class="line">   [echo_write]</span><br><span class="line">   [echo_read]</span><br></pre></td></tr></table></figure>
+<h4 id="tcp-client"><a href="#tcp_client-1" class="headerlink" title="tcp client"></a>tcp client</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ubuntu](master-79103b8)15h41m root@e8b0cd737680:[t07_tcp-client]$ ./t07-main-ubuntu </span><br><span class="line">   [on_connect]</span><br></pre></td></tr></table></figure>
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><h3 id="getaddrinfo&#x53D6;&#x5F97;&#x76F8;&#x95DC;&#x8A0A;&#x606F;"><a href="#getaddrinfo_u53D6_u5F97_u76F8_u95DC_u8A0A_u606F" class="headerlink" title="getaddrinfo&#x53D6;&#x5F97;&#x76F8;&#x95DC;&#x8A0A;&#x606F;"></a>getaddrinfo&#x53D6;&#x5F97;&#x76F8;&#x95DC;&#x8A0A;&#x606F;</h3><p>&#x53C3;&#x8003;&#x4F86;&#x6E90;,<a href="http://blog.csdn.net/qiaoliang328/article/details/4729869" target="_blank" rel="external">ref1</a>,<a href="http://man7.org/linux/man-pages/man3/getaddrinfo.3.html" target="_blank" rel="external">ref2</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">struct addrinfo {</span><br><span class="line">    int              ai_flags;</span><br><span class="line">    int              ai_family;</span><br><span class="line">    int              ai_socktype;</span><br><span class="line">    int              ai_protocol;</span><br><span class="line">    socklen_t        ai_addrlen;</span><br><span class="line">    struct sockaddr *ai_addr;</span><br><span class="line">    char            *ai_canonname;</span><br><span class="line">    struct addrinfo *ai_next;</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ai_family   <ul>
+<li>This field specifies the desired address family for the returned addresses.</li>
+<li>ai_family&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x8C03;&#x7528;&#x8005;&#x671F;&#x5F85;&#x8FD4;&#x56DE;&#x7684;&#x5957;&#x63A5;&#x53E3;&#x5730;&#x5740;&#x7ED3;&#x6784;&#x7684;&#x7C7B;&#x578B;&#x3002;&#x5B83;&#x7684;&#x503C;&#x5305;&#x62EC;&#x4E09;&#x79CD;&#xFF1A;AF_INET&#xFF0C;AF_INET6&#x548C;AF_UNSPEC&#x3002;</li>
+<li>&#x5982;&#x679C;&#x6307;&#x5B9A;AF_INET&#xFF0C;&#x90A3;&#x4E48;&#x51FD;&#x6570;&#x4E5D;&#x4E0D;&#x80FD;&#x8FD4;&#x56DE;&#x4EFB;&#x4F55;IPV6&#x76F8;&#x5173;&#x7684;&#x5730;&#x5740;&#x4FE1;&#x606F;</li>
+<li>&#x6307;&#x5B9A;&#x4E86;AF_INET6&#xFF0C;&#x5219;&#x5C31;&#x4E0D;&#x80FD;&#x8FD4;&#x56DE;&#x4EFB;&#x4F55;IPV4&#x5730;&#x5740;&#x4FE1;&#x606F;</li>
+<li>AF_UNSPEC</li>
+<li>&#x67D0;&#x4E2A;&#x4E3B;&#x673A;&#x65E2;&#x6709;AAPC&#x8BB0;&#x5F55;(IPV6)&#x5730;&#x5740;&#xFF0C;&#x540C;&#x65F6;&#x53C8;&#x6709;BBPC&#x8BB0;&#x5F55;(IPV4)&#x5730;&#x5740;&#xFF0C;&#x90A3;&#x4E48;AAPC&#x8BB0;&#x5F55;&#x5C06;&#x4F5C;&#x4E3A;sockaddr_in6&#x7ED3;&#x6784;&#x8FD4;&#x56DE;&#xFF0C;&#x800C;BBPC&#x8BB0;&#x5F55;&#x5219;&#x4F5C;&#x4E3A;sockaddr_in&#x7ED3;&#x6784;&#x8FD4;&#x56DE;</li>
+<li>AF_UNSPEC&#x5219;&#x610F;&#x5473;&#x7740;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7684;&#x662F;&#x9002;&#x7528;&#x4E8E;&#x6307;&#x5B9A;&#x4E3B;&#x673A;&#x540D;&#x548C;&#x670D;&#x52A1;&#x540D;&#x4E14;&#x9002;&#x5408;&#x4EFB;&#x4F55;&#x534F;&#x8BAE;&#x65CF;&#x7684;&#x5730;&#x5740;</li>
+<li>The value AF_UNSPEC indicates that getaddrinfo() should return socket addresses for any address family (either IPv4 or IPv6, for example)</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://blog.csdn.net/qiaoliang328/article/details/4729869" target="_blank" rel="external">AF_UNSPEC&#x3001;AF_INET&#x548C;AF_INET6&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB; </a></li>
+<li><a href="http://man7.org/linux/man-pages/man3/getaddrinfo.3.html" target="_blank" rel="external">GETADDRINFO(3)            Linux Programmer&#x2019;s Manual </a></li>
+<li><a href="https://github.com/erwinchang/note/blob/master/example_practice/libuv_example/t07_tcp-echo-server/main.c" target="_blank" rel="external">source download: tcp server</a></li>
+<li><a href="https://github.com/erwinchang/note/blob/master/example_practice/libuv_example/t07_tcp-client/main.c" target="_blank" rel="external">source download: tcp client</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/libuv書籍/" rel="tag">#libuv書籍</a>
+          
+            <a href="/tags/tcp/" rel="tag">#tcp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/16/libuv-example-onchang/" rel="next" title="libuv-example-onchang">
+                <i class="fa fa-chevron-left"></i> libuv-example-onchang
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/17/libuv-udp-dhcp/" rel="prev" title="libuv-udp-dhcp">
+                libuv-udp-dhcp <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#libuv-tcp-server"><span class="nav-number">3.</span> <span class="nav-text">libuv tcp server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#範例說明"><span class="nav-number">3.1.</span> <span class="nav-text">範例說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#範例內容"><span class="nav-number">3.2.</span> <span class="nav-text">範例內容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#on_new_connection"><span class="nav-number">3.2.1.</span> <span class="nav-text">on_new_connection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#echo_read"><span class="nav-number">3.2.2.</span> <span class="nav-text">echo_read</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tcp-client"><span class="nav-number">3.2.3.</span> <span class="nav-text">tcp client</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#範例測試"><span class="nav-number">3.3.</span> <span class="nav-text">範例測試</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tcp-server"><span class="nav-number">3.3.1.</span> <span class="nav-text">tcp server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tcp-client"><span class="nav-number">3.3.2.</span> <span class="nav-text">tcp client</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">4.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#getaddrinfo取得相關訊息"><span class="nav-number">4.1.</span> <span class="nav-text">getaddrinfo取得相關訊息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">5.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/05/17/libuv-tcp-echo/';
+      var disqus_title = 'libuv-tcp-echo';
+      var disqus_url = 'http://yoursite.com/2016/05/17/libuv-tcp-echo/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

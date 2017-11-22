@@ -1,0 +1,1091 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,rs232,rs485," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近拿到1個USBtoRS485，了解相關資訊
+
+了解CH341
+了解RS232,RS485">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rs485">
+<meta property="og:url" content="http://yoursite.com/2016/10/18/rs485/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="最近拿到1個USBtoRS485，了解相關資訊
+
+了解CH341
+了解RS232,RS485">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/usb-2-rs485.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/ch341t-sch.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/ch341-pin.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/FT232RL-RS485.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/ch341-d.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/eia-232-f.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/232-transition-time.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/485-spc.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/vp3082.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/18/rs485/ch341.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.543Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="rs485">
+<meta name="twitter:description" content="最近拿到1個USBtoRS485，了解相關資訊
+
+了解CH341
+了解RS232,RS485">
+<meta name="twitter:image" content="http://yoursite.com/2016/10/18/rs485/usb-2-rs485.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> rs485 | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                rs485
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-18T15:52:08+08:00" content="2016-10-18">
+              2016-10-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/18/rs485/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/18/rs485/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/10/18/rs485/" class="leancloud_visitors" data-flag-title="rs485">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x6700;&#x8FD1;&#x62FF;&#x5230;1&#x500B;<a href="http://www.jin-hua.com.tw/webc/html/products/06.aspx?num=23066&amp;kw=rs485&amp;page=" target="_blank" rel="external">USBtoRS485</a>&#xFF0C;&#x4E86;&#x89E3;&#x76F8;&#x95DC;&#x8CC7;&#x8A0A;</p>
+<ul>
+<li>&#x4E86;&#x89E3;CH341</li>
+<li>&#x4E86;&#x89E3;RS232,RS485</li>
+</ul>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161018</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#usb20-&#x8F49;-rs485-&#x8F49;&#x63DB;&#x5668;">USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;</a><ul>
+<li><a href="#usb20-&#x8F49;-rs485-&#x8F49;&#x63DB;&#x5668;-1">USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;</a></li>
+<li><a href="#usb&#x8F6C;rs485&#x63A5;&#x53E3;">USB&#x8F6C;RS485&#x63A5;&#x53E3;</a></li>
+<li><a href="#&#x5176;&#x5B83;-rs485-sch">&#x5176;&#x5B83; RS485 SCH</a></li>
+<li><a href="#&#x91CF;&#x6E2C;rs485">&#x91CF;&#x6E2C;RS485</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8CC7;&#x6599;">&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8CC7;&#x6599;</a><ul>
+<li><a href="#&#x8A0A;&#x865F;&#x901A;&#x8A0A;">&#x8A0A;&#x865F;&#x901A;&#x8A0A;</a></li>
+<li><a href="#rs485-rs232">RS485 &amp; RS232</a></li>
+<li><a href="#tiaeia-232-f-electrical-specification">TIA/EIA-232-F Electrical Specification</a></li>
+<li><a href="#eia-485">EIA-485</a></li>
+<li><a href="#rs-485-transceivers-sn65hvd3082e">RS-485 Transceivers (SN65HVD3082E)</a></li>
+</ul>
+</li>
+<li><a href="#usb-bus-convert-chip-ch341">USB bus convert chip CH341</a></li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="usb20-&#x8F49;-rs485-&#x8F49;&#x63DB;&#x5668;"><a href="#USB2-0__u8F49_RS485__u8F49_u63DB_u5668" class="headerlink" title="USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;"></a>USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;</h2><h3 id="usb20-&#x8F49;-rs485-&#x8F49;&#x63DB;&#x5668;"><a href="#USB2-0__u8F49_RS485__u8F49_u63DB_u5668-1" class="headerlink" title="USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;"></a>USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;</h3><ul>
+<li><p><a href="http://www.jin-hua.com.tw/webc/html/products/06.aspx?num=23066&amp;kw=rs485&amp;page=" target="_blank" rel="external">&#x5DE5;&#x696D;&#x7D1A; USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;</a><br>&#x7531;CH341(USB bus convert chip)&#x53CA; SN65HVD3082E(Low-Power RS-485 Transceivers)&#x5169;&#x500B;&#x7D44;&#x6210;<br>CH341&#x8A2D;&#x5B9A;&#x70BA;serial mode&#xFF0C;TEN#&#x76F4;&#x63A5;&#x63A5;&#x5730;&#xFF0C;&#x81F4;&#x80FD;UART TX&#x529F;&#x80FD; (&#x7531;TNOW PIN&#x6C7A;&#x5B9A;: TX/RX)</p>
+<img src="/2016/10/18/rs485/usb-2-rs485.png" alt="[CH341]" title="[CH341]">
+</li>
+<li><p>lsusb<br>1a86:5523 QinHeng Electronics CH341 in serial mode, usb to serial port converter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# lsusb</span><br><span class="line">Bus 004 Device 002: ID 8087:8001 Intel Corp. </span><br><span class="line">Bus 004 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</span><br><span class="line">Bus 003 Device 002: ID 8087:8009 Intel Corp. </span><br><span class="line">Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</span><br><span class="line">Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub</span><br><span class="line">Bus 001 Device 002: ID 093a:2510 Pixart Imaging, Inc. Optical Mouse</span><br><span class="line">Bus 001 Device 003: ID 1a86:5523 QinHeng Electronics CH341 in serial mode, usb to serial port converter</span><br><span class="line">Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="usb&#x8F6C;rs485&#x63A5;&#x53E3;"><a href="#USB_u8F6CRS485_u63A5_u53E3" class="headerlink" title="USB&#x8F6C;RS485&#x63A5;&#x53E3;"></a>USB&#x8F6C;RS485&#x63A5;&#x53E3;</h3><ul>
+<li><a href="http://winchiphead.com/download/ch341/ch341ds1.pdf" target="_blank" rel="external">USB &#x603B;&#x7EBF;&#x8F6C;&#x63A5;&#x82AF;&#x7247; CH341 </a></li>
+</ul>
+<p>USB&#x8F6C;RS485&#x63A5;&#x53E3;</p>
+<img src="/2016/10/18/rs485/ch341t-sch.png" alt="[CH341]" title="[CH341]">
+<p>TEN#&#x76F4;&#x63A5;&#x63A5;&#x5730;&#x6240;&#x4EE5;&#x4E00;&#x76F4;&#x5141;&#x8BB8; CH341&#x901A;&#x8FC7;&#x4E32;&#x53E3;&#x53D1;&#x9001; (TEN#&#x76F4;&#x63A5;&#x63A5;&#x5730;)<br>TNOW&#x7528;&#x4E8E;&#x63A7;&#x5236; RS485 &#x603B;&#x7EBF;&#x534A;&#x53CC;&#x5DE5;&#x6536;&#x53D1;&#x5668; U5 &#x7684;&#x6536;&#x53D1;&#x72B6;&#x6001;<br>TNOW Hi : TE(&#x9001;&#x51FA;UART&#x8CC7;&#x6599;)<br>TNOW Lo : /RE (&#x63A5;&#x53D7;UART&#x8CC7;&#x6599;)</p>
+<img src="/2016/10/18/rs485/ch341-pin.png" alt="[CH341 PIN]" title="[CH341 PIN]">
+<h3 id="&#x5176;&#x5B83;-rs485-sch"><a href="#u5176_u5B83_RS485_SCH" class="headerlink" title="&#x5176;&#x5B83; RS485 SCH"></a>&#x5176;&#x5B83; RS485 SCH</h3><ul>
+<li><a href="https://www.google.com.tw/imgres?imgurl=http%3A%2F%2Fwww.51wendang.com%2Fpic%2F4306fc4bd0b25486c9142719%2F1-789-jpg_6_0_______-1192-0-0-1192.jpg&amp;imgrefurl=http%3A%2F%2Fwww.51wendang.com%2Fdoc%2F4306fc4bd0b25486c9142719&amp;docid=fR22D7VZU20sJM&amp;tbnid=hoXXff29PSaQYM%3A&amp;w=1192&amp;h=789&amp;bih=903&amp;biw=1700&amp;ved=0ahUKEwiv_Kqs4uXPAhWDH5QKHZ0kA4IQMwg_KBgwGA&amp;iact=mrc&amp;uact=8" target="_blank" rel="external">USB_TTL,USB&#x8F6C;TTL,CH341&#x5E94;&#x7528;</a></li>
+<li>&#x4F7F;&#x7528;FT232RL&#x7684;RS485: [USB RS485][19]<img src="/2016/10/18/rs485/FT232RL-RS485.png" alt="[USB RS485]" title="[USB RS485]">
+</li>
+</ul>
+<h3 id="&#x91CF;&#x6E2C;rs485"><a href="#u91CF_u6E2CRS485" class="headerlink" title="&#x91CF;&#x6E2C;RS485"></a>&#x91CF;&#x6E2C;RS485</h3><ul>
+<li><a href="https://ece353.engr.wisc.edu/serial-interfaces/uart-basics/" target="_blank" rel="external">UART Basics</a></li>
+<li>&#x91CF;&#x6E2C;RS485(GND&#x63A5;D-,&#x63A2;&#x68D2;&#x63A5;D+)<br>8N1,2400,&#x9001;&#x51FA;0x33<br>&#x6240;&#x4EE5;10bit&#x7D04;10x(1000/2400) = 4.16ms<img src="/2016/10/18/rs485/ch341-d.png" alt="[8N1,2400]" title="[8N1,2400]">
+</li>
+</ul>
+<p>RS485<br>Hi:     D+ - DU    ,(2V~6V)<br>Lo:       -(D+ - D-)  ,-(2V~6V)</p>
+<h2 id="&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8CC7;&#x6599;"><a href="#u5176_u5B83_u76F8_u95DC_u8CC7_u6599" class="headerlink" title="&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8CC7;&#x6599;"></a>&#x5176;&#x5B83;&#x76F8;&#x95DC;&#x8CC7;&#x6599;</h2><h3 id="&#x8A0A;&#x865F;&#x901A;&#x8A0A;"><a href="#u8A0A_u865F_u901A_u8A0A" class="headerlink" title="&#x8A0A;&#x865F;&#x901A;&#x8A0A;"></a>&#x8A0A;&#x865F;&#x901A;&#x8A0A;</h3><ul>
+<li>&#x4E32;&#x5217;<br>1&#x500B;clk&#x7522;&#x751F;1&#x500B;bit<br>ex.  <strong>I2C</strong>:SCL/SDA, <strong>UART</strong>:TX/RS</li>
+<li>&#x4E26;&#x5217;<br>1&#x500B;clk&#x7522;&#x751F;1&#x500B;byte(&#x5373;8bit)<br>&#x9700;&#x8981;&#x591A;&#x500B;&#x8173;&#x4F4D;&#xFF0C;&#x4E0D;&#x5229;&#x65BC;&#x7528;&#x65BC;&#x9060;&#x8DDD;&#x96E2;&#x50B3;&#x8F38;<br>ex.   <strong>SPI</strong>(Serial Peripheral Interface):SDI,SDO,SCK,CS</li>
+</ul>
+<ul>
+<li>&#x5728;&#x4E32;&#x5217;&#x8CC7;&#x6599;&#x50B3;&#x8F38;&#x88E1;&#xFF1A;<ul>
+<li>&#x55AE;&#x5DE5;&#xFF1A;<br>1&#x500B;&#x6642;&#x9593;&#x53EA;&#x6709;1&#x7528;&#x8655;&#xFF1A;&#x8F38;&#x51FA;&#x8CC7;&#x6599;(TX)&#xFF0C;&#x53D6;&#x5F97;&#x8CC7;&#x6599;(RX)<br>ex.   rs485-2&#x7DDA;</li>
+<li>&#x96D9;&#x5DE5;&#xFF1A;<br>1&#x500B;&#x6642;&#x9593;&#x53EF;&#x4EE5;&#x540C;&#x6642;&#x8F38;&#x51FA;&#x8CC7;&#x6599;(TX)&#x53CA;&#x53D6;&#x5F97;&#x8CC7;&#x6599;(RX)<br>ex.   uart, rs485-4&#x7DDA;</li>
+</ul>
+</li>
+</ul>
+<h3 id="rs485-rs232"><a href="#RS485__26amp_3B_RS232" class="headerlink" title="RS485 &amp; RS232"></a>RS485 &amp; RS232</h3><ul>
+<li>&#x4F86;&#x6E90;: <a href="http://chipfish.pixnet.net/blog/post/6535682" target="_blank" rel="external">RS485 &amp; RS232 &#x7C21;&#x4ECB;</a></li>
+<li>&#x5E38;&#x898B;&#x7684;&#x901A;&#x8A0A;&#x6A19;&#x6E96; : RS232&#x3001;RS423&#x3001;RS422&#x3001;RS485&#x3002;</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">&#x898F;&#x683C;</th>
+<th style="text-align:left">RS232</th>
+<th style="text-align:left">RS423</th>
+<th style="text-align:left">RS422</th>
+<th style="text-align:left">RS485</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">&#x64CD;&#x4F5C;&#x6A21;&#x5F0F;</td>
+<td style="text-align:left">&#x55AE;&#x7AEF;&#x50B3;&#x8F38;</td>
+<td style="text-align:left">&#x55AE;&#x7AEF;&#x50B3;&#x8F38;</td>
+<td style="text-align:left">&#x5DEE;&#x52D5;&#x50B3;&#x8F38;</td>
+<td style="text-align:left">&#x5DEE;&#x52D5;&#x50B3;&#x8F38;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x7DDA;&#x4E0A;&#x5141;&#x8A31;&#x4E4B;&#x50B3;&#x9001;/&#x63A5;&#x53D7;&#x6578;&#x76EE;</td>
+<td style="text-align:left">1 Driver/1 Receivers</td>
+<td style="text-align:left">1 Driver/10 Receivers</td>
+<td style="text-align:left">1 Driver/10 Receivers</td>
+<td style="text-align:left">32 Driver/32 Receivers</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x6700;&#x5927;&#x50B3;&#x8F38;&#x8DDD;&#x96E2;</td>
+<td style="text-align:left">50 feet (15 m)</td>
+<td style="text-align:left">4000 feet (1.2 km)</td>
+<td style="text-align:left">4000 feet(1.2 km)</td>
+<td style="text-align:left">4000 feet (1.2 km)</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x6700;&#x5927;&#x50B3;&#x8F38;&#x901F;&#x7387;</td>
+<td style="text-align:left">20 kb/s</td>
+<td style="text-align:left">100 kb/s</td>
+<td style="text-align:left">10 Mb/s</td>
+<td style="text-align:left">10 Mb/s</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x63A5;&#x6536;&#x7AEF;&#x4E4B;&#x8F38;&#x5165;&#x9748;&#x654F;&#x5EA6;</td>
+<td style="text-align:left">&#xB1;3 V</td>
+<td style="text-align:left">&#xB1;200 mV</td>
+<td style="text-align:left">&#xB1;200 mV</td>
+<td style="text-align:left">&#xB1;200 mV</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tiaeia-232-f-electrical-specification"><a href="#TIA/EIA-232-F_Electrical_Specification" class="headerlink" title="TIA/EIA-232-F Electrical Specification"></a>TIA/EIA-232-F Electrical Specification</h3><ul>
+<li><a href="http://www.ti.com/lit/an/slla037a/slla037a.pdf" target="_blank" rel="external">Interface Circuits for TIA/EIA-232-F</a></li>
+<li>RS232 &#x96FB;&#x6027;</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">state</th>
+<th style="text-align:left">interface voltage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">&#x8F38;&#x51FA;&#x8CC7;&#x6599;&#x70BA;1</td>
+<td style="text-align:left">-5V ~ -15V</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x8F38;&#x51FA;&#x8CC7;&#x6599;&#x70BA;0</td>
+<td style="text-align:left">+5V ~ +15V</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x63A5;&#x53D7;&#x8CC7;&#x6599;&#x70BA;0</td>
+<td style="text-align:left">3V ~ 15V</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x63A5;&#x53D7;&#x8CC7;&#x6599;&#x70BA;1</td>
+<td style="text-align:left">-3V ~ -15V</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>&#x4ECB;&#x9762;&#x4F7F;&#x7528;&#x4E00;&#x6839;&#x4FE1;&#x865F;&#x7DDA;&#x548C;&#x4E00;&#x6839;&#x4FE1;&#x865F;&#x8FD4;&#x56DE;&#x7DDA;&#x800C;&#x69CB;&#x6210;&#x5171;&#x5730;&#x7684;&#x50B3;&#x8F38;&#x5F62;&#x5F0F;&#xFF0C;<br>&#x9019;&#x7A2E;&#x5171;&#x5730;&#x50B3;&#x8F38;&#x5BB9;&#x6613;&#x7522;&#x751F;&#x5171;&#x6A21;&#x5E72;&#x64FE;&#xFF0C;&#x6240;&#x4EE5;&#x6297;&#x96DC;&#x8A0A;&#x5E72;&#x64FE;&#x6027;&#x5F31;</p>
+</li>
+<li><p>Each line should have a minimum load of 3 k&#x2126; and a maximum load of 7 k&#x2126;  which usually is part of the receiver circuit.</p>
+</li>
+<li>driven voltage<ul>
+<li>a logic 0 is represented by a driven voltage between 5 V and 15 V</li>
+<li>a logic 1of between &#x2013;5 V and &#x2013;15 V.</li>
+</ul>
+</li>
+<li>At the receiving end,<ul>
+<li>a voltage between 3 V and 15 V represents a 0 </li>
+<li>a voltage of between &#x2013;3 V and &#x2013;15 V represents a 1</li>
+</ul>
+</li>
+<li>Voltages between &#xB1;3 V are undefined and lie in the transition region (&#x7576;&#x8A0A;&#x865F;&#x70BA;+/-3V&#x4E4B;&#x9593;&#xFF0C;&#x70BA;&#x6709;&#x554F;&#x984C;&#x5340;&#x6BB5;)</li>
+<li>This effectively gives a 2-V minimum noise margin at the receiver</li>
+</ul>
+<img src="/2016/10/18/rs485/eia-232-f.png" alt="[EIA-232-F]" title="[EIA-232-F]">
+<ul>
+<li>RS232&#x4E0D;&#x80FD;&#x8A2D;&#x5B9A;&#x8D85;&#x904E;20K(&#x5373;&#x6700;&#x5927;&#x8A2D;&#x5B9A;19200)</li>
+<li>232 specifies a maximum slew rate of the signal at the output of the driver to be 30 V/&#x3BC;s</li>
+<li>This restriction, together with the  fact  that  the  drivers  and  receivers  use  a  common  signal  ground  and  the<br>associated noise introduced by the ground current, severely limits the maximum data throughput.</li>
+<li>uart&#x7684;&#x8A0A;&#x606F;&#x88E1;&#x53EF;&#x6709;&#x5171;&#x6A21;&#x7684;&#x96DC;&#x8A0A;(common signal)<br>&#x7576;&#x50B3;&#x8F38;&#x5FEB;&#x5230;&#x4E00;&#x5B9A;&#x7A0B;&#x5EA6;&#x5C31;&#x6703;&#x5403;&#x5230;&#x9810;&#x7559;&#x7684;2V&#x7A7A;&#x9593;,,&#x6B64;&#x554F;&#x984C;&#x7576;&#x7DDA;&#x9577;&#x53CA;&#x7DDA;&#x7684;&#x96FB;&#x611F;/&#x96FB;&#x963B;&#x5927;&#x6642;&#x4E5F;&#x5E38;&#x767C;&#x751F;<br>&#x4E0D;&#x904E;&#x4F9D;spec&#x7684;&#x96FB;&#x5BB9;&#x53CA;&#x9577;&#x5EA6;,,&#x6700;&#x5927;&#x5C31;&#x662F;20K</li>
+</ul>
+<img src="/2016/10/18/rs485/232-transition-time.png" alt="[Data Rate]" title="[Data Rate]">
+<h3 id="eia-485"><a href="#EIA-485" class="headerlink" title="EIA-485"></a>EIA-485</h3><ul>
+<li>EIA-485&#xFF08;&#x8FC7;&#x53BB;&#x53EB;&#x505A;RS-485&#x6216;&#x8005;RS485<a href="http://museum02.digitalarchives.tw/teldap/2011/ResearchTrend/140.118.70.170/wp-content/uploads/2012/06/diliu.pdf" target="_blank" rel="external">1</a>&#xFF09;&#x662F;&#x96B6;&#x5C5E;&#x4E8E;OSI&#x6A21;&#x578B;&#x7269;&#x7406;&#x5C42;&#x7684;&#x7535;&#x6C14;&#x7279;&#x6027;&#x89C4;&#x5B9A;&#x4E3A;2&#x7EBF;&#xFF0C;&#x534A;&#x53CC;&#x5DE5;&#xFF0C;&#x591A;&#x70B9;&#x901A;&#x4FE1;&#x7684;&#x6807;&#x51C6;</li>
+<li>RS-485&#x4ECB;&#x9762;&#x662F;&#x63A1;&#x7528;&#x5E73;&#x8861;&#x9A45;&#x52D5;&#x5668;&#x548C;&#x5DEE;&#x5206;&#x63A5;&#x6536;&#x5668;&#x7684;&#x7D44;&#x5408;&#xFF0C;&#x6297;&#x5171;&#x6A21;&#x5E79;&#x80FD;&#x529B;&#x589E;&#x5F37;&#xFF0C;&#x5373;&#x6297;&#x96DC;&#x8A0A;&#x5E72;&#x64FE;&#x6027;&#x597D;</li>
+<li>&#x4ECB;&#x9762;&#x4FE1;&#x865F;&#x96FB;&#x5E73;&#x6BD4;RS-232&#x964D;&#x4F4E;&#x4E86;&#xFF0C;&#x5C31;&#x4E0D;&#x6613;&#x640D;&#x58DE;&#x4ECB;&#x9762;&#x96FB;&#x8DEF;&#x7684;&#x6676;&#x7247;&#xFF0C;&#x4E14;&#x8A72;&#x96FB;&#x5E73;&#x8207;TTL&#x96FB;&#x5E73;&#x76F8;&#x5BB9;&#xFF0C;&#x53EF;&#x65B9;&#x4FBF;&#x8207;TTL&#x96FB;&#x8DEF;&#x9023;&#x63A5;&#x3002;</li>
+<li>&#x5DE5;&#x4E1A;RS-485&#x7535;&#x7F06;&#x5206;&#x4E3A;&#x6709;&#x4FDD;&#x62A4;&#x5957;&#x3001;&#x65E0;&#x4FDD;&#x62A4;&#x5957;&#x3001;&#x53CC;&#x7EDE;&#x7EBF;&#x3001;&#x975E;&#x5C4F;&#x853D;&#x53CC;&#x7EDE;&#x7EBF;&#xFF0C;&#x7B26;&#x5408;&#x7F8E;&#x56FD;22-24AWG&#x7EBF;&#x89C4;&#x7684;&#x7535;&#x7F06;&#x7279;&#x6027;&#x963B;&#x6297;&#x4E3A;120&#x3A9;</li>
+<li>The 485 is a balanced (differential) digital transmission line interface developed to improve on the<br>TIA/EIA-232 (referred to hereafter as 232) limitations<ul>
+<li>High signaling rate &#x2013; up to 50M bits/s</li>
+<li>Longer line length &#x2013; up to 1200 meters</li>
+<li>Differential transmission &#x2013; fewer noise emissions</li>
+<li>Multiple drivers  and receivers<img src="/2016/10/18/rs485/485-spc.png" alt="[485 Spec]" title="[485 Spec]">
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="rs-485-transceivers-sn65hvd3082e"><a href="#RS-485_Transceivers__28SN65HVD3082E_29" class="headerlink" title="RS-485 Transceivers (SN65HVD3082E)"></a>RS-485 Transceivers (SN65HVD3082E)</h3><img src="/2016/10/18/rs485/vp3082.png" alt="[SN65HVD3082ED -VP3082 ]" title="[SN65HVD3082ED -VP3082 ]">
+<hr>
+<h2 id="usb-bus-convert-chip-ch341"><a href="#USB_bus_convert_chip_CH341" class="headerlink" title="USB bus convert chip CH341"></a>USB bus convert chip CH341</h2><ul>
+<li><a href="http://www.jin-hua.com.tw/webc/html/products/06.aspx?num=23066&amp;kw=rs485&amp;page=" target="_blank" rel="external">&#x5DE5;&#x696D;&#x7D1A; USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;</a></li>
+<li><a href="http://www.wch.cn/download/CH341DS1_PDF.html" target="_blank" rel="external">CH341&#x76F8;&#x95DC;&#x8CC7;&#x6599;&#x4E0B;&#x8F09;</a></li>
+<li><a href="http://data.oomipood.ee/drivers//ch341a_programmer/CH341_chip.pdf" target="_blank" rel="external">USB bus convert chip CH341</a><br>CH341 is a USB bus convert chip, providing UART, printer port, parallel and synchronous serial with<br>2-wire or 4-wire through USB bus. <img src="/2016/10/18/rs485/ch341.png" alt="[CH341]" title="[CH341]">
+</li>
+</ul>
+<p>&#x63D0;&#x4F9B;&#x4E0B;&#x5217;4&#x7A2E;&#x6A21;&#x5F0F;&#xFF1A;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">mode</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">uart mode</td>
+<td style="text-align:left">serial transfer enable, serial receive in ready etc.</td>
+</tr>
+<tr>
+<td style="text-align:left">printer port mod</td>
+<td style="text-align:left">Standard USB printer port used to upgrade parallel printer, conforms to relevant USB specification.</td>
+</tr>
+<tr>
+<td style="text-align:left">parallel mode</td>
+<td style="text-align:left">CH341 gives out 8-bit parallel in EPP or MEM mode.</td>
+</tr>
+<tr>
+<td style="text-align:left">Synchronous serial</td>
+<td style="text-align:left">2-wire (SCL, SDA)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">4-wire (CS, SCK/CLK, MISO/SDI/DIN and MOSI/SDO/DOUT) interface</td>
+</tr>
+</tbody>
+</table>
+<p>EPP(memory read/write mode)<br>MEM mode(memory read/write mode)</p>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://museum02.digitalarchives.tw/teldap/2011/ResearchTrend/140.118.70.170/wp-content/uploads/2012/06/diliu.pdf" target="_blank" rel="external">&#x4E32;&#x4E26;&#x5217;&#x50B3;&#x8F38;&#x61C9;&#x7528;</a></li>
+<li><a href="http://www.ti.com/lit/an/slla037a/slla037a.pdf" target="_blank" rel="external">Interface Circuits for TIA/EIA-232-F</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/RS-232" target="_blank" rel="external">RS-232 wiki</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/EIA-485" target="_blank" rel="external">EIA-485</a></li>
+<li><a href="http://chipfish.pixnet.net/blog/post/6535682" target="_blank" rel="external">RS485 &amp; RS232 &#x7C21;&#x4ECB;</a></li>
+<li><a href="http://www.lcis.com.tw/paper_store/paper_store/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93-RS485%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93%E8%AA%AA%E6%98%8E-201412452329187.pdf" target="_blank" rel="external">RS485&#x901A;&#x4FE1;&#x4ECB;&#x9762;</a></li>
+<li><a href="http://m.blog.csdn.net/article/details?id=48543953" target="_blank" rel="external">RS-485&#x8BBE;&#x8BA1;&#x6307;&#x5357; (TI:SLLA272B-2008.05)</a></li>
+<li><a href="http://www.ti.com/lit/an/slla036d/slla036d.pdf" target="_blank" rel="external">Interface Circuits for TIA/EIA-485</a></li>
+<li><a href="http://baike.baidu.com/view/196467.htm" target="_blank" rel="external">rs485</a></li>
+<li><a href="http://winchiphead.com/download/ch341/ch341ds1.pdf" target="_blank" rel="external">USB &#x603B;&#x7EBF;&#x8F6C;&#x63A5;&#x82AF;&#x7247; CH341 </a></li>
+<li>ch341 kernel patch: <a href="https://github.com/karlp/linux/commits/ch341-3.18.6" target="_blank" rel="external">kernel ch341</a></li>
+<li><a href="http://cds.linear.com/docs/en/datasheet/485fl.pdf" target="_blank" rel="external">LTC485</a></li>
+<li><a href="http://data.oomipood.ee/drivers//ch341a_programmer/CH341_chip.pdf" target="_blank" rel="external">USB bus convert chip CH341</a></li>
+<li><a href="http://www.jin-hua.com.tw/webc/html/products/06.aspx?num=23066&amp;kw=rs485&amp;page=" target="_blank" rel="external">&#x5DE5;&#x696D;&#x7D1A; USB2.0 &#x8F49; RS485 &#x8F49;&#x63DB;&#x5668;</a></li>
+<li><a href="http://www.wch.cn/download/CH341DS1_PDF.html" target="_blank" rel="external">CH341&#x76F8;&#x95DC;&#x8CC7;&#x6599;&#x4E0B;&#x8F09;</a></li>
+<li><a href="https://www.google.com.tw/imgres?imgurl=http%3A%2F%2Fwww.51wendang.com%2Fpic%2F4306fc4bd0b25486c9142719%2F1-789-jpg_6_0_______-1192-0-0-1192.jpg&amp;imgrefurl=http%3A%2F%2Fwww.51wendang.com%2Fdoc%2F4306fc4bd0b25486c9142719&amp;docid=fR22D7VZU20sJM&amp;tbnid=hoXXff29PSaQYM%3A&amp;w=1192&amp;h=789&amp;bih=903&amp;biw=1700&amp;ved=0ahUKEwiv_Kqs4uXPAhWDH5QKHZ0kA4IQMwg_KBgwGA&amp;iact=mrc&amp;uact=8" target="_blank" rel="external">USB_TTL,USB&#x8F6C;TTL,CH341&#x5E94;&#x7528;</a></li>
+<li>&#x4F7F;&#x7528;FT232RL&#x7684;RS485: <a href="/2016/10/18/rs485/USB-RS485-rev0.pdf" title="[USB RS485]">[USB RS485]</a></li>
+<li><a href="https://ece353.engr.wisc.edu/serial-interfaces/uart-basics/" target="_blank" rel="external">UART Basics</a></li>
+<li>CH341<ul>
+<li><a href="http://www.wch.cn/bbs/thread-63784-1.html" target="_blank" rel="external">CH341T&#x8F6C;485&#x6821;&#x9A8C;&#x4F4D;&#x7684;&#x95EE;&#x9898;</a></li>
+<li><a href="http://delphi.ktop.com.tw/board.php?cid=173&amp;fid=1167&amp;tid=97419" target="_blank" rel="external">&#x5982;&#x4F55;&#x5C07;TTL RS-232 &#x8F49; RS-485</a></li>
+<li><a href="https://forums.linuxmint.com/viewtopic.php?t=135914" target="_blank" rel="external">USB to Serial</a></li>
+<li><a href="https://github.com/aperepel/raspberrypi-ch340-driver" target="_blank" rel="external">CH340/341 UART Driver for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/rs232/" rel="tag">#rs232</a>
+          
+            <a href="/tags/rs485/" rel="tag">#rs485</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/18/tmpfs/" rel="next" title="tmpfs">
+                <i class="fa fa-chevron-left"></i> tmpfs
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/19/minicom/" rel="prev" title="minicom">
+                minicom <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#usb20-轉-rs485-轉換器"><span class="nav-number">3.</span> <span class="nav-text">USB2.0 轉 RS485 轉換器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#usb20-轉-rs485-轉換器"><span class="nav-number">3.1.</span> <span class="nav-text">USB2.0 轉 RS485 轉換器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usb转rs485接口"><span class="nav-number">3.2.</span> <span class="nav-text">USB转RS485接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它-rs485-sch"><span class="nav-number">3.3.</span> <span class="nav-text">其它 RS485 SCH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#量測rs485"><span class="nav-number">3.4.</span> <span class="nav-text">量測RS485</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它相關資料"><span class="nav-number">4.</span> <span class="nav-text">其它相關資料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#訊號通訊"><span class="nav-number">4.1.</span> <span class="nav-text">訊號通訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rs485-rs232"><span class="nav-number">4.2.</span> <span class="nav-text">RS485 & RS232</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tiaeia-232-f-electrical-specification"><span class="nav-number">4.3.</span> <span class="nav-text">TIA/EIA-232-F Electrical Specification</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eia-485"><span class="nav-number">4.4.</span> <span class="nav-text">EIA-485</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rs-485-transceivers-sn65hvd3082e"><span class="nav-number">4.5.</span> <span class="nav-text">RS-485 Transceivers (SN65HVD3082E)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#usb-bus-convert-chip-ch341"><span class="nav-number">5.</span> <span class="nav-text">USB bus convert chip CH341</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">6.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/10/18/rs485/';
+      var disqus_title = 'rs485';
+      var disqus_url = 'http://yoursite.com/2016/10/18/rs485/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

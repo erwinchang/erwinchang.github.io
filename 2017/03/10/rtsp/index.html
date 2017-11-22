@@ -1,0 +1,993 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,rtsp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解rtsp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rtsp">
+<meta property="og:url" content="http://yoursite.com/2017/03/10/rtsp/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解rtsp">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/wiki-options.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/pc200-options.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/wiki-describe.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/pc200-describe.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/wiki-SETUP.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/pc200-setup.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/wiki-play.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/wiki-teardown.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/rtsp-flow.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/10/rtsp/wiki-sdp.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.551Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="rtsp">
+<meta name="twitter:description" content="了解rtsp">
+<meta name="twitter:image" content="http://yoursite.com/2017/03/10/rtsp/wiki-options.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> rtsp | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                rtsp
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-03-10T11:24:51+08:00" content="2017-03-10">
+              2017-03-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2017/03/10/rtsp/" class="leancloud_visitors" data-flag-title="rtsp">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;rtsp</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170310</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#rtsp">RTSP</a></li>
+<li><a href="#rtsp-protocol-directives">RTSP Protocol directives</a><ul>
+<li><a href="#options">OPTIONS</a></li>
+<li><a href="#describe">DESCRIBE</a></li>
+<li><a href="#setup">SETUP</a></li>
+<li><a href="#play">PLAY</a></li>
+<li><a href="#teardown">TEARDOWN</a></li>
+</ul>
+</li>
+<li><a href="#rtsp-flow">RTSP Flow</a></li>
+<li><a href="#session-description-protocol">Session Description Protocol</a></li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="rtsp"><a href="#RTSP" class="headerlink" title="RTSP"></a>RTSP</h2><ul>
+<li><p>RTP</p>
+<ul>
+<li>RTP&#x5354;&#x5B9A;&#x5E38;&#x7528;&#x65BC;&#x6D41;&#x5A92;&#x9AD4;&#x7CFB;&#x7D71;&#xFF08;&#x914D;&#x5408;RTCP&#x5354;&#x5B9A;&#xFF09;&#xFF0C;&#x8996;&#x8A0A;&#x6703;&#x8B70;</li>
+<li>RTP&#x53EA;&#x50B3;&#x9001;&#x8CC7;&#x6599;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x7528;&#x5230;RTCP&#x4F86;&#x63A7;&#x5236;</li>
+<li>RTP&#x5354;&#x5B9A;&#x50B3;media stream(ex. audio,video)</li>
+<li>RTCP&#x5354;&#x5B9A;&#x50B3;&#x63A7;&#x5236;&#x8A0A;&#x606F;(ex.Qos, sync)</li>
+<li>&#x50B3;&#x9001;&#x7AEF;&#x5C31;&#x6703;&#x5C07;media&#x5C01;&#x5305;&#x5728;&#x4E00;&#x500B;RTP packet&#x88E1;&#x9762;&#xFF0C;&#x7136;&#x5F8C;&#x518D;&#x628A;packet&#x5C01;&#x5305;&#x5728;&#x4E00;&#x500B;UDP&#x7684;segment&#x4E2D;&#xFF0C;&#x518D;&#x50B3;&#x5230;&#x63A5;&#x6536;&#x7AEF;</li>
+</ul>
+</li>
+<li><p>RTP Payload Format</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">type</th>
+<th style="text-align:left">RFC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">RTP Payload Format for H.264 Video</td>
+<td style="text-align:left">RFC6184</td>
+</tr>
+<tr>
+<td style="text-align:left">RTP Payload Format for Transport of MPEG-4 Elementary Streams</td>
+<td style="text-align:left">RFC3640</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>RTSP</p>
+<ul>
+<li>&#x5373;&#x6642;&#x6D41;&#x5354;&#x8B70;&#xFF08;RTSP&#xFF1A;Real Time Streaming Protocol&#xFF09;</li>
+<li>RTSP provides an extensible framework to enable  controlled, on-demand delivery of real-time data, such as audio and video</li>
+<li>RTSP&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B;&#x53EF;&#x64F4;&#x5C55;&#x6846;&#x67B6;&#xFF0C;&#x4F7F;&#x5373;&#x6642;&#x8CC7;&#x6599;&#xFF0C;&#x5982;&#x97F3;&#x8A0A;&#x8207;&#x8996;&#x983B;&#x7684;&#x53D7;&#x63A7;&#x3001;&#x9EDE;&#x64AD;&#x6210;&#x70BA;&#x53EF;&#x80FD;</li>
+<li>&#x8A72;&#x5354;&#x5B9A;&#x76EE;&#x7684;&#x5728;&#x65BC;&#x63A7;&#x5236;&#x591A;&#x500B;&#x8CC7;&#x6599;&#x767C;&#x9001;&#x9023;&#x63A5;&#xFF0C;&#x70BA;&#x9078;&#x64C7;&#x767C;&#x9001;&#x901A;&#x9053;&#xFF0C;&#x5982;UDP&#x3001;&#x591A;&#x64AD;UDP&#x8207;TCP&#x63D0;&#x4F9B;&#x9014;&#x5F91;&#xFF0C;&#x4E26;&#x70BA;&#x9078;&#x64C7;&#x57FA;&#x65BC;RTP&#x4E0A;&#x767C;&#x9001;&#x6A5F;&#x5236;&#x63D0;&#x4F9B;&#x65B9;&#x6CD5;</li>
+<li>In other words, RTSP acts as a &#x201C;network remote control&#x201D; for multimedia servers.</li>
+</ul>
+</li>
+<li><p>RTSP States</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">state</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">SETUP</td>
+<td style="text-align:left">Cause the server to allocate resources for a stream and start an RTSP session.</td>
+</tr>
+<tr>
+<td style="text-align:left">PLAY and RECORD</td>
+<td style="text-align:left">Starts data transmission on a stream allocated via SETUP.</td>
+</tr>
+<tr>
+<td style="text-align:left">PAUSE</td>
+<td style="text-align:left">temporaily hasts a stream without freeing server resources.</td>
+</tr>
+<tr>
+<td style="text-align:left">TREADOWN</td>
+<td style="text-align:left">Fress resource assocate with the stream. The RTSP session casses to exit on the server.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="rtsp-protocol-directives"><a href="#RTSP_Protocol_directives" class="headerlink" title="RTSP Protocol directives"></a>RTSP Protocol directives</h2><p>RTSP has state; an identifier is used when needed to track concurrent sessions</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">&#x7A0B;&#x5E8F;</th>
+<th style="text-align:left">&#x5167;&#x5BB9;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">&#x8A62;&#x554F;&#x4F3A;&#x670D;&#x5668;&#x652F;&#x63F4;&#x54EA;&#x4E9B;RTSP&#x65B9;&#x6CD5;</td>
+<td style="text-align:left"><strong>OPTIONS</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">ex. DESCRIBE,SETUP,TEARDOWN, PLAY&#x7B49;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x7528;&#x6236;&#x7AEF;&#x8981;&#x6C42;&#x67D0;&#x500B;&#x9023;&#x7D50;&#x7684;&#x63CF;&#x8FF0;(SDP)</td>
+<td style="text-align:left"><strong>DESCRIBE</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">ex. vidoe/audio track</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x7528;&#x6236;&#x7AEF;&#x8A2D;&#x5B9A; RTSP &#x9023;&#x7DDA;</td>
+<td style="text-align:left"><strong>SETUP</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">client&#x63D0;&#x51FA;&#x5C0D;&#x50CF;rtsp://192.168.22.33:554/video0.sdp/track1</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Server&#x56DE;&#x61C9;&#x5141;&#x8A31;port&#x4E26;&#x4E14;&#x7F3A;&#x5C11;&#x7684;&#x90E8;&#x5206;(ex.unicast,session,timeout&#x7B49;)</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x7528;&#x6236;&#x7AEF;&#x8981;&#x6C42;&#x4F3A;&#x670D;&#x5668;V &#x958B;&#x59CB;&#x50B3;&#x9001;&#x5F71;&#x7247;</td>
+<td style="text-align:left">PALY</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="options"><a href="#OPTIONS" class="headerlink" title="OPTIONS"></a>OPTIONS</h3><p>An OPTIONS request returns the request types the server will accept.<br>Client&#x9001;&#x51FA;OPTIONS<br>Server&#x56DE;&#x61C9;&#x76EE;&#x524D;&#x53EF;&#x4EE5;&#x63A5;&#x7684;&#x6307;&#x4EE4;(DESCRIBE,SETUP,TEARDOWN, PLAY&#x7B49;)<br><img src="/2017/03/10/rtsp/wiki-options.png" alt="[wiki-options]" title="[wiki-options]"><br><img src="/2017/03/10/rtsp/pc200-options.png" alt="[&#x5BE6;&#x969B;&#x5167;&#x5BB9;]" title="[&#x5BE6;&#x969B;&#x5167;&#x5BB9;]"></p>
+<h3 id="describe"><a href="#DESCRIBE" class="headerlink" title="DESCRIBE"></a>DESCRIBE</h3><p>A DESCRIBE request includes an RTSP URL (rtsp://&#x2026;), and the type of reply data that can be handled.<br>This reply includes the presentation description, typically in Session Description Protocol (SDP) format.<br>the presentation description lists the media streams controlled with the aggregate URL.<br>&#x5728;wiki&#x7BC4;&#x4F8B;&#x4E2D;&#x6709;video&#x53CA;audio<br><img src="/2017/03/10/rtsp/wiki-describe.png" alt="[wiki-describe]" title="[wiki-describe]"></p>
+<p>&#x5728;&#x5BE6;&#x969B;&#x61C9;&#x7528;&#x4E0A;<br>&#x7531;m=video&#x7684;&#x5C6C;&#x6027;&#x4E2D;(a=control:track1)&#xFF0C;&#x53D6;&#x51FA;video track&#x70BA;&#x201D;track1&#x201D;<br><img src="/2017/03/10/rtsp/pc200-describe.png" alt="[&#x5BE6;&#x969B;&#x5167;&#x5BB9;]" title="[&#x5BE6;&#x969B;&#x5167;&#x5BB9;]"></p>
+<ul>
+<li><p>&#x5728;&#x56DE;&#x61C9;&#x7684;&#x8CC7;&#x6599;&#x4E2D;&#x5B9A;&#x7FA9;&#x4E86;3&#x7A2E;&#x983B;&#x5BEC;(three types of Bandwidth)<br><a href="https://supportforums.cisco.com/document/12628486/understand-video-signaling-sdp-debugs" target="_blank" rel="external">Understand Video Signaling with SDP Debugs</a></p>
+<ul>
+<li>TIAS<br>Transport Independent Application Specific (TIAS) in bps:<br>Bandwidth does NOT include the lower layers (e.g. RTP bandwidth only)</li>
+<li>AS<br>Application Specific (AS) in kbps:<br>Bandwidth includes the lower layers (e.g. TCP/UDP and IP)</li>
+<li>CT<br>Conference Total (CT):<br>Max Bandwidth that a Conference Session will use</li>
+</ul>
+</li>
+<li><p>&#x4F4E;&#x4E0B;&#x7684;camera&#x4F7F;&#x7528;AS&#x5B9A;&#x7FA9;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b=AS:12000</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="setup"><a href="#SETUP" class="headerlink" title="SETUP"></a>SETUP</h3><p>A SETUP request specifies how a single media stream must be transported.<br>This must be done before a PLAY request is sent.<br>This specifier typically includes a local port for receiving RTP data (audio or video)<br><img src="/2017/03/10/rtsp/wiki-SETUP.png" alt="[wiki-SETUP]" title="[wiki-SETUP]"></p>
+<p>Client&#x8DDF;Server&#x63D0;&#x51FA;&#x7279;&#x5B9A;stream&#x9700;&#x6C42;(video/audio track)<br>Server&#x56DE;&#x61C9;&#x5141;&#x8A31;port&#x4E26;&#x4E14;&#x7F3A;&#x5C11;&#x7684;&#x90E8;&#x5206;(ex.unicast,session,timeout<br><img src="/2017/03/10/rtsp/pc200-setup.png" alt="[&#x5BE6;&#x969B;&#x5167;&#x5BB9;]" title="[&#x5BE6;&#x969B;&#x5167;&#x5BB9;]"></p>
+<h3 id="play"><a href="#PLAY" class="headerlink" title="PLAY"></a>PLAY</h3><p>A PLAY request will cause one or all media streams to be played.<br>&#x53EF;&#x6307;&#x5B9A;&#x64A5;&#x653E;&#x7684;RANGE&#xFF0C;&#x82E5;&#x7121;&#x6307;&#x5B9A;&#x5247;&#x64A5;&#x5230;&#x7D50;&#x675F;<br><img src="/2017/03/10/rtsp/wiki-play.png" alt="[wiki-play]" title="[wiki-play]"><br></p>
+<h3 id="teardown"><a href="#TEARDOWN" class="headerlink" title="TEARDOWN"></a>TEARDOWN</h3><p>A TEARDOWN request is used to terminate the session. It stops all media streams and frees all session related data on the server.<br><img src="/2017/03/10/rtsp/wiki-teardown.png" alt="[wiki-teardown]" title="[wiki-teardown]"></p>
+<hr>
+<h2 id="rtsp-flow"><a href="#RTSP_Flow" class="headerlink" title="RTSP Flow"></a>RTSP Flow</h2><ul>
+<li>RTSP Flow<br>camera ip: 192.168.22.33<br>nvr ip: 192.168.22.51<br>&#x5728;camera&#x6709;&#x5927;&#x5C0F;&#x78BC;&#x6D41;&#x6642;<br>&#x5C31;&#x6703;&#x6709;&#x5169;&#x689D;RTSP&#x7684;FLOW&#x5982;&#x4E0B;<br>&#x6700;&#x5F8C;&#x5404;&#x81EA;Play<br>&#x5927;&#x78BC;&#x6D41;&#xFF1A;PLAY rtps://192.168.22.33:554/video0.sdp RTSP/1.0<br>&#x5C0F;&#x78BC;&#x6D41;&#xFF1A;PLAY rtps://192.168.22.33:554/video1.sdp RTSP/1.0<img src="/2017/03/10/rtsp/rtsp-flow.png" alt="[RTSP Flow]" title="[RTSP Flow]">
+</li>
+</ul>
+<hr>
+<h2 id="session-description-protocol"><a href="#Session_Description_Protocol" class="headerlink" title="Session Description Protocol"></a>Session Description Protocol</h2><p><a href="https://en.wikipedia.org/wiki/Session_Description_Protocol" target="_blank" rel="external">Session Description Protocol</a><br>&#x5728;RTSP&#x4E2D;Server&#x56DE;&#x61C9;DESCRIBE&#x662F;&#x63A1;&#x7528;SDP&#x683C;&#x5F0F;&#x5982;&#x4E0B;<br>&#x4E3B;&#x8981;&#x6709;3&#x500B;section(Session description,Time description,Media description)<br>&#x661F;&#x865F;&#x8868;&#x793A;&#x53EF;&#x6709;&#x53EF;&#x7121;&#x6B04;&#x4F4D;(options)<br><img src="/2017/03/10/rtsp/wiki-sdp.png" alt="[SDP]" title="[SDP]"></p>
+<ul>
+<li><p>&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">v=0</span><br><span class="line">o=jdoe 2890844526 2890842807 IN IP4 10.47.16.5</span><br><span class="line">s=SDP Seminar</span><br><span class="line">i=A Seminar on the session description protocol</span><br><span class="line">u=http://www.example.com/seminars/sdp.pdf</span><br><span class="line">e=j.doe@example.com (Jane Doe)</span><br><span class="line">c=IN IP4 224.2.17.12/127</span><br><span class="line">t=2873397496 2873404696</span><br><span class="line">a=recvonly</span><br><span class="line">m=audio 49170 RTP/AVP 0</span><br><span class="line">m=video 51372 RTP/AVP 99</span><br><span class="line">a=rtpmap:99 h263-1998/90000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ex1<br>This session is originated by the user &#x2018;jdoe&#x2019;, at IPv4 address 10.47.16.5.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">o=jdoe 2890844526 2890842807 IN IP4 10.47.16.5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ex2<br>Its name is &#x201C;SDP Seminar&#x201D; </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=SDP Seminar</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ex3.<br>Two media descriptions are provided, both using RTP Audio Video Profile.<br>The first is an audio stream on port 49170 using RTP/AVP payload type 0<br>second is a video stream on port 51372 using RTP/AVP payload type 99<br>&#x5169;&#x500B;m, &#x8868;&#x793A;&#x6709;&#x5169;&#x7D44;media stream&#xFF0C;&#x5404;&#x5225;&#x5728;port 48170&#x53CA;51372</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m=audio 49170 RTP/AVP 0</span><br><span class="line">m=video 51372 RTP/AVP 99</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ex4.<br>&#x8AAA;&#x660E;&#x6B64;padload&#x7684;&#x5C6C;&#x6027;h263<br>an attribute is included which maps RTP/AVP payload type 99 to format h263-1998 with a 90kHz clock rate</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=rtpmap:99 h263-1998/90000</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol" target="_blank" rel="external">wiki Real Time Streaming Protocol</a></li>
+<li><a href="http://mesonwu.blogspot.tw/2015/10/streaming-rtp-rtcp-rtsp-rtmp-hls.html" target="_blank" rel="external">Streaming &#x901A;&#x8A0A;&#x5354;&#x5B9A; RTP RTCP RTSP RTMP HLS &#x4ECB;&#x7D39; </a></li>
+<li><a href="https://en.wikipedia.org/wiki/Real-time_Transport_Protocol" target="_blank" rel="external">wiki RTP</a></li>
+<li><a href="http://www.networksorcery.com/enp/protocol/rtp.htm" target="_blank" rel="external">RTP, Real-time Transport Protocol</a></li>
+<li><a href="https://tools.ietf.org/html/rfc2326" target="_blank" rel="external">Real Time Streaming Protocol (RTSP), RFC2326</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Session_Description_Protocol" target="_blank" rel="external">Session Description Protocol</a></li>
+<li><a href="http://albert-oma.blogspot.tw/2012/05/rtsp.html" target="_blank" rel="external">RTSP&#x4F8B;&#x5B50; </a></li>
+<li><a href="https://supportforums.cisco.com/document/12628486/understand-video-signaling-sdp-debugs" target="_blank" rel="external">Understand Video Signaling with SDP Debugs</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/rtsp/" rel="tag">#rtsp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/09/pc-nvr-onvif/" rel="next" title="pc-nvr-onvif">
+                <i class="fa fa-chevron-left"></i> pc-nvr-onvif
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/14/h264/" rel="prev" title="h264">
+                h264 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rtsp"><span class="nav-number">3.</span> <span class="nav-text">RTSP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rtsp-protocol-directives"><span class="nav-number">4.</span> <span class="nav-text">RTSP Protocol directives</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#options"><span class="nav-number">4.1.</span> <span class="nav-text">OPTIONS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#describe"><span class="nav-number">4.2.</span> <span class="nav-text">DESCRIBE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setup"><span class="nav-number">4.3.</span> <span class="nav-text">SETUP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#play"><span class="nav-number">4.4.</span> <span class="nav-text">PLAY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#teardown"><span class="nav-number">4.5.</span> <span class="nav-text">TEARDOWN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rtsp-flow"><span class="nav-number">5.</span> <span class="nav-text">RTSP Flow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#session-description-protocol"><span class="nav-number">6.</span> <span class="nav-text">Session Description Protocol</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">7.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/03/10/rtsp/';
+      var disqus_title = 'rtsp';
+      var disqus_url = 'http://yoursite.com/2017/03/10/rtsp/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

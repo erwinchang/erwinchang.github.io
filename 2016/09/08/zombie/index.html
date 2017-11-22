@@ -1,0 +1,900 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,ps," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="於程式中查看到signal(SIGCHLD,SIG_IGN)，了解一下用意">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zombie">
+<meta property="og:url" content="http://yoursite.com/2016/09/08/zombie/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="於程式中查看到signal(SIGCHLD,SIG_IGN)，了解一下用意">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zombie">
+<meta name="twitter:description" content="於程式中查看到signal(SIGCHLD,SIG_IGN)，了解一下用意">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> zombie | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                zombie
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-09-08T16:41:45+08:00" content="2016-09-08">
+              2016-09-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/08/zombie/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/08/zombie/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/09/08/zombie/" class="leancloud_visitors" data-flag-title="zombie">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x65BC;&#x7A0B;&#x5F0F;&#x4E2D;&#x67E5;&#x770B;&#x5230;signal(SIGCHLD,SIG_IGN)&#xFF0C;&#x4E86;&#x89E3;&#x4E00;&#x4E0B;&#x7528;&#x610F;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160908</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x5F4A;&#x5C4D;&#x7A0B;&#x5E8F;zombie">&#x5F4A;&#x5C4D;&#x7A0B;&#x5E8F;(zombie)</a><ul>
+<li><a href="#&#x50F5;&#x5C4D;-zombie-&#x7A0B;&#x5E8F;&#x662F;&#x4EC0;&#x9EBC;">&#x50F5;&#x5C4D; (zombie) &#x7A0B;&#x5E8F;&#x662F;&#x4EC0;&#x9EBC;</a></li>
+<li><a href="#ps">ps</a></li>
+<li><a href="#example-&#x672A;&#x52A0;&#x5165;sigchld&#x8A0A;&#x606F;&#x8655;&#x7406;">example (&#x672A;&#x52A0;&#x5165;SIGCHLD&#x8A0A;&#x606F;&#x8655;&#x7406;)</a></li>
+<li><a href="#example-&#x52A0;&#x5165;sigchld&#x8A0A;&#x606F;&#x8655;&#x7406;">example (&#x52A0;&#x5165;SIGCHLD&#x8A0A;&#x606F;&#x8655;&#x7406;)</a></li>
+</ul>
+</li>
+<li><a href="#fork">fork</a><ul>
+<li><a href="#fork-example">fork example</a></li>
+<li><a href="#fork-ex2">fork ex2</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x5F4A;&#x5C4D;&#x7A0B;&#x5E8F;zombie"><a href="#u5F4A_u5C4D_u7A0B_u5E8F_28zombie_29" class="headerlink" title="&#x5F4A;&#x5C4D;&#x7A0B;&#x5E8F;(zombie)"></a>&#x5F4A;&#x5C4D;&#x7A0B;&#x5E8F;(zombie)</h2><h3 id="&#x50F5;&#x5C4D;-zombie-&#x7A0B;&#x5E8F;&#x662F;&#x4EC0;&#x9EBC;"><a href="#u50F5_u5C4D__28zombie_29__u7A0B_u5E8F_u662F_u4EC0_u9EBC" class="headerlink" title="&#x50F5;&#x5C4D; (zombie) &#x7A0B;&#x5E8F;&#x662F;&#x4EC0;&#x9EBC;"></a>&#x50F5;&#x5C4D; (zombie) &#x7A0B;&#x5E8F;&#x662F;&#x4EC0;&#x9EBC;</h3><p>&#x9020;&#x6210;&#x50F5;&#x5C4D;&#x7A0B;&#x5E8F;&#x7684;&#x6210;&#x56E0;&#x662F;&#x56E0;&#x70BA;&#x8A72;&#x7A0B;&#x5E8F;&#x61C9;&#x8A72;&#x5DF2;&#x7D93;&#x57F7;&#x884C;&#x5B8C;&#x7562;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x56E0;&#x6545;&#x61C9;&#x8A72;&#x8981;&#x7D42;&#x6B62;&#x4E86;&#xFF0C; &#x4F46;&#x662F;&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x7236;&#x7A0B;&#x5E8F;&#x537B;&#x7121;&#x6CD5;&#x5B8C;&#x6574;&#x7684;&#x5C07;&#x8A72;&#x7A0B;&#x5E8F;&#x7D50;&#x675F;&#x6389;&#xFF0C;<strong>&#x800C;&#x9020;&#x6210;&#x90A3;&#x500B;&#x7A0B;&#x5E8F;&#x4E00;&#x76F4;&#x5B58;&#x5728;&#x8A18;&#x61B6;&#x9AD4;&#x7576;&#x4E2D;</strong></p>
+<h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h3><ul>
+<li><p>ps</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">xx :[~]# ps</span><br><span class="line">  PID USER       VSZ STAT COMMAND</span><br><span class="line">    1 root      2164 S    init</span><br><span class="line">    2 root         0 SW   [kthreadd]</span><br><span class="line">    3 root         0 SW   [ksoftirqd/0]</span><br><span class="line">xx </span><br><span class="line">1315 root      1604 S    ./a.out</span><br><span class="line">1316 root         0 Z    [a.out]</span><br><span class="line">1317 root         0 Z    [a.out]</span><br><span class="line">1318 root         0 Z    [a.out]</span><br><span class="line">1319 root         0 Z    [a.out]</span><br><span class="line">1320 root         0 Z    [a.out]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>VSZ : &#x8A72; process &#x4F7F;&#x7528;&#x6389;&#x7684;&#x865B;&#x64EC;&#x8A18;&#x61B6;&#x9AD4;&#x91CF; (Kbytes)</p>
+</li>
+<li>STAT : &#x8A72;&#x7A0B;&#x5E8F;&#x76EE;&#x524D;&#x7684;&#x72C0;&#x614B;&#xFF0C;&#x72C0;&#x614B;&#x986F;&#x793A;&#x8207; ps -l &#x7684; S &#x65D7;&#x6A19;&#x76F8;&#x540C; (R/S/T/Z)<ul>
+<li>R (Running)</li>
+<li>S (Sleep)&#xFF1A;&#x8A72;&#x7A0B;&#x5F0F;&#x76EE;&#x524D;&#x6B63;&#x5728;&#x7761;&#x7720;&#x72C0;&#x614B;(idle)&#xFF0C;&#x4F46;&#x53EF;&#x4EE5;&#x88AB;&#x559A;&#x9192;(signal)</li>
+<li>T &#xFF1A;&#x505C;&#x6B62;&#x72C0;&#x614B;(stop)&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x5728;&#x5DE5;&#x4F5C;&#x63A7;&#x5236;(&#x80CC;&#x666F;&#x66AB;&#x505C;)&#x6216;&#x9664;&#x932F; (traced) &#x72C0;&#x614B;</li>
+<li>Z (Zombie)&#xFF1A;&#x50F5;&#x5C4D;&#x72C0;&#x614B;&#xFF0C;&#x7A0B;&#x5E8F;&#x5DF2;&#x7D93;&#x7D42;&#x6B62;&#x4F46;&#x537B;&#x7121;&#x6CD5;&#x88AB;&#x79FB;&#x9664;&#x81F3;&#x8A18;&#x61B6;&#x9AD4;&#x5916;</li>
+</ul>
+</li>
+</ul>
+<h3 id="example-&#x672A;&#x52A0;&#x5165;sigchld&#x8A0A;&#x606F;&#x8655;&#x7406;"><a href="#example__28_u672A_u52A0_u5165SIGCHLD_u8A0A_u606F_u8655_u7406_29" class="headerlink" title="example (&#x672A;&#x52A0;&#x5165;SIGCHLD&#x8A0A;&#x606F;&#x8655;&#x7406;)"></a>example (&#x672A;&#x52A0;&#x5165;SIGCHLD&#x8A0A;&#x606F;&#x8655;&#x7406;)</h3><ul>
+<li><p>&#x672A;&#x52A0;&#x5165;SIGCHLD&#x8A0A;&#x606F;&#x8655;&#x7406;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">int main(){</span><br><span class="line">        int i;</span><br><span class="line">        pid_t pid;</span><br><span class="line"></span><br><span class="line">        for( i=0; i&lt;5; i++) {</span><br><span class="line">                pid = fork();</span><br><span class="line">                if ( pid == 0 )</span><br><span class="line">                        break;</span><br><span class="line">        }</span><br><span class="line">        if( pid &gt; 0 ){</span><br><span class="line">                printf(&quot;press enter to exit ..&quot;);</span><br><span class="line">                getchar();</span><br><span class="line">        }</span><br><span class="line">        return 0;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7D50;&#x679C;&#x5982;&#x4E0B;<br>&#x7576;&#x5B50;&#x7A0B;&#x5E8F;&#x7D50;&#x675F;&#xFF0C;&#x7236;&#x7A0B;&#x5E8F;&#x4ECD;&#x5728;<br>&#x800C;&#x7236;&#x7A0B;&#x5E8F;fork()&#x4E4B;&#x524D;&#x672A;&#x8A2D;&#x7F6E;SIGCHILD&#x4FE1;&#x865F;&#x8655;&#x7406;&#x6216;waitpid&#x7B49;&#x5F85;&#x5B50;&#x7A0B;&#x5E8F;&#x7D50;&#x675F;<br>&#x6B64;&#x6642;&#x6703;&#x7522;&#x751F; &#x50F5;&#x5C4D;&#x7A0B;&#x5E8F;(zombie), &#x82E5;&#x7236;&#x7A0B;&#x5E8F;&#x4E00;&#x76F4;&#x5B58;&#x5728;&#x4E0D;&#x6703;&#x7D50;&#x675F;&#xFF0C;&#x5C31;&#x6703;&#x770B;&#x5230;&#x4E00;&#x5806;zombie</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1315 root      1604 S    ./a.out</span><br><span class="line">1316 root         0 Z    [a.out]</span><br><span class="line">1317 root         0 Z    [a.out]</span><br><span class="line">1318 root         0 Z    [a.out]</span><br><span class="line">1319 root         0 Z    [a.out]</span><br><span class="line">1320 root         0 Z    [a.out]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="example-&#x52A0;&#x5165;sigchld&#x8A0A;&#x606F;&#x8655;&#x7406;"><a href="#example__28_u52A0_u5165SIGCHLD_u8A0A_u606F_u8655_u7406_29" class="headerlink" title="example (&#x52A0;&#x5165;SIGCHLD&#x8A0A;&#x606F;&#x8655;&#x7406;)"></a>example (&#x52A0;&#x5165;SIGCHLD&#x8A0A;&#x606F;&#x8655;&#x7406;)</h3><ul>
+<li><p>&#x52A0;&#x5165;SIGCHLD&#x8A0A;&#x606F;&#x8655;&#x7406;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys/signal.h&gt;</span><br><span class="line"></span><br><span class="line">int main(){</span><br><span class="line">       int i;</span><br><span class="line">       pid_t pid;</span><br><span class="line">        signal(SIGCHLD, SIG_IGN);</span><br><span class="line">        for( i=0; i&lt;5; i++) {</span><br><span class="line">               pid = fork();</span><br><span class="line">               if ( pid == 0 )</span><br><span class="line">                       break;</span><br><span class="line">       }</span><br><span class="line">       if( pid &gt; 0 ){</span><br><span class="line">               printf(&quot;press enter to exit ..&quot;);</span><br><span class="line">               getchar();</span><br><span class="line">       }</span><br><span class="line">       return 0;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6E2C;&#x8A66;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1454 root      1604 S    ./a.out</span><br><span class="line">1460 root      2168 R    ps</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h2><ul>
+<li>The purpose of fork() is to create a new process, which becomes the child process of the caller</li>
+<li>If fork() returns a negative value, the creation of a child process was unsuccessful.</li>
+<li>fork() returns a zero to the newly created child process.</li>
+<li>fork() returns a positive value, the process ID of the child process, to the parent.</li>
+<li><a href="http://www.csl.mtu.edu/cs4411.ck/www/NOTES/process/fork/create.html" target="_blank" rel="external">The fork() System Call</a></li>
+</ul>
+<h3 id="fork-example"><a href="#fork_example" class="headerlink" title="fork example"></a>fork example</h3><ul>
+<li><p>ex1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line"></span><br><span class="line">void main(void)</span><br><span class="line">{</span><br><span class="line">        pid_t pid;</span><br><span class="line">        int     i;</span><br><span class="line">        char    buf[100];</span><br><span class="line"></span><br><span class="line">        fork();</span><br><span class="line">        pid = getpid();</span><br><span class="line">        for(i =1; i &lt;= 200; i++){</span><br><span class="line">                sprintf(buf, &quot;This line is from pid %d, value = %d \n&quot;, pid, i);</span><br><span class="line">                write(1,buf,strlen(buf));</span><br><span class="line">        }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6E2C;&#x8A66;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">xx :[~]# ./a.out </span><br><span class="line">This line is from pid 1498, value = 1 </span><br><span class="line">This line is from pid 1498, value = 2 </span><br><span class="line">This line is from pid 1498, value = 3 </span><br><span class="line">This line is from pid 1498, value = 4 </span><br><span class="line">This line is from pid 1498, value = 5 </span><br><span class="line">This line is from pid 1498, value = 6 </span><br><span class="line">This line is from pid 1498, value = 7 </span><br><span class="line">This line is from pid 1498, value = 8 </span><br><span class="line">This line is from pid 1498, value = 9 </span><br><span class="line">This line is from pid 1499, value = 1 </span><br><span class="line">This line is from pid 1498, value = 10 </span><br><span class="line">This line is from pid 1499, value = 2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>fork&#x4E4B;&#x5F8C;&#x6703;&#x7522;&#x751F;1&#x500B;&#x5B50;&#x7A0B;&#x5E8F;&#xFF0C;&#x8DDF;&#x7236;&#x7A0B;&#x5E8F;&#x540C;&#x6642;&#x9032;&#x884C;&#xFF0C;&#x56E0;&#x6B64;&#x6703;&#x770B;&#x5230;&#x6709;&#x5169;&#x500B;pid&#xFF0C;&#x7368;&#x7ACB;&#x7B97;&#x6578;<br>fork&#x51FA;&#x4F86;&#x7684;&#x5B50;&#x7A0B;&#x5E8F;&#x662F;&#x7531;&#x539F;&#x672C;&#x7684;&#x7236;&#x7A0B;&#x5E8F;&#x8907;&#x88FD;&#x5168;&#x90E8;&#x7684;&#x8B8A;&#x6578;(kernel&#x9700;&#x8981;&#x7684;&#x7CFB;&#x7D71;&#x53C3;&#x6578;)&#xFF0C;&#x56E0;&#x6B64;&#x662F;&#x8DDF;&#x7236;&#x7A0B;&#x5E8F;&#x7368;&#x7ACB;&#x5206;&#x958B;&#x7684;process</p>
+<h3 id="fork-ex2"><a href="#fork_ex2" class="headerlink" title="fork ex2"></a>fork ex2</h3><ul>
+<li><p>fork ex2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line"></span><br><span class="line">void ChildProcess(){</span><br><span class="line">        pid_t pid;</span><br><span class="line">        pid = getpid();</span><br><span class="line">        printf(&quot;child pid:%d\n&quot;,pid);</span><br><span class="line">        getchar();</span><br><span class="line">}</span><br><span class="line">void ParentProcess(){</span><br><span class="line">        pid_t pid;</span><br><span class="line">        pid = getpid();</span><br><span class="line">        printf(&quot;parent pid:%d\n&quot;,pid);</span><br><span class="line">        getchar();</span><br><span class="line">}</span><br><span class="line">void main(void)</span><br><span class="line">{</span><br><span class="line">        pid_t pid;</span><br><span class="line">        int     i;</span><br><span class="line">        char    buf[100];</span><br><span class="line"></span><br><span class="line">        pid = fork();</span><br><span class="line">        if ( pid == 0 )</span><br><span class="line">                ChildProcess();</span><br><span class="line">        else</span><br><span class="line">                ParentProcess();</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6E2C;&#x8A66;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1559 root      1604 S    ./a.out</span><br><span class="line">1560 root      1604 S    ./a.out</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fork&#x56DE;&#x50B3;0&#x5247;&#x70BA;child process</p>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://linux.vbird.org/linux_basic/0440processcontrol.php#process" target="_blank" rel="external">&#x7A0B;&#x5E8F;&#x7BA1;&#x7406;</a></li>
+<li><a href="http://low-understated.blogspot.tw/2009/08/program-ex1-kill-prog1prog1-ps-ef-prog1.html" target="_blank" rel="external">&#x5982;&#x4F55;&#x9632;&#x6B62;&#x5F4A;&#x5C4D;&#x7A0B;&#x5E8F;(zombie)&#x7684;&#x7522;&#x751F;</a></li>
+<li><a href="http://www.cnblogs.com/wuchanming/p/4020463.html" target="_blank" rel="external">linux&#x4E0B;&#x7684;&#x50F5;&#x5C38;&#x8FDB;&#x7A0B;&#x5904;&#x7406;SIGCHLD&#x4FE1;&#x53F7;</a></li>
+<li><a href="http://www.csl.mtu.edu/cs4411.ck/www/NOTES/process/fork/create.html" target="_blank" rel="external">The fork() System Call</a></li>
+<li><a href="http://erwinchang.github.io/2016/08/29/shell-trap/" target="_blank" rel="external">Unix - Signals and Traps</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/ps/" rel="tag">#ps</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/07/makefile/" rel="next" title="makefile">
+                <i class="fa fa-chevron-left"></i> makefile
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/09/json-c/" rel="prev" title="json-c">
+                json-c <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#彊屍程序zombie"><span class="nav-number">3.</span> <span class="nav-text">彊屍程序(zombie)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#僵屍-zombie-程序是什麼"><span class="nav-number">3.1.</span> <span class="nav-text">僵屍 (zombie) 程序是什麼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ps"><span class="nav-number">3.2.</span> <span class="nav-text">ps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example-未加入sigchld訊息處理"><span class="nav-number">3.3.</span> <span class="nav-text">example (未加入SIGCHLD訊息處理)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example-加入sigchld訊息處理"><span class="nav-number">3.4.</span> <span class="nav-text">example (加入SIGCHLD訊息處理)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fork"><span class="nav-number">4.</span> <span class="nav-text">fork</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fork-example"><span class="nav-number">4.1.</span> <span class="nav-text">fork example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fork-ex2"><span class="nav-number">4.2.</span> <span class="nav-text">fork ex2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">5.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/09/08/zombie/';
+      var disqus_title = 'zombie';
+      var disqus_url = 'http://yoursite.com/2016/09/08/zombie/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

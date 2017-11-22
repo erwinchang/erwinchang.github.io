@@ -1,0 +1,982 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,ptz,KB100," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="測試KB-100(即PTZ Keyboard)了解peclo-d protocol">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ptz">
+<meta property="og:url" content="http://yoursite.com/2016/10/21/ptz/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="測試KB-100(即PTZ Keyboard)了解peclo-d protocol">
+<meta property="og:image" content="http://yoursite.com/2016/10/21/ptz/kb-100.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/21/ptz/ptz-diagram.jpg">
+<meta property="og:image" content="http://yoursite.com/2016/10/21/ptz/extended-cmd.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.531Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ptz">
+<meta name="twitter:description" content="測試KB-100(即PTZ Keyboard)了解peclo-d protocol">
+<meta name="twitter:image" content="http://yoursite.com/2016/10/21/ptz/kb-100.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ptz | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ptz
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-21T11:45:36+08:00" content="2016-10-21">
+              2016-10-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2016/10/21/ptz/" class="leancloud_visitors" data-flag-title="ptz">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x6E2C;&#x8A66;KB-100(&#x5373;PTZ Keyboard)<br>&#x4E86;&#x89E3;peclo-d protocol</p>
+<img src="/2016/10/21/ptz/kb-100.png" alt="[KB-100]" title="[KB-100]">
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161021</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#ptz">PTZ</a></li>
+<li><a href="#pelco-d&#x901A;&#x8A0A;&#x5354;&#x5B9A;">Pelco-D&#x901A;&#x8A0A;&#x5354;&#x5B9A;</a><ul>
+<li><a href="#the-standard-command-set">THE STANDARD COMMAND SET</a></li>
+<li><a href="#extended-cmd">Extended CMD</a></li>
+<li><a href="#kb-100-&#x6E2C;&#x8A66;">KB-100 &#x6E2C;&#x8A66;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="ptz"><a href="#PTZ" class="headerlink" title="PTZ"></a>PTZ</h2><ul>
+<li>A pan&#x2013;tilt&#x2013;zoom camera (PTZ camera) is a camera that is capable of remote directional and zoom control.</li>
+<li>PTZ&#x651D;&#x5F71;&#x6A5F;&#x7684;&#x93E1;&#x982D;, &#x53EF;&#x4EE5;&#x9032;&#x884C;&#x5DE6;&#x53F3;&#x8F49;&#x52D5;(Pan) / &#x4E0A;&#x4E0B;&#x50BE;&#x659C;(Tilt) / &#x653E;&#x5927;(Zoom)&#x7B49;&#x4E0D;&#x540C;&#x7684;&#x529F;&#x80FD; </li>
+<li>&#x5982;&#x540C;&#x5C08;&#x696D;&#x651D;&#x5F71;&#x5E2B;&#x53EF;&#x4EE5;&#x8ABF;&#x6574;Camera &#x93E1;&#x982D;&#x7684;&#x53D7;&#x5149;&#x5EA6;(iris) / focus /&#x89D2;&#x5EA6;&#x7B49;</li>
+<li>&#x76F4;&#x63A5;&#x4F7F;&#x7528;RS485&#x4E32;&#x63A5;&#xFF0C;&#x7531;PTZ Keyboard&#x63A7;&#x5236;PTZ Camera&#x52D5;&#x4F5C;<br>&#x5716;&#x7247;&#x4F86;&#x6E90;&#xFF1A; <a href="http://www.cctvcamerapros.com/PTZ-System-Diagram-s/78.htm" target="_blank" rel="external">PTZ Camera System Installation</a><img src="/2016/10/21/ptz/ptz-diagram.jpg" alt="[ptz]" title="[ptz]">
+</li>
+</ul>
+<p>PTZ Keyboard&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4E0B;&#x4F8B;protocl&#x8DDF;PTZ Camera&#x901A;&#x8A0A;<br> Support: Pelco D, Pelco P, Lilin, EverFocus ,Dynacolor, Hunda and Samsung (&#x4EE5;BK-100&#x70BA;&#x4F8B;&#x5B50;)</p>
+<h2 id="pelco-d&#x901A;&#x8A0A;&#x5354;&#x5B9A;"><a href="#Pelco-D_u901A_u8A0A_u5354_u5B9A" class="headerlink" title="Pelco-D&#x901A;&#x8A0A;&#x5354;&#x5B9A;"></a>Pelco-D&#x901A;&#x8A0A;&#x5354;&#x5B9A;</h2><p>The D protocle</p>
+<a href="/2016/10/21/ptz/pelco-d.pdf" title="[pelco-d]">[pelco-d]</a>
+<p>The format for a message</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">byte1</th>
+<th style="text-align:left">byte2</th>
+<th style="text-align:left">byte3</th>
+<th style="text-align:left">byte4</th>
+<th style="text-align:left">byte5</th>
+<th style="text-align:left">byte6</th>
+<th style="text-align:left">byte7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Synch</td>
+<td style="text-align:left">Addr</td>
+<td style="text-align:left">Cmd1</td>
+<td style="text-align:left">Cmd2</td>
+<td style="text-align:left">Data1</td>
+<td style="text-align:left">Data2</td>
+<td style="text-align:left">ChkSum</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;0xff&gt; &lt;Addr&gt; &lt;Cmd1&gt; &lt;Cmd2&gt; &lt;Data1&gt; &lt;Data2&gt; &lt;ChkSum&gt;</span><br></pre></td></tr></table></figure>
+<p>Sync: &#x901A;&#x8A0A;&#x958B;&#x59CB;&#xFF0C;&#x540C;&#x6B65;&#x8A0A;&#x606F;(0xff)<br>Addr: &#x53EF;&#x4EE5;&#x8A2D;&#x5B9A;camer number(0-255)<br>Data1: pan speed (0x00- 0x3f), ~0xff turbo speed<br>Data2: tilt speed (0x00 - 0x3f)<br>ChkSum:  byte2+byte3+byte4+byte5+byte6 </p>
+<h3 id="the-standard-command-set"><a href="#THE_STANDARD_COMMAND_SET" class="headerlink" title="THE STANDARD COMMAND SET"></a>THE STANDARD COMMAND SET</h3><p>standard command</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">[bit]</th>
+<th style="text-align:left">7</th>
+<th style="text-align:left">6</th>
+<th style="text-align:left">5</th>
+<th style="text-align:left">4</th>
+<th style="text-align:left">3</th>
+<th style="text-align:left">2</th>
+<th style="text-align:left">1</th>
+<th style="text-align:left">0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">cmd1</td>
+<td style="text-align:left">Sense:0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">manual scan</td>
+<td style="text-align:left">camera off</td>
+<td style="text-align:left">Iris Close</td>
+<td style="text-align:left">Iris Open</td>
+<td style="text-align:left">Focus Near</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Sense:1</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">auto scan</td>
+<td style="text-align:left">camera on</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">cmd2</td>
+<td style="text-align:left">Focus Far</td>
+<td style="text-align:left">Zoom Wide</td>
+<td style="text-align:left">Zoom Tele</td>
+<td style="text-align:left">Down</td>
+<td style="text-align:left">Up</td>
+<td style="text-align:left">Left</td>
+<td style="text-align:left">Right</td>
+<td style="text-align:left">0</td>
+</tr>
+</tbody>
+</table>
+<p>cmd1.{manual_scan, camer_on, auto_scan, camera_on, iris_close, iris_open, focus_near}<br>cmd2.{focus_far, zoom_wide(out), zoom_tele(in), down, up, left, right}</p>
+<h3 id="extended-cmd"><a href="#Extended_CMD" class="headerlink" title="Extended CMD"></a>Extended CMD</h3><p>&#x9664;&#x4E86;&#x4E0A;&#x9762;&#x6307;&#x4EE4;&#x5916;&#x9084;&#x6709; extended cmd<br>&#x6CE8;&#x610F;&#xFF1A;&#x7576;cmd2.bit0&#x70BA;1&#x6642;&#xFF0C;&#x6B64;&#x6642;&#x70BA;extended cmd</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">cmd1</th>
+<th style="text-align:left">cmd2</th>
+<th style="text-align:left">data1</th>
+<th style="text-align:left">data2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">go to preset</td>
+<td style="text-align:left">00</td>
+<td style="text-align:left">07</td>
+<td style="text-align:left">00</td>
+<td style="text-align:left">&#x8A2D;&#x5B9A;&#x7684;&#x9EDE;(&#x5373;&#x6309;&#x4E0B;&#x7684;&#x6578;&#x5B50;)</td>
+</tr>
+<tr>
+<td style="text-align:left">(&#x6309;&#x4E0B;&#x6578;&#x5B50;&#xFF0C;&#x518D;&#x6309;preset)</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<p>&#x56DE;&#x61C9;cmd&#x53EA;&#x6709;4&#x500B;byte =&gt; &#x5728;&#x76EE;&#x524D;&#x7684;&#x61C9;&#x7528;&#x4E0D;&#x6703;&#x9047;(&#x56E0;&#x70BA;&#x53EA;&#x6709;&#x63A5;KB-100)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;0xff&gt; &lt;rec-addr&gt; &lt;alarm-infomation&gt; &lt;chksum&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>Extended CMD List</li>
+</ul>
+<img src="/2016/10/21/ptz/extended-cmd.png" alt="[Extended CMD]" title="[Extended CMD]">
+<h3 id="kb-100-&#x6E2C;&#x8A66;"><a href="#KB-100__u6E2C_u8A66" class="headerlink" title="KB-100 &#x6E2C;&#x8A66;"></a>KB-100 &#x6E2C;&#x8A66;</h3><ul>
+<li><p>menu on</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ff 05 00 03 00 5f 67 (?)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>menu off</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ff 05 00 00 01 00 06 (?)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>menu up (&#x8A2D;&#x5B9A;menu&#xFF0C;&#x4E4B;&#x5F8C;&#x6309;2)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ff 05 00 08 00 01 0e (cmd2.up, &#x5982;&#x4F55;&#x7531;&#x5354;&#x5B9A;&#x77E5;&#x9053; &#x9019;&#x662F;menu?)</span><br><span class="line">ff 05 00 00 00 00 05</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>go to preset (&#x6309;&#x4E0B;&#x6578;&#x5B50;&#xFF0C;&#x518D;&#x6309;preset)<br>ex. &#x8A2D;&#x5B9A;70</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ff 05 00 07 00 46 52</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zoom in (&#x5C07;&#x624B;&#x628A;&#x9806;&#x6642;&#x9418;&#x8F49;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ff 05 00 20 00 00 25  (cmd2.zoom_tele)</span><br><span class="line">ff 05 00 00 00 00 05</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zoom out (&#x5C07;&#x624B;&#x628A;&#x9006;&#x6642;&#x9418;&#x8F49;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ff 05 00 40 00 00 45 (cmd2.zoom_wide)</span><br><span class="line">ff 05 00 00 00 00 05</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>auto foucs off</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ff 05 00 2b 00 02 32</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://bruxy.regnet.cz/programming/rs485/pelco-d.pdf" target="_blank" rel="external">pelco-d pdf </a></li>
+<li><a href="https://www.commfront.com/pages/pelco-d-protocol-tutorial" target="_blank" rel="external">Pelco-D Protocol Tutorial</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Pan%E2%80%93tilt%E2%80%93zoom_camera" target="_blank" rel="external">Pan&#x2013;tilt&#x2013;zoom camera</a></li>
+<li><a href="https://www.videosurveillance.com/tech/camera-iris.asp" target="_blank" rel="external">What is a Camera Iris</a><ul>
+<li>&#x5149;&#x5708;&#x63A7;&#x5236; (Fixed Iris, Manual Iris, Auto Iris)</li>
+<li>If the iris creates a larger opening, more light can get through; a smaller opening allows less light through.</li>
+<li><a href="http://www.cmarket.tw/apd123/1010?n=convew&amp;i=918" target="_blank" rel="external">&#x5927;&#x5149;&#x5708;&#x7684;&#x6DFA;&#x666F;&#x6DF1;~SO EASY~</a></li>
+<li><a href="http://febon.blogspot.com/2011/05/fixed-iris-camera-auto-dc-iris-camera.html" target="_blank" rel="external">Fixed IRIS camera &#x548C; auto (DC) IRIS camera &#x66DD;&#x5149;&#x7684;&#x5DEE;&#x7570; </a></li>
+<li>Fixed iris camera :  &#x93E1;&#x982D;&#x662F;&#x56FA;&#x5B9A;&#x5149;&#x5708;, &#x63A7;&#x5236;&#x5F71;&#x50CF;&#x53EA;&#x6709; shutter&#x53CA; gain&#x2026;&#x5149;&#x5708;&#x662F;&#x56FA;&#x5B9A;</li>
+<li>auto IRIS : &#x651D;&#x5F71;&#x6A5F;&#x93E1;&#x982D;&#x6709;&#x63D2;&#x96FB;, &#x63A7;&#x5236;&#x5F71;&#x50CF;&#x6709;&#x81EA;&#x52D5;&#x5149;&#x5708;&#x3001; shutter&#x53CA; gain&#x2026;</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/ptz/" rel="tag">#ptz</a>
+          
+            <a href="/tags/KB100/" rel="tag">#KB100</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/20/uart-c/" rel="next" title="uart-c">
+                <i class="fa fa-chevron-left"></i> uart-c
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/24/kernel/" rel="prev" title="kernel">
+                kernel <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ptz"><span class="nav-number">3.</span> <span class="nav-text">PTZ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pelco-d通訊協定"><span class="nav-number">4.</span> <span class="nav-text">Pelco-D通訊協定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#the-standard-command-set"><span class="nav-number">4.1.</span> <span class="nav-text">THE STANDARD COMMAND SET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extended-cmd"><span class="nav-number">4.2.</span> <span class="nav-text">Extended CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kb-100-測試"><span class="nav-number">4.3.</span> <span class="nav-text">KB-100 測試</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">5.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/10/21/ptz/';
+      var disqus_title = 'ptz';
+      var disqus_url = 'http://yoursite.com/2016/10/21/ptz/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

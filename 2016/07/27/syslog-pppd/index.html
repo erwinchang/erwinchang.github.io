@@ -1,0 +1,954 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,pppoe,syslog," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="測試pppd的syslog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="syslog-pppd">
+<meta property="og:url" content="http://yoursite.com/2016/07/27/syslog-pppd/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="測試pppd的syslog">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="syslog-pppd">
+<meta name="twitter:description" content="測試pppd的syslog">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> syslog-pppd | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                syslog-pppd
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-27T16:55:19+08:00" content="2016-07-27">
+              2016-07-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/27/syslog-pppd/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/27/syslog-pppd/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/27/syslog-pppd/" class="leancloud_visitors" data-flag-title="syslog-pppd">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x6E2C;&#x8A66;pppd&#x7684;syslog</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160727</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#busybox-syslogd">busybox syslogd</a></li>
+<li><a href="#&#x6E2C;&#x8A66;pppd&#x7684;syslog">&#x6E2C;&#x8A66;pppd&#x7684;syslog</a><ul>
+<li><a href="#&#x5E36;&#x8D77;busybox-syslogd">&#x5E36;&#x8D77;busybox syslogd</a></li>
+<li><a href="#&#x5E36;&#x8D77;pppd&#x67E5;&#x770B;log">&#x5E36;&#x8D77;pppd&#x67E5;&#x770B;log</a></li>
+</ul>
+</li>
+<li><a href="#pppd&#x91CD;&#x64A5;">pppd&#x91CD;&#x64A5;</a><ul>
+<li><a href="#&#x91CD;&#x64A5;&#x7684;&#x65B9;&#x5F0F;">&#x91CD;&#x64A5;&#x7684;&#x65B9;&#x5F0F;</a></li>
+<li><a href="#note">Note</a></li>
+<li><a href="#pppd&#x64A5;&#x63A5;&#x6210;&#x529F;">pppd&#x64A5;&#x63A5;&#x6210;&#x529F;</a></li>
+<li><a href="#pppd&#x95DC;&#x9589;">pppd&#x95DC;&#x9589;</a></li>
+<li><a href="#etcpppd-&#x76EE;&#x9304;&#x7D50;&#x69CB;">/etc/pppd &#x76EE;&#x9304;&#x7D50;&#x69CB;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="busybox-syslogd"><a href="#busybox_syslogd" class="headerlink" title="busybox syslogd"></a>busybox syslogd</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">xxx :[/etc]# syslogd -help</span><br><span class="line">syslogd: invalid option -- &apos;h&apos;</span><br><span class="line">BusyBox v1.16.1 (2016-02-19 09:03:37 UTC) multi-call binary.</span><br><span class="line"></span><br><span class="line">Usage: syslogd [OPTIONS]</span><br><span class="line"></span><br><span class="line">System logging utility.</span><br><span class="line">This version of syslogd ignores /etc/syslog.conf</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">        -n              Run in foreground</span><br><span class="line">        -O FILE         Log to given file (default:/var/log/messages)</span><br><span class="line">        -l N            Set local log level</span><br><span class="line">        -S              Smaller logging output</span><br><span class="line">        -s SIZE         Max size (KB) before rotate (default:200KB, 0=off)</span><br><span class="line">        -b N            N rotated logs to keep (default:1, max=99, 0=purge)</span><br><span class="line">        -R HOST[:PORT]  Log to IP or hostname on PORT (default PORT=514/UDP)</span><br><span class="line">        -L              Log locally and via network (default is network only if -R)</span><br><span class="line">        -D              Drop duplicates</span><br><span class="line">        -C[size(KiB)]   Log to shared mem buffer (read it using logread)</span><br></pre></td></tr></table></figure>
+<h2 id="&#x6E2C;&#x8A66;pppd&#x7684;syslog"><a href="#u6E2C_u8A66pppd_u7684syslog" class="headerlink" title="&#x6E2C;&#x8A66;pppd&#x7684;syslog"></a>&#x6E2C;&#x8A66;pppd&#x7684;syslog</h2><h3 id="&#x5E36;&#x8D77;busybox-syslogd"><a href="#u5E36_u8D77busybox_syslogd" class="headerlink" title="&#x5E36;&#x8D77;busybox syslogd"></a>&#x5E36;&#x8D77;busybox syslogd</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syslogd</span><br></pre></td></tr></table></figure>
+<h3 id="&#x5E36;&#x8D77;pppd&#x67E5;&#x770B;log"><a href="#u5E36_u8D77pppd_u67E5_u770Blog" class="headerlink" title="&#x5E36;&#x8D77;pppd&#x67E5;&#x770B;log"></a>&#x5E36;&#x8D77;pppd&#x67E5;&#x770B;log</h3><ul>
+<li>pppd&#x53C3;&#x6578; &#x8A18;&#x5F97;&#x52A0;&#x5165;debug&#xFF0C;&#x624D;&#x6703;&#x5C07;&#x8A0A;&#x606F;&#x9053;&#x5230;/var/log/message</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pppd debug plugin rp-pppoe.so eth0 user 7476xxxx@hinet.net password wicpxxx persist usepeerdns defaultroute unit 2</span><br></pre></td></tr></table></figure>
+<ul>
+<li>/var/log/message</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">xxx :[/etc]# cat /var/log/messages                                                                                                                                           [25/1973]</span><br><span class="line">Jul 27 17:10:24 gk350a syslog.info syslogd started: BusyBox v1.16.1</span><br><span class="line">Jul 27 17:10:49 gk350a daemon.info pppd[2876]: Plugin rp-pppoe.so loaded.</span><br><span class="line">Jul 27 17:10:49 gk350a daemon.info pppd[2876]: RP-PPPoE plugin version 3.8p compiled against pppd 2.4.7</span><br><span class="line">Jul 27 17:10:49 gk350a daemon.notice pppd[2879]: pppd 2.4.7 started by root, uid 0</span><br><span class="line">Jul 27 17:10:49 gk350a daemon.debug pppd[2879]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 27 17:10:49 gk350a daemon.debug pppd[2879]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 27 17:10:49 gk350a daemon.debug pppd[2879]:  [service-name] [host-uniq  3f 0b 00 00]</span><br><span class="line">Jul 27 17:10:54 gk350a daemon.debug pppd[2879]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 27 17:10:54 gk350a daemon.debug pppd[2879]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 27 17:10:54 gk350a daemon.debug pppd[2879]:  [service-name] [host-uniq  3f 0b 00 00]</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]:  [service-name] [host-uniq  3f 0b 00 00]</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]: Recv PPPOE Discovery V1T1 PADO session 0x0 length 44</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]:  dst 00:00:23:34:45:66  src 60:a4:4c:c7:03:f8</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]:  [relay-session-id  01 00 00 00 00 02 3b 10 24 8c] [host-uniq  3f 0b 00 00] [AC-name CHCH-BRAS-2221] [se]</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]: Send PPPOE Discovery V1T1 PADR session 0x0 length 26</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]:  dst 60:a4:4c:c7:03:f8  src 00:00:23:34:45:66</span><br><span class="line">Jul 27 17:11:04 gk350a daemon.debug pppd[2879]:  [service-name] [host-uniq  3f 0b 00 00] [relay-session-id  01 00 00 00 00 02 3b 10 24 8c]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: Recv PPPOE Discovery V1T1 PADS session 0x5 length 30</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]:  dst 00:00:23:34:45:66  src 60:a4:4c:c7:03:f8</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]:  [service-name] [host-uniq  3f 0b 00 00] [AC-name CHCH-BRAS-2221]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: PADS: Service-Name: &apos;&apos;</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.info pppd[2879]: PPP session is 5</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.warn pppd[2879]: Connected to 60:a4:4c:c7:03:f8 via interface eth0</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: using channel 1</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.info pppd[2879]: Using interface ppp2</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.notice pppd[2879]: Connect: ppp2 &lt;--&gt; eth0</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: sent [LCP ConfReq id=0x1 &lt;mru 1492&gt; &lt;magic 0xcd51133a&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: rcvd [LCP ConfReq id=0x56 &lt;mru 1492&gt; &lt;auth pap&gt; &lt;magic 0x6437ad1e&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: sent [LCP ConfAck id=0x56 &lt;mru 1492&gt; &lt;auth pap&gt; &lt;magic 0x6437ad1e&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: rcvd [LCP ConfAck id=0x1 &lt;mru 1492&gt; &lt;magic 0xcd51133a&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: sent [LCP EchoReq id=0x0 magic=0xcd51133a]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: sent [PAP AuthReq id=0x1 user=&quot;74767720@hinet.net&quot; password=&lt;hidden&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: rcvd [LCP EchoRep id=0x0 magic=0x6437ad1e]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: rcvd [PAP AuthAck id=0x1 &quot;&quot;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.notice pppd[2879]: PAP authentication succeeded</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.notice pppd[2879]: peer from calling number 60:A4:4C:C7:03:F8 authorized</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: sent [IPCP ConfReq id=0x1 &lt;addr 0.0.0.0&gt; &lt;ms-dns1 0.0.0.0&gt; &lt;ms-dns2 0.0.0.0&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: rcvd [IPCP ConfReq id=0xfb &lt;addr 168.95.98.254&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: sent [IPCP ConfAck id=0xfb &lt;addr 168.95.98.254&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: rcvd [IPCP ConfNak id=0x1 &lt;addr 1.165.93.76&gt; &lt;ms-dns1 168.95.1.1&gt; &lt;ms-dns2 168.95.192.1&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: sent [IPCP ConfReq id=0x2 &lt;addr 1.165.93.76&gt; &lt;ms-dns1 168.95.1.1&gt; &lt;ms-dns2 168.95.192.1&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: rcvd [IPCP ConfAck id=0x2 &lt;addr 1.165.93.76&gt; &lt;ms-dns1 168.95.1.1&gt; &lt;ms-dns2 168.95.192.1&gt;]</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.notice pppd[2879]: local  IP address 1.165.93.76</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.notice pppd[2879]: remote IP address 168.95.98.254</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.notice pppd[2879]: primary   DNS address 168.95.1.1</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.notice pppd[2879]: secondary DNS address 168.95.192.1</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: Script /etc/ppp/ip-up started (pid 2901)</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: Script /etc/ppp/ip-up finished (pid 2901), status = 0x0</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="pppd&#x91CD;&#x64A5;"><a href="#pppd_u91CD_u64A5" class="headerlink" title="pppd&#x91CD;&#x64A5;"></a>pppd&#x91CD;&#x64A5;</h2><ul>
+<li>&#x7576;&#x7B2C;&#x4E00;&#x6B21;&#x5E36;&#x8D77;pppd&#x6703;&#x9001;&#x51FA;PADI(Active Disconvery Initiation)</li>
+<li>&#x7B49;&#x5F97;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x672A;&#x6536;&#x5230;PAD0&#x5247;&#x5224;&#x70BA;timenout&#x6B64;&#x6642;&#x5982;&#x4F55;&#x518D;&#x6B21;&#x91CD;&#x64A5;</li>
+</ul>
+<h3 id="&#x91CD;&#x64A5;&#x7684;&#x65B9;&#x5F0F;"><a href="#u91CD_u64A5_u7684_u65B9_u5F0F" class="headerlink" title="&#x91CD;&#x64A5;&#x7684;&#x65B9;&#x5F0F;"></a>&#x91CD;&#x64A5;&#x7684;&#x65B9;&#x5F0F;</h3><ul>
+<li><p>pkill -USER2 -x -n pppd</p>
+</li>
+<li><p>&#x6E2C;&#x8A66;&#x4E86;&#x4E8C;&#x6B21;(USR2), &#x6B64;&#x6642;&#x672A;&#x63A5;&#x4E0A;&#x64A5;&#x63A5;&#x7684;&#x7DB2;&#x8DEF;&#x7DDA;</p>
+<ul>
+<li>&#x6BCF;&#x6B21;&#x9001;&#x51FA;PADI&#x9593;&#x9694;5S&#xFF0C;&#x4E00;&#x5171;&#x9001;&#x51FA;3&#x6B21;PADI(40S,45S,55S)</li>
+<li>&#x518D;&#x4F86;&#x7B49;&#x5F97;&#x7D04;35S(&#x8207;&#x7B2C;&#x4E00;&#x6B21;&#x9001;PADI&#x6642;&#x9593;&#x5DEE;)&#xFF0C;&#x82E5;&#x672A;&#x5F97;&#x5230;PADO&#x5247;&#x70BA;timeout</li>
+<li>&#x56E0;&#x6B64;&#x8A2D;&#x5B9A;&#x81F3;&#x5C11;35S&#x624D;&#x6703;&#x5408;&#x7406;&#xFF0C;&#x91CD;&#x65B0;&#x9001;&#x51FA;USR2&#x7684;&#x6642;&#x9593;</li>
+</ul>
+</li>
+<li>&#x82E5;&#x7B2C;&#x4E00;&#x968E;&#x6BB5;(Discovery)&#x672A;&#x5B8C;&#x6210;&#xFF0C;&#x672A;&#x8655;&#x7406;&#x82E5;&#x4F55;&#x7A0B;&#x5E8F;(ex. USR2)&#xFF0C;&#x5728;30S&#x4E4B;&#x5F8C;pppd&#x81EA;&#x884C;&#x7D50;&#x675F;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Jul 28 07:34:56 gk350a daemon.debug pppd[14427]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 28 07:34:56 gk350a daemon.debug pppd[14427]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 28 07:34:56 gk350a daemon.debug pppd[14427]:  [service-name] [host-uniq  5b 38 00 00]</span><br><span class="line">Jul 28 07:35:01 gk350a daemon.debug pppd[14427]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 28 07:35:01 gk350a daemon.debug pppd[14427]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 28 07:35:01 gk350a daemon.debug pppd[14427]:  [service-name] [host-uniq  5b 38 00 00]</span><br><span class="line">Jul 28 07:35:11 gk350a daemon.debug pppd[14427]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 28 07:35:11 gk350a daemon.debug pppd[14427]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 28 07:35:11 gk350a daemon.debug pppd[14427]:  [service-name] [host-uniq  5b 38 00 00]</span><br><span class="line">Jul 28 07:35:31 gk350a daemon.warn pppd[14427]: Timeout waiting for PADO packets</span><br><span class="line">Jul 28 07:35:31 gk350a daemon.err pppd[14427]: Unable to complete PPPoE Discovery</span><br><span class="line">Jul 28 07:36:01 gk350a daemon.debug pppd[14427]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 28 07:36:01 gk350a daemon.debug pppd[14427]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 28 07:36:01 gk350a daemon.debug pppd[14427]:  [service-name] [host-uniq  5b 38 00 00]</span><br><span class="line">Jul 28 07:36:06 gk350a daemon.debug pppd[14427]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 28 07:36:06 gk350a daemon.debug pppd[14427]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 28 07:36:06 gk350a daemon.debug pppd[14427]:  [service-name] [host-uniq  5b 38 00 00]</span><br><span class="line">Jul 28 07:36:16 gk350a daemon.debug pppd[14427]: Send PPPOE Discovery V1T1 PADI session 0x0 length 12</span><br><span class="line">Jul 28 07:36:16 gk350a daemon.debug pppd[14427]:  dst ff:ff:ff:ff:ff:ff  src 00:00:23:34:45:66</span><br><span class="line">Jul 28 07:36:16 gk350a daemon.debug pppd[14427]:  [service-name] [host-uniq  5b 38 00 00]</span><br><span class="line">Jul 28 07:36:36 gk350a daemon.warn pppd[14427]: Timeout waiting for PADO packets</span><br><span class="line">Jul 28 07:36:36 gk350a daemon.err pppd[14427]: Unable to complete PPPoE Discovery</span><br><span class="line">Jul 28 07:36:36 gk350a daemon.info pppd[14427]: Exit.</span><br></pre></td></tr></table></figure>
+<h3 id="note"><a href="#Note" class="headerlink" title="Note"></a>Note</h3><p>Some limited degree of control can be exercised over a running pppd process by sending it a signal from the list below. </p>
+<ul>
+<li><p>SIGUSR1</p>
+<ul>
+<li>This signal toggles the state of the debug option. </li>
+<li>pppd&#x9810;&#x8A2D;debug&#x8A0A;&#x606F;&#x4E0D;&#x6703;&#x6253;&#x5230;syslog (&#x4F46;&#x5176;&#x5B83;&#x6703;&#x5982;: warn,err&#x7B49;)</li>
+<li>&#x56E0;&#x6B64;&#x9700;&#x8981;&#x4F7F;&#x7528;USR1&#x4F86;&#x958B;&#x555F;debug&#x8A0A;&#x606F; </li>
+<li>Debugging can also be enabled or disabled by sending a SIGUSR1 signal to the pppd process. This signal acts as a toggle. </li>
+<li>&#x8868;&#x793A;&#xFF1A;&#x7B2C;&#x4E00;&#x6B21;&#x4F7F;&#x7528;USR1&#xFF0C;&#x5247;&#x958B;&#x555F;pppd debug&#x6A21;&#x5F0F;&#xFF0C;&#x7B2C;&#x4E8C;&#x6B21;&#x4F7F;&#x7528;USER1&#x5247;&#x95DC;&#x9589;debug&#x6A21;&#x5F0F;</li>
+</ul>
+</li>
+<li><p>SIGUSR2</p>
+<ul>
+<li>This signal causes pppd to renegotiate compression.</li>
+<li>This can be useful to re-enable compression after it has been disabled as a result of a fatal decompression error</li>
+<li>&#x7576;&#x672A;&#x6536;&#x5230;PADO&#x5373;&#x7522;&#x751F;timeout&#x5247;&#x6B64;&#x6642;&#x4E0D;&#x6703;&#x81EA;&#x52D5;&#x91CD;&#x64A5;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;USR2&#x4F86;&#x555F;&#x52D5;&#x91CD;&#x65B0;&#x9001;&#x51FA;PADI&#x8A0A;&#x606F;</li>
+</ul>
+</li>
+<li><p>SIGINT, SIGTERM</p>
+<ul>
+<li>These signals cause pppd to terminate the link (by closing LCP), restore the serial device settings, and exit. </li>
+<li>&#x7522;&#x751F;/etc/ppp/ip.down&#x53CA;&#x76F8;&#x95DC;&#x6D41;&#x7A0B;&#xFF0C;&#x4E26;&#x4E14;&#x7D50;&#x675F;pppd</li>
+</ul>
+</li>
+<li><p>SIGHUP</p>
+<ul>
+<li>This signal causes pppd to terminate the link, restore the serial device settings, and close the serial device</li>
+<li>If the persist or demand option has been specified, pppd will try to reopen the serial device and start another connection (after the holdoff period)</li>
+<li>&#x7576;&#x6709;persist&#x53C3;&#x6578;&#x6642;&#xFF0C;&#x7522;&#x751F;/etc/ppp/ip.down&#x53CA;&#x76F8;&#x95DC;&#x6D41;&#x7A0B;&#xFF0C;&#x4E4B;&#x5F8C;&#x518D;&#x91CD;&#x65B0;&#x64A5;&#x865F;&#xFF0C;&#x6B64;&#x6642;ppppd&#x5C1A;&#x672A;&#x95DC;&#x9589;(&#x82E5;&#x6210;&#x529F;&#x64A5;&#x865F;&#x6210;&#x529F;)</li>
+<li>&#x53EF;&#x7528;&#x4F86;&#x7576;gateway pin&#x4E0D;&#x5230;&#x6642;&#xFF0C;&#x91CD;&#x65B0;&#x64A5;&#x63A5; (&#x95DC;&#x9589;ppp2&#x4ECB;&#x9762;&#xFF0C;&#x518D;&#x91CD;&#x65B0;&#x64A5;&#x63A5;)</li>
+</ul>
+</li>
+</ul>
+<h3 id="pppd&#x64A5;&#x63A5;&#x6210;&#x529F;"><a href="#pppd_u64A5_u63A5_u6210_u529F" class="headerlink" title="pppd&#x64A5;&#x63A5;&#x6210;&#x529F;"></a>pppd&#x64A5;&#x63A5;&#x6210;&#x529F;</h3><ul>
+<li>defaultroute<ul>
+<li>Add a default route to the system routing tables, using the peer as the gateway, when IPCP negotiation is successfully completed</li>
+</ul>
+</li>
+<li><p>usepeerdns</p>
+<ul>
+<li>Ask the peer for up to 2 DNS server addresses. </li>
+<li>&#x66F4;&#x65B0;/etc/pppp/resolv.conf</li>
+</ul>
+</li>
+<li><p>&#x5148;&#x57F7;&#x884C;/etc/ppp/ip-up</p>
+</li>
+<li><p>&#x4E4B;&#x5F8C;&#x518D;&#x57F7;&#x884C; :</p>
+</li>
+<li><p>/etc/ppp/ip-up.d/0000usepeerdns </p>
+<ul>
+<li>&#x6709;&#x8A2D;&#x5B9A;&#x6B64;&#x53C3;&#x6578;usepeerdns&#xFF0C;&#x624D;&#x6703;&#x57F7;&#x884C;&#x6B64;0000usepeerdns&#xFF0C;&#x4F7F;&#x7528;&#x64A5;&#x63A5;&#x7684;dns</li>
+</ul>
+</li>
+<li><p>/etc/ppp/ip-up.d/000resolvconf </p>
+<ul>
+<li>&#x4E0D;&#x5728;&#x5B58;/sbin/resolvconf &#xFF0C;&#x5167;&#x5BB9;&#x4E0D;&#x6703;&#x57F7;&#x884C;</li>
+<li>resolvconf:  manage nameserver information</li>
+</ul>
+</li>
+<li><p>/etc/ppp/ip-up.d/0dns-up</p>
+<ul>
+<li>&#x4E0D;&#x5B58;&#x5728;/usr/sbin/pppconfig&#xFF0C;&#x5167;&#x5BB9;&#x4E0D;&#x6703;&#x57F7;&#x884C;</li>
+<li>pppconfig:configure pppd to connect to the Internet</li>
+</ul>
+</li>
+<li><p>/etc/ppp/ip-up.d/ez-ipupdate</p>
+<ul>
+<li>&#x4E0D;&#x5B58;&#x5728;/usr/sbin/ez-ipupdate&#xFF0C;&#x5167;&#x5BB9;&#x4E0D;&#x6703;&#x57F7;&#x884C;</li>
+<li>ez-ipupdate: &#x7528;&#x4F86;&#x66F4;&#x65B0;ddns</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>pppoe up syslog message</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Jul 28 08:27:28 gk350a daemon.info pppd[1362]: Plugin rp-pppoe.so loaded.</span><br><span class="line">Jul 28 08:27:28 gk350a daemon.info pppd[1362]: RP-PPPoE plugin version 3.8p compiled against pppd 2.4.7</span><br><span class="line">Jul 28 08:27:28 gk350a daemon.notice pppd[1365]: pppd 2.4.7 started by root, uid 0</span><br><span class="line">Jul 28 08:28:03 gk350a daemon.warn pppd[1365]: Timeout waiting for PADO packets</span><br><span class="line">Jul 28 08:28:03 gk350a daemon.err pppd[1365]: Unable to complete PPPoE Discovery</span><br><span class="line">Jul 28 08:28:33 gk350a daemon.info pppd[1365]: PPP session is 5</span><br><span class="line">Jul 28 08:28:33 gk350a daemon.warn pppd[1365]: Connected to 60:a4:4c:c7:03:f8 via interface eth0</span><br><span class="line">Jul 28 08:28:33 gk350a daemon.info pppd[1365]: Using interface ppp2</span><br><span class="line">Jul 28 08:28:33 gk350a daemon.notice pppd[1365]: Connect: ppp2 &lt;--&gt; eth0</span><br><span class="line">Jul 28 08:28:34 gk350a daemon.notice pppd[1365]: PAP authentication succeeded</span><br><span class="line">Jul 28 08:28:34 gk350a daemon.notice pppd[1365]: peer from calling number 60:A4:4C:C7:03:F8 authorized</span><br><span class="line">Jul 28 08:28:34 gk350a daemon.notice pppd[1365]: local  IP address 1.165.87.189</span><br><span class="line">Jul 28 08:28:34 gk350a daemon.notice pppd[1365]: remote IP address 168.95.98.254</span><br><span class="line">Jul 28 08:28:34 gk350a daemon.notice pppd[1365]: primary   DNS address 168.95.1.1</span><br><span class="line">Jul 28 08:28:34 gk350a daemon.notice pppd[1365]: secondary DNS address 168.95.192.1</span><br></pre></td></tr></table></figure>
+<h3 id="pppd&#x95DC;&#x9589;"><a href="#pppd_u95DC_u9589" class="headerlink" title="pppd&#x95DC;&#x9589;"></a>pppd&#x95DC;&#x9589;</h3><ul>
+<li>pppoe down syslog message</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Jul 28 09:15:54 gk350a daemon.info pppd[1365]: Terminating on signal 15</span><br><span class="line">Jul 28 09:15:54 gk350a daemon.info pppd[1365]: Connect time 14.8 minutes.</span><br><span class="line">Jul 28 09:15:54 gk350a daemon.info pppd[1365]: Sent 35638 bytes, received 40705 bytes.</span><br><span class="line">Jul 28 09:15:54 gk350a daemon.notice pppd[1365]: Connection terminated.</span><br><span class="line">Jul 28 09:15:56 gk350a daemon.info pppd[1365]: Exit.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>pppoe down script&#x7A0B;&#x5E8F;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[/tmp]# cat /tmp/ppp-log </span><br><span class="line">/etc/ppp/ip-up, ppp2 eth0 0 1.165.87.189 168.95.98.254</span><br><span class="line">/etc/ppp/ip-up.d/0000usepeerdns, ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-up.d/000resolvconf, ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-up.d/0dns-up,  ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-up.d/ez-ipupdate, ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-down, ppp2 eth0 0 1.165.87.189 168.95.98.254</span><br><span class="line">/etc/ppp/ip-down.d/0000usepeerdns, ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-down.d/000resolvconf, ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-down.d/0dns-down, ppp2 eth0 0 1.165.87.189 168.95.98.254</span><br></pre></td></tr></table></figure>
+<h3 id="etcpppd-&#x76EE;&#x9304;&#x7D50;&#x69CB;"><a href="#/etc/pppd__u76EE_u9304_u7D50_u69CB" class="headerlink" title="/etc/pppd &#x76EE;&#x9304;&#x7D50;&#x69CB;"></a>/etc/pppd &#x76EE;&#x9304;&#x7D50;&#x69CB;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">gk350a :[/tmp]# ls -l /etc/ppp</span><br><span class="line">-rwxr-xr-x    1 1000     1000           109 Feb 16 03:57 chap-secrets</span><br><span class="line">-rwxr-xr-x    1 1000     1000          1785 Jul 28 08:18 ip-down</span><br><span class="line">drwxr-xr-x    2 1000     1000          4096 Jul 28 08:21 ip-down.d</span><br><span class="line">-rwxr-xr-x    1 1000     1000          1923 Jul 28 08:18 ip-up</span><br><span class="line">drwxr-xr-x    2 1000     1000          4096 Jul 28 08:20 ip-up.d</span><br><span class="line">-rwxr-xr-x    1 1000     1000           815 Jul 28 08:22 ipv6-down</span><br><span class="line">-rwxr-xr-x    1 1000     1000           952 Jul 28 08:23 ipv6-up</span><br><span class="line">-rwxr-xr-x    1 1000     1000         13487 Feb 16 03:57 options</span><br><span class="line">-rwxr-xr-x    1 1000     1000          1665 Feb 16 03:57 pap-secrets</span><br><span class="line">drwxr-xr-x    2 1000     1000          4096 Jul 28 08:23 plugins</span><br><span class="line">-rwxr-xr-x    1 1000     1000           123 Feb 16 03:57 pppoe-server-options</span><br><span class="line">-rwxr-xr-x    1 1000     1000          4524 Feb 16 03:57 pppoe.conf</span><br><span class="line">lrwxrwxrwx    1 root     root            25 Jul 27 10:11 resolv.conf -&gt; ../../tmp/ppp-resolv.conf</span><br><span class="line"></span><br><span class="line">gk350a :[/tmp]# ls -l /etc/ppp/ip-up.d</span><br><span class="line">-rwxr-xr-x    1 1000     1000           933 Jul 28 08:18 0000usepeerdns</span><br><span class="line">-rwxr-xr-x    1 1000     1000           546 Jul 28 08:19 000resolvconf</span><br><span class="line">-rwxr-xr-x    1 1000     1000          4056 Jul 28 08:19 0dns-up</span><br><span class="line">-rwxr-xr-x    1 1000     1000           727 Jul 28 08:20 ez-ipupdate</span><br><span class="line"></span><br><span class="line">gk350a :[/tmp]# cat /tmp/ppp-log </span><br><span class="line">/etc/ppp/ip-up, ppp2 eth0 0 1.165.87.189 168.95.98.254</span><br><span class="line">/etc/ppp/ip-up.d/0000usepeerdns, ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-up.d/000resolvconf, ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-up.d/0dns-up,  ppp2 eth0 0 1.165.87.189 168.95.98.254 </span><br><span class="line">/etc/ppp/ip-up.d/ez-ipupdate, ppp2 eth0 0 1.165.87.189 168.95.98.254</span><br></pre></td></tr></table></figure>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="https://ppp.samba.org/pppd.html" target="_blank" rel="external">pppd man</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/pppoe/" rel="tag">#pppoe</a>
+          
+            <a href="/tags/syslog/" rel="tag">#syslog</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/26/ubus/" rel="next" title="ubus">
+                <i class="fa fa-chevron-left"></i> ubus
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/27/slack/" rel="prev" title="slack">
+                slack <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#busybox-syslogd"><span class="nav-number">3.</span> <span class="nav-text">busybox syslogd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試pppd的syslog"><span class="nav-number">4.</span> <span class="nav-text">測試pppd的syslog</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#帶起busybox-syslogd"><span class="nav-number">4.1.</span> <span class="nav-text">帶起busybox syslogd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#帶起pppd查看log"><span class="nav-number">4.2.</span> <span class="nav-text">帶起pppd查看log</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pppd重撥"><span class="nav-number">5.</span> <span class="nav-text">pppd重撥</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重撥的方式"><span class="nav-number">5.1.</span> <span class="nav-text">重撥的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#note"><span class="nav-number">5.2.</span> <span class="nav-text">Note</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppd撥接成功"><span class="nav-number">5.3.</span> <span class="nav-text">pppd撥接成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pppd關閉"><span class="nav-number">5.4.</span> <span class="nav-text">pppd關閉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etcpppd-目錄結構"><span class="nav-number">5.5.</span> <span class="nav-text">/etc/pppd 目錄結構</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">6.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/07/27/syslog-pppd/';
+      var disqus_title = 'syslog-pppd';
+      var disqus_url = 'http://yoursite.com/2016/07/27/syslog-pppd/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

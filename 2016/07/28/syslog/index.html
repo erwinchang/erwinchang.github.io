@@ -1,0 +1,1005 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,syslog," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解 syslog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="syslog">
+<meta property="og:url" content="http://yoursite.com/2016/07/28/syslog/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解 syslog">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="syslog">
+<meta name="twitter:description" content="了解 syslog">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> syslog | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                syslog
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-28T09:55:32+08:00" content="2016-07-28">
+              2016-07-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/28/syslog/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/28/syslog/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/28/syslog/" class="leancloud_visitors" data-flag-title="syslog">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3; syslog</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160728</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#syslog-&#x8AAA;&#x660E;">Syslog &#x8AAA;&#x660E;</a><ul>
+<li><a href="#syslogd&#x7121;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;">Syslogd&#x7121;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;</a></li>
+<li><a href="#syslogd&#x76F8;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;">syslogd&#x76F8;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;</a></li>
+</ul>
+</li>
+<li><a href="#syslog-&#x7BC4;&#x4F8B;">Syslog &#x7BC4;&#x4F8B;</a><ul>
+<li><a href="#syslog-&#x6E2C;&#x8A66;">Syslog &#x6E2C;&#x8A66;</a></li>
+<li><a href="#syslog-&#x8AAA;&#x660E;-1">Syslog &#x8AAA;&#x660E;</a></li>
+<li><a href="#busybox-syslogd-&#x7528;&#x6CD5;">Busybox Syslogd &#x7528;&#x6CD5;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="syslog-&#x8AAA;&#x660E;"><a href="#Syslog__u8AAA_u660E" class="headerlink" title="Syslog &#x8AAA;&#x660E;"></a>Syslog &#x8AAA;&#x660E;</h2><ul>
+<li>Syslog&#x5E38;&#x88AB;&#x7A31;&#x70BA;&#x7CFB;&#x7D71;&#x65E5;&#x8A8C;&#x6216;&#x7CFB;&#x7D71;&#x8A18;&#x9304;</li>
+<li>syslog&#x5354;&#x5B9A;&#x5C6C;&#x65BC;&#x4E00;&#x7A2E;&#x4E3B;&#x5F9E;&#x5F0F;&#x5354;&#x5B9A;&#xFF1A;syslog&#x767C;&#x9001;&#x7AEF;&#x6703;&#x50B3;&#x9001;&#x51FA;&#x4E00;&#x500B;&#x5C0F;&#x7684;&#x6587;&#x5B57;&#x8A0A;&#x606F;&#xFF08;&#x5C0F;&#x65BC;1024&#x4F4D;&#x5143;&#x7D44;&#xFF09;&#x5230;syslog&#x63A5;&#x6536;&#x7AEF;</li>
+<li>&#x63A5;&#x6536;&#x7AEF;&#x901A;&#x5E38;&#x540D;&#x70BA;: syslogd (syslog daemon)</li>
+<li>&#x7CFB;&#x7D71;&#x65E5;&#x8A8C;&#x8A0A;&#x606F;&#x53EF;&#x4EE5;&#x88AB;&#x4EE5;UDP&#x5354;&#x5B9A;&#x53CA;&#x2571;&#x6216;TCP&#x5354;&#x5B9A;&#x4F86;&#x50B3;&#x9001;</li>
+<li>hisi busybox&#x7684;&#x7248;&#x672C;&#x662F;&#x7121;/etc/syslog.conf</li>
+<li>Facility code / Severity level , (&#x8AAA;&#x660E;&#x7531;&#x90A3;&#x500B;&#x7A0B;&#x5F0F;&#x7522;&#x751F; / &#x8AAA;&#x660E;&#x6B64;&#x6253;&#x5370;log&#x7B49;&#x7D1A;)<ul>
+<li>Each message is labeled with a facility code</li>
+<li>indicating the software type generating the message, and assigned a severity label</li>
+<li>A facility code is used to specify the type of program that is logging the message</li>
+<li>Facility code(0: kernel message, 1:user-level message,,, 23:local user 7)</li>
+<li><strong>openlog()</strong> : &#x8A2D;&#x5B9A;facility code(ex. LOG_LOCAL1)</li>
+<li><strong>syslog()</strong> : &#x8A2D;&#x5B9A;Severity level(0:Emergency, 1:Alert,,, 7:Debug)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BusyBox v1.16.1 (2016-02-19 09:03:37 UTC) multi-call binary.</span><br><span class="line"></span><br><span class="line">System logging utility.</span><br><span class="line">This version of syslogd ignores /etc/syslog.conf</span><br></pre></td></tr></table></figure>
+<h3 id="syslogd&#x7121;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;"><a href="#Syslogd_u7121_u95DC_u7CFB_u7D71_u8A18_u9304_u6A94" class="headerlink" title="Syslogd&#x7121;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;"></a>Syslogd&#x7121;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;</h3><ul>
+<li>/var/log/wtmp</li>
+</ul>
+<p>&#x8A18;&#x9304;&#x6A94;&#x529F;&#x80FD;&#xFF1A;&#x8A18;&#x9304;&#x4F7F;&#x7528;&#x8005;(&#x904E;&#x53BB;&#x53CA;&#x76EE;&#x524D;)&#x4F55;&#x6642;&#x7531;&#x4F55;&#x8655;&#x9032;&#x5165;&#x7CFB;&#x7D71;&#x3001;&#x505C;&#x7559;&#x591A;&#x4E45;&#x53CA;&#x7CFB;&#x7D71;&#x958B;&#x95DC;&#x6A5F;&#x6642;&#x9593;&#x7B49;&#x8A0A;&#x606F;<br>&#x6A94;&#x6848;&#x5167;&#x5BB9;&#x67E5;&#x95B1;&#x6307;&#x4EE4;&#xFF1A;last [-option]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ last</span><br><span class="line">erwin    pts/40       :0               Tue Jul 26 17:18 - 17:28  (00:10)    </span><br><span class="line">erwin    pts/33       :0               Mon Jul 25 10:09 - 10:10  (00:00)    </span><br><span class="line">erwin    pts/34       :0               Mon Jul 25 09:33   still logged in   </span><br><span class="line">erwin    pts/30       :0               Wed Jul 20 15:25   still logged in</span><br></pre></td></tr></table></figure>
+<ul>
+<li>/var/log/lastlog</li>
+</ul>
+<p>&#x8A18;&#x9304;&#x6A94;&#x529F;&#x80FD;&#xFF1A;&#x8A18;&#x9304;&#x7CFB;&#x7D71;&#x4E2D;&#x6BCF;&#x4E00;&#x4F4D;&#x4F7F;&#x7528;&#x8005;&#x6700;&#x8FD1;&#x4E00;&#x6B21;login&#x7CFB;&#x7D71;&#x7684;&#x8CC7;&#x8A0A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ lastlog</span><br><span class="line">Username         Port     From             Latest</span><br><span class="line">root                                       **Never logged in**</span><br><span class="line">daemon                                     **Never logged in**</span><br><span class="line">bin                                        **Never logged in**</span><br><span class="line">sys                                        **Never logged in**</span><br><span class="line">sync                                       **Never logged in**</span><br><span class="line">xxx</span><br><span class="line">erwin            pts/34   192.168.22.82    Thu Jul  7 09:15:18 +0800 2016</span><br><span class="line">xxx</span><br></pre></td></tr></table></figure>
+<h3 id="syslogd&#x76F8;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;"><a href="#syslogd_u76F8_u95DC_u7CFB_u7D71_u8A18_u9304_u6A94" class="headerlink" title="syslogd&#x76F8;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;"></a>syslogd&#x76F8;&#x95DC;&#x7CFB;&#x7D71;&#x8A18;&#x9304;&#x6A94;</h3><ul>
+<li>/var/log/messages</li>
+</ul>
+<p>&#x9019;&#x500B;&#x6A94;&#x6848;&#x76F8;&#x7576;&#x7684;&#x91CD;&#x8981;&#xFF0C;&#x5E7E;&#x4E4E;&#x7CFB;&#x7D71;&#x767C;&#x751F;&#x7684;&#x932F;&#x8AA4;&#x8A0A;&#x606F;</p>
+<hr>
+<h2 id="syslog-&#x7BC4;&#x4F8B;"><a href="#Syslog__u7BC4_u4F8B" class="headerlink" title="Syslog &#x7BC4;&#x4F8B;"></a>Syslog &#x7BC4;&#x4F8B;</h2><h3 id="syslog-&#x6E2C;&#x8A66;"><a href="#Syslog__u6E2C_u8A66" class="headerlink" title="Syslog &#x6E2C;&#x8A66;"></a>Syslog &#x6E2C;&#x8A66;</h3><ul>
+<li>&#x8A18;&#x5F97;&#x5148;&#x5E36;&#x8D77;syslogd&#xFF0C;&#x518D;&#x4F86;&#x6E2C;&#x8A66;&#x4E0B;&#x4F8B;&#x7A0B;&#x5F0F;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;syslog.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv){</span><br><span class="line">        openlog(&quot;SyslogTest&quot;, LOG_CONS | LOG_PID, LOG_LOCAL1);</span><br><span class="line">        syslog(LOG_DEBUG,&quot;This is a syslog test message generated by program &apos;%s&apos;/n&quot;,argv[0]);</span><br><span class="line">        closelog();</span><br><span class="line">        return 0;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li>/var/log/message</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: Script /etc/ppp/ip-up started (pid 2901)</span><br><span class="line">Jul 27 17:11:05 gk350a daemon.debug pppd[2879]: Script /etc/ppp/ip-up finished (pid 2901), status = 0x0</span><br><span class="line">Jul 27 09:36:52 gk350a local1.debug SyslogTest[3003]: This is a syslog test message generated by program &apos;/a.out&apos;/n</span><br></pre></td></tr></table></figure>
+<p>2879&#x5373;&#x70BA;pppd&#x7684;pid<br>3033&#x5373;&#x70BA;a.out&#x7684;pid</p>
+<h3 id="syslog-&#x8AAA;&#x660E;"><a href="#Syslog__u8AAA_u660E-1" class="headerlink" title="Syslog &#x8AAA;&#x660E;"></a>Syslog &#x8AAA;&#x660E;</h3><ul>
+<li><p>openlog()<br>opens a connection to the system logger for a program</p>
+</li>
+<li><p>syslog()<br>generates a log message</p>
+</li>
+<li><p>The option argument to <strong>openlog()</strong></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">option</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">LOG_CONS</td>
+<td style="text-align:left">Write directly to system console if there is an error while sending to system logger.</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_PID</td>
+<td style="text-align:left">Include PID with each message.</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_LOCAL0~7</td>
+<td style="text-align:left">reserved for local use</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>The facility argument is used to specify what type of program is logging the message</p>
+</li>
+<li><p>level </p>
+<ul>
+<li>The levels are, in order of decreasing importance: </li>
+<li>This determines the importance of the message</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">level</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">LOG_EMERG</td>
+<td style="text-align:left">system is unusable</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_ALERT</td>
+<td style="text-align:left">action must be taken immediately</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_CRIT</td>
+<td style="text-align:left">critical conditions</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_ERR</td>
+<td style="text-align:left">error conditions</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_WARNING</td>
+<td style="text-align:left">warning conditions</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_NOTICE</td>
+<td style="text-align:left">normal, but significant, condition</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_INFO</td>
+<td style="text-align:left">informational message</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_DEBUG</td>
+<td style="text-align:left">debug-level message</td>
+</tr>
+</tbody>
+</table>
+<h3 id="busybox-syslogd-&#x7528;&#x6CD5;"><a href="#Busybox_Syslogd__u7528_u6CD5" class="headerlink" title="Busybox Syslogd &#x7528;&#x6CD5;"></a>Busybox Syslogd &#x7528;&#x6CD5;</h3><ul>
+<li>busybox syslogd</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Options:</span><br><span class="line">        -n              Run in foreground</span><br><span class="line">        -O FILE         Log to given file (default:/var/log/messages)</span><br><span class="line">        -l N            Set local log level</span><br><span class="line">        -S              Smaller logging output</span><br><span class="line">        -s SIZE         Max size (KB) before rotate (default:200KB, 0=off)</span><br><span class="line">        -b N            N rotated logs to keep (default:1, max=99, 0=purge)</span><br><span class="line">        -R HOST[:PORT]  Log to IP or hostname on PORT (default PORT=514/UDP)</span><br><span class="line">        -L              Log locally and via network (default is network only if -R)</span><br><span class="line">        -D              Drop duplicates</span><br><span class="line">        -C[size(KiB)]   Log to shared mem buffer (read it using logread)</span><br></pre></td></tr></table></figure>
+<p>&#x5E36;&#x8D77;&#x65B9;&#x5F0F;&#x5982;&#x4E0B;</p>
+<ul>
+<li><p>syslogd</p>
+<ul>
+<li>&#x9810;&#x8A2D;&#x7522;&#x751F;/var/log/message</li>
+</ul>
+</li>
+<li><p>syslogd -O /mnt/log/mesasge -s 256</p>
+<ul>
+<li>&#x8A2D;&#x5B9A;&#x7522;&#x751F;log&#x6A94;&#x7684;&#x4F4D;&#x7F6E;</li>
+<li>&#x8A2D;&#x5B9A;rotate size 256K</li>
+</ul>
+</li>
+<li><p>syslogd -C256</p>
+<ul>
+<li>&#x8A2D;&#x5B9A;&#x4F7F;&#x7528;256K RAM</li>
+<li>&#x9700;&#x4F7F;&#x7528;logread&#xFF0C;&#x4F86;&#x8B80;&#x53D6;&#x5167;&#x5BB9;</li>
+<li>ex. logread -f | nc 192.168.1.1 514</li>
+<li>ex. logread -f &#xBB; /mnt/share/logfile </li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="https://www.cyut.edu.tw/~ywfan/netlab/20060912chapter11-log.htm" target="_blank" rel="external">Chapter 11 Syslog and Log Files(&#x8A18;&#x9304;&#x6A94;)</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0570syslog.php" target="_blank" rel="external">&#x7B2C;&#x5341;&#x516B;&#x7AE0;&#x3001;&#x8A8D;&#x8B58;&#x8207;&#x5206;&#x6790;&#x767B;&#x9304;&#x6A94;</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Syslog" target="_blank" rel="external">Syslog</a></li>
+<li><a href="http://linux.die.net/man/3/openlog" target="_blank" rel="external">openlog - Linux man page</a></li>
+<li><a href="http://low-understated.blogspot.tw/2008/11/system-log-in-linux-openlog-syslog.html" target="_blank" rel="external">System Log in Linux (openlog, syslog, closelog) </a></li>
+<li><a href="https://www.freebsd.org/doc/zh_CN.UTF-8/books/handbook/network-syslogd.html" target="_blank" rel="external">&#x4F7F;&#x7528; syslogd &#x8BB0;&#x5F55;&#x8FDC;&#x7A0B;&#x4E3B;&#x673A;&#x7684;&#x65E5;&#x5FD7;</a></li>
+<li><a href="https://tools.ietf.org/html/rfc5424" target="_blank" rel="external">The Syslog Protocol - rfc5424</a></li>
+<li><a href="https://wiki.openwrt.org/doc/howto/log.essentials" target="_blank" rel="external">System log in OpenWrt</a><ul>
+<li>&#x76EE;&#x524D;OpenWrt&#x7686;&#x4EE5;logd&#x53D6;&#x4EE3;syslog</li>
+<li>ubox&#x2019;s logd and logread</li>
+<li><a href="https://wiki.openwrt.org/doc/techref/ubox" target="_blank" rel="external">ubox</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Syslog" target="_blank" rel="external">wiki syslog</a></li>
+</ul>
+</li>
+<li><a href="http://www.ciscopress.com/articles/article.asp?p=426638" target="_blank" rel="external">An Overview of the syslog Protocol </a></li>
+<li><a href="http://www.linuxjournal.com/article/4058" target="_blank" rel="external">klogd: The Kernel Logging D&#xE6;mon</a><ul>
+<li>&#x5C07;kernel&#x8A0A;&#x606F;&#x8F49;&#x5230;syslogd&#x7684;klogd</li>
+<li>&#x900F;&#x904E; printk() &#x6240;&#x5370;&#x51FA;&#x7684;&#x8A0A;&#x606F;&#x6703;&#x5148;&#x4E1F;&#x7D66; klogd,klogd &#x518D;&#x50B3;&#x7D66; syslogd &#x7136;&#x5F8C;&#x7D00;&#x9304;&#x5230; /var/log/message</li>
+</ul>
+</li>
+<li><a href="https://moto.debian.tw/viewtopic.php?t=9059&amp;" target="_blank" rel="external">&#x4F7F;&#x7528; busybox &#x7684; syslogd, klogd &#x5982;&#x4F55;&#x505A;&#x8A0A;&#x606F;&#x7684;&#x904E;&#x6FFE;?</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/syslog/" rel="tag">#syslog</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/27/slack/" rel="next" title="slack">
+                <i class="fa fa-chevron-left"></i> slack
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/28/smartctl/" rel="prev" title="smartctl">
+                smartctl <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#syslog-說明"><span class="nav-number">3.</span> <span class="nav-text">Syslog 說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#syslogd無關系統記錄檔"><span class="nav-number">3.1.</span> <span class="nav-text">Syslogd無關系統記錄檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#syslogd相關系統記錄檔"><span class="nav-number">3.2.</span> <span class="nav-text">syslogd相關系統記錄檔</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#syslog-範例"><span class="nav-number">4.</span> <span class="nav-text">Syslog 範例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#syslog-測試"><span class="nav-number">4.1.</span> <span class="nav-text">Syslog 測試</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#syslog-說明"><span class="nav-number">4.2.</span> <span class="nav-text">Syslog 說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#busybox-syslogd-用法"><span class="nav-number">4.3.</span> <span class="nav-text">Busybox Syslogd 用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">5.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/07/28/syslog/';
+      var disqus_title = 'syslog';
+      var disqus_url = 'http://yoursite.com/2016/07/28/syslog/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

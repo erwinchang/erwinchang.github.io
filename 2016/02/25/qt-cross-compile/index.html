@@ -1,0 +1,1143 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,cross-compile,qt," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="目前需要Cross Compile QT for hi3535，qt 4.8是可以使用-qws，但在qt5之後被QPA取代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="qt-cross-compile">
+<meta property="og:url" content="http://yoursite.com/2016/02/25/qt-cross-compile/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="目前需要Cross Compile QT for hi3535，qt 4.8是可以使用-qws，但在qt5之後被QPA取代">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/7/7b/Free_and_open-source-software_display_servers_and_UI_toolkits.svg">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/qt-for-embedded-linux-architecture.png">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/0/03/X_client_server_example.svg">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/gnome_3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/kde.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/cde.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.539Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="qt-cross-compile">
+<meta name="twitter:description" content="目前需要Cross Compile QT for hi3535，qt 4.8是可以使用-qws，但在qt5之後被QPA取代">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/7/7b/Free_and_open-source-software_display_servers_and_UI_toolkits.svg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> qt-cross-compile | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                qt-cross-compile
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-02-25T14:05:53+08:00" content="2016-02-25">
+              2016-02-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/02/25/qt-cross-compile/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/25/qt-cross-compile/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/02/25/qt-cross-compile/" class="leancloud_visitors" data-flag-title="qt-cross-compile">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x76EE;&#x524D;&#x9700;&#x8981;Cross Compile QT for hi3535&#xFF0C;qt 4.8&#x662F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;-qws&#xFF0C;&#x4F46;&#x5728;qt5&#x4E4B;&#x5F8C;&#x88AB;QPA&#x53D6;&#x4EE3;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160225</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#qt">QT</a><ul>
+<li><a href="#ligthouse">Ligthouse</a></li>
+<li><a href="#qpa">QPA</a></li>
+</ul>
+</li>
+<li><a href="#x-window&#x8CC7;&#x6599;&#x4F86;&#x6E90;5">X Window,<a href="https://www.twbsd.org/cht/book/ch11.htm" target="_blank" rel="external">&#x8CC7;&#x6599;&#x4F86;&#x6E90;</a></a><ul>
+<li><a href="#x-window-system">X Window System</a></li>
+<li><a href="#&#x684C;&#x9762;&#x74B0;&#x5883;">&#x684C;&#x9762;&#x74B0;&#x5883;</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x53C3;&#x8003;">&#x5176;&#x5B83;&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="qt"><a href="#QT" class="headerlink" title="QT"></a>QT</h2><ul>
+<li>qt 4.8 configure &#x6307;&#x4EE4;<ul>
+<li><a href="http://download.qt.io/official_releases/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz" target="_blank" rel="external">qt4.8.6 download</a></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure -prefix /usr/local/Trolltech/QtEmbedded-4.8.5-arm-hisiv200  -embedded arm -platform qws/linux-x86-g++ -xplatform qws/linux-arm-g++ -depths all -little-endian -no-mmx -no-3dnow -no-sse -no-sse2 -no-glib -no-cups -no-largefile -no-accessibility -no-openssl -no-gtkstyle -qt-freetype -qt-mouse-pc -qt-mouse-linuxtp -qt-mouse-linuxinput -plugin-mouse-linuxtp -plugin-mouse-pc -fast -qt-gfx-linuxfb -no-gfx-transformed -no-gfx-transformed -no-gfx-qvfb -no-gfx-vnc -no-gfx-multiscreen -no-gfx-directfb -no-gfx-qnx -plugin-gfx-linuxfb -opensource</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">config</th>
+<th style="text-align:left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-embedded arm</td>
+<td style="text-align:left">-embedded <arch> ,<arch>: arm mips x86 generic</arch></arch></td>
+</tr>
+<tr>
+<td style="text-align:left">-platform  qws/linux-x86-g++</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-xplatform  qws/linux-arm-g++</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-depths all</td>
+<td style="text-align:left">-depths <list> &#x2026;&#x2026; Comma-separated list of supported bit-per-pixel</list></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">depths, from: 1, 4, 8, 12, 15, 16, 18, 24, 32 and &#x2018;all&#x2019;</td>
+</tr>
+<tr>
+<td style="text-align:left">-little-endian</td>
+<td style="text-align:left">-little-endian &#x2026;&#x2026; Target platform is little endian (LSB first)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">-big-endian &#x2026;&#x2026;&#x2026; Target platform is big endian (MSB first).</td>
+</tr>
+<tr>
+<td style="text-align:left">-no-mmx</td>
+<td style="text-align:left">Do not compile with use of MMX instructions.</td>
+</tr>
+<tr>
+<td style="text-align:left">-no-3dnow</td>
+<td style="text-align:left">Do not compile with use of 3DNOW instructions.</td>
+</tr>
+<tr>
+<td style="text-align:left">-no-sse</td>
+<td style="text-align:left">Do not compile with use of SSE instructions.</td>
+</tr>
+<tr>
+<td style="text-align:left">-no-sse2</td>
+<td style="text-align:left">Do not compile with use of SSE2 instructions.</td>
+</tr>
+<tr>
+<td style="text-align:left">-no-glib</td>
+<td style="text-align:left">Do not compile Glib support.</td>
+</tr>
+<tr>
+<td style="text-align:left">-no-cups</td>
+<td style="text-align:left">Do not compile CUPS support.</td>
+</tr>
+<tr>
+<td style="text-align:left">-no-largefile</td>
+<td style="text-align:left">Disables large file support.</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">-largefile &#x2026; Enables Qt to access files larger than 4 GB.</td>
+</tr>
+<tr>
+<td style="text-align:left">-no-gtkstyle</td>
+<td style="text-align:left">Do not build the GTK theme integration</td>
+</tr>
+<tr>
+<td style="text-align:left">-qt-freetype</td>
+<td style="text-align:left">Use the libfreetype bundled with Qt</td>
+</tr>
+<tr>
+<td style="text-align:left">-qt-mouse-<driver></driver></td>
+<td style="text-align:left">Enable a mouse <driver> in the QtGui library.</driver></td>
+</tr>
+<tr>
+<td style="text-align:left">-plugin-mouse-<driver></driver></td>
+<td style="text-align:left">Enable mouse <driver> as a plugin to be linked to at runtime.</driver></td>
+</tr>
+<tr>
+<td style="text-align:left">-qt-gfx-linuxfb</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-plugin-gfx-linuxfb</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-opensource</td>
+<td style="text-align:left">Compile and link the Open-Source Edition of Qt.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>qt 5.5.1 configure &#x6307;&#x4EE4;<ul>
+<li><a href="http://download.qt.io/official_releases/qt/5.5/5.5.1/single/qt-everywhere-opensource-src-5.5.1.tar.gz" target="_blank" rel="external">qt5.5.1 download</a></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configure -prefix /usr/local/qt5.5.1 -platform linux-g++-32  -xplatform linux-arm-gnueabi-g++  -release -no-openssl -linuxfb -opensource</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">config</th>
+<th style="text-align:left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-prefix /usr/local/qt5.5.1</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-platform linux-g++-32</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-xplatform linux-arm-gnueabi-g++</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-release</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-no-openssl</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-linuxfb</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">-opensource</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">   Configure summary</span><br><span class="line"></span><br><span class="line">Building on:   linux-g++-32 (i386, CPU features: none detected)</span><br><span class="line">Building for:  linux-arm-gnueabi-g++ (arm, CPU features: none detected)</span><br><span class="line"></span><br><span class="line">Build options:</span><br><span class="line">  Configuration .......... accessibility audio-backend c++11 clock-gettime clock-monotonic compile_examples concurrent cross_compile dbus enable_new_dtags evdev eventfd freetype full-config getaddrinfo getifaddrs harfbuzz iconv inotify i</span><br><span class="line">pv6ifname large-config largefile linuxfb medium-config minimal-config mremap nis no-pkg-config pcre png posix_fallocate precompile_header qpa qpa reduce_exports release rpath shared small-config zlib</span><br><span class="line">  Build parts ............ libs examples</span><br><span class="line">  Mode ................... release</span><br><span class="line">  Using sanitizer(s)...... none</span><br><span class="line">  Using C++11 ............ yes</span><br><span class="line">  Using gold linker....... no</span><br><span class="line">  Using new DTAGS ........ yes</span><br><span class="line">  Using PCH .............. yes</span><br><span class="line">  Target compiler supports:</span><br><span class="line">    Neon ................. no</span><br><span class="line"></span><br><span class="line">Qt modules and options:</span><br><span class="line">  Qt D-Bus ............... yes (loading dbus-1 at runtime)</span><br><span class="line">  Qt Concurrent .......... yes</span><br><span class="line">  Qt GUI ................. yes</span><br><span class="line">  Qt Widgets ............. yes</span><br><span class="line">  Large File ............. yes</span><br><span class="line">  QML debugging .......... yes</span><br><span class="line">  Use system proxies ..... no</span><br><span class="line"></span><br><span class="line">Support enabled for:</span><br><span class="line">  Accessibility .......... yes</span><br><span class="line">  ALSA ................... no</span><br><span class="line">  CUPS ................... no</span><br><span class="line">  Evdev .................. yes</span><br><span class="line">  FontConfig ............. no</span><br><span class="line">  FreeType ............... yes (bundled copy)</span><br><span class="line">  Glib ................... no</span><br><span class="line">  GStreamer .............. no</span><br><span class="line">  GTK theme .............. no</span><br><span class="line">  HarfBuzz ............... yes (bundled copy)</span><br><span class="line">  Iconv .................. yes</span><br><span class="line">  ICU .................... no</span><br><span class="line">  Image formats:</span><br><span class="line">    GIF .................. yes (plugin, using bundled copy)</span><br><span class="line">    JPEG ................. yes (plugin, using bundled copy)</span><br><span class="line">    PNG .................. yes (in QtGui, using bundled copy)</span><br><span class="line">  journald ............... no</span><br><span class="line">  libinput................ no</span><br><span class="line">  mtdev .................. no</span><br><span class="line">  Networking:</span><br><span class="line">    getaddrinfo .......... yes</span><br><span class="line">    getifaddrs ........... yes</span><br><span class="line">    IPv6 ifname .......... yes</span><br><span class="line">    libproxy.............. no</span><br><span class="line">    OpenSSL .............. no</span><br><span class="line">  NIS .................... yes</span><br><span class="line">  OpenGL / OpenVG:</span><br><span class="line">    EGL .................. no</span><br><span class="line">    OpenGL ............... no</span><br><span class="line">    OpenVG ............... no</span><br><span class="line">  PCRE ................... yes (bundled copy)</span><br><span class="line">  pkg-config ............. no</span><br><span class="line">  PulseAudio ............. no</span><br><span class="line">  QPA backends:</span><br><span class="line">    DirectFB ............. no</span><br><span class="line">    EGLFS ................ no</span><br><span class="line">      EGLFS i.MX6....... . no</span><br><span class="line">      EGLFS KMS .......... no</span><br><span class="line">      EGLFS Mali ......... no</span><br><span class="line">      EGLFS Raspberry Pi . no</span><br><span class="line">      EGLFS X11 .......... no</span><br><span class="line">    LinuxFB .............. yes</span><br><span class="line">    XCB .................. no</span><br><span class="line">  Session management ..... yes</span><br><span class="line">  SQL drivers:</span><br><span class="line">    DB2 .................. no</span><br><span class="line">    InterBase ............ no</span><br><span class="line">    MySQL ................ no</span><br><span class="line">    OCI .................. no</span><br><span class="line">    ODBC ................. no</span><br><span class="line">    PostgreSQL ........... no</span><br><span class="line">    SQLite 2 ............. no</span><br><span class="line">    SQLite ............... yes (plugin, using bundled copy)</span><br><span class="line">    TDS .................. no</span><br><span class="line">  tslib .................. no</span><br><span class="line">  udev ................... no</span><br><span class="line">  xkbcommon-x11........... no</span><br><span class="line">  xkbcommon-evdev......... no</span><br><span class="line">  zlib ................... yes (bundled copy)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="ligthouse"><a href="#Ligthouse" class="headerlink" title="Ligthouse"></a>Ligthouse</h3><ul>
+<li><a href="http://moto.debian.tw/viewtopic.php?t=15531" target="_blank" rel="external">Qt Lighthouse &amp; Wayland</a><ul>
+<li>Lighthouse&#x662F;QtGui&#x7684;&#x4E00;&#x500B;Window System Agnostic&#x79FB;&#x690D;</li>
+<li>&#x4F7F;&#x5F97;QtGui&#x4E0D;&#x77AD;&#x89E3;&#x5B83;&#x5728;&#x4EC0;&#x9EBC;&#x8996;&#x7A97;&#x7CFB;&#x7D71;&#x4E0A;&#x904B;&#x884C;&#xFF0C;&#x628A;&#x8655;&#x7406;&#x908F;&#x8F2F;&#x4EA4;&#x7D66;&#x4E86;Lighthouse&#x7684;&#x5916;&#x639B;&#x7A0B;&#x5F0F;</li>
+</ul>
+</li>
+<li><p><a href="https://zh.wikipedia.org/wiki/Wayland" target="_blank" rel="external">Wayland</a></p>
+<ul>
+<li>Wayland&#x662F;&#x4E00;&#x6B3E;&#x898F;&#x5B9A;&#x986F;&#x793A;&#x4F3A;&#x670D;&#x5668;&#xFF08;&#x7A31;&#x70BA;Wayland Compositor&#xFF09;&#x8207;&#x5176;&#x5BA2;&#x6236;&#x6A5F;&#x4E4B;&#x9593;&#x901A;&#x4FE1;&#x65B9;&#x5F0F;&#x7684;&#x5354;&#x8B70;</li>
+<li>&#x9019;&#x500B;&#x5C08;&#x6848;&#x4E5F;&#x958B;&#x767C;&#x652F;&#x63F4;Wayland&#x986F;&#x793A;&#x7684;Qt&#xFF0C;&#x800C;&#x4E0D;&#x9700;&#x8981;X&#x3002;&#x5927;&#x90E8;&#x5206;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x90FD;&#x6709;&#x671B;&#x7372;&#x5F97;&#x900F;&#x904E;&#x51FD;&#x5F0F;&#x5EAB;&#xFF0C;&#x7121;&#x9700;&#x4FEE;&#x6539;&#x7A0B;&#x5F0F;&#x5373;&#x53EF;&#x652F;&#x63F4;Wayland&#x3002;</li>
+<li>Wayland compositors, libwayland-client and toolkits<br><img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Free_and_open-source-software_display_servers_and_UI_toolkits.svg" alt="Wayland" title="Wayland">    </li>
+<li>Wayland&#x662F;&#x4E00;&#x6B3E;&#x5354;&#x5B9A;&#xFF0C;&#x4F46;&#x8207;X server&#x4E0D;&#x540C;&#x7684;&#x662F;&#xFF0C;Wayland&#x53EA;&#x505A;&#x5B83;&#x5FC5;&#x9808;&#x8981;&#x505A;&#x7684;&#x4E8B;&#x60C5;</li>
+<li>&#x5728;X&#x4E2D;:<ul>
+<li>&#x5167;&#x6838;&#x6355;&#x7372;&#x6ED1;&#x9F20;&#x9EDE;&#x64CA;&#x4E8B;&#x4EF6;&#x4E26;&#x884C;&#x9001;&#x7D66;X server</li>
+<li>X server&#x6703;&#x8A08;&#x7B97;&#x8A72;&#x628A;&#x9019;&#x4E00;&#x4E8B;&#x4EF6;&#x50B3;&#x9001;&#x7D66;&#x54EA;&#x500B;&#x7A97;&#x53E3; (&#x7A97;&#x53E3;&#x4F4D;&#x7F6E;&#x662F;&#x7531;Compositor&#x63A7;&#x5236;&#x7684;&#xFF0C;X server&#x4E26;&#x4E0D;&#x80FD;&#x5920;&#x6B63;&#x78BA;&#x7684;&#x8A08;&#x7B97;Compositor&#x505A;&#x904E;&#x7279;&#x6548;&#x8B8A;&#x5316;&#x4E4B;&#x5F8C;&#x7684;&#x6309;&#x9215;)</li>
+<li>&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x5C0D;&#x6B64;&#x4E8B;&#x4EF6;&#x9032;&#x884C;&#x8655;&#x7406;&#xFF08;&#x5C07;&#x5F15;&#x767C;&#x6309;&#x9215;&#x66F4;&#x65B0;&#x52D5;&#x4F5C;&#xFF09;(&#x4F46;&#x662F;&#xFF0C;&#x5728;&#x6B64;&#x4E4B;&#x524D;&#x5B83;&#x5F97;&#x5411;X server&#x50B3;&#x9001;&#x7E6A;&#x88FD;&#x8ACB;&#x6C42;)</li>
+<li>X server&#x63A5;&#x6536;&#x5230;&#x9019;&#x689D;&#x7E6A;&#x88FD;&#x8ACB;&#x6C42;&#xFF0C;&#x7136;&#x5F8C;&#x628A;&#x5B83;&#x767C;&#x7D66;&#x5F71;&#x7247;&#x9A45;&#x52D5;&#x4F86;&#x6E32;&#x67D3;</li>
+<li>Compositor&#x77E5;&#x9053;&#x5B83;&#x5FC5;&#x9808;&#x8981;&#x91CD;&#x65B0;&#x5408;&#x6210;&#x87A2;&#x5E55;&#x4E0A;&#x7684;&#x4E00;&#x584A;&#x5340;&#x57DF;</li>
+<li>&#x958B;&#x59CB;&#x7E6A;&#x88FD;&#x3002;&#x4F46;&#x662F;X server&#x9084;&#x6703;&#x53BB;&#x505A;&#x4E00;&#x4E9B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x672C;&#x8077;&#x5DE5;&#x4F5C;&#xFF08;&#x7A97;&#x53E3;&#x91CD;&#x758A;&#x8A08;&#x7B97;&#x3001;&#x7A97;&#x53E3;&#x526A;&#x88C1;&#x8A08;&#x7B97;&#x7B49;&#xFF09;</li>
+</ul>
+</li>
+<li>&#x5728;Wayland&#x4E2D;&#xFF1A;<ul>
+<li>&#x5167;&#x6838;&#x6355;&#x7372;&#x6ED1;&#x9F20;&#x9EDE;&#x64CA;&#x4E8B;&#x4EF6;&#x4E26;&#x884C;&#x9001;&#x7D66;Wayland Compositor</li>
+<li>&#x76F4;&#x63A5;&#x767C;&#x7D66;Wayland Compositor&#x7684;&#xFF0C;&#x6240;&#x4EE5;Wayland Compositor&#x6703;&#x6B63;&#x78BA;&#x5730;&#x8A08;&#x7B97;&#x51FA;&#x6309;&#x9215;&#x7684;&#x4F4D;&#x7F6E;</li>
+<li>&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x76F4;&#x63A5;&#x6E32;&#x67D3;&#xFF0C;&#x7121;&#x9700;&#x5411;Wayland Compositor&#x8ACB;&#x6C42;</li>
+<li>Wayland Compositor&#x6536;&#x5230;&#x9019;&#x689D;&#x8CC7;&#x8A0A;&#x5F8C;&#xFF0C;&#x7ACB;&#x5373;&#x91CD;&#x65B0;&#x5408;&#x6210;&#x6574;&#x500B;&#x684C;&#x9762;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Qt 5.x&#x63D0;&#x4F9B;&#x4E86;QtWayland&#x6A21;&#x584A;&#x4EE5;&#x652F;&#x63F4;Wayland&#x5354;&#x8B70; (&#x85C9;&#x7531;-platform&#x547D;&#x4EE4;&#x5217;&#x9078;&#x9805;)</p>
+<ul>
+<li>2011&#x5E74;1&#x6708;&#xFF0C;Wayland&#x652F;&#x63F4;&#x642C;&#x9032;&#x4E86;&#x4E0A;&#x6E38;Qt&#x7248;&#x672C;&#x5EAB;&#x7684;Lighthouse&#x5206;&#x679D;</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://blog.csdn.net/dbzhang800/article/details/6526535" target="_blank" rel="external">&#x4F86;&#x6E90;</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Lighthouse is the project name for the Qt Platform Abstraction &#x2013; making it much easier to port Qt to new platforms.</span><br><span class="line"></span><br><span class="line">./configure -developer-build -qpa -opensource -nomake examples -nomake demos -nomake tests</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><a href="http://doc.qt.io/qt-4.8/qt-embedded-running.html" target="_blank" rel="external">Running Qt for Embedded Linux Applications</a></li>
+</ul>
+<h3 id="qpa"><a href="#QPA" class="headerlink" title="QPA"></a>QPA</h3><p>&#x65B0;&#x7248;&#x7684; QT5&#x6539;&#x7528; QPA&#x53D6;&#x4EE3;QWS</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=qCWWxBf6vko" target="_blank" rel="external">Qt DevDays 2011, QPA - The Qt Platform Abstraction: Thomas Senyk</a></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/qt-for-embedded-linux-architecture.png" alt="The Qt Platform Abstraction" title="The Qt Platform Abstraction"></p>
+<hr>
+<h2 id="&#x8CC7;&#x6599;&#x4F86;&#x6E90;x-window&#x8CC7;&#x6599;&#x4F86;&#x6E90;"><a href="#X_Window_2C_u8CC7_u6599_u4F86_u6E90" class="headerlink" title="X Window,&lt;a href=" https:="" www.twbsd.org="" cht="" book="" ch11.htm"="">&#x8CC7;&#x6599;&#x4F86;&#x6E90;</a>&quot;&gt;X Window,<a href="https://www.twbsd.org/cht/book/ch11.htm" target="_blank" rel="external">&#x8CC7;&#x6599;&#x4F86;&#x6E90;</a></h2><ul>
+<li>X11 &#x662F;&#x5728; UNIX &#x7CFB;&#x7D71;&#x4E0B;&#x7684;&#x8996;&#x7A97;&#x8EDF;&#x9AD4;&#xFF0C;&#x5B83;&#x5206;&#x70BA;&#x4E8C;&#x7A2E;&#x7248;&#x672C;<ul>
+<li>FreeBSD 5.2.1 &#x4EE5;&#x524D;&#x7528;&#x7684; XFree86</li>
+<li>FreeBSD 5.3 &#x4EE5;&#x5F8C;&#x9810;&#x8A2D;&#x4F7F;&#x7528;&#x7684; Xorg</li>
+</ul>
+</li>
+<li>&#x539F;&#x672C;&#x7684; X11 &#x662F;&#x4EE5; XFree86 &#x70BA;&#x4E3B;&#xFF0C;&#x4F46;&#x6700;&#x8FD1;&#x7531;&#x65BC;&#x7248;&#x6B0A;&#x722D;&#x8B70;&#x53CA;&#x7BA1;&#x7406;&#x554F;&#x984C;&#xFF0C;&#x5206;&#x88C2;&#x6210;&#x4E8C;&#x5957;&#x8EDF;&#x9AD4;    </li>
+<li>X11 &#x662F;&#x4E00;&#x500B; Client/Server &#x67B6;&#x69CB;&#x7684;&#x8EDF;&#x9AD4;&#xFF0C;&#x4E4B;&#x6240;&#x4EE5;&#x6703;&#x662F; Client/Server &#x67B6;&#x69CB;&#x662F;&#x56E0;&#x70BA;&#x5728;&#x4E00;&#x958B;&#x59CB;&#x8A2D;&#x8A08; X &#x6642;&#xFF0C;&#x70BA;&#x4E86;&#x505A;&#x5230;&#x7DB2;&#x8DEF;&#x96C6;&#x4E2D;&#x7BA1;&#x7406;<ul>
+<li><strong>X Server &#x6307;&#x7684;&#x662F;&#x6709;&#x6ED1;&#x9F20;&#x53CA;&#x9375;&#x76E4;&#x7684;&#x6A5F;&#x5668; </strong></li>
+<li><strong> X Client &#x662F;&#x756B;&#x9762;&#x986F;&#x793A;&#x7684;&#x6A5F;&#x5668; </strong></li>
+</ul>
+</li>
+<li>X11 &#x53EA;&#x662F;&#x7528;&#x4F86;&#x505A;&#x57FA;&#x672C;&#x7684;&#x5716;&#x5F62;&#x986F;&#x793A;&#xFF0C;&#x6211;&#x5011;&#x9664;&#x4E86;&#x4ECB;&#x7D39;&#x5B89;&#x88DD; X11 &#x5916;&#xFF0C;&#x53E6;&#x5916;&#x6211;&#x5011;&#x6703;&#x518D;&#x52A0;&#x88DD;&#x8996;&#x7A97;&#x7BA1;&#x7406;&#x8EDF;&#x9AD4;&#xFF0C;&#x5982;&#x679C;&#x6C92;&#x6709;&#x4E86;&#x5B83;&#xFF0C;X Windows &#x5C31;&#x53EA;&#x80FD;&#x770B;&#x5230;&#x767D;&#x767D;&#x4E00;&#x7247;</li>
+<li>port &#x4F86;&#x5B89;&#x88DD; X Window &#x53CA; KDE 3&#xFF0C;&#x4F46;&#x662F;&#x5FC5;&#x9808;&#x82B1;&#x8CBB;&#x5F88;&#x9577;&#x7684;&#x4E00;&#x6BB5;&#x6642;&#x9593;&#x4F86;&#x9032;&#x884C;&#x7DE8;&#x8B6F;<ul>
+<li>Step1&#xFF1A;&#x5B89;&#x88DD;X Window (X.Org &#x5957;&#x4EF6;)</li>
+<li>Step2&#xFF1A;&#x5B89;&#x88DD;KDE 3</li>
+<li>Step3&#xFF1A;&#x5B89;&#x88DD;&#x4E2D;&#x6587;&#x5316;&#x5B57;&#x578B;</li>
+<li>Step4&#xFF1A;&#x7522;&#x751F;&#x8A2D;&#x5B9A;&#x6A94; (Xorg -configure)</li>
+<li>Step 5&#xFF1A;&#x9032;&#x5165; X Window</li>
+</ul>
+</li>
+</ul>
+<h3 id="x-window-system"><a href="#X_Window_System" class="headerlink" title="X Window System"></a>X Window System</h3><p><a href="https://zh.wikipedia.org/wiki/CDE" target="_blank" rel="external">&#x8CC7;&#x6599;&#x4F86;&#x6E90;</a></p>
+<ul>
+<li>X&#x80FD;&#x70BA;GUI&#x74B0;&#x5883;&#x63D0;&#x4F9B;&#x57FA;&#x672C;&#x7684;&#x6846;&#x67B6;&#xFF1A;&#x5728;&#x87A2;&#x5E55;&#x4E0A;&#x63CF;&#x7E6A;&#x3001;&#x5448;&#x73FE;&#x5716;&#x50CF;&#x8207;&#x79FB;&#x52D5;&#x7A0B;&#x5F0F;&#x8996;&#x7A97;&#xFF0C;&#x540C;&#x6642;&#x4E5F;&#x53D7;&#x7406;&#x3001;&#x57F7;&#x884C;&#x3001;&#x53CA;&#x7BA1;&#x7406;&#x96FB;&#x8166;&#x8207;&#x6ED1;&#x9F20;&#x3001;&#x9375;&#x76E4;&#x7684;&#x4E92;&#x52D5;&#x7A0B;&#x5F0F;</li>
+<li><p>X&#x63A1;&#x7528;&#x4E3B;&#x5F9E;&#x5F0F;&#x7684;&#x67B6;&#x69CB;&#x6A21;&#x578B;</p>
+<ul>
+<li>&#x4E00;&#x500B;X&#x4F3A;&#x670D;&#x5668;&#x8207;&#x591A;&#x500B;X&#x7528;&#x6236;&#x7AEF;&#x7A0B;&#x5F0F;&#x9032;&#x884C;&#x901A;&#x8A0A;</li>
+<li>&#x4F3A;&#x670D;&#x5668;&#x63A5;&#x53D7;&#x5C0D;&#x65BC;&#x5716;&#x5F62;&#x8F38;&#x51FA;&#xFF08;&#x8996;&#x7A97;&#xFF09;&#x7684;&#x8ACB;&#x6C42;&#x4E26;&#x53CD;&#x61C9;&#x4F7F;&#x7528;&#x8005;&#x8F38;&#x5165;&#xFF08;&#x9375;&#x76E4;&#x3001;&#x6ED1;&#x9F20;&#x3001;&#x89F8;&#x63A7;&#x87A2;&#x5E55;&#xFF09;</li>
+<li>&#x4F3A;&#x670D;&#x5668;&#x53EF;&#x80FD;&#x662F;&#x4E00;&#x500B;&#x80FD;&#x986F;&#x793A;&#x5230;&#x5176;&#x4ED6;&#x986F;&#x793A;&#x7CFB;&#x7D71;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;<br><a href="https://zh.wikipedia.org/wiki/X_Window%E7%B3%BB%E7%B5%B1" target="_blank" rel="external">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a><br><img src="https://upload.wikimedia.org/wikipedia/commons/0/03/X_client_server_example.svg" alt="X Window System" title="X Window System"></li>
+</ul>
+</li>
+<li><p>&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#xFF08;&#x300C;&#x5BA2;&#x6236;&#x7AEF;&#x300D;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#xFF09;&#x6240;&#x57F7;&#x884C;&#x7684;&#x6A5F;&#x5668;&#xFF0C;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x4F7F;&#x7528;&#x8005;&#x539F;&#x751F;&#x7684;&#x6A5F;&#x5668;&#xFF08;&#x986F;&#x793A;&#x7684;&#x300C;&#x4F3A;&#x670D;&#x5668;&#x300D;    </p>
+</li>
+<li><p>&#x4F7F;&#x7528;&#x8005;&#x4ECB;&#x9762;</p>
+<ul>
+<li><p>&#x684C;&#x9762;&#x74B0;&#x5883;: GNOME</p>
+<ul>
+<li>&#x76EE;&#x6A19;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x662F;Linux&#xFF0C;&#x4F46;&#x662F;&#x5927;&#x90E8;&#x5206;&#x7684;BSD&#x7CFB;&#x7D71;&#x4EA6;&#x652F;&#x63F4;GNOME</li>
+<li>GNOME 1<ul>
+<li>1996&#x5E74;K&#x684C;&#x9762;&#x74B0;&#x5883;&#x7248;&#x672C;1&#x81EA;&#x7531;&#x684C;&#x9762;&#x74B0;&#x5883;&#x767C;&#x5E03;&#xFF0C;&#x4F46;KDE&#x6240;&#x4F9D;&#x8CF4;&#x7684;Qt&#x7576;&#x6642;&#x4E26;&#x672A;&#x4F7F;&#x7528;GPL&#x6388;&#x6B0A;</li>
+<li>GIMP Toolkit&#xFF08;GTK+&#xFF09;&#x88AB;&#x9078;&#x4E2D;&#x505A;&#x70BA;Qt toolkit&#x7684;&#x66FF;&#x4EE3;&#xFF0C;&#x64D4;&#x7576;GNOME&#x684C;&#x9762;&#x7684;&#x57FA;&#x790E;</li>
+<li>&#x5728;GNOME&#x8B8A;&#x5F97;&#x666E;&#x53CA;&#x5F8C;&#xFF0C;1999&#x5E74;Qt&#x52A0;&#x5165;GPL&#x6388;&#x6B0A;</li>
+</ul>
+</li>
+<li>GNOME 2: Metacity&#x70BA;&#x5B83;&#x7684;&#x9810;&#x8A2D;&#x8996;&#x7A97;&#x7BA1;&#x7406;&#x54E1;</li>
+<li>GNOME 3: Mutter&#x53D6;&#x4EE3;&#x4E86;Metacity&#x6210;&#x70BA;&#x9810;&#x8A2D;&#x7684;&#x8996;&#x7A97;&#x7BA1;&#x7406;&#x54E1;<br><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/gnome_3.png" alt="GNOME3" title="GNOME3"></li>
+</ul>
+</li>
+<li><p>&#x684C;&#x9762;&#x74B0;&#x5883;: KDE</p>
+<ul>
+<li>Mathias Ettrich&#x9078;&#x64C7;&#x4F7F;&#x7528;Qt&#x7A0B;&#x5F0F;&#x5EAB;&#x958B;&#x767C;KDE&#x684C;&#x9762;&#x7CFB;&#x7D71;</li>
+<li>Qt 4.5&#x5728;2009&#x5E74;3&#x6708;3&#x65E5;&#x767C;&#x5E03;&#xFF0C;&#x9075;&#x5FAA;&#x4E86;LGPL 2.1&#x5354;&#x5B9A;&#xFF0C;&#x653E;&#x5BEC;&#x4E86;KDE&#x51FD;&#x5F0F;&#x5EAB;&#x7684;&#x6388;&#x6B0A;<br><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/kde.png" alt="KDE" title="KDE">        </li>
+</ul>
+</li>
+<li><p>&#x684C;&#x9762;&#x74B0;&#x5883;: CDE</p>
+<ul>
+<li>&#x901A;&#x7528;&#x684C;&#x9762;&#x74B0;&#x5883;&#xFF08;Common Desktop Environment&#xFF09;</li>
+<li>CDE&#x662F;&#x4E00;&#x500B;&#x7531;&#x60E0;&#x666E;&#x3001;IBM&#x548C;Sun&#x900F;&#x904E;X/Open&#x516C;&#x53F8;&#x5171;&#x540C;&#x958B;&#x767C;&#x7684;&#x57FA;&#x65BC;X11&#x4F7F;&#x7528;&#x8005;&#x74B0;&#x5883;&#xFF0C;&#x4ECB;&#x9762;&#x548C;&#x751F;&#x7522;&#x5DE5;&#x5177;&#x90FD;&#x57FA;&#x65BC;Motif&#x5716;&#x5F62;&#x90E8;&#x4EF6;&#x5DE5;&#x5177;&#x5305;<br><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/cde.png" alt="CDE" title="CDE">    </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="&#x684C;&#x9762;&#x74B0;&#x5883;"><a href="#u684C_u9762_u74B0_u5883" class="headerlink" title="&#x684C;&#x9762;&#x74B0;&#x5883;"></a>&#x684C;&#x9762;&#x74B0;&#x5883;</h3><p><a href="https://zh.wikipedia.org/wiki/CDE" target="_blank" rel="external">&#x8CC7;&#x6599;&#x4F86;&#x6E90;</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">base</th>
+<th style="text-align:left">&#x684C;&#x9762;&#x74B0;&#x5883;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">GTK+</td>
+<td style="text-align:left">GNOME&#xFF0C;XFCE&#xFF0C;LXDE&#xFF0C;ROX</td>
+</tr>
+<tr>
+<td style="text-align:left">QT</td>
+<td style="text-align:left">KDE, LXQT, Razor-qt</td>
+</tr>
+<tr>
+<td style="text-align:left">motif</td>
+<td style="text-align:left">CDE</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x7A97;&#x53E3;&#x7BA1;&#x7406;&#x5668;<ul>
+<li>Beryl &#xB7; Compiz &#xB7; xcompmgr &#xB7; Enlightenment ,,&#x7B49;</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x5176;&#x5B83;&#x53C3;&#x8003;"><a href="#u5176_u5B83_u53C3_u8003" class="headerlink" title="&#x5176;&#x5B83;&#x53C3;&#x8003;"></a>&#x5176;&#x5B83;&#x53C3;&#x8003;</h2><ul>
+<li><a href="https://wiki.qt.io/Lighthouse-Documentation" target="_blank" rel="external">Lighthouse-Documentation</a></li>
+<li><a href="https://wiki.qt.io/Getting_Started_With_Lighthouse" target="_blank" rel="external">Getting Started With Lighthouse</a></li>
+<li><a href="https://www.kdab.com/porting-from-qt-4-to-qt-5/" target="_blank" rel="external">Porting from Qt 4 to Qt 5</a></li>
+<li><a href="https://wiki.qt.io/Building_Qt_for_Embedded_Linux" target="_blank" rel="external">Building Qt for Embedded Linux</a></li>
+<li><a href="http://visualgdb.com/tutorials/raspberry/qt/embedded/" target="_blank" rel="external">Cross-compiling Qt Embedded 5.5 for Raspberry Pi 2</a></li>
+<li><a href="http://gnutoolchains.com/raspberry/" target="_blank" rel="external">Windows toolchain for Raspberry/PI</a></li>
+<li><a href="http://download.qt.io/" target="_blank" rel="external">Qt Downloads</a></li>
+<li><a href="http://wiki.qt.io/RaspberryPi_Beginners_Guide" target="_blank" rel="external">Qt RaspberryPi Beginners Guide</a></li>
+<li><a href="http://code.qt.io/cgit/qt/" target="_blank" rel="external">Qt Project Git Repository Browser</a></li>
+<li><a href="http://forum.qt.io/topic/26540/how-can-i-cross-compile-qt-5-0/2" target="_blank" rel="external">How can I cross-compile QT 5.0</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/cross-compile/" rel="tag">#cross-compile</a>
+          
+            <a href="/tags/qt/" rel="tag">#qt</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/04/js-v8/" rel="next" title="js-v8">
+                <i class="fa fa-chevron-left"></i> js-v8
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/04/little-endian/" rel="prev" title="little-endian">
+                little-endian <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#qt"><span class="nav-number">3.</span> <span class="nav-text">QT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ligthouse"><span class="nav-number">3.1.</span> <span class="nav-text">Ligthouse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#qpa"><span class="nav-number">3.2.</span> <span class="nav-text">QPA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#資料來源x-window資料來源"><span class="nav-number">4.</span> <span class="nav-text">資料來源">X Window,資料來源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x-window-system"><span class="nav-number">4.1.</span> <span class="nav-text">X Window System</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#桌面環境"><span class="nav-number">4.2.</span> <span class="nav-text">桌面環境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它參考"><span class="nav-number">5.</span> <span class="nav-text">其它參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/02/25/qt-cross-compile/';
+      var disqus_title = 'qt-cross-compile';
+      var disqus_url = 'http://yoursite.com/2016/02/25/qt-cross-compile/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

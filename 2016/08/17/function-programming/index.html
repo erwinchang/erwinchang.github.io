@@ -1,0 +1,890 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,fp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解FP(Function Programming)
+在看javascript的Closure觀念 -&amp;gt; λ-calculus -&amp;gt; FP就這樣子看到FP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="function-programming">
+<meta property="og:url" content="http://yoursite.com/2016/08/17/function-programming/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解FP(Function Programming)
+在看javascript的Closure觀念 -&amp;gt; λ-calculus -&amp;gt; FP就這樣子看到FP">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.259Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="function-programming">
+<meta name="twitter:description" content="了解FP(Function Programming)
+在看javascript的Closure觀念 -&amp;gt; λ-calculus -&amp;gt; FP就這樣子看到FP">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> function-programming | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                function-programming
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-08-17T17:22:17+08:00" content="2016-08-17">
+              2016-08-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/17/function-programming/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/17/function-programming/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/17/function-programming/" class="leancloud_visitors" data-flag-title="function-programming">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;FP(Function Programming)</p>
+<p>&#x5728;&#x770B;javascript&#x7684;Closure&#x89C0;&#x5FF5; -&gt; &#x3BB;-calculus -&gt; FP<br>&#x5C31;&#x9019;&#x6A23;&#x5B50;&#x770B;&#x5230;FP</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160817</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#function-programming">Function Programming</a><ul>
+<li><a href="#&#x4EC0;&#x9EBC;&#x662F;-functional-programming7"><a href="http://www.codedata.com.tw/social-coding/paradigm-shift-to-functional-programming/" target="_blank" rel="external">&#x4EC0;&#x9EBC;&#x662F; Functional Programming</a></a></li>
+<li><a href="#functional-programming-wiki5"><a href="https://en.wikipedia.org/wiki/Functional_programming" target="_blank" rel="external">Functional programming wiki</a></a></li>
+<li><a href="#f-&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5165;&#x9580;-6"><a href="https://msdn.microsoft.com/zh-tw/library/dd252673.aspx" target="_blank" rel="external">F# &#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5165;&#x9580; </a></a></li>
+<li><a href="#fp-&#x7684;&#x7279;&#x9EDE;">FP &#x7684;&#x7279;&#x9EDE;</a></li>
+<li><a href="#functional-programming-&#x6559;&#x6211;&#x7684;&#x4E8B;4"><a href="http://www.slideshare.net/ihower/fp-osdc2012v2" target="_blank" rel="external">Functional Programming &#x6559;&#x6211;&#x7684;&#x4E8B;</a></a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="function-programming"><a href="#Function_Programming" class="headerlink" title="Function Programming"></a>Function Programming</h2><h3 id="&#x4EC0;&#x9EBC;&#x662F;-functional-programming&#x4EC0;&#x9EBC;&#x662F;-functional-programming"><a href="#u4EC0_u9EBC_u662F_Functional_Programming" class="headerlink" title="&lt;a href=" http:="" www.codedata.com.tw="" social-coding="" paradigm-shift-to-functional-programming="" "="">&#x4EC0;&#x9EBC;&#x662F; Functional Programming</a>&quot;&gt;<a href="http://www.codedata.com.tw/social-coding/paradigm-shift-to-functional-programming/" target="_blank" rel="external">&#x4EC0;&#x9EBC;&#x662F; Functional Programming</a></h3><p>&#x4EE5;&#x524D;&#x662F;&#x8655;&#x7406;&#x6578;&#x5B78;&#x51FD;&#x6578;&#x8A08;&#x7B97;&#xFF0C;&#x53C8;&#x4EE5; &#x3BB;&#x6F14;&#x7B97; (&#x3BB; calculus) &#x70BA;&#x57FA;&#x790E;<br>&#x90A3;&#x5230;&#x5E95;&#x4EC0;&#x9EBC;&#x53C8;&#x662F; Functional Programming (FP)&#x5462;<br>&#x53EA;&#x9700;&#x8981;&#x7D66;&#x6211;&#x8655;&#x7406;&#x5F8C;&#x7684;&#x7D50;&#x679C;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x904E;&#x554F;&#x7D50;&#x679C;&#x5982;&#x4F55;&#x800C;&#x4F86;</p>
+<p>Functional programming is programming without assignment statements.<br>&#x4F86;&#x6E90;: <a href="https://pragprog.com/magazines/2013-01/functional-programming-basics" target="_blank" rel="external">functional-programming-basics</a></p>
+<ul>
+<li><p>&#x4E00;&#x822C;java&#x5BEB;&#x6CD5;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Squint</span> </span>{</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>{</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">25</span>; i++)</span><br><span class="line">               System.out.println(i*i);</span><br><span class="line">     }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6539;&#x6210;FP&#x65B9;&#x5F0F;<br>There are three words in that program: <strong>take</strong>, <strong>squares-of</strong>, and <strong>integers</strong>. Each of those words refers to a function. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(take <span class="number">25</span> (squares-<span class="keyword">of</span> (integers)))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote><p>&#x51FD;&#x6570;&#x5F0F;&#x8BED;&#x8A00;&#x4E4B;&#x6240;&#x4EE5;&#x88AB;&#x5982;&#x6B64;&#x79F0;&#x547C;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x7A0B;&#x5E8F;&#x5B8C;&#x5168;&#x662F;&#x7531;&#x51FD;&#x6570;&#x7EC4;&#x6210;&#x7684;&#x3002;&#x4E3B;&#x7A0B;&#x5E8F;&#x672C;&#x8EAB;&#x4E5F;&#x662F;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x4EE5;&#x7A0B;&#x5E8F;&#x7684;&#x8F93;&#x5165;&#x4E3A;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x8FD4;&#x56DE;&#x5176;&#x8F93;&#x51FA;</p>
+<footer><strong>&#x51FD;&#x6570;&#x5F0F;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x4E3A;&#x4EC0;&#x4E48;&#x81F3;&#x5173;&#x91CD;&#x8981;</strong><cite><a href="https://www.byvoid.com/blog/why-functional-programming/" target="_blank" rel="external">www.byvoid.com/blog/why-functional-programming</a></cite></footer></blockquote>
+<h3 id="functional-programming-wikifunctional-programming-wiki"><a href="#Functional_programming_wiki" class="headerlink" title="&lt;a href=" https:="" en.wikipedia.org="" wiki="" functional_programming"="">Functional programming wiki</a>&quot;&gt;<a href="https://en.wikipedia.org/wiki/Functional_programming" target="_blank" rel="external">Functional programming wiki</a></h3><p>In computer science, <strong>functional programming</strong> is a programming paradigm</p>
+<ul>
+<li>a style of building the structure and elements of computer programs</li>
+<li>that treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data.</li>
+<li>&#x907F;&#x514D;&#x4F7F;&#x7528;&#x7A0B;&#x5E8F;&#x72B6;&#x6001;&#x4EE5;&#x53CA;&#x6613;&#x53D8;&#x7269;&#x4EF6;</li>
+<li>&#x51FD;&#x6578;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x6700;&#x91CD;&#x8981;&#x7684;&#x57FA;&#x790E;&#x662F;&#x3BB;&#x6F14;&#x7B97;&#xFF08;lambda calculus&#xFF09;</li>
+<li>&#x96D6;&#x7136;&#x3BB;&#x6F14;&#x7B97;&#x4E26;&#x975E;&#x8A2D;&#x8A08;&#x4F86;&#x65BC;&#x8A08;&#x7B97;&#x6A5F;&#x4E0A;&#x57F7;&#x884C;&#xFF0C;&#x4F46;&#x5B83;&#x53EF;&#x4EE5;&#x88AB;&#x8996;&#x4F5C;&#x7B2C;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x5F0F;&#x7DE8;&#x7A0B;&#x8A9E;&#x8A00;</li>
+<li>LISP &#x662F;&#x7B2C;&#x4E00;&#x500B;&#x51FD;&#x6578;&#x5F0F;&#x8A9E;&#x8A00;&#xFF0C;&#x8D8A;&#x4F86;&#x8D8A;&#x591A;&#x51FD;&#x6578;&#x5F0F;&#x8A9E;&#x8A00;&#x96A8;&#x4E4B;&#x51FA;&#x73FE;&#x3002;&#x771F;&#x5BE6;&#x4E16;&#x754C;&#x7684;&#x51FD;&#x6578;&#x5F0F;&#x8A9E;&#x8A00;&#x7121;&#x6CD5;&#x50CF; Lambda Calculus &#x90A3;&#x6A23;</li>
+</ul>
+<h3 id="f-&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5165;&#x9580;-f-&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5165;&#x9580;"><a href="#F_23__u7A0B_u5F0F_u8A2D_u8A08_u5165_u9580" class="headerlink" title="&lt;a href=" https:="" msdn.microsoft.com="" zh-tw="" library="" dd252673.aspx"="">F# &#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5165;&#x9580; </a>&quot;&gt;<a href="https://msdn.microsoft.com/zh-tw/library/dd252673.aspx" target="_blank" rel="external">F# &#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5165;&#x9580; </a></h3><ul>
+<li>&#x51FD;&#x6578;&#x5F0F;&#x7DE8;&#x7A0B;&#x8A9E;&#x8A00;&#x7684;&#x6548;&#x7387;&#x78BA;&#x5BE6;&#x6BD4;&#x547D;&#x4EE4;&#x5F0F;&#xFF08;imperative&#xFF09;&#x7DE8;&#x7A0B;&#x8A9E;&#x8A00;&#x4F86;&#x5F97;&#x5DEE;</li>
+<li>&#x5F8C;&#x53C8;&#x958B;&#x59CB;&#x91CD;&#x8996;&#x300C;&#x7C21;&#x55AE;&#x300D;&#x3001;&#x300C;&#x5FEB;&#x901F;&#x958B;&#x767C;&#x300D;&#x3002;&#x60F3;&#x8981;&#x300C;&#x7C21;&#x55AE;&#x300D;&#x3001;&#x300C;&#x5FEB;&#x901F;&#x958B;&#x767C;&#x300D;&#xFF0C;&#x5C31;&#x8981;&#x7528;&#x6BD4;&#x8F03;&#x9AD8;&#x968E;&#x7684;&#x62BD;&#x8C61;&#xFF0C;&#x56E0;&#x6B64;&#x51FD;&#x6578;&#x5F0F;&#x7DE8;&#x7A0B;&#x6BD4;&#x547D;&#x4EE4;&#x5F0F;&#x7DE8;&#x7A0B;&#x66F4;&#x9069;&#x5408;&#x73FE;&#x5728;&#x7684;&#x958B;&#x767C;&#x74B0;&#x5883;</li>
+<li>lambda calculus &#x7684;&#x51FD;&#x6578;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x51FD;&#x6578;&#x7576;&#x4F5C;&#x8F38;&#x5165;&#xFF08;&#x5F15;&#x6578;&#xFF09;&#x548C;&#x8F38;&#x51FA;&#xFF08;&#x50B3;&#x51FA;&#x503C;&#xFF09;</li>
+<li>1958 &#x5E74;&#xFF0C;&#x5C0D; lambda calculus &#x76F8;&#x7576;&#x611F;&#x8208;&#x8DA3;&#x7684; MIT &#x6559;&#x6388; John McCarthy &#x8A2D;&#x8A08;&#x51FA; Lisp &#x8A9E;&#x8A00;&#xFF0C;Lisp &#x5BE6;&#x8E10;&#x4E86; lambda calculus</li>
+</ul>
+<h3 id="fp-&#x7684;&#x7279;&#x9EDE;"><a href="#FP__u7684_u7279_u9EDE" class="headerlink" title="FP &#x7684;&#x7279;&#x9EDE;"></a>FP &#x7684;&#x7279;&#x9EDE;</h3><ul>
+<li><strong>&#x6C92;&#x6709;&#x526F;&#x4F5C;&#x7528;</strong>&#xFF08;Side Effect&#xFF09;&#x3002;&#x5728;&#x8868;&#x793A;&#x5F0F;&#xFF08;expression&#xFF09;&#x5167;&#x4E0D;&#x53EF;&#x4EE5;&#x9020;&#x6210;&#x503C;&#x7684;&#x6539;&#x8B8A;</li>
+<li><strong>&#x7B2C;&#x4E00;&#x7D1A;&#x51FD;&#x6578;</strong>&#xFF08;First-Class Function&#xFF09;&#x3002;&#x51FD;&#x6578;&#x88AB;&#x7576;&#x4F5C;&#x4E00;&#x822C;&#x503C;&#x5C0D;&#x5F85;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6B21;&#x7D1A;&#x516C;&#x6C11;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x51FD;&#x6578;&#x53EF;&#x7576;&#x4F5C;&#x300C;&#x50B3;&#x5165;&#x53C3;&#x6578;&#x300D;&#x6216;&#x300C;&#x50B3;&#x51FA;&#x7D50;&#x679C;&#x300D;<br>mperative Programming &#x8A8D;&#x70BA;&#x7A0B;&#x5F0F;&#x7684;&#x57F7;&#x884C;&#xFF0C;&#x5C31;&#x662F;&#x4E00;&#x9023;&#x4E32;&#x72C0;&#x614B;&#x7684;&#x6539;&#x8B8A;<br>&#x4F46; FP &#x5C07;&#x7A0B;&#x5F0F;&#x7684;&#x904B;&#x4F5C;&#xFF0C;&#x8996;&#x70BA;&#x6578;&#x5B78;&#x51FD;&#x6578;&#x7684;&#x8A08;&#x7B97;&#xFF0C;&#x4E14;&#x907F;&#x514D;&#x300C;&#x72C0;&#x614B;&#x300D;&#x548C;&#x300C;&#x53EF;&#x8B8A;&#x8CC7;&#x6599;&#x300D;</li>
+</ul>
+<h3 id="functional-programming-&#x6559;&#x6211;&#x7684;&#x4E8B;functional-programming-&#x6559;&#x6211;&#x7684;&#x4E8B;"><a href="#Functional_Programming__u6559_u6211_u7684_u4E8B" class="headerlink" title="&lt;a href=" http:="" www.slideshare.net="" ihower="" fp-osdc2012v2"="">Functional Programming &#x6559;&#x6211;&#x7684;&#x4E8B;</a>&quot;&gt;<a href="http://www.slideshare.net/ihower/fp-osdc2012v2" target="_blank" rel="external">Functional Programming &#x6559;&#x6211;&#x7684;&#x4E8B;</a></h3><ul>
+<li>&#x591A;&#x6838;&#x6642;&#x4EE3;&#xFF0C;&#x9700;&#x8981;&#x80FD;Concurrency&#x7684;&#x7A0B;&#x5F0F;</li>
+<li>&#x7528;&#x7A0B;&#x5E8F;&#x6027;&#x7684;OO&#x8A9E;&#x8A00;&#x5BEB;Concurrency&#x5F88;&#x96E3;</li>
+<li>Function Programing&#x8B93;Concurrency Programming&#x8B8A;&#x7C21;&#x55AE;</li>
+<li>FP&#x7279;&#x8272;<ul>
+<li>Avoiding Mutable State</li>
+<li>Recursion</li>
+<li>Higher-Order Functions<br>&#x628A;function&#x505A;&#x53C3;&#x6578;&#x50B3;&#x905E;&#x5230;function&#x88E1;<br>function&#x53EF;&#x4EE5;&#x7576;&#x505A;function&#x56DE;&#x50B3;&#x7684;&#x7D50;&#x679C;</li>
+<li>Function Composition</li>
+<li>Lazy Evaluation<br>&#x9700;&#x8981;&#x624D;&#x57F7;&#x884C;</li>
+<li>Pattern Matching</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://www.slideshare.net/ihower/fp-osdc2012v2" target="_blank" rel="external">&#x90A3;&#x4E9B; Functional Programming &#x6559;&#x6211;&#x7684;&#x4E8B; </a></li>
+<li><a href="https://en.wikipedia.org/wiki/Functional_programming" target="_blank" rel="external">Functional programming wiki</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%CE%9B%E6%BC%94%E7%AE%97" target="_blank" rel="external">&#x3BB;&#x6F14;&#x7B97; lambda calculus&#xFF0C;&#x3BB;-calculus</a></li>
+<li><a href="http://www.blogjava.net/wxb_nudt/archive/2016/06/01/4311.html" target="_blank" rel="external">Lambda&#x6F14;&#x7B97;&#x5B66;&#x4E60;&#x7B14;&#x8BB0;</a></li>
+<li><a href="http://www.jollen.org/blog/2013/10/javascript-lambda.html" target="_blank" rel="external">&#x6DF1;&#x5165;&#x6DFA;&#x51FA; JavaScript Lambda</a></li>
+<li><a href="https://msdn.microsoft.com/zh-tw/library/dd252673.aspx" target="_blank" rel="external">F# &#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x5165;&#x9580; </a></li>
+<li><a href="http://www.codedata.com.tw/social-coding/paradigm-shift-to-functional-programming/" target="_blank" rel="external">&#x7576; &#x5168;&#x4E16;&#x754C;&#x7684;&#x8A9E;&#x8A00; &#x90FD;&#x5F80; Functional Programming &#x767C;&#x5C55;</a></li>
+<li><a href="https://pragprog.com/magazines/2013-01/functional-programming-basics" target="_blank" rel="external">functional-programming-basics</a></li>
+<li><a href="https://www.byvoid.com/blog/why-functional-programming/" target="_blank" rel="external">&#x51FD;&#x6570;&#x5F0F;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x4E3A;&#x4EC0;&#x4E48;&#x81F3;&#x5173;&#x91CD;&#x8981;</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/fp/" rel="tag">#fp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/17/programming-in-lua-1st-t01/" rel="next" title="programming-in-lua-1st-t01">
+                <i class="fa fa-chevron-left"></i> programming-in-lua-1st-t01
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/18/js-lua/" rel="prev" title="js-lua">
+                js-lua <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#function-programming"><span class="nav-number">3.</span> <span class="nav-text">Function Programming</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什麼是-functional-programming什麼是-functional-programming"><span class="nav-number">3.1.</span> <span class="nav-text">什麼是 Functional Programming">什麼是 Functional Programming</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#functional-programming-wikifunctional-programming-wiki"><span class="nav-number">3.2.</span> <span class="nav-text">Functional programming wiki">Functional programming wiki</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f-程式設計入門-f-程式設計入門"><span class="nav-number">3.3.</span> <span class="nav-text">F# 程式設計入門 ">F# 程式設計入門 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fp-的特點"><span class="nav-number">3.4.</span> <span class="nav-text">FP 的特點</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#functional-programming-教我的事functional-programming-教我的事"><span class="nav-number">3.5.</span> <span class="nav-text">Functional Programming 教我的事">Functional Programming 教我的事</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">4.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/08/17/function-programming/';
+      var disqus_title = 'function-programming';
+      var disqus_url = 'http://yoursite.com/2016/08/17/function-programming/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

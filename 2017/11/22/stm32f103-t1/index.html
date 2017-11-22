@@ -1,0 +1,897 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,實作隨筆,stm32," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="STM32 範例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stm32f103-t1">
+<meta property="og:url" content="http://yoursite.com/2017/11/22/stm32f103-t1/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="STM32 範例">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32F0Discovery.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32F0Discovery-t1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32F0Discovery-t2.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32F0Discovery-sch.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32Cube-1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32Cube-2.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32Cube-3.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32Cube-4.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32Cube-5.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32Cube-6.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32Cube-7.png">
+<meta property="og:updated_time" content="2017-11-22T17:55:34.216Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="stm32f103-t1">
+<meta name="twitter:description" content="STM32 範例">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/22/stm32f103-t1/STM32F0Discovery.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> stm32f103-t1 | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                stm32f103-t1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-22T10:11:45+08:00" content="2017-11-22">
+              2017-11-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/11/22/stm32f103-t1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/22/stm32f103-t1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/11/22/stm32f103-t1/" class="leancloud_visitors" data-flag-title="stm32f103-t1">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>STM32 &#x7BC4;&#x4F8B;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20171121</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#stm32f0discovery">STM32F0DISCOVERY</a><ul>
+<li><a href="#&#x4F7F;&#x7528;st-linkv2&#x71D2;&#x9304;&#x677F;&#x5B50;&#x4E0A;&#x9762;stm32f0">&#x4F7F;&#x7528;ST-LINK/V2&#x71D2;&#x9304;&#x677F;&#x5B50;&#x4E0A;&#x9762;STM32F0</a></li>
+<li><a href="#&#x4F7F;&#x7528;st-linkv2&#x71D2;&#x9304;&#x5916;&#x90E8;stm32&#x5143;&#x4EF6;">&#x4F7F;&#x7528;ST-LINK/V2&#x71D2;&#x9304;&#xFF0C;&#x5916;&#x90E8;STM32&#x5143;&#x4EF6;</a></li>
+<li><a href="#sch">SCH</a></li>
+<li><a href="#&#x76F8;&#x95DC;&#x8EDF;&#x4F53;">&#x76F8;&#x95DC;&#x8EDF;&#x4F53;</a></li>
+</ul>
+</li>
+<li><a href="#cubemx">CubeMX</a><ul>
+<li><a href="#&#x7522;&#x751F;&#x7A0B;&#x5F0F;&#x78BC;">&#x7522;&#x751F;&#x7A0B;&#x5F0F;&#x78BC;</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="stm32f0discovery"><a href="#STM32F0DISCOVERY" class="headerlink" title="STM32F0DISCOVERY"></a>STM32F0DISCOVERY</h2><ul>
+<li><p><a href="http://www.st.com/en/evaluation-tools/stm32f0discovery.html" target="_blank" rel="external">STM32F0DISCOVERY </a><br>Discovery kit with STM32F051R8 MCU</p>
+</li>
+<li><p>STM32F051R8T6<br>Cortex-M0 32bit<br>64K Flash<br>8K RAM</p>
+</li>
+</ul>
+<img src="/2017/11/22/stm32f103-t1/STM32F0Discovery.png" alt="[stm32f0]" title="[stm32f0]">
+<h3 id="&#x4F7F;&#x7528;st-linkv2&#x71D2;&#x9304;&#x677F;&#x5B50;&#x4E0A;&#x9762;stm32f0"><a href="#u4F7F_u7528ST-LINK/V2_u71D2_u9304_u677F_u5B50_u4E0A_u9762STM32F0" class="headerlink" title="&#x4F7F;&#x7528;ST-LINK/V2&#x71D2;&#x9304;&#x677F;&#x5B50;&#x4E0A;&#x9762;STM32F0"></a>&#x4F7F;&#x7528;ST-LINK/V2&#x71D2;&#x9304;&#x677F;&#x5B50;&#x4E0A;&#x9762;STM32F0</h3><p>Using ST-LINK/V2 to program/debug the STM32 F0 on board </p>
+<img src="/2017/11/22/stm32f103-t1/STM32F0Discovery-t1.png" alt="[stm32f0]" title="[stm32f0]">
+<h3 id="&#x4F7F;&#x7528;st-linkv2&#x71D2;&#x9304;&#x5916;&#x90E8;stm32&#x5143;&#x4EF6;"><a href="#u4F7F_u7528ST-LINK/V2_u71D2_u9304_uFF0C_u5916_u90E8STM32_u5143_u4EF6" class="headerlink" title="&#x4F7F;&#x7528;ST-LINK/V2&#x71D2;&#x9304;&#xFF0C;&#x5916;&#x90E8;STM32&#x5143;&#x4EF6;"></a>&#x4F7F;&#x7528;ST-LINK/V2&#x71D2;&#x9304;&#xFF0C;&#x5916;&#x90E8;STM32&#x5143;&#x4EF6;</h3><img src="/2017/11/22/stm32f103-t1/STM32F0Discovery-t2.png" alt="[stm32f0]" title="[stm32f0]">
+<h3 id="sch"><a href="#SCH" class="headerlink" title="SCH"></a>SCH</h3><ul>
+<li><p>USB_DP(D+)&#x63A1;&#x7528;&#x4E0A;&#x6293;&#x96FB;&#x963B;&#xFF0C;&#x9810;&#x8A08;full speed</p>
+</li>
+<li><p>JP2(Idd)<br>&#x63D0;&#x4F9B;&#x91CF;&#x6E2C;STM32F0 IDD&#x96FB;&#x6D41;<br>jump on&#x7531;STM32F1&#x4F9B;&#x96FB;<br>jump off&#x7531;&#x5916;&#x90E8;&#x4F9B;&#x96FB;</p>
+</li>
+<li><p>STM32F0 frequency<br>&#x76EE;&#x524D;&#x7531;STM32F1&#x7684;MCO&#x63D0;&#x4F9B;&#xFF0C;&#x56FA;&#x5B9A;8MHz</p>
+</li>
+</ul>
+<a href="/2017/11/22/stm32f103-t1/MB1034(stm32f0discovery_sch).pdf" title="[stm32f0discovery_sch]">[stm32f0discovery_sch]</a>
+<img src="/2017/11/22/stm32f103-t1/STM32F0Discovery-sch.png" alt="[stm32f0]" title="[stm32f0]">
+<h3 id="&#x76F8;&#x95DC;&#x8EDF;&#x4F53;"><a href="#u76F8_u95DC_u8EDF_u4F53" class="headerlink" title="&#x76F8;&#x95DC;&#x8EDF;&#x4F53;"></a>&#x76F8;&#x95DC;&#x8EDF;&#x4F53;</h3><p>STM32F0xx_StdPeriph_Lib&#x63D0;&#x4F9B;&#x5176;&#x57FA;&#x672C;Library&#xFF0C;&#x4F46;&#x5EFA;&#x8B70;&#x5B89;&#x88DD;SetupSTM32CubeMX<br>&#x4F7F;&#x7528;STM32CubeMX&#x81EA;&#x52D5;&#x7522;&#x751F;code</p>
+<p><strong>&#x4E0B;&#x8F09;</strong><br><a href="/2017/11/22/stm32f103-t1/STM32F0xx_StdPeriph_Lib_V1.0.0.7z" title="[STM32F0xx_StdPeriph_Lib_V1.0.0]">[STM32F0xx_StdPeriph_Lib_V1.0.0]</a><br><a href="/2017/11/22/stm32f103-t1/STM32F0xx_StdPeriph_Lib_V1.5.0.7z" title="[STM32F0xx_StdPeriph_Lib_V1.5.0]">[STM32F0xx_StdPeriph_Lib_V1.5.0]</a></p>
+<p><strong>&#x8AAA;&#x660E;&#x6587;&#x4EF6;</strong><br><a href="/2017/11/22/stm32f103-t1/en.DM00049931(AN4062-STM32F0DISCOVERYperipheral-firmware-examples).pdf" title="[AN4062-STM32F0DISCOVERYperipheral-firmware-examples]">[AN4062-STM32F0DISCOVERYperipheral-firmware-examples]</a></p>
+<hr>
+<h2 id="cubemx"><a href="#CubeMX" class="headerlink" title="CubeMX"></a>CubeMX</h2><ul>
+<li><p>New Project</p>
+<img src="/2017/11/22/stm32f103-t1/STM32Cube-1.png" alt="[STM32CubeMX]" title="[STM32CubeMX]">
+</li>
+<li><p>Board Select<br>&#x8A18;&#x5F97;&#x5728;&#x9078;STM32F051R8T6&#x4E0A;&#x9762;&#xFF0C;&#x9EDE;&#x9078;2&#x4E0B;</p>
+<img src="/2017/11/22/stm32f103-t1/STM32Cube-2.png" alt="[STM32CubeMX]" title="[STM32CubeMX]">
+</li>
+</ul>
+<p>-&#x67E5;&#x770B;&#x76EE;&#x524D;&#x8A2D;&#x5B9A;<br>pinout</p>
+<ul>
+<li>&#x9EC3;&#x8272;PIN&#xFF1A;&#x96FB;&#x6E90;&#x8173;&#x4F4D;</li>
+<li>&#x7DA0;&#x8272;PIN&#xFF1A;&#x4F7F;&#x7528;&#x8173;&#x4F4D;</li>
+<li>&#x6709;conflict&#x5730;&#x65B9;&#x6703;&#x7528;&#x7D05;&#x8272;&#x8868;&#x793A;</li>
+</ul>
+<img src="/2017/11/22/stm32f103-t1/STM32Cube-3.png" alt="[STM32CubeMX]" title="[STM32CubeMX]">
+<p>&#x8A2D;&#x5B9A;48MHz<br><img src="/2017/11/22/stm32f103-t1/STM32Cube-4.png" alt="[STM32CubeMX]" title="[STM32CubeMX]"></p>
+<h3 id="&#x7522;&#x751F;&#x7A0B;&#x5F0F;&#x78BC;"><a href="#u7522_u751F_u7A0B_u5F0F_u78BC" class="headerlink" title="&#x7522;&#x751F;&#x7A0B;&#x5F0F;&#x78BC;"></a>&#x7522;&#x751F;&#x7A0B;&#x5F0F;&#x78BC;</h3><img src="/2017/11/22/stm32f103-t1/STM32Cube-5.png" alt="[STM32CubeMX]" title="[STM32CubeMX]">
+<img src="/2017/11/22/stm32f103-t1/STM32Cube-6.png" alt="[STM32CubeMX]" title="[STM32CubeMX]">
+<img src="/2017/11/22/stm32f103-t1/STM32Cube-7.png" alt="[STM32CubeMX]" title="[STM32CubeMX]">
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="/2017/11/22/stm32f103-t1/en.DM00050135(UM1525-DiscoverykitforSTM32F0).pdf" title="[Discovery kit for STM32 F0 microcontrollers]">[Discovery kit for STM32 F0 microcontrollers]</a></li>
+<li><a href="/2017/11/22/stm32f103-t1/en.DM00050135(UM1525-DiscoverykitforSTM32F0).pdf" title="[UM1525- Discovery kit for STM32 F0]">[UM1525- Discovery kit for STM32 F0]</a></li>
+<li><a href="http://www.st.com/en/microcontrollers/stm32f051c8.html" target="_blank" rel="external">STM32F051C8</a></li>
+<li>&#x6559;&#x5B78;<ul>
+<li><a href="https://letanphuc.net/2014/12/stm32f0-tutorial-1-preliminary-steps/" target="_blank" rel="external">STM32F0 Tutorial 1: Preliminary steps</a></li>
+<li><a href="https://letanphuc.net/2015/02/stm32f0-tutorial-gpio-blinking-led-cubemx-keil-source-insight/" target="_blank" rel="external">STM32F0 GPIO: Blinking LED with CubeMX, Keil ARM and Source Insight - Tutorial 2</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/stm32/" rel="tag">#stm32</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/21/stm32f103/" rel="next" title="stm32f103">
+                <i class="fa fa-chevron-left"></i> stm32f103
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stm32f0discovery"><span class="nav-number">3.</span> <span class="nav-text">STM32F0DISCOVERY</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用st-linkv2燒錄板子上面stm32f0"><span class="nav-number">3.1.</span> <span class="nav-text">使用ST-LINK/V2燒錄板子上面STM32F0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用st-linkv2燒錄外部stm32元件"><span class="nav-number">3.2.</span> <span class="nav-text">使用ST-LINK/V2燒錄，外部STM32元件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sch"><span class="nav-number">3.3.</span> <span class="nav-text">SCH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相關軟体"><span class="nav-number">3.4.</span> <span class="nav-text">相關軟体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cubemx"><span class="nav-number">4.</span> <span class="nav-text">CubeMX</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#產生程式碼"><span class="nav-number">4.1.</span> <span class="nav-text">產生程式碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">5.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/11/22/stm32f103-t1/';
+      var disqus_title = 'stm32f103-t1';
+      var disqus_url = 'http://yoursite.com/2017/11/22/stm32f103-t1/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

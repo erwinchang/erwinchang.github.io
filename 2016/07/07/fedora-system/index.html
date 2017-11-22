@@ -1,0 +1,1013 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,fedora," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解ubuntu及fedora啟動方式
+ubuntu採用System V init方式fedora採用systemd及systemctl方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fedora-system">
+<meta property="og:url" content="http://yoursite.com/2016/07/07/fedora-system/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解ubuntu及fedora啟動方式
+ubuntu採用System V init方式fedora採用systemd及systemctl方式">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="fedora-system">
+<meta name="twitter:description" content="了解ubuntu及fedora啟動方式
+ubuntu採用System V init方式fedora採用systemd及systemctl方式">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> fedora-system | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                fedora-system
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-07T14:47:07+08:00" content="2016-07-07">
+              2016-07-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/07/fedora-system/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/07/fedora-system/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/07/fedora-system/" class="leancloud_visitors" data-flag-title="fedora-system">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;ubuntu&#x53CA;fedora&#x555F;&#x52D5;&#x65B9;&#x5F0F;</p>
+<p>ubuntu&#x63A1;&#x7528;System V init&#x65B9;&#x5F0F;<br>fedora&#x63A1;&#x7528;systemd&#x53CA;systemctl&#x65B9;&#x5F0F;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160707</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#systemd-&#x8207;-system-v-init-&#x6BD4;&#x8F03;">systemd &#x8207; System V init &#x6BD4;&#x8F03;</a><ul>
+<li><a href="#linux-runlevel">linux runlevel</a></li>
+<li><a href="#runleve-&#x4F7F;&#x7528;&#x65B9;&#x5F0F;">runleve &#x4F7F;&#x7528;&#x65B9;&#x5F0F;</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x8AAA;&#x660E;">&#x5176;&#x5B83;&#x8AAA;&#x660E;</a><ul>
+<li><a href="#linux&#x555F;&#x52D5;&#x6D41;&#x7A0B;">linux&#x555F;&#x52D5;&#x6D41;&#x7A0B;</a></li>
+<li><a href="#linux&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;">Linux&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;</a></li>
+<li><a href="#ubuntu-1404-inttab">ubuntu 14.04 inttab</a></li>
+<li><a href="#fedora&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;">fedora&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;</a></li>
+</ul>
+</li>
+<li><a href="#&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x8A0A;&#x606F;">&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x8A0A;&#x606F;</a><ul>
+<li><a href="#ubuntu-etcinitdreadme">ubuntu /etc/init.d/README</a></li>
+<li><a href="#fedora-etcinitdreadme">fedora /etc/init.d/README</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="systemd-&#x8207;-system-v-init-&#x6BD4;&#x8F03;"><a href="#systemd__u8207_System_V_init__u6BD4_u8F03" class="headerlink" title="systemd &#x8207; System V init &#x6BD4;&#x8F03;"></a>systemd &#x8207; System V init &#x6BD4;&#x8F03;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">System V init (ubuntu)</th>
+<th style="text-align:left">Systemd(fedora)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">init &#x555F;&#x52D5;&#x8173;&#x672C;</td>
+<td style="text-align:left">&#x4E00;&#x9805;&#x4E00;&#x9805;&#x4EFB;&#x52D9;&#x4F9D;&#x5E8F;&#x555F;&#x52D5;</td>
+<td style="text-align:left">&#x670D;&#x52D9;&#x540C;&#x6642;&#x555F;&#x52D5;(systemd&#xFF1A;&#x670D;&#x52D9;&#x76F8;&#x4F9D;&#x6027;&#x7684;&#x81EA;&#x6211;&#x6AA2;&#x67E5;)</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x670D;&#x52D9;&#x76F8;&#x4F9D;&#x6027;</td>
+<td style="text-align:left">&#x7121;&#x6AA2;&#x67E5;</td>
+<td style="text-align:left">systemd &#x53EF;&#x4EE5;&#x81EA;&#x8A02;&#x670D;&#x52D9;&#x76F8;&#x4F9D;&#x6027;&#x7684;&#x6AA2;&#x67E5;</td>
+</tr>
+<tr>
+<td style="text-align:left">daemon &#x529F;&#x80FD;&#x5206;&#x985E;</td>
+<td style="text-align:left">2&#x7A2E;(stand alone&#x53CA;super deamon)</td>
+<td style="text-align:left">&#x591A;&#x7A2E;(service,socket,target..)</td>
+</tr>
+<tr>
+<td style="text-align:left">runlevel</td>
+<td style="text-align:left">0,1,2,3,5,6</td>
+<td style="text-align:left">1,3,5 (?)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x4F86;&#x6E90; : <a href="http://linux.vbird.org/linux_basic/0560daemons.php#daemon_type_systemd" target="_blank" rel="external">systemd &#x4F7F;&#x7528;&#x7684; unit &#x5206;&#x985E;</a></li>
+</ul>
+<h3 id="linux-runlevel"><a href="#linux_runlevel" class="headerlink" title="linux runlevel"></a>linux runlevel</h3><p>Linux(UNIX)&#x53EF;&#x4EE5;&#x5206;&#x70BA;&#x4E03;&#x7A2E;&#x4E0D;&#x540C;&#x555F;&#x52D5;&#x6A21;&#x5F0F;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">level</th>
+<th style="text-align:left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0</td>
+<td style="text-align:left">Halt the system</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">Single-user mode (for special administration)</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">local Multiuser with Networking but without network sevice(like NFS)</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">Full Mulituser with Networking</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">Not Used</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">Full Multiuser with Networking and X Windows(GUI)</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">Reboot</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x4F86;&#x6E90;&#xFF1A; <a href="http://www.tldp.org/LDP/sag/html/run-levels-intro.html" target="_blank" rel="external">Run levels</a></li>
+</ul>
+<h3 id="runleve-&#x4F7F;&#x7528;&#x65B9;&#x5F0F;"><a href="#runleve__u4F7F_u7528_u65B9_u5F0F" class="headerlink" title="runleve &#x4F7F;&#x7528;&#x65B9;&#x5F0F;"></a>runleve &#x4F7F;&#x7528;&#x65B9;&#x5F0F;</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">System V (ubuntu)</th>
+<th style="text-align:left">systemd(fedora)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">init 0</td>
+<td style="text-align:left">systemctl poweroff</td>
+</tr>
+<tr>
+<td style="text-align:left">init 1</td>
+<td style="text-align:left">systemctl rescue</td>
+</tr>
+<tr>
+<td style="text-align:left">init [234]</td>
+<td style="text-align:left">systemctl isolate multi-user.target</td>
+</tr>
+<tr>
+<td style="text-align:left">init 5</td>
+<td style="text-align:left">systemctl reboot</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x4F86;&#x6E90;&#xFF1A; <a href="http://linux.vbird.org/linux_basic/0510osloader.php#startup_init" target="_blank" rel="external">&#x5E38;&#x898B;&#x7684;&#x64CD;&#x4F5C;&#x74B0;&#x5883; target &#x8207;&#x76F8;&#x5BB9;&#x65BC; runlevel &#x7684;&#x7B49;&#x7D1A;</a></li>
+</ul>
+<h2 id="&#x5176;&#x5B83;&#x8AAA;&#x660E;"><a href="#u5176_u5B83_u8AAA_u660E" class="headerlink" title="&#x5176;&#x5B83;&#x8AAA;&#x660E;"></a>&#x5176;&#x5B83;&#x8AAA;&#x660E;</h2><h3 id="linux&#x555F;&#x52D5;&#x6D41;&#x7A0B;"><a href="#linux_u555F_u52D5_u6D41_u7A0B" class="headerlink" title="linux&#x555F;&#x52D5;&#x6D41;&#x7A0B;"></a>linux&#x555F;&#x52D5;&#x6D41;&#x7A0B;</h3><blockquote><ul>
+<li>BIOS &#x53D6;&#x5F97;&#x7B2C;&#x4E00;&#x500B;&#x53EF;&#x958B;&#x6A5F;&#x88DD;&#x7F6E;&#xFF0C;&#x8B80;&#x53D6;&#x4E3B;&#x8981;&#x958B;&#x6A5F;&#x5340; (MBR) &#x53D6;&#x5F97;&#x958B;&#x6A5F;&#x7BA1;&#x7406;&#x7A0B;&#x5F0F;</li>
+<li>&#x6838;&#x5FC3;&#x4E3B;&#x52D5;&#x547C;&#x53EB; init &#x7A0B;&#x5F0F;</li>
+<li>init &#x7A0B;&#x5F0F;&#x958B;&#x59CB;&#x57F7;&#x884C;&#x7CFB;&#x7D71;&#x521D;&#x59CB;&#x5316;: /etc/rc.d/rc.sysinit</li>
+<li>init &#x7684;&#x8A2D;&#x5B9A;&#x9032;&#x884C; daemon start: /etc/rc.d/rc[0-6].d/*</li>
+<li>&#x8F09;&#x5165;&#x672C;&#x6A5F;&#x8A2D;&#x5B9A; (/etc/rc.d/rc.local)</li>
+</ul>
+<footer><strong>&#x9CE5;&#x54E5;&#x7684; Linux &#x79C1;&#x623F;&#x83DC;</strong><cite><a href="http://linux.vbird.org/linux_basic/0560daemons//0560daemons-centos5.php#starting_daemon" target="_blank" rel="external">&#x8A2D;&#x5B9A;&#x958B;&#x6A5F;&#x5F8C;&#x7ACB;&#x5373;&#x555F;&#x52D5;&#x670D;&#x52D9;&#x7684;&#x65B9;&#x6CD5;</a></cite></footer></blockquote>
+<blockquote><p>&#x5F9E; CentOS 7.x &#x4EE5;&#x5F8C;&#xFF0C;Red Hat &#x7CFB;&#x5217;&#x7684; distribution &#x653E;&#x68C4;&#x6CBF;&#x7528;&#x591A;&#x5E74;&#x7684; System V &#x958B;&#x6A5F;&#x555F;&#x52D5;&#x670D;&#x52D9;&#x7684;&#x6D41;&#x7A0B;&#xFF0C;&#x5C31;&#x662F;&#x524D;&#x4E00;&#x5C0F;&#x7BC0;&#x63D0;&#x5230;&#x7684; init &#x555F;&#x52D5;&#x8173;&#x672C;&#x7684;&#x65B9;&#x6CD5;&#xFF0C; &#x6539;&#x7528; systemd &#x9019;&#x500B;&#x555F;&#x52D5;&#x670D;&#x52D9;&#x7BA1;&#x7406;&#x6A5F;&#x5236;</p><footer><strong>&#x9CE5;&#x54E5;&#x7684; Linux &#x79C1;&#x623F;&#x83DC;</strong><cite><a href="http://linux.vbird.org/linux_basic/0560daemons.php#daemon_type_systemd" target="_blank" rel="external">systemd &#x4F7F;&#x7528;&#x7684; unit &#x5206;&#x985E;</a></cite></footer></blockquote>
+<h3 id="linux&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;"><a href="#Linux_u7CFB_u7D71_u7684_u555F_u52D5_u7A0B_u5E8F" class="headerlink" title="Linux&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;"></a>Linux&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;</h3><p>&#x4E0B;&#x9762;&#x7684;&#x5927;&#x81F4;&#x8207;&#x76EE;&#x524D;&#x7684;hisi3535&#x677F;&#x7AEF;&#x76F8;&#x540C;(&#x9664;&#x4E86;bios&#x53CA;lilo)</p>
+<ol>
+<li>bios</li>
+<li>lilo</li>
+<li>linux kernel</li>
+<li>initi (read /etc/inittab)</li>
+<li>/etc/rc.d/rc.sysinit</li>
+<li>run level3 or run leve5</li>
+<li>Other Programs in /etc/inittab</li>
+</ol>
+<h3 id="ubuntu-1404-inttab"><a href="#ubuntu_14-04_inttab" class="headerlink" title="ubuntu 14.04 inttab"></a>ubuntu 14.04 inttab</h3><ul>
+<li>man inttab</li>
+<li>&#x78BA;&#x5B9A;&#x7121;&#x4F7F;&#x7528;/etc/inttab&#x6539;&#x7531;upstart</li>
+<li>man upstart</li>
+</ul>
+<h3 id="fedora&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;"><a href="#fedora_u7CFB_u7D71_u7684_u555F_u52D5_u7A0B_u5E8F" class="headerlink" title="fedora&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;"></a>fedora&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;</h3><ol>
+<li>bios</li>
+<li>mbr boot loader (grub2)</li>
+<li>linux kernel: &#x5075;&#x6E2C;&#x786C;&#x9AD4;&#x8207;&#x8F09;&#x5165;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;</li>
+<li>kernel &#x6703;&#x4E3B;&#x52D5;&#x547C;&#x53EB; systemd &#x7A0B;&#x5F0F;&#xFF0C;&#x4E26;&#x4EE5; default.target &#x6D41;&#x7A0B;&#x958B;&#x6A5F;</li>
+</ol>
+<ul>
+<li>&#x4F86;&#x6E90;&#xFF1A; <a href="http://linux.vbird.org/linux_basic/0510osloader.php#startup_intro" target="_blank" rel="external">&#x958B;&#x6A5F;&#x6D41;&#x7A0B;&#x4E00;&#x89BD;</a></li>
+</ul>
+<h2 id="&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x8A0A;&#x606F;"><a href="#u67E5_u770B_u7CFB_u7D71_u8A0A_u606F" class="headerlink" title="&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x8A0A;&#x606F;"></a>&#x67E5;&#x770B;&#x7CFB;&#x7D71;&#x8A0A;&#x606F;</h2><h3 id="ubuntu-etcinitdreadme"><a href="#ubuntu_/etc/init-d/README" class="headerlink" title="ubuntu /etc/init.d/README"></a>ubuntu /etc/init.d/README</h3><ul>
+<li>ubuntu &#x7CFB;&#x7D71;&#x7248;&#x672C;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">erwin@erwin-pc150: /etc</span><br><span class="line">$ cat /etc/lsb-release </span><br><span class="line">DISTRIB_ID=Ubuntu</span><br><span class="line">DISTRIB_RELEASE=14.04</span><br><span class="line">DISTRIB_CODENAME=trusty</span><br><span class="line">DISTRIB_DESCRIPTION=&quot;Ubuntu 14.04.4 LTS&quot;</span><br><span class="line">erwin@erwin-pc150: /etc</span><br><span class="line">$ uname -a</span><br><span class="line">Linux erwin-pc150 4.2.0-41-generic #48~14.04.1-Ubuntu SMP Fri Jun 24 17:09:15 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>/etc/init.d/README</p>
+<ul>
+<li>&#x4ECD;&#x63A1;&#x7528;&#x539F;&#x672C;init&#x7684;&#x65B9;&#x5F0F;</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1     Configuration of System V init under Debian GNU/Linux                                                                                                                           </span><br><span class="line">2                                                                          </span><br><span class="line">3 Most Unix versions have a file here that describes how the scripts       </span><br><span class="line">4 in this directory work, and how the links in the /etc/rc?.d/ directories </span><br><span class="line">5 influence system startup/shutdown.</span><br></pre></td></tr></table></figure>
+<h3 id="fedora-etcinitdreadme"><a href="#fedora_/etc/init-d/README" class="headerlink" title="fedora /etc/init.d/README"></a>fedora /etc/init.d/README</h3><ul>
+<li>fedora &#x7CFB;&#x7D71;&#x7248;&#x672C;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# cat /etc/redhat-release </span><br><span class="line">Fedora release 22 (Twenty Two)</span><br><span class="line">[root@localhost /]# uname -a</span><br><span class="line">Linux localhost.localdomain 4.4.13-200.fc22.x86_64 #1 SMP Wed Jun 8 15:59:40 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+<ul>
+<li>/etc/init.d/README<ul>
+<li>&#x6539;&#x63A1;&#x7528;systemd&#x53CA;systemctl&#x65B9;&#x5F0F;</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">You are looking for the traditional init scripts in /etc/rc.d/init.d,</span><br><span class="line">and they are gone?</span><br><span class="line"></span><br><span class="line">Here&apos;s an explanation on what&apos;s going on:</span><br><span class="line"></span><br><span class="line">You are running a systemd-based OS where traditional init scripts have</span><br><span class="line">been replaced by native systemd services files. Service files provide</span><br><span class="line">very similar functionality to init scripts. To make use of service</span><br><span class="line">files simply invoke &quot;systemctl&quot;, which will output a list of all</span><br><span class="line">currently running services (and other units).</span><br></pre></td></tr></table></figure>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://technote.aven-network.com/852/using-systemctl-control-target" target="_blank" rel="external">&#x4F7F;&#x7528; systemctl &#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5C64;&#x7D1A; target</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0560daemons//0560daemons-centos5.php#starting_daemon" target="_blank" rel="external">&#x8A2D;&#x5B9A;&#x958B;&#x6A5F;&#x5F8C;&#x7ACB;&#x5373;&#x555F;&#x52D5;&#x670D;&#x52D9;&#x7684;&#x65B9;&#x6CD5;</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0560daemons.php#daemon_type_systemd" target="_blank" rel="external">systemd &#x4F7F;&#x7528;&#x7684; unit &#x5206;&#x985E;</a></li>
+<li><a href="http://nmc.nchu.edu.tw/linux/Linux_boot.htm" target="_blank" rel="external"> Linux&#x7CFB;&#x7D71;&#x7684;&#x555F;&#x52D5;&#x7A0B;&#x5E8F;</a></li>
+<li><a href="http://www.tldp.org/LDP/sag/html/run-levels-intro.html" target="_blank" rel="external">Run levels</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0510osloader.php#startup_intro" target="_blank" rel="external">&#x958B;&#x6A5F;&#x6D41;&#x7A0B;&#x4E00;&#x89BD;</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0510osloader.php#startup_init" target="_blank" rel="external">&#x5E38;&#x898B;&#x7684;&#x64CD;&#x4F5C;&#x74B0;&#x5883; target &#x8207;&#x76F8;&#x5BB9;&#x65BC; runlevel &#x7684;&#x7B49;&#x7D1A;</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/07/pc-dom-02/" rel="next" title="pc-dom-02">
+                <i class="fa fa-chevron-left"></i> pc-dom-02
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/07/fedora-system-default-target/" rel="prev" title="fedora-system-default-target">
+                fedora-system-default-target <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemd-與-system-v-init-比較"><span class="nav-number">3.</span> <span class="nav-text">systemd 與 System V init 比較</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-runlevel"><span class="nav-number">3.1.</span> <span class="nav-text">linux runlevel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#runleve-使用方式"><span class="nav-number">3.2.</span> <span class="nav-text">runleve 使用方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它說明"><span class="nav-number">4.</span> <span class="nav-text">其它說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux啟動流程"><span class="nav-number">4.1.</span> <span class="nav-text">linux啟動流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux系統的啟動程序"><span class="nav-number">4.2.</span> <span class="nav-text">Linux系統的啟動程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu-1404-inttab"><span class="nav-number">4.3.</span> <span class="nav-text">ubuntu 14.04 inttab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fedora系統的啟動程序"><span class="nav-number">4.4.</span> <span class="nav-text">fedora系統的啟動程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看系統訊息"><span class="nav-number">5.</span> <span class="nav-text">查看系統訊息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu-etcinitdreadme"><span class="nav-number">5.1.</span> <span class="nav-text">ubuntu /etc/init.d/README</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fedora-etcinitdreadme"><span class="nav-number">5.2.</span> <span class="nav-text">fedora /etc/init.d/README</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">6.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/07/07/fedora-system/';
+      var disqus_title = 'fedora-system';
+      var disqus_url = 'http://yoursite.com/2016/07/07/fedora-system/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

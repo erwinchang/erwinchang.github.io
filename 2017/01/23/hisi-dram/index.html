@@ -1,0 +1,1967 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,hi3536,ddr," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="記錄一下更換RAM遇到問題">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hisi-dram">
+<meta property="og:url" content="http://yoursite.com/2017/01/23/hisi-dram/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="記錄一下更換RAM遇到問題">
+<meta property="og:image" content="http://yoursite.com/2017/01/23/hisi-dram/hi3536-sdram-supported.jpeg">
+<meta property="og:image" content="http://yoursite.com/2017/01/23/hisi-dram/hi3536-16bit-ddr3-sdram.jpeg">
+<meta property="og:image" content="http://yoursite.com/2017/01/23/hisi-dram/hi3536-ddr3-32bit-mode.jpeg">
+<meta property="og:image" content="http://yoursite.com/2017/01/23/hisi-dram/ddr3-sdram-addressing.jpeg">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.267Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hisi-dram">
+<meta name="twitter:description" content="記錄一下更換RAM遇到問題">
+<meta name="twitter:image" content="http://yoursite.com/2017/01/23/hisi-dram/hi3536-sdram-supported.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> hisi-dram | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                hisi-dram
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-01-23T15:26:43+08:00" content="2017-01-23">
+              2017-01-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2017/01/23/hisi-dram/" class="leancloud_visitors" data-flag-title="hisi-dram">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x8A18;&#x9304;&#x4E00;&#x4E0B;&#x66F4;&#x63DB;RAM&#x9047;&#x5230;&#x554F;&#x984C;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170123</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x7D50;&#x8AD6;">&#x7D50;&#x8AD6;</a><ul>
+<li><a href="#&#x554F;&#x984C;-&#x7121;&#x6CD5;&#x7531;fastboot&#x71D2;&#x9304;&#x6210;&#x529F;">&#x554F;&#x984C;-&#x7121;&#x6CD5;&#x7531;fastboot&#x71D2;&#x9304;&#x6210;&#x529F;</a></li>
+<li><a href="#&#x89E3;&#x6C7A;&#x65B9;&#x5F0F;">&#x89E3;&#x6C7A;&#x65B9;&#x5F0F;</a></li>
+<li><a href="#&#x554F;&#x984C;&#x8A18;&#x9304;">&#x554F;&#x984C;&#x8A18;&#x9304;</a></li>
+<li><a href="#&#x4FEE;&#x6B63;&#x5F8C;&#x5982;&#x4E0B;">&#x4FEE;&#x6B63;&#x5F8C;&#x5982;&#x4E0B;</a></li>
+</ul>
+</li>
+<li><a href="#ddr-control">DDR Control</a><ul>
+<li><a href="#hi3536">Hi3536</a></li>
+<li><a href="#ddr3-16bit&#x63A1;&#x6CD5;&#x5982;&#x4E0B;">DDR3 16bit&#x63A1;&#x6CD5;&#x5982;&#x4E0B;</a></li>
+<li><a href="#&#x5730;&#x5740;&#x6620;&#x5C04;&#x65B9;&#x5F0F;">&#x5730;&#x5740;&#x6620;&#x5C04;&#x65B9;&#x5F0F;</a></li>
+</ul>
+</li>
+<li><a href="#&#x6BD4;&#x8F03;regbit">&#x6BD4;&#x8F03;RegBit</a></li>
+<li><a href="#mddrc_dmc">mddrc_dmc</a><ul>
+<li><a href="#axi_region_map">AXI_REGION_MAP</a></li>
+<li><a href="#axi_region_attrib">AXI_REGION_ATTRIB</a></li>
+<li><a href="#dmc-registers">DMC registers</a></li>
+<li><a href="#ddrc_cfg_timing1">DDRC_CFG_TIMING1</a></li>
+<li><a href="#ddrc_cfg_timing2">DDRC_CFG_TIMING2</a></li>
+</ul>
+</li>
+<li><a href="#mddrc_phy0-mddrc_phy1">mddrc_phy0 / mddrc_phy1</a><ul>
+<li><a href="#mddrc_phy0">mddrc_phy0</a></li>
+<li><a href="#mddrc_phy1">mddrc_phy1</a></li>
+<li><a href="#ddr0_training">ddr0_training</a></li>
+<li><a href="#ddr1_training">ddr1_training</a></li>
+</ul>
+</li>
+<li><a href="#muxctrl_reg">muxctrl_reg</a></li>
+<li><a href="#padctrl_reg">padctrl_reg</a></li>
+<li><a href="#ddr3-sdram-address">DDR3 SDRAM Address</a><ul>
+<li><a href="#k4b4g1646d-bcko">K4B4G1646D-BCKO</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x7D50;&#x8AD6;"><a href="#u7D50_u8AD6" class="headerlink" title="&#x7D50;&#x8AD6;"></a>&#x7D50;&#x8AD6;</h2><p>&#x4FEE;&#x6539;RAM&#x5927;&#x5C0F;&#x9700;&#x8981;&#xFF0C;&#x540C;&#x6642;&#x8B8A;&#x66F4;uboot register&#x8A2D;&#x5B9A;<br>&#x9019;&#x908A;&#x63A1;&#x7528;SDK&#x88E1;&#x9762;&#x7684;2GB&#x8A2D;&#x5B9A;&#x6A94;(&#x9019;&#x500B;&#x5916;&#x90E8;&#x7684;RAM&#x8A2D;&#x5B9A;&#x70BA;4Gb&#x5927;&#x5C0F;)</p>
+<h3 id="&#x554F;&#x984C;-&#x7121;&#x6CD5;&#x7531;fastboot&#x71D2;&#x9304;&#x6210;&#x529F;"><a href="#u554F_u984C-_u7121_u6CD5_u7531fastboot_u71D2_u9304_u6210_u529F" class="headerlink" title="&#x554F;&#x984C;-&#x7121;&#x6CD5;&#x7531;fastboot&#x71D2;&#x9304;&#x6210;&#x529F;"></a>&#x554F;&#x984C;-&#x7121;&#x6CD5;&#x7531;fastboot&#x71D2;&#x9304;&#x6210;&#x529F;</h3><p>&#x76EE;&#x524D;&#x5C07;&#x677F;&#x5B50;RAM&#x5927;&#x5C0F;<br>&#x7531;1Gb,1Gb,2Gb,2Gb (&#x6B64;&#x6642;uboot reg&#x8A2D;&#x5B9A;&#x70BA;768Mbyte)<br>&#x6539;&#x70BA;4Gb,4Gb,4Gb,4Gb&#x6B64;&#x6642;&#x7121;&#x6CD5;&#x7531;fastboot&#x71D2;&#x9304;&#x6210;&#x529F;</p>
+<h3 id="&#x89E3;&#x6C7A;&#x65B9;&#x5F0F;"><a href="#u89E3_u6C7A_u65B9_u5F0F" class="headerlink" title="&#x89E3;&#x6C7A;&#x65B9;&#x5F0F;"></a>&#x89E3;&#x6C7A;&#x65B9;&#x5F0F;</h3><p>&#x4FEE;&#x6B63;uboot reg&#x8A2D;&#x5B9A;&#x5982;&#x4E0B;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm(768Mb)</th>
+<th style="text-align:left">uboot-DDR466M-2GB</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">AXI_REGION_MAP  (0x100)</td>
+<td style="text-align:left">0x1500</td>
+<td style="text-align:left">0x1600</td>
+<td style="text-align:left">DCM0 size 512MB -&gt; 1GB , offset 0</td>
+</tr>
+<tr>
+<td style="text-align:left">AXI_REGION_MAP  (0x110)</td>
+<td style="text-align:left">0x1420</td>
+<td style="text-align:left">0x1640</td>
+<td style="text-align:left">DCM1 size 256M -&gt; 1GB , offset 1GB</td>
+</tr>
+<tr>
+<td style="text-align:left">AXI_REGION_ATTRIB (0x114)</td>
+<td style="text-align:left">0x71051024</td>
+<td style="text-align:left">0x71052028</td>
+<td style="text-align:left">DCM1&#x504F;&#x79FB;&#x5730;&#x5740; = 256MB -&gt; 512MB</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_RNKVOL (0x8060)</td>
+<td style="text-align:left">0x132</td>
+<td style="text-align:left">0x142</td>
+<td style="text-align:left">DCM0 row addr: 2Gb -&gt; 4Gb</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_RNKVOL (0x9060)</td>
+<td style="text-align:left">0x122</td>
+<td style="text-align:left">0x142</td>
+<td style="text-align:left">DCM1 row addr: 1Gb -&gt; 4Gb</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING1 (0x8104)</td>
+<td style="text-align:left">0x4034b441</td>
+<td style="text-align:left">0x4034b48d</td>
+<td style="text-align:left">0x41 -&gt; 0x8d</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING1 (0x9104)</td>
+<td style="text-align:left">0x4034b441</td>
+<td style="text-align:left">0x4034b48d</td>
+<td style="text-align:left">0x41 -&gt; 0x8d</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>&#x7576;DRAM Size&#x589E;&#x52A0;&#x6642;&#xFF0C;&#x9700;&#x8981;&#x589E;&#x52A0;AREF period&#x6642;&#x9593;<br>Number of wait cycles for the AREF period or AREF to the ACT command<br>0x41 -&gt; 0x8d</p>
+</li>
+<li><p>&#x9019;&#x908A;&#x76F4;&#x63A5;&#x4F7F;&#x7528;SDK&#x88E1;&#x9762;&#x63D0;&#x4F9B;&#x7684;reg&#x6A94;&#x6848;<br>Hi3536-DMEB1-uboot-DDR466M-2GB-64bit-A17-1400M-A7-900M-AXI400M.xls</p>
+</li>
+</ul>
+<h3 id="&#x554F;&#x984C;&#x8A18;&#x9304;"><a href="#u554F_u984C_u8A18_u9304" class="headerlink" title="&#x554F;&#x984C;&#x8A18;&#x9304;"></a>&#x554F;&#x984C;&#x8A18;&#x9304;</h3><p>&#x6E2C;&#x8A66;&#x591A;&#x6B21;&#x90FD;&#x76F8;&#x540C;&#x539F;&#x56E0;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SerialPort has been connencted, Please power off, then power on the device.</span><br><span class="line">If it doesn&apos;t work, please try to repower on.</span><br><span class="line">###################################### ---- 10%</span><br><span class="line">##################################### ---- 20%</span><br><span class="line">##################################### ---- 30%</span><br><span class="line">##################################### ---- 40%</span><br><span class="line">##################################### ---- 51%</span><br><span class="line">##################################### ---- 61%</span><br><span class="line">##################################### ---- 71%</span><br><span class="line">##################################### ---- 81%</span><br><span class="line">##################################### ---- 91%</span><br><span class="line">##############################Failed to send tail frame!</span><br><span class="line">Failed to download File!</span><br></pre></td></tr></table></figure></p>
+<h3 id="&#x4FEE;&#x6B63;&#x5F8C;&#x5982;&#x4E0B;"><a href="#u4FEE_u6B63_u5F8C_u5982_u4E0B" class="headerlink" title="&#x4FEE;&#x6B63;&#x5F8C;&#x5982;&#x4E0B;"></a>&#x4FEE;&#x6B63;&#x5F8C;&#x5982;&#x4E0B;</h3><ul>
+<li>fastboot</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">SerialPort has been connencted, Please power off, then power on the device.</span><br><span class="line">If it doesn&apos;t work, please try to repower on.</span><br><span class="line">###################################### ---- 10%</span><br><span class="line">##################################### ---- 20%</span><br><span class="line">##################################### ---- 30%</span><br><span class="line">##################################### ---- 40%</span><br><span class="line">##################################### ---- 51%</span><br><span class="line">##################################### ---- 61%</span><br><span class="line">##################################### ---- 71%</span><br><span class="line">##################################### ---- 81%</span><br><span class="line">##################################### ---- 91%</span><br><span class="line">############################## ---- 100%</span><br><span class="line">Boot download completed!</span><br><span class="line">&#xFFF7;     </span><br><span class="line"></span><br><span class="line">U-Boot 2010.06-dirty (Jan 24 2017 - 06:58:03)</span><br><span class="line"></span><br><span class="line">Check spi flash controller v350... Found</span><br><span class="line">Spi(cs1) ID: 0xC2 0x20 0x1A 0xC2 0x20 0x1A</span><br><span class="line">Spi(cs1): Block:64KB Chip:64MB Name:&quot;MX25L512&quot;</span><br><span class="line">In:    serial</span><br><span class="line">Out:   serial</span><br><span class="line">Err:   serial</span><br><span class="line">start download process.</span><br><span class="line"></span><br><span class="line">Boot Started successfully!</span><br><span class="line"></span><br><span class="line">Send command:	getinfo version</span><br><span class="line">version: 3.0.3</span><br><span class="line">[EOT](OK)</span><br><span class="line"></span><br><span class="line">Send command:	getinfo bootmode</span><br><span class="line">spi</span><br><span class="line">[EOT](OK)</span><br><span class="line"></span><br><span class="line">Send command:	getinfo spi</span><br><span class="line">Block:64KB Chip:64MB*1 </span><br><span class="line">ID:0xC2 0x20 0x1A </span><br><span class="line">Name:&quot;MX25L512&quot;</span><br><span class="line">[EOT](OK)</span><br><span class="line"></span><br><span class="line">Send command:	sf probe 0</span><br><span class="line">65536 KiB hi_sfc at 0:0 is now current device</span><br><span class="line">[EOT](OK)</span><br><span class="line"></span><br><span class="line">Send command:	sf erase 0x0 0x60000</span><br><span class="line"></span><br><span class="line">Erasing at 0x10000 --  16% complete.</span><br><span class="line">Erasing at 0x20000 --  33% complete.</span><br><span class="line">Erasing at 0x30000 --  50% complete.</span><br><span class="line">Erasing at 0x40000 --  66% complete.</span><br><span class="line">Erasing at 0x50000 --  83% complete.</span><br><span class="line">Erasing at 0x60000 -- 100% complete.</span><br><span class="line">[EOT](OK)</span><br><span class="line"></span><br><span class="line">Send command:	sf write 0x41000000 0x0 0x60000</span><br><span class="line"></span><br><span class="line">Writing at 0x10000 --  16% complete.</span><br><span class="line">Writing at 0x20000 --  33% complete.</span><br><span class="line">Writing at 0x30000 --  50% complete.</span><br><span class="line">Writing at 0x40000 --  66% complete.</span><br><span class="line">Writing at 0x50000 --  83% complete.</span><br><span class="line">Writing at 0x60000 -- 100% complete.</span><br><span class="line">[EOT](OK)Boot burned successfully.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>uboot<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">U-Boot 2010.06-dirty (Jan 24 2017 - 06:58:03)</span><br><span class="line"></span><br><span class="line">Check spi flash controller v350... Found</span><br><span class="line">Spi(cs1) ID: 0xC2 0x20 0x1A 0xC2 0x20 0x1A</span><br><span class="line">Spi(cs1): Block:64KB Chip:64MB Name:&quot;MX25L512&quot;</span><br><span class="line">In:    serial</span><br><span class="line">Out:   serial</span><br><span class="line">Err:   serial</span><br><span class="line">*** ver different</span><br><span class="line">Saving Environment to SPI Flash...</span><br><span class="line">Erasing SPI flash, offset 0x00080000 size 128K ...done</span><br><span class="line">Writing to SPI flash, offset 0x00080000 size 128K ...done</span><br><span class="line">boot_other = 0</span><br><span class="line">boot_other_cnt = 0</span><br><span class="line">boot_curr = 0</span><br><span class="line">Hit any key to stop autoboot:  0 </span><br><span class="line">65536 KiB hi_sfc at 0:0 is now current device</span><br><span class="line"></span><br><span class="line">block_size : 1927463610</span><br><span class="line">rootfs_size : 1927463610</span><br><span class="line">execute sf read 0x42000000 0x72efc2ba 0x40;</span><br><span class="line">ERROR: read/write area is out of range!</span><br><span class="line"></span><br><span class="line">hisilicon #</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="ddr-control"><a href="#DDR_Control" class="headerlink" title="DDR Control"></a>DDR Control</h2><h3 id="hi3536"><a href="#Hi3536" class="headerlink" title="Hi3536"></a>Hi3536</h3><ul>
+<li>DDRC<ul>
+<li>DDR3/DDR4 synchronous dynamic random access memory (SDRAM) controller </li>
+<li>Dual channels<ul>
+<li>each of which provides space for one DDR3/DDR4 SDRAM chip select (CS). </li>
+<li>The width of the DDR3/DDR4 SDRAM data bus for each channel is 32 bits.</li>
+</ul>
+</li>
+<li>Maximum 3 GB storage space (maximum 2 GB for each channel)<br>&#x652F;&#x6301;&#x6700;&#x5927;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x4E3A;&#xFF1A;3GByte&#xFF0C;&#x6BCF;&#x4E2A;&#x901A;&#x9053;&#x6700;&#x5927;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x4E3A;&#xFF1A;2GByte</li>
+</ul>
+</li>
+</ul>
+<img src="/2017/01/23/hisi-dram/hi3536-sdram-supported.jpeg" alt="[Hi3536]" title="[Hi3536]">
+<h3 id="ddr3-16bit&#x63A1;&#x6CD5;&#x5982;&#x4E0B;"><a href="#DDR3_16bit_u63A1_u6CD5_u5982_u4E0B" class="headerlink" title="DDR3 16bit&#x63A1;&#x6CD5;&#x5982;&#x4E0B;"></a>DDR3 16bit&#x63A1;&#x6CD5;&#x5982;&#x4E0B;</h3><ul>
+<li>DMC0 &#x8868;&#x793A;&#x901A;&#x9053;0</li>
+<li>DMC1 &#x8868;&#x793A;&#x901A;&#x9053;1</li>
+<li>&#x53CC;&#x901A;&#x9053;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x6BCF;&#x4E2A;&#x901A;&#x9053;&#x5BF9;&#x63A5; 32bit DDR3 SDRAM &#x7531;&#x4E24;&#x7247;&#x6570;&#x636E;&#x603B;&#x7EBF;&#x5BBD;&#x5EA6;&#x4E3A; 16bit &#x7684;&#x5B58;&#x50A8;&#x5668;&#x4EF6;&#x7EC4;&#x6210;</li>
+<li>DDRC/DMCn  &#x5BF9;&#x5E94;&#x7684;&#x547D;&#x4EE4;&#x63A7;&#x5236;&#x4FE1;&#x53F7; :<br>DDR_CS_N&#x3001;DDR_CKE&#x3001;DDR_RESET_N&#x3001;DDR_RAS_N&#x3001;DDR_CAS_N&#x3001;DDR_WE_N&#x3001;DDR_BA[2:0]&#x3001;DDR_A[15:0]&#x3001;DDR_ODT</li>
+</ul>
+<img src="/2017/01/23/hisi-dram/hi3536-16bit-ddr3-sdram.jpeg" alt="[Hi3536]" title="[Hi3536]">
+<h3 id="&#x5730;&#x5740;&#x6620;&#x5C04;&#x65B9;&#x5F0F;"><a href="#u5730_u5740_u6620_u5C04_u65B9_u5F0F" class="headerlink" title="&#x5730;&#x5740;&#x6620;&#x5C04;&#x65B9;&#x5F0F;"></a>&#x5730;&#x5740;&#x6620;&#x5C04;&#x65B9;&#x5F0F;</h3><ul>
+<li><p>SDRAM&#x4E2D;&#xFF0C;&#x4E24;&#x79CD;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x5740;&#x6620;&#x5C04;&#x65B9;&#x5F0F;</p>
+<ul>
+<li>BRC = Bank, Row, Column = Bank-Row-Column</li>
+<li>RBC = Row, Bank, Column = Row-Bank- Column</li>
+</ul>
+</li>
+<li><p>RBC&#x6A21;&#x5F0F;&#x793A;&#x4F8B;&#x8BF4;&#x660E;</p>
+<ul>
+<li>AXI_REGION_ATTRIB[ch_mode]=2&#x2019;b01</li>
+<li>&#x5730;&#x5740;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#x4E3A;</li>
+<li><p>DDRC_CFG_RNKVOL[mem_map]&#x4E3A; 2b00, RBC&#x6620;&#x5C04;&#x65B9;&#x5F0F;<br>BUSADR[m-1:0] = {DDRROW[x-1:0],DDRBA[z-1:0],DDRCOL[y-1:0],DW{b0}}</p>
+</li>
+<li><p>DDRC_CFG_RNKVOL[mem_map]&#x4E3A; 0b01&#x65F6;&#xFF0C;BRC&#x6620;&#x5C04;&#x65B9;&#x5F0F;<br>BUSADR[m-1:0] = {DDR_BA[z-1:0],DDRROW[x-1:0],DDRCOL[y-1:0],DW{b0}} </p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>DDRC DDR3 32bit&#x6A21;&#x5F0F;&#x5730;&#x5740;&#x6620;&#x5C04;&#x8868;<br>&#x8868;&#x683C;&#x793A;&#x4F8B;&#x8BF4;&#x660E;&#x4E86;RBC&#x6A21;&#x5F0F;&#x4E0B;&#x7684;&#x5730;&#x5740;&#x6620;&#x5C04;&#x5173;&#x7CFB;<img src="/2017/01/23/hisi-dram/hi3536-ddr3-32bit-mode.jpeg" alt="[Hi3536]" title="[Hi3536]">
+</li>
+</ul>
+<hr>
+<h2 id="&#x6BD4;&#x8F03;regbit"><a href="#u6BD4_u8F03RegBit" class="headerlink" title="&#x6BD4;&#x8F03;RegBit"></a>&#x6BD4;&#x8F03;RegBit</h2><p>mddrc_dmc (0x1211 0000)</p>
+<p>TIMMING 1_1</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm(768Mb)</th>
+<th style="text-align:left">2G bit</th>
+<th style="text-align:left">4Gbit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">AXI_REGION_MAP  (0x100)</td>
+<td style="text-align:left">0x1500</td>
+<td style="text-align:left">0x1600</td>
+<td style="text-align:left">0x1700</td>
+</tr>
+<tr>
+<td style="text-align:left">AXI_REGION_MAP  (0x110)</td>
+<td style="text-align:left">0x1420</td>
+<td style="text-align:left">0x1640</td>
+<td style="text-align:left">0x1780</td>
+</tr>
+<tr>
+<td style="text-align:left">AXI_REGION_ATTRIB (0x104)</td>
+<td style="text-align:left">0x71050028</td>
+<td style="text-align:left">0x71050028</td>
+<td style="text-align:left">0x71050028</td>
+</tr>
+<tr>
+<td style="text-align:left">AXI_REGION_ATTRIB (0x114)</td>
+<td style="text-align:left">0x71051024</td>
+<td style="text-align:left">0x71052028</td>
+<td style="text-align:left">0x71054028</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_RNKVOL (0x8060)</td>
+<td style="text-align:left">0x132</td>
+<td style="text-align:left">0x142</td>
+<td style="text-align:left">0x152</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_RNKVOL (0x9060)</td>
+<td style="text-align:left">0x122</td>
+<td style="text-align:left">0x142</td>
+<td style="text-align:left">0x152</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING1 (0x8104)</td>
+<td style="text-align:left">0x4034b441</td>
+<td style="text-align:left">0x4034b48d</td>
+<td style="text-align:left">0x4034b48d</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING1 (0x9104)</td>
+<td style="text-align:left">0x4034b441</td>
+<td style="text-align:left">0x4034b48d</td>
+<td style="text-align:left">0x4034b48d</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING2 (0x8108)</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x6400d000</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING2 (0x9108)</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x6400d000</td>
+</tr>
+</tbody>
+</table>
+<p>xm-768MB -&gt; xm-4GB</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm-768MB</th>
+<th style="text-align:left">xm-4GB</th>
+<th style="text-align:left">note, xm-&gt;4GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">AXI_REGION_MAP  (0x100)</td>
+<td style="text-align:left">0x1500</td>
+<td style="text-align:left">0x1700</td>
+<td style="text-align:left">DCM0 size 512MB -&gt; 2GB , offset 0</td>
+</tr>
+<tr>
+<td style="text-align:left">AXI_REGION_MAP  (0x110)</td>
+<td style="text-align:left">0x1420</td>
+<td style="text-align:left">0x1780</td>
+<td style="text-align:left">DCM1 size 256M -&gt; 2GB , offset 2GB</td>
+</tr>
+<tr>
+<td style="text-align:left">AXI_REGION_ATTRIB (0x114)</td>
+<td style="text-align:left">0x71051024</td>
+<td style="text-align:left">0x71054028</td>
+<td style="text-align:left">DCM1 offset 256M -&gt;  1024MB, &#x6620;&#x5C04;&#x5230;&#x53CC;&#x901A;&#x9053;, (xm&#x6620;&#x5C04;&#x5230;&#x5355;&#x901A;&#x9053;?)</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_RNKVOL (0x8060)</td>
+<td style="text-align:left">0x132</td>
+<td style="text-align:left">0x152</td>
+<td style="text-align:left">DCM0 row bit : 14bit(2Gb) -&gt; 16bit(8Gb)</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_RNKVOL (0x9060)</td>
+<td style="text-align:left">0x122</td>
+<td style="text-align:left">0x152</td>
+<td style="text-align:left">DCM1 row bit : 13bit(1Gb) -&gt; 16bit(8Gb)</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING1 (0x8104)</td>
+<td style="text-align:left">0x4034b441</td>
+<td style="text-align:left">0x4034b48d</td>
+<td style="text-align:left">Number of wait cycles for the AREF period or AREF to the ACT command , 0x41 -&gt; 0x8d</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING1 (0x9104)</td>
+<td style="text-align:left">0x4034b441</td>
+<td style="text-align:left">0x4034b48d</td>
+<td style="text-align:left">0x41 -&gt; 0x8d</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING2 (0x8108)</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x6400d000</td>
+<td style="text-align:left">Number of clock cycles for four consecutive activation commands, 0x11 -&gt; 0x0d</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING2 (0x9108)</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x6400d000</td>
+<td style="text-align:left">0x11 -&gt; 0x0d</td>
+</tr>
+</tbody>
+</table>
+<p>DDRC_CFG_TIMING1/2: 0x41<br>muxctrl_reg39-54 : 0</p>
+<hr>
+<h2 id="mddrc_dmc"><a href="#mddrc_dmc" class="headerlink" title="mddrc_dmc"></a>mddrc_dmc</h2><h3 id="axi_region_map"><a href="#AXI_REGION_MAP" class="headerlink" title="AXI_REGION_MAP"></a>AXI_REGION_MAP</h3><p>AXI_REGION_MAP</p>
+<ul>
+<li>[10:8] rgn_size</li>
+<li>[7:0] rgn_base_addr </li>
+<li>0x0100<ul>
+<li>[10:8]</li>
+<li>4(100) , 256B (DMC0)</li>
+<li>5(101) , 512B (DMC0)</li>
+<li>6(110) , 1GB (DMC0)</li>
+<li>7(111) , 2GB (DMC0)</li>
+</ul>
+</li>
+<li>0x0110 <ul>
+<li>[7:0] Base address of the current address area (upper eight bits)</li>
+<li>0x420 ,  32 x 16MB = offset 512MB(DMC0) , 256MB(DMC1) </li>
+<li>0x640 ,  64 x 16MB = offset 1024MB(DMC0) , 1GB(DMC1)</li>
+<li>0x780 , 128 x 16MB = offset 2048MB(DMC0) , 2GB(DMC1)</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>512MB(DMC0)   , 256MB(DMC1)  =&gt; 768MB</li>
+<li>1024MB(DMC0) , 1GB(DMC1)      =&gt; 2GB</li>
+<li>2048MB(DMC0) , 2GB(DMC1)     =&gt; 4GB ,&#x6700;&#x5927;3Gbyte</li>
+</ul>
+<h3 id="axi_region_attrib"><a href="#AXI_REGION_ATTRIB" class="headerlink" title="AXI_REGION_ATTRIB"></a>AXI_REGION_ATTRIB</h3><p>AXI_REGION_ATTRIB<br>                   xm                2G<br>0x104 =&gt; 0x71050028, 0x71050028<br>0x114 =&gt; 0x71051024, 0x71052028</p>
+<ul>
+<li><p>[30:28] bnk_mod, 7</p>
+</li>
+<li><p>[25:24] rnk_mod, 1(&#x5355; RANK&#x5730;&#x5740;&#x72EC;&#x7ACB;) , </p>
+</li>
+<li><p>[18:16] addr_aligned, 5(101), 256Byte</p>
+</li>
+<li><p>[15:8] ch_offset ,&#x5F53;&#x524D;&#x5730;&#x5740;&#x533A;&#x57DF;&#x5728;&#x901A;&#x9053;&#x5185;&#x7684;&#x504F;&#x79FB;&#x5730;&#x5740;(&#x9AD8;&#x516B;&#x4F4D;)<br>0x10   , 16 x 16M , DCM1&#x504F;&#x79FB;&#x5730;&#x5740; = 256MB , xm-768M<br>0x20  , 32 x 16M,  DCM1&#x504F;&#x79FB;&#x5730;&#x5740; = 512MB , 2GB<br>0x40 , 64x 16M,  DCM1&#x504F;&#x79FB;&#x5730;&#x5740; = 1024MB ,4GB<br>Bits [31:24] of the 32-bit address after channel mapping can be replaced</p>
+</li>
+<li><p>[5:4] ch_intlv, Address interleaving granularity of the current address area<br>2(10) , 512Byte, &#x5F53;&#x524D;&#x5730;&#x5740;&#x533A;&#x57DF;&#x7684;&#x5730;&#x5740;&#x4EA4;&#x7EC7;&#x7C92;&#x5EA6;(&#x5355;&#x901A;&#x9053;&#x5730;&#x5740;&#x72EC;&#x7ACB;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x6B64;&#x914D;&#x7F6E;&#x65E0;&#x6548;)</p>
+</li>
+<li><p>[3:2] ch_mod, Channel mapping mode of the current address area<br>(10) The addresses of two channels are mapped to the channel, and the addresses are interleaved<br>2GB,4GB &#x6620;&#x5C04;&#x5230;&#x53CC;&#x901A;&#x9053;<br>(01) 0x1: The address of a single channel is mapped to the channel, and the address is independent<br>XM &#x6620;&#x5C04;&#x5230;&#x5355;&#x901A;&#x9053;</p>
+</li>
+<li><p>[1:0] ch_start,Mapping start channel of the current address area<br>(00) channel 0</p>
+</li>
+</ul>
+<h3 id="dmc-registers"><a href="#DMC_registers" class="headerlink" title="DMC registers"></a>DMC registers</h3><ul>
+<li>DMC0 base address: 0x1211_8000</li>
+<li>DMC1 base address: 0x1211_9000</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">DDRC_CFG_RNKVOL</th>
+<th style="text-align:left">xm (768MB)</th>
+<th style="text-align:left">2GB</th>
+<th style="text-align:left">4GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0x8060</td>
+<td style="text-align:left">0x132</td>
+<td style="text-align:left">0x142</td>
+<td style="text-align:left">0x152</td>
+</tr>
+<tr>
+<td style="text-align:left">0x9060</td>
+<td style="text-align:left">0x122</td>
+<td style="text-align:left">0x142</td>
+<td style="text-align:left">0x152</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>DDRC_CFG_RNKVOL<br>DDRC-controlled DDR capacity configuration register </p>
+<ul>
+<li><p>[16] mem_x4 : 4-bit external component combination mode<br>0: 8-/16-/32-bit external components are combined</p>
+</li>
+<li><p>[13:12] mem_map,  Address translation mode of the SDRAM<br>00: {Rank, Row, Ba, Col, DW} = AXI_Address </p>
+</li>
+<li><p>[9:8] Number of banks of a single SDRAM<br>01: 8 bank</p>
+</li>
+<li><p>[6:4] Bit width of the row address of a single SDRAM<br>2(010): 13bit   xm DCM1 ,1Gb<br>3(011): 14bit   xm DCM0 ,2Gb<br>4(100): 15bit   DCM0,DCM1 4Gb? (2Gb ,&#x958B;&#x555F;dual bank,&#x8B8A;&#x6210;2GB 64bit??)<br>5(101): 16bit   DCM0,DCM1 8Gb?  (4Gb,&#x958B;&#x555F;dual bank,&#x8B8A;&#x6210;4GB 64bit? ?)</p>
+</li>
+<li><p>[2:0] Bit width of the column address of a single SDRAM<br>2(010): 10bit</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="ddrc_cfg_timing1"><a href="#DDRC_CFG_TIMING1" class="headerlink" title="DDRC_CFG_TIMING1"></a>DDRC_CFG_TIMING1</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm(768Mb)</th>
+<th style="text-align:left">2G bit</th>
+<th style="text-align:left">4Gbit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING1 (0x8104)</td>
+<td style="text-align:left">0x4034b441</td>
+<td style="text-align:left">0x4034b48d</td>
+<td style="text-align:left">0x4034b48d</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING1 (0x9104)</td>
+<td style="text-align:left">0x4034b441</td>
+<td style="text-align:left">0x4034b48d</td>
+<td style="text-align:left">0x4034b48d</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>[31:24] , tsre, Number of wait cycles from the self-refresh exit command to the read command<br>0x40 </p>
+</li>
+<li><p>[23:20] ,trtw,Delay from the last read data command to the first write data command<br>3</p>
+</li>
+<li><p>[19:15], twl, Number of wait cycles from the write command to the write data command<br>(1001)</p>
+</li>
+<li><p>[14:10] , tcl, Column address strobe (CAS) latency from the read command to the read data operation<br>(1101)</p>
+</li>
+<li><p>[8:0], trfc, Number of wait cycles for the AREF period or AREF to the ACT command<br>0x8d , 141 (sdk-2G,4G)<br>0x41 , 65  (xm-768)</p>
+</li>
+</ul>
+<h3 id="ddrc_cfg_timing2"><a href="#DDRC_CFG_TIMING2" class="headerlink" title="DDRC_CFG_TIMING2"></a>DDRC_CFG_TIMING2</h3><ul>
+<li><p>[31:28], tcke, Minimum cycle of retaining the self-refresh mode<br>0x6 (6 clock cycles)</p>
+</li>
+<li><p>[27:24], twtr,   Number of wait cycles for the last write data to the write-to-read command<br>0x4 (4 clock cycles)</p>
+</li>
+<li><p>[17:12], tfaw,  Number of clock cycles for four consecutive activation commands<br>0x11 (17 ,2Gb)<br>0x0d (13 ,4Gb)</p>
+</li>
+</ul>
+<hr>
+<h2 id="mddrc_phy0-mddrc_phy1"><a href="#mddrc_phy0_/_mddrc_phy1" class="headerlink" title="mddrc_phy0 / mddrc_phy1"></a>mddrc_phy0 / mddrc_phy1</h2><h3 id="mddrc_phy0"><a href="#mddrc_phy0" class="headerlink" title="mddrc_phy0"></a>mddrc_phy0</h3><p>TIMMING 1_2</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm(768Mb)</th>
+<th style="text-align:left">2G bit</th>
+<th style="text-align:left">4Gbit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DMSEL(0xc084)</td>
+<td style="text-align:left">0x00430a</td>
+<td style="text-align:left">0x00430a</td>
+<td style="text-align:left">0x00504b05</td>
+</tr>
+</tbody>
+</table>
+<p>xm-768MB -&gt; xm-4GB</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm-768MB</th>
+<th style="text-align:left">xm-4GB</th>
+<th style="text-align:left">note, xm-&gt;4GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DMSEL(0xc084)</td>
+<td style="text-align:left">0x00430a</td>
+<td style="text-align:left">0x00504b05</td>
+<td style="text-align:left">&#x7121;&#x76F8;&#x95DC;datasheet, 0x00430a -&gt;0x00504b05</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mddrc_phy1"><a href="#mddrc_phy1" class="headerlink" title="mddrc_phy1"></a>mddrc_phy1</h3><p>TIMMING 1_3</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm(768Mb)</th>
+<th style="text-align:left">2G bit</th>
+<th style="text-align:left">4Gbit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DMSEL(0xe084)</td>
+<td style="text-align:left">0x00430a</td>
+<td style="text-align:left">0x00430a</td>
+<td style="text-align:left">0x00504b05</td>
+</tr>
+</tbody>
+</table>
+<p>xm-768MB -&gt; xm-4GB</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm-768MB</th>
+<th style="text-align:left">xm-4GB</th>
+<th style="text-align:left">note, xm-&gt;4GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DMSEL(0xe084)</td>
+<td style="text-align:left">0x00430a</td>
+<td style="text-align:left">0x00504b05</td>
+<td style="text-align:left">&#x7121;&#x76F8;&#x95DC;datasheet, 0x00430a -&gt;0x00504b05</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ddr0_training"><a href="#ddr0_training" class="headerlink" title="ddr0_training"></a>ddr0_training</h3><p>0x1211c000</p>
+<p>TIMMING 1_4</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm(768Mb)</th>
+<th style="text-align:left">2G bit</th>
+<th style="text-align:left">4Gbit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">ACCMDBDL4(0x1048)</td>
+<td style="text-align:left">0x31</td>
+<td style="text-align:left">0x31</td>
+<td style="text-align:left">0x2F</td>
+</tr>
+<tr>
+<td style="text-align:left">MISC (0x70)</td>
+<td style="text-align:left">0x0</td>
+<td style="text-align:left">0x0</td>
+<td style="text-align:left">0x1220</td>
+</tr>
+<tr>
+<td style="text-align:left">LDQSSEL (0x1208)</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x000155AA</td>
+</tr>
+<tr>
+<td style="text-align:left">HDQSSEL (0x1308)</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x000155AA</td>
+</tr>
+</tbody>
+</table>
+<p>xm-768MB -&gt; xm-4GB</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm-768MB</th>
+<th style="text-align:left">xm-4GB</th>
+<th style="text-align:left">note, xm-&gt;4GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">ACCMDBDL4(0x1048)</td>
+<td style="text-align:left">0x31</td>
+<td style="text-align:left">0x2F</td>
+<td style="text-align:left">&#x7121;&#x76F8;&#x95DC;datasheet, 0x31 -&gt;0x2F</td>
+</tr>
+<tr>
+<td style="text-align:left">LDQSSEL (0x1208)</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x000155AA</td>
+<td style="text-align:left">0x0002FF00 -&gt; 0x000155AA</td>
+</tr>
+<tr>
+<td style="text-align:left">HDQSSEL (0x1308)</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x000155AA</td>
+<td style="text-align:left">0x0002FF00 -&gt; 0x000155AA</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ddr1_training"><a href="#ddr1_training" class="headerlink" title="ddr1_training"></a>ddr1_training</h3><p>0x1211e000</p>
+<p>TIMMING 1_5</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm(768Mb)</th>
+<th style="text-align:left">2G bit</th>
+<th style="text-align:left">4Gbit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">MISC (0x70)</td>
+<td style="text-align:left">0x0</td>
+<td style="text-align:left">0x0</td>
+<td style="text-align:left">0x1220</td>
+</tr>
+<tr>
+<td style="text-align:left">LDQSSEL (0x1208)</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x0001FF00</td>
+</tr>
+<tr>
+<td style="text-align:left">HDQSSEL (0x1308)</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x000155AA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm-768MB</th>
+<th style="text-align:left">xm-4GB</th>
+<th style="text-align:left">note, xm-&gt;4GB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">MISC (0x70)</td>
+<td style="text-align:left">0x0</td>
+<td style="text-align:left">0x1220</td>
+<td style="text-align:left">0x0 -&gt; 0x1220</td>
+</tr>
+<tr>
+<td style="text-align:left">LDQSSEL (0x1208)</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x0001FF00</td>
+<td style="text-align:left">0x0002FF00-&gt;0x0001FF00</td>
+</tr>
+<tr>
+<td style="text-align:left">HDQSSEL (0x1308)</td>
+<td style="text-align:left">0x0002FF00</td>
+<td style="text-align:left">0x000155AA</td>
+<td style="text-align:left">0x0002FF00 -&gt; 0x000155AA</td>
+</tr>
+</tbody>
+</table>
+<p>TIMMING 1_6</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">register</th>
+<th style="text-align:left">xm(768Mb)</th>
+<th style="text-align:left">2G bit</th>
+<th style="text-align:left">4Gbit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING2 (0x8108)</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x640110e0</td>
+<td style="text-align:left">0x6400d0e0</td>
+</tr>
+<tr>
+<td style="text-align:left">DDRC_CFG_TIMING2 (0x9108)</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x64011000</td>
+<td style="text-align:left">0x6400d000</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="muxctrl_reg"><a href="#muxctrl_reg" class="headerlink" title="muxctrl_reg"></a>muxctrl_reg</h2><p>0x120f0000</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">reg</th>
+<th style="text-align:left">xm</th>
+<th style="text-align:left">2Gb</th>
+<th style="text-align:left">4Gb</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">muxctrl_reg39(0x9C)  DQ0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg40(0xA0)  DQ1</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg41(0xA4)  DQ2</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg42(0xA8)  DQ3</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg43(0xAC)  DQ4</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg44(0xB0)  DQ5</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg45(0xB4)  DQ6</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg46(0xB8)  DQ7</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg47(0xBC)  DQ8</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg48(0xC0)  DQ9</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg49(0xC4)  DQ10</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg50(0xC8)  DQ11</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg51(0xCC)  DQ12</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg52(0xD0)  DQ13</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg53(0xD4)  DQ14</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg54(0xD8)  DQ15</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">reg</th>
+<th style="text-align:left">00b</th>
+<th style="text-align:left">01b</th>
+<th style="text-align:left">10b</th>
+<th>11b</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">muxctrl_reg39(0x9C)</td>
+<td style="text-align:left">NF_DQ0</td>
+<td style="text-align:left">VI_DATA0</td>
+<td style="text-align:left">SDIO1_CCLK_OUT</td>
+<td>GPIO10_0</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg40(0xA0)</td>
+<td style="text-align:left">NF_DQ1</td>
+<td style="text-align:left">VI_CLK</td>
+<td style="text-align:left">SDIO1_CCMD</td>
+<td>GPIO10_1</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg41(0xA4)</td>
+<td style="text-align:left">NF_DQ2</td>
+<td style="text-align:left">VI_DATA1</td>
+<td style="text-align:left">SDIO1_RSTN</td>
+<td>GPIO10_2</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg42(0xA8)</td>
+<td style="text-align:left">NF_DQ3</td>
+<td style="text-align:left">VI_DATA2</td>
+<td style="text-align:left">SDIO1_DS</td>
+<td>GPIO10_3</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg43(0xAC)</td>
+<td style="text-align:left">NF_DQ4</td>
+<td style="text-align:left">VI_DATA3</td>
+<td style="text-align:left">SDIO1_CDATA6</td>
+<td>GPIO10_4</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg44(0xB0)</td>
+<td style="text-align:left">NF_DQ5</td>
+<td style="text-align:left">VI_DATA4</td>
+<td style="text-align:left">SDIO1_CDATA5</td>
+<td>GPIO10_5</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg45(0xB4)</td>
+<td style="text-align:left">NF_DQ6</td>
+<td style="text-align:left">VI_DATA5</td>
+<td style="text-align:left">SDIO1_CDATA3</td>
+<td>GPIO10_6</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg46(0xB8)</td>
+<td style="text-align:left">NF_DQ7</td>
+<td style="text-align:left">VI_DATA6</td>
+<td style="text-align:left">SDIO1_CDATA4</td>
+<td>GPIO10_7</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg47(0xBC)</td>
+<td style="text-align:left">NF_RDY0</td>
+<td style="text-align:left">VI_DATA7</td>
+<td style="text-align:left">X</td>
+<td>GPIO4_4</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg48(0xC0)</td>
+<td style="text-align:left">NF_RDY1</td>
+<td style="text-align:left">VI_DATA8</td>
+<td style="text-align:left">SDIO1_CARD_POWER_EN</td>
+<td>GPIO4_5</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg49(0xC4)</td>
+<td style="text-align:left">NF_CSN0</td>
+<td style="text-align:left">VI_DATA13</td>
+<td style="text-align:left">SDIO1_CWPR</td>
+<td>GPIO4_6</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg50(0xC8)</td>
+<td style="text-align:left">NF_CSN1</td>
+<td style="text-align:left">VI_DATA14</td>
+<td style="text-align:left">SDIO1_CDATA0</td>
+<td>GPIO4_7</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg51(0xCC)</td>
+<td style="text-align:left">NF_REN</td>
+<td style="text-align:left">VI_DATA9</td>
+<td style="text-align:left">SDIO1_CDATA1</td>
+<td>GPIO1_4</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg52(0xD0)</td>
+<td style="text-align:left">NF_WEN</td>
+<td style="text-align:left">VI_DATA10</td>
+<td style="text-align:left">SDIO1_CARD_DETECT</td>
+<td>GPIO1_5</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg53(0xD4)</td>
+<td style="text-align:left">NF_CLE</td>
+<td style="text-align:left">VI_DATA12</td>
+<td style="text-align:left">SDIO1_CDATA2</td>
+<td>GPIO1_6</td>
+</tr>
+<tr>
+<td style="text-align:left">muxctrl_reg54(0xD8)</td>
+<td style="text-align:left">NF_ALE</td>
+<td style="text-align:left">VI_DATA11</td>
+<td style="text-align:left">SDIO1_CDATA7</td>
+<td>GPIO1_7</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="padctrl_reg"><a href="#padctrl_reg" class="headerlink" title="padctrl_reg"></a>padctrl_reg</h2><p>0x120f0800</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">reg</th>
+<th style="text-align:left">xm</th>
+<th style="text-align:left">2G</th>
+<th style="text-align:left">4G</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PADCTRL_REG39 (0x9c),NF_DQ0</td>
+<td style="text-align:left">0x68</td>
+<td style="text-align:left">0x68 (2mA)</td>
+<td style="text-align:left">0x48 (5mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG40 (0xa0),NF_DQ1</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG41 (0xa4),NF_DQ2</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x38 (1mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG42 (0xa8),NF_DQ3</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x38 (1mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG43 (0xac),NF_DQ4</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG44 (0xb0),NF_DQ5</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG45 (0xb4),NF_DQ6</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG46 (0xb8),NF_DQ7</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG47 (0xbc),NF_RDY0</td>
+<td style="text-align:left">0x38</td>
+<td style="text-align:left">0x38 (1mA)</td>
+<td style="text-align:left">0x38 (1mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG48 (0xc0),NF_RDY1</td>
+<td style="text-align:left">0x38</td>
+<td style="text-align:left">0x38 (1mA)</td>
+<td style="text-align:left">0x38 (1mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG49 (0xc4),NF_CSN0</td>
+<td style="text-align:left">0x38</td>
+<td style="text-align:left">0x38 (1mA)</td>
+<td style="text-align:left">0x38 (1mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG50 (0xc8),NF_CSN1</td>
+<td style="text-align:left">0x38</td>
+<td style="text-align:left">0x38 (1mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG51 (0xcc),NF_REN</td>
+<td style="text-align:left">0x18</td>
+<td style="text-align:left">0x18 (4mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG52 (0xd0),NF_WEN</td>
+<td style="text-align:left">0x18</td>
+<td style="text-align:left">0x18 (4mA)</td>
+<td style="text-align:left">0x38 (1mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG53 (0xd4),NF_CLE</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+<tr>
+<td style="text-align:left">PADCTRL_REG54 (0xd8),NF_ALE</td>
+<td style="text-align:left">0x28</td>
+<td style="text-align:left">0x28 (2mA)</td>
+<td style="text-align:left">0x08 (4mA)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>PADCTRL_REG39<br>drive capability register for the NF_DQ0 pin<br>[6:4] Drive current of the NF_DQ0 pin<br>6(110) , 2mA<br>4(100) , 5mA<br><a href="http://www.ebaina.com/bbs/thread-12922-1-1.html" target="_blank" rel="external">3</a> Level conversion rate of the NF_DQ0 pin<br> 1: slow edge</li>
+</ul>
+<hr>
+<h2 id="ddr3-sdram-address"><a href="#DDR3_SDRAM_Address" class="headerlink" title="DDR3 SDRAM Address"></a>DDR3 SDRAM Address</h2><p>DDR3 SDRAM Address</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Size</th>
+<th style="text-align:left">1Gb</th>
+<th style="text-align:left">2Gb</th>
+<th style="text-align:left">4Gb</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Configuration</td>
+<td style="text-align:left">64Mbx16</td>
+<td style="text-align:left">128Mbx16</td>
+<td style="text-align:left">256Mbx16</td>
+</tr>
+<tr>
+<td style="text-align:left">of Bank</td>
+<td style="text-align:left">8</td>
+<td style="text-align:left">8</td>
+<td style="text-align:left">8</td>
+</tr>
+<tr>
+<td style="text-align:left">Bank Address</td>
+<td style="text-align:left">BA0-2</td>
+<td style="text-align:left">BA0-2</td>
+<td style="text-align:left">BA0-2</td>
+</tr>
+<tr>
+<td style="text-align:left">Row Address</td>
+<td style="text-align:left">RA0-12</td>
+<td style="text-align:left">RA0-13</td>
+<td style="text-align:left">RA0-14</td>
+</tr>
+<tr>
+<td style="text-align:left">Column Address</td>
+<td style="text-align:left">CA0-9</td>
+<td style="text-align:left">CA0-9</td>
+<td style="text-align:left">CA0-9</td>
+</tr>
+</tbody>
+</table>
+<p>K4G2G1646C Datasheet</p>
+<img src="/2017/01/23/hisi-dram/ddr3-sdram-addressing.jpeg" alt="[Hi3536]" title="[Hi3536]">
+<h3 id="k4b4g1646d-bcko"><a href="#K4B4G1646D-BCKO" class="headerlink" title="K4B4G1646D-BCKO"></a>K4B4G1646D-BCKO</h3><ul>
+<li><a href="http://www.datasheetq.com/K4B4G1646D-BCKO-doc-Samsung" target="_blank" rel="external">K4B4G1646D-BCKO</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">DRAM Type</th>
+<th style="text-align:left">Density</th>
+<th style="text-align:left">Bit Organization</th>
+<th style="text-align:left">internal banks</th>
+<th style="text-align:left">interface</th>
+<th style="text-align:left">Revision</th>
+<th style="text-align:left">Pakcage Type</th>
+<th style="text-align:left">Temp &amp; Power</th>
+<th style="text-align:left">Speed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">K4B</td>
+<td style="text-align:left">4G</td>
+<td style="text-align:left">16</td>
+<td style="text-align:left">4</td>
+<td style="text-align:left">6</td>
+<td style="text-align:left">D</td>
+<td style="text-align:left">B</td>
+<td style="text-align:left">C</td>
+<td style="text-align:left">KO</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">4G bit</td>
+<td style="text-align:left">x16 ( 256Mbit x 16bit)</td>
+<td style="text-align:left">8bank</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">D:5th Gen.</td>
+<td style="text-align:left">FBGA</td>
+<td style="text-align:left">0C-85C</td>
+<td style="text-align:left">DDR-1600 (800MHz),CL=11,tRCD=11,tRP=11</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><a href="https://www.mobile01.com/topicdetail.php?f=489&amp;t=370468" target="_blank" rel="external">&#x8A8D;&#x8B58;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;&#x6642;&#x8108;&#x548C;&#x6642;&#x5E8F;&#x7684;&#x610F;&#x7FA9;</a></p>
+</li>
+<li><p>DDR3&#x986F;&#x793A;&#x591A;&#x5C11;&#x983B;&#x7387;MHZX2 &#x5C31;&#x662F;&#x8DD1;&#x591A;&#x5C11; &#x901F;&#x5EA6;</p>
+</li>
+<li><p>CL: CAS Latency</p>
+</li>
+<li><p>tCAS (Column Address Select)</p>
+<ul>
+<li>&#x5217;&#x4F4D;&#x5740;&#x9001;&#x51FA;&#xFF0C;&#x5230;&#x8CC7;&#x6599;&#x53D6;&#x5F97;&#x4E4B;&#x9593;&#x7684;&#x6642;&#x9593;</li>
+<li>tCAS&#x5C31;&#x662F;CAS Latency&#xFF08;CAS&#x5EF6;&#x9072;&#xFF09;&#xFF0C;&#x7C21;&#x7A31;CL&#x503C;</li>
+</ul>
+</li>
+<li><p>tRCD (RAS to CAS Delay)</p>
+<ul>
+<li>&#x9001;&#x51FA;&#x884C;&#x4F4D;&#x5740;&#x4E4B;&#x5F8C;&#xFF0C;&#x5230;&#x9001;&#x51FA;&#x5217;&#x4F4D;&#x5740;&#x4E4B;&#x9593;&#x7684;&#x6642;&#x9593;</li>
+</ul>
+</li>
+<li><p>tRP (RAS Prechange) </p>
+<ul>
+<li>&#x95DC;&#x9589;&#x4E00;&#x884C;&#xFF0C;&#x5230;&#x91CD;&#x65B0;&#x555F;&#x52D5;&#x53E6;&#x4E00;&#x884C;&#x4E4B;&#x9593;&#x7684;&#x6642;&#x9593;</li>
+</ul>
+</li>
+<li><p>tRAS(Row Address Select)</p>
+<ul>
+<li>&#x555F;&#x52D5;&#x4E00;&#x884C;&#x9700;&#x8981;&#x7684;&#x6642;&#x9593;</li>
+</ul>
+</li>
+<li><p>K4B4G1646D-BCKO</p>
+<ul>
+<li>256Mbit x 16</li>
+</ul>
+</li>
+<li><p>K4B1G1646G-BCK0 (xm)</p>
+<ul>
+<li>64Mbit x 16</li>
+</ul>
+</li>
+<li><p>K4B2G1646G-BCK0 (xm)</p>
+<ul>
+<li>128Mbit x 16</li>
+</ul>
+</li>
+<li><p>SDK </p>
+<ul>
+<li>DDR3 &#x9897;&#x7C92;&#xFF1A;4Gbit&#xFF0C;16bit &#x4F4D;&#x5BBD;,933MHz</li>
+<li><a href="https://www.micron.com/parts/dram/ddr3-sdram/mt41j256m16ly-091g?pc={00EED26F-83AE-4CE6-9A28-EB8B033361E8}" target="_blank" rel="external">MT41J256M16LY-091G</a></li>
+<li>256M x 16</li>
+<li>Configuration: 32M x 16 x 8Bank</li>
+<li>Bank Address: BA2-0</li>
+<li>Row Address: RA0-14</li>
+<li>Column Address: CA0-9</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://bbs.chinaunix.net/thread-3584971-1-1.html" target="_blank" rel="external">SDRAM&#x7684;&#x5730;&#x5740;&#x6620;&#x5C04;&#x65B9;&#x5F0F;BRC(Bank Row Column)&#x548C;RBC(Row Bank Column)</a></li>
+<li><a href="http://www.ebaina.com/bbs/thread-12922-1-1.html" target="_blank" rel="external">Hi3536 &#x5185;&#x5B58;&#x6620;&#x5C04;&#x95EE;&#x9898;</a></li>
+<li><a href="https://www.mobile01.com/topicdetail.php?f=489&amp;t=370468" target="_blank" rel="external">&#x8A8D;&#x8B58;&#x8A18;&#x61B6;&#x9AD4;&#xFF0C;&#x6642;&#x8108;&#x548C;&#x6642;&#x5E8F;&#x7684;&#x610F;&#x7FA9;</a></li>
+<li>&#x5176;&#x5B83;hisi dram&#x76F8;&#x95DC;&#x8A0E;&#x8AD6;<ul>
+<li><a href="http://www.ebaina.com/bbs/thread-11121-1-1.html" target="_blank" rel="external">DDR&#x8BFB;&#x5199;&#x6570;&#x636E;&#x4E0D;&#x4E00;&#x81F4;</a></li>
+</ul>
+</li>
+<li>sdk board ram <a href="https://www.micron.com/parts/dram/ddr3-sdram/mt41j256m16ly-091g?pc={00EED26F-83AE-4CE6-9A28-EB8B033361E8}" target="_blank" rel="external">MT41J256M16LY-091G</a></li>
+<li>xm board ram: samsung <a href="http://pdf1.alldatasheet.com/datasheet-pdf/view/411808/SAMSUNG/K4B1G1646D.html" target="_blank" rel="external">K4B1G1646D</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/hi3536/" rel="tag">#hi3536</a>
+          
+            <a href="/tags/ddr/" rel="tag">#ddr</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/20/smartctl-health/" rel="next" title="smartctl-health">
+                <i class="fa fa-chevron-left"></i> smartctl-health
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/26/mbr/" rel="prev" title="mbr">
+                mbr <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結論"><span class="nav-number">3.</span> <span class="nav-text">結論</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#問題-無法由fastboot燒錄成功"><span class="nav-number">3.1.</span> <span class="nav-text">問題-無法由fastboot燒錄成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解決方式"><span class="nav-number">3.2.</span> <span class="nav-text">解決方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#問題記錄"><span class="nav-number">3.3.</span> <span class="nav-text">問題記錄</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修正後如下"><span class="nav-number">3.4.</span> <span class="nav-text">修正後如下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ddr-control"><span class="nav-number">4.</span> <span class="nav-text">DDR Control</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hi3536"><span class="nav-number">4.1.</span> <span class="nav-text">Hi3536</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ddr3-16bit採法如下"><span class="nav-number">4.2.</span> <span class="nav-text">DDR3 16bit採法如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址映射方式"><span class="nav-number">4.3.</span> <span class="nav-text">地址映射方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比較regbit"><span class="nav-number">5.</span> <span class="nav-text">比較RegBit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mddrc_dmc"><span class="nav-number">6.</span> <span class="nav-text">mddrc_dmc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#axi_region_map"><span class="nav-number">6.1.</span> <span class="nav-text">AXI_REGION_MAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#axi_region_attrib"><span class="nav-number">6.2.</span> <span class="nav-text">AXI_REGION_ATTRIB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dmc-registers"><span class="nav-number">6.3.</span> <span class="nav-text">DMC registers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ddrc_cfg_timing1"><span class="nav-number">6.4.</span> <span class="nav-text">DDRC_CFG_TIMING1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ddrc_cfg_timing2"><span class="nav-number">6.5.</span> <span class="nav-text">DDRC_CFG_TIMING2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mddrc_phy0-mddrc_phy1"><span class="nav-number">7.</span> <span class="nav-text">mddrc_phy0 / mddrc_phy1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mddrc_phy0"><span class="nav-number">7.1.</span> <span class="nav-text">mddrc_phy0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mddrc_phy1"><span class="nav-number">7.2.</span> <span class="nav-text">mddrc_phy1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ddr0_training"><span class="nav-number">7.3.</span> <span class="nav-text">ddr0_training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ddr1_training"><span class="nav-number">7.4.</span> <span class="nav-text">ddr1_training</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#muxctrl_reg"><span class="nav-number">8.</span> <span class="nav-text">muxctrl_reg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#padctrl_reg"><span class="nav-number">9.</span> <span class="nav-text">padctrl_reg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ddr3-sdram-address"><span class="nav-number">10.</span> <span class="nav-text">DDR3 SDRAM Address</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#k4b4g1646d-bcko"><span class="nav-number">10.1.</span> <span class="nav-text">K4B4G1646D-BCKO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">11.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/01/23/hisi-dram/';
+      var disqus_title = 'hisi-dram';
+      var disqus_url = 'http://yoursite.com/2017/01/23/hisi-dram/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

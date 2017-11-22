@@ -1,0 +1,883 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,debug," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="如何將板端的console(STDOUT,STDERR)重導到pts">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pts-debug">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/pts-debug/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="如何將板端的console(STDOUT,STDERR)重導到pts">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.531Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pts-debug">
+<meta name="twitter:description" content="如何將板端的console(STDOUT,STDERR)重導到pts">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> pts-debug | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pts-debug
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-12-13T11:19:12+08:00" content="2016-12-13">
+              2016-12-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/13/pts-debug/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/13/pts-debug/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/13/pts-debug/" class="leancloud_visitors" data-flag-title="pts-debug">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x5982;&#x4F55;&#x5C07;&#x677F;&#x7AEF;&#x7684;console(STDOUT,STDERR)&#x91CD;&#x5C0E;&#x5230;pts</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161213</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#pts-debug">pts debug</a><ul>
+<li><a href="#&#x5C07;stdout&#x5C0E;&#x5411;pts">&#x5C07;STDOUT&#x5C0E;&#x5411;PTS</a></li>
+<li><a href="#&#x5C07;stdout&#x5C0E;&#x5411;&#x6A94;&#x6848;">&#x5C07;STDOUT&#x5C0E;&#x5411;&#x6A94;&#x6848;</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;">&#x5176;&#x5B83;</a><ul>
+<li><a href="#&#x677F;&#x7AEF;gdb&#x53D6;&#x5F97;">&#x677F;&#x7AEF;gdb&#x53D6;&#x5F97;</a></li>
+<li><a href="#gdb">gdb</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="pts-debug"><a href="#pts_debug" class="headerlink" title="pts debug"></a>pts debug</h2><h3 id="&#x5C07;stdout&#x5C0E;&#x5411;pts"><a href="#u5C07STDOUT_u5C0E_u5411PTS" class="headerlink" title="&#x5C07;STDOUT&#x5C0E;&#x5411;PTS"></a>&#x5C07;STDOUT&#x5C0E;&#x5411;PTS</h3><ul>
+<li><p>&#x67E5;&#x770B;&#x76EE;&#x524D;&#x7684;&#x5C0E;&#x5411;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># ls -l /proc/$(pidof dvrmain)/fd | grep null</span><br><span class="line">lr-x------    1 root     root            64 Dec 13 10:50 0 -&gt; /dev/null</span><br><span class="line"># ls -l /proc/$(pidof dvrmain)/fd | grep console</span><br><span class="line">lrwx------    1 root     root            64 Dec 13 10:50 1 -&gt; /dev/console</span><br><span class="line">lrwx------    1 root     root            64 Dec 13 10:50 2 -&gt; /dev/console</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x67E5;&#x770B;&#x76EE;&#x524D;&#x7684;pts<br>&#x4F7F;&#x7528;telnet&#x767B;&#x5165;,&#x5C07;&#x6703;&#x7522;&#x751F;&#x65B0;&#x7684;pts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># who</span><br><span class="line">USER       TTY      IDLE      TIME            HOST</span><br><span class="line">root       ttyS000  00:00     Dec 13 10:47:53 </span><br><span class="line">root       pts/0    00:20     Dec 13 10:49:38 </span><br><span class="line">root       pts/1    00:19     Dec 13 11:10:46</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x8A2D;&#x5B9A;stdout&#x70BA;/dev/pts/x<br>&#x95DC;&#x9589;STDOUT, close(1)<br>&#x4F7F;&#x7528;dup2&#x91CD;&#x65B0;&#x8A2D;&#x5B9A;STDOUT</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">./gdb-arm-hisiv200-linux -p $(pidof dvrmain)</span><br><span class="line">(gdb) p close(1)                                                                                                                                                                        </span><br><span class="line">$1 = 0</span><br><span class="line">(gdb) p dup2(open(&quot;/dev/pts/1&quot;,2),1)    </span><br><span class="line">$2 = 1</span><br><span class="line">(gdb) detach</span><br><span class="line">Detaching from program: /opt/dvr_rdk/dvr_board/bin/dvrmain, process 1311</span><br><span class="line">(gdb) quit</span><br></pre></td></tr></table></figure>
+<ul>
+<li>gdb &#x2013;pid=PID          Attach to running process PID.</li>
+</ul>
+</li>
+<li><p>&#x6AA2;&#x67E5;STDOUT&#x5C0E;&#x5411;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ls -l /proc/$(pidof dvrmain)/fd | grep pts    </span><br><span class="line">lrwx------    1 root     root            64 Dec 13 10:50 1 -&gt; /dev/pts/1</span><br><span class="line">lrwx------    1 root     root            64 Dec 13 11:21 247 -&gt; /dev/pts/1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>&#x82E5;&#x8981;debug&#xFF0C;&#x8A18;&#x5F97;STDOUT(1)&#x53CA;STDERR(2)&#x90FD;&#x8981;&#x8A2D;&#x5B9A;</strong></p>
+<h3 id="&#x5C07;stdout&#x5C0E;&#x5411;&#x6A94;&#x6848;"><a href="#u5C07STDOUT_u5C0E_u5411_u6A94_u6848" class="headerlink" title="&#x5C07;STDOUT&#x5C0E;&#x5411;&#x6A94;&#x6848;"></a>&#x5C07;STDOUT&#x5C0E;&#x5411;&#x6A94;&#x6848;</h3><ul>
+<li>&#x8A2D;&#x5B9A;dup2&#x70BA;&#x6A94;&#x6848;&#x5373;&#x53EF;<br>dup2(open(&#x201C;/tmp/log2&#x201D;,2),1)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">./gdb-arm-hisiv200-linux -p $(pidof dvrmain)</span><br><span class="line">(gdb) p close(1)</span><br><span class="line">[Switching to Thread 0xb6f96000 (LWP 1311)]</span><br><span class="line">$1 = 0</span><br><span class="line">(gdb) p dup2(open(&quot;/tmp/tt/log33&quot;,2),1)</span><br><span class="line">$2 = -1</span><br><span class="line">(gdb) p dup2(open(&quot;/tmp/tt/dvrmain-log&quot;,2),1)</span><br><span class="line">$3 = 1</span><br><span class="line">(gdb) detach</span><br><span class="line">Detaching from program: /opt/dvr_rdk/dvr_board/bin/dvrmain, process 1311</span><br><span class="line">(gdb) quit</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x82E5;&#x56DE;&#x50B3;(-1)&#x8868;&#x793A;&#x6709;&#x932F;&#xFF0C;&#x8A18;&#x5F97;&#x5148;&#x7522;&#x751F;&#x6A94;&#x6848;</p>
+<ul>
+<li>&#x5C07;&#x6A94;&#x6848;&#x5C0E;&#x5230;pts<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /tmp/tt/dvrmain-log &gt; /dev/pts/1 &amp;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x9019;&#x500B;&#x6BD4;&#x8F03;&#x65B9;&#x4FBF;&#xFF0C;&#x5148;&#x5C07;log&#x5C0E;&#x5230;&#x6A94;&#x6848;(&#x53EF;&#x4EE5;&#x8A18;&#x9304;)&#xFF0C;&#x518D;&#x7531;tail&#x8F38;&#x51FA;&#x5230;pts</p>
+<hr>
+<h2 id="&#x5176;&#x5B83;"><a href="#u5176_u5B83" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</h2><ul>
+<li><p><a href="https://blog.longwin.com.tw/2013/03/stdin-stdout-stderr-redirection-2013/" target="_blank" rel="external">STDIN&#x3001;STDOUT&#x3001;STDERR &#x8207; Bash Redirection &#x6E2C;&#x8A66;</a><br>0 (stdin) 1 (fdisk.log) 2 (stderr)<br>0: stdin (Standard input) &#x6A19;&#x6E96;&#x8F38;&#x5165;&#x4E32;&#x6D41; (&#x9375;&#x76E4;&#x8F38;&#x5165;)<br>1: stdout (Standard output) &#x6A19;&#x6E96;&#x8F38;&#x51FA;&#x4E32;&#x6D41; (&#x8F38;&#x51FA;&#x65BC; Cli &#x8996;&#x7A97;)<br>2: stderr (Standard error) &#x6A19;&#x6E96;&#x932F;&#x8AA4;&#x8F38;&#x51FA;&#x4E32;&#x6D41; (&#x8F38;&#x51FA;&#x65BC; Cli &#x8996;&#x7A97;)</p>
+</li>
+<li><p><a href="http://www.delorie.com/djgpp/doc/incs/fcntl.h" target="_blank" rel="external">fcntl.h</a><br>open mode &#x8A2D;&#x5B9A;&#x70BA;2, &#x8868;&#x793A;O_RDWR&#x6A21;&#x5F0F;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define O_RDONLY	0x0000</span><br><span class="line">#define O_WRONLY	0x0001</span><br><span class="line">#define O_RDWR		0x0002</span><br><span class="line">#define O_ACCMODE	0x0003</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x677F;&#x7AEF;gdb&#x53D6;&#x5F97;"><a href="#u677F_u7AEFgdb_u53D6_u5F97" class="headerlink" title="&#x677F;&#x7AEF;gdb&#x53D6;&#x5F97;"></a>&#x677F;&#x7AEF;gdb&#x53D6;&#x5F97;</h3><ul>
+<li><a href="https://goo.gl/7htl43" target="_blank" rel="external">gdb-arm-hisiv100nptl-linux</a></li>
+<li><a href="https://goo.gl/n5Uvga" target="_blank" rel="external">gdb-arm-hisiv200-linux</a></li>
+<li><a href="https://goo.gl/OC62f1" target="_blank" rel="external">gdb-arm-hisiv300-linux</a></li>
+</ul>
+<h3 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h3><ul>
+<li>gdb<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"># ./gdb-arm-hisiv200-linux  -help</span><br><span class="line">This is the GNU debugger.  Usage:</span><br><span class="line"></span><br><span class="line">    gdb [options] [executable-file [core-file or process-id]]</span><br><span class="line">    gdb [options] --args executable-file [inferior-arguments ...]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line"></span><br><span class="line">  --args             Arguments after executable-file are passed to inferior</span><br><span class="line">  -b BAUDRATE        Set serial port baud rate used for remote debugging.</span><br><span class="line">  --batch            Exit after processing options.</span><br><span class="line">  --batch-silent     As for --batch, but suppress all gdb stdout output.</span><br><span class="line">  --return-child-result</span><br><span class="line">                     GDB exit code will be the child&apos;s exit code.</span><br><span class="line">  --cd=DIR           Change current directory to DIR.</span><br><span class="line">  --command=FILE, -x Execute GDB commands from FILE.</span><br><span class="line">  --eval-command=COMMAND, -ex</span><br><span class="line">                     Execute a single GDB command.</span><br><span class="line">                     May be used multiple times and in conjunction</span><br><span class="line">                     with --command.</span><br><span class="line">  --core=COREFILE    Analyze the core dump COREFILE.</span><br><span class="line">  --pid=PID          Attach to running process PID.</span><br><span class="line">  --dbx              DBX compatibility mode.</span><br><span class="line">  --directory=DIR    Search for source files in DIR.</span><br><span class="line">  --epoch            Output information used by epoch emacs-GDB interface.</span><br><span class="line">  --exec=EXECFILE    Use EXECFILE as the executable.</span><br><span class="line">  --fullname         Output information used by emacs-GDB interface.</span><br><span class="line">  --help             Print this message.</span><br><span class="line">  --interpreter=INTERP</span><br><span class="line">                     Select a specific interpreter / user interface</span><br><span class="line">  -l TIMEOUT         Set timeout in seconds for remote debugging.</span><br><span class="line">  --nw               Do not use a window interface.</span><br><span class="line">  --nx               Do not read .gdbinit file.</span><br><span class="line">  --quiet            Do not print version number on startup.</span><br><span class="line">  --readnow          Fully read symbol files on first access.</span><br><span class="line">  --se=FILE          Use FILE as symbol file and executable file.</span><br><span class="line">  --symbols=SYMFILE  Read symbols from SYMFILE.</span><br><span class="line">  --tty=TTY          Use TTY for input/output by the program being debugged.</span><br><span class="line">  --tui              Use a terminal user interface.</span><br><span class="line">  --version          Print version information and then exit.</span><br><span class="line">  -w                 Use a window interface.</span><br><span class="line">  --write            Set writing into executable and core files.</span><br><span class="line">  --xdb              XDB compatibility mode.</span><br><span class="line"></span><br><span class="line">For more information, type &quot;help&quot; from within GDB, or consult the</span><br><span class="line">GDB manual (available as on-line info or a printed manual).</span><br><span class="line">Report bugs to &quot;bug-gdb@gnu.org&quot;.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://albert-oma.blogspot.tw/2016/10/embedded-stdout.html" target="_blank" rel="external">&#x53D6;&#x51FA;&#x80CC;&#x666F;&#x884C;&#x7A0B;&#x7684; STDOUT &#x8A0A;&#x606F; </a></li>
+<li><a href="http://stackoverflow.com/questions/593724/redirect-stderr-stdout-of-a-process-after-its-been-started-using-command-lin/593764#593764" target="_blank" rel="external">Redirect STDERR / STDOUT of a process AFTER it&#x2019;s been started, using command line</a></li>
+<li><a href="https://blog.longwin.com.tw/2013/03/stdin-stdout-stderr-redirection-2013/" target="_blank" rel="external">STDIN&#x3001;STDOUT&#x3001;STDERR &#x8207; Bash Redirection &#x6E2C;&#x8A66;</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/debug/" rel="tag">#debug</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/12/ldvr-dlg-flow/" rel="next" title="ldvr-dlg-flow">
+                <i class="fa fa-chevron-left"></i> ldvr-dlg-flow
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/04/advanced-linux-programming/" rel="prev" title="advanced-linux-programming">
+                advanced-linux-programming <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pts-debug"><span class="nav-number">3.</span> <span class="nav-text">pts debug</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#將stdout導向pts"><span class="nav-number">3.1.</span> <span class="nav-text">將STDOUT導向PTS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#將stdout導向檔案"><span class="nav-number">3.2.</span> <span class="nav-text">將STDOUT導向檔案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">4.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#板端gdb取得"><span class="nav-number">4.1.</span> <span class="nav-text">板端gdb取得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gdb"><span class="nav-number">4.2.</span> <span class="nav-text">gdb</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">5.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/12/13/pts-debug/';
+      var disqus_title = 'pts-debug';
+      var disqus_url = 'http://yoursite.com/2016/12/13/pts-debug/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

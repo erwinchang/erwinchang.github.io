@@ -1,0 +1,876 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="fedora,pulseaudio,audio," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="如何使用pacmd來選擇輸出的設備(由HDMI輸出或LineOut輸出)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pulseaudio">
+<meta property="og:url" content="http://yoursite.com/2017/02/22/pulseaudio/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="如何使用pacmd來選擇輸出的設備(由HDMI輸出或LineOut輸出)">
+<meta property="og:image" content="http://yoursite.com/2017/02/22/pulseaudio/sink-source.png">
+<meta property="og:image" content="http://yoursite.com/2017/02/22/pulseaudio/pulseaudio.png">
+<meta property="og:image" content="http://yoursite.com/2017/02/22/pulseaudio/alsa.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.535Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pulseaudio">
+<meta name="twitter:description" content="如何使用pacmd來選擇輸出的設備(由HDMI輸出或LineOut輸出)">
+<meta name="twitter:image" content="http://yoursite.com/2017/02/22/pulseaudio/sink-source.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> pulseaudio | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pulseaudio
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-02-22T15:29:46+08:00" content="2017-02-22">
+              2017-02-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2017/02/22/pulseaudio/" class="leancloud_visitors" data-flag-title="pulseaudio">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x5982;&#x4F55;&#x4F7F;&#x7528;pacmd&#x4F86;&#x9078;&#x64C7;&#x8F38;&#x51FA;&#x7684;&#x8A2D;&#x5099;<br>(&#x7531;HDMI&#x8F38;&#x51FA;&#x6216;LineOut&#x8F38;&#x51FA;)</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170222</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;: &#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x8A2D;&#x5099;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x8A2D;&#x5099;">&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x8A2D;&#x5099;</a><ul>
+<li><a href="#pulseaudio">Pulseaudio</a></li>
+<li><a href="#command">command</a></li>
+<li><a href="#alsa">ALSA</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x8A2D;&#x5099;"><a href="#u5982_u4F55_u8A2D_u5B9A_u8F38_u51FA_u8A2D_u5099" class="headerlink" title="&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x8A2D;&#x5099;"></a>&#x5982;&#x4F55;&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x8A2D;&#x5099;</h2><p>&#x4F86;&#x6E90;: <a href="https://wiki.archlinux.org/index.php/PulseAudio/Examples" target="_blank" rel="external">PulseAudio/Examples</a></p>
+<ul>
+<li><p>Set the default output source<br>&#x5148;&#x4F7F;&#x7528;pacmd list-sinks-inputs&#xFF0C;&#x627E;&#x51FA;&#x6709;&#x90A3;&#x4E9B;sink index<br>&#x518D;&#x4F7F;&#x7528;pacmd set-default-sink 0 &#x6216; pacmd set-default-sink &#x540D;&#x7A31;(name)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacmd set-default-sink 0</span><br><span class="line">pacmd set-default-sink alsa_output.pci-0000_00_1f.3.iec958-stereo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pacmd list-sinks-inputs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">1 sink input(s) available.</span><br><span class="line">    index: 0</span><br><span class="line">	driver: &lt;protocol-native.c&gt;</span><br><span class="line">	flags: </span><br><span class="line">	state: DRAINED</span><br><span class="line">	sink: 0 &lt;alsa_output.pci-0000_00_1f.3.iec958-stereo&gt;</span><br><span class="line">	volume: mono: 65536 / 100% / 0.00 dB</span><br><span class="line">	        balance 0.00</span><br><span class="line">	muted: no</span><br><span class="line">	current latency: 0.00 ms</span><br><span class="line">	requested latency: 125.00 ms</span><br><span class="line">	sample spec: s16le 1ch 8000Hz</span><br><span class="line">	channel map: mono</span><br><span class="line">	             Mono</span><br><span class="line">	resample method: speex-float-1</span><br><span class="line">	module: 11</span><br><span class="line">	client: 0 &lt;ALSA plug-in [nvr]&gt;</span><br><span class="line">	properties:</span><br><span class="line">		media.name = &quot;ALSA Playback&quot;</span><br><span class="line">		application.name = &quot;ALSA plug-in [nvr]&quot;</span><br><span class="line">		native-protocol.peer = &quot;UNIX socket client&quot;</span><br><span class="line">		native-protocol.version = &quot;30&quot;</span><br><span class="line">		application.process.id = &quot;823&quot;</span><br><span class="line">		application.process.user = &quot;root&quot;</span><br><span class="line">		application.process.host = &quot;localhost.localdomain&quot;</span><br><span class="line">		application.process.binary = &quot;nvr&quot;</span><br><span class="line">		application.language = &quot;en_US.UTF-8&quot;</span><br><span class="line">		window.x11.display = &quot;:0&quot;</span><br><span class="line">		application.process.machine_id = &quot;591ae69f060143d296b3ab64faea41e1&quot;</span><br><span class="line">		module-stream-restore.id = &quot;sink-input-by-application-name:ALSA plug-in [nvr]&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="pulseaudio"><a href="#Pulseaudio" class="headerlink" title="Pulseaudio"></a>Pulseaudio</h3><ul>
+<li>What Is PulseAudio?<br>PulseAudio is a sound system for POSIX OSes, meaning that it is a proxy for your sound applications.</li>
+</ul>
+<p>&#x4F86;&#x6E90;&#xFF1A;<a href="http://www.delightpress.com.tw/bookRead/SKNS00008_read.pdf" target="_blank" rel="external">PulseAudio</a></p>
+<ul>
+<li><p>pulseaudio&#x70BA;&#x4E00;&#x500B;audio service</p>
+<ul>
+<li><p>OSS sink&#x8868;&#x793A;&#x8F38;&#x51FA;&#x97F3;&#x6E90;&#x90E8;&#x5206;<br>&#x5F9E;PulseAudio&#x8981;&#x8F49;&#x5230;&#x8072;&#x97F3;&#x8A2D;&#x5099;&#x7684;&#x4ECB;&#x9762;</p>
+</li>
+<li><p>OSS source&#x8868;&#x793A;&#x8F38;&#x5165;&#x97F3;&#x6E90;&#x90E8;&#x5206;<br>&#x4EFB;&#x4F55;&#x9700;&#x8981;&#x9032;&#x5165;&#x5230;PulseAudio&#x7684;&#x8072;&#x97F3;&#xFF0C;&#x90FD;&#x6703;&#x7D93;&#x7531;source&#x4ECB;&#x9762;</p>
+</li>
+</ul>
+<img src="/2017/02/22/pulseaudio/sink-source.png" alt="[pulseaudio]" title="[pulseaudio]">
+</li>
+</ul>
+<ul>
+<li>PulseAudio&#x670D;&#x52D9;&#x8EDF;&#x9AD4;<ul>
+<li>&#x5C07;&#x4F86;&#x81EA;&#x5404;&#x500B;&#x4E0D;&#x540C;&#x7684;&#x97F3;&#x6E90;&#x8F49;&#x5230;&#x6B63;&#x78BA;&#x7684;&#x7A97;&#x53E3;</li>
+<li>&#x91DD;&#x5C0D;&#x4E0D;&#x540C;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x505A;&#x97F3;&#x91CF;&#x7684;&#x8ABF;&#x6574;</li>
+<li>&#x63A5;&#x53D7;&#x591A;&#x500B;&#x97F3;&#x6E90;&#x7684;&#x8F38;&#x5165;&#xFF08;source&#xFF09;&#x6216;&#x662F;&#x8F38;&#x51FA;&#xFF08;sink&#xFF09; </li>
+</ul>
+</li>
+</ul>
+<img src="/2017/02/22/pulseaudio/pulseaudio.png" alt="[pulseaudio]" title="[pulseaudio]">
+<a href="/2017/02/22/pulseaudio/SKNS00008_read.pdf" title="[&#x672C;&#x5730;&#x9023;&#x7D50;]">[&#x672C;&#x5730;&#x9023;&#x7D50;]</a>
+<h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><p>pactl&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x4F3A;&#x670D;&#x5668;&#x7684;&#x8A2D;&#x5B9A;&#x4EE5;&#x53CA;&#x914D;&#x7F6E;&#xFF0C;&#x4F46;pactl&#x50C5;&#x9650;&#x65BC;&#x4FB7;&#x9650;&#x7684;&#x7BC4;&#x570D;<br>&#x82E5;&#x8981;&#x5B8C;&#x6574;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5C31;&#x5FC5;&#x9808;&#x8981;&#x56DE;&#x6B78;&#x5230;&#x6700;&#x57FA;&#x672C;&#x7684;&#x6307;&#x4EE4;pacmd,&#x900F;&#x904E;pacmd&#x6307;&#x4EE4;<br>&#x624D;&#x53EF;&#x4EE5;&#x5B8C;&#x5168;&#x7684;&#x63A7;&#x5236;PulseAudio&#x7684;&#x670D;&#x52D9;&#x6838;&#x5FC3;&#x3002;</p>
+<ul>
+<li>&#x65BC;fedora24&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;&#x6307;&#x4EE4;<ul>
+<li><strong>pulseaudio</strong> - The PulseAudio Sound System </li>
+<li><strong>pactl</strong> - Control a running PulseAudio sound server </li>
+<li><strong>pacmd</strong> - Reconfigure a PulseAudio sound server during runtime </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>pactl info</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Server String: /tmp/pulse-9S2nAsoQttCY/native</span><br><span class="line">Library Protocol Version: 30</span><br><span class="line">Server Protocol Version: 30</span><br><span class="line">Is Local: yes</span><br><span class="line">Client Index: 8</span><br><span class="line">Tile Size: 65472</span><br><span class="line">User Name: root</span><br><span class="line">Host Name: localhost.localdomain</span><br><span class="line">Server Name: pulseaudio</span><br><span class="line">Server Version: 8.0</span><br><span class="line">Default Sample Specification: s16le 2ch 44100Hz</span><br><span class="line">Default Channel Map: front-left,front-right</span><br><span class="line">Default Sink: alsa_output.pci-0000_00_1f.3.iec958-stereo</span><br><span class="line">Default Source: alsa_input.pci-0000_00_1f.3.analog-stereo</span><br><span class="line">Cookie: fca1:256c</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pactl list<br>&#x67E5;&#x770B;&#x9031;&#x908A;&#xFF0C;&#x53EF;&#x77E5;&#x76EE;&#x524D;&#x53EA;&#x6709;1&#x500B;source</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Sink #0</span><br><span class="line">	State: RUNNING</span><br><span class="line">	Name: alsa_output.pci-0000_00_1f.3.iec958-stereo</span><br><span class="line">	Description: Built-in Audio Digital Stereo (IEC958)</span><br><span class="line">	Driver: module-alsa-card.c</span><br><span class="line">	Sample Specification: s16le 2ch 48000Hz</span><br><span class="line">	Channel Map: front-left,front-right</span><br><span class="line">	Owner Module: 6</span><br><span class="line">	Mute: yes</span><br><span class="line">	Volume: front-left: 65536 / 100% / 0.00 dB,   front-right: 65536 / 100% / 0.00 dB</span><br><span class="line">	        balance 0.00</span><br><span class="line">Base Volume: 65536 / 100% / 0.00 dB</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="alsa"><a href="#ALSA" class="headerlink" title="ALSA"></a>ALSA</h3><p>&#x4F86;&#x6E90;&#xFF1A;<a href="http://www.delightpress.com.tw/bookRead/SKNS00008_read.pdf" target="_blank" rel="external">PulseAudio</a></p>
+<ul>
+<li>ALSA: Advanced Linux Sound Architecture<br>1&#x500B;&#x8072;&#x97F3;&#x7684;&#x7D44;&#x7E54;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x5E0C;&#x671B;&#x6240;&#x6709;&#x8072;&#x97F3;&#x76F8;&#x95DC;&#x7684;&#x8A2D;&#x5099;&#x5EE0;&#x5546;&#x53EF;&#x4EE5;&#x9075;&#x5FAA;&#x4E00;&#x6A23;&#x7684;&#x6A19;&#x6E96;&#x4E4B;&#x524D;&#x6BD4;&#x8F03;&#x6709;&#x540D;&#x7684;&#x662F;OSS&#xFF0C;&#x73FE;&#x5728;&#x5927;&#x90E8;&#x5206;&#x90FD;&#x88AB;ALSA&#x53D6;&#x4EE3;<br>&#x5728;Linux&#x7684;&#x4E16;&#x754C;&#x4E2D;&#xFF0C;&#x8981;&#x8072;&#x97F3;&#x7684;&#x786C;&#x9AD4;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x64AD;&#x653E;&#xFF0C;&#x6700;&#x91CD;&#x8981;&#x7684;&#x5143;&#x4EF6;&#x5927;&#x6982;&#x5C31;&#x662F;ALSA&#xFF0C;&#x56E0;&#x70BA;&#x4E00;&#x822C;&#x786C;&#x9AD4;&#x7684;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#x6216;&#x662F;&#x4E00;&#x4E9B;&#x8072;&#x97F3;&#x76F8;&#x95DC;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#xFF0C;&#x90FD;&#x662F;&#x7531;ALSA&#x6240;&#x63D0;&#x4F9B;</li>
+</ul>
+<img src="/2017/02/22/pulseaudio/alsa.png" alt="[alsa]" title="[alsa]">
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://www.delightpress.com.tw/bookRead/SKNS00008_read.pdf" target="_blank" rel="external">pulseaudio </a></li>
+<li><a href="https://www.freedesktop.org/wiki/Software/PulseAudio/" target="_blank" rel="external">freedisktop PulseAudio</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/PulseAudio/Examples" target="_blank" rel="external">PulseAudio/Examples</a></li>
+<li><a href="http://unix.stackexchange.com/questions/65246/change-pulseaudio-input-output-from-shell" target="_blank" rel="external">Change PulseAudio Input/Output from Shell ? </a></li>
+<li><a href="http://askubuntu.com/questions/71863/how-to-change-pulseaudio-sink-with-pacmd-set-default-sink-during-playback" target="_blank" rel="external">How to change pulseaudio sink with &#x201C;pacmd set-default-sink&#x201D; during playback?</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+            <a href="/tags/pulseaudio/" rel="tag">#pulseaudio</a>
+          
+            <a href="/tags/audio/" rel="tag">#audio</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/ubus-scriptd/" rel="next" title="ubus-scriptd">
+                <i class="fa fa-chevron-left"></i> ubus-scriptd
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/01/write-hdd/" rel="prev" title="write-hdd">
+                write-hdd <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何設定輸出設備"><span class="nav-number">3.</span> <span class="nav-text">如何設定輸出設備</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pulseaudio"><span class="nav-number">3.1.</span> <span class="nav-text">Pulseaudio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#command"><span class="nav-number">3.2.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#alsa"><span class="nav-number">3.3.</span> <span class="nav-text">ALSA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">4.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/02/22/pulseaudio/';
+      var disqus_title = 'pulseaudio';
+      var disqus_url = 'http://yoursite.com/2017/02/22/pulseaudio/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

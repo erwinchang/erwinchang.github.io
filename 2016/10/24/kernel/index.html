@@ -1,0 +1,953 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,fedora,kernel,make," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="如何在本機make kernel driverdebug usb轉rs485">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kernel">
+<meta property="og:url" content="http://yoursite.com/2016/10/24/kernel/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="如何在本機make kernel driverdebug usb轉rs485">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kernel">
+<meta name="twitter:description" content="如何在本機make kernel driverdebug usb轉rs485">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> kernel | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                kernel
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T09:25:28+08:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/24/kernel/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/24/kernel/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/10/24/kernel/" class="leancloud_visitors" data-flag-title="kernel">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x5982;&#x4F55;&#x5728;&#x672C;&#x6A5F;make kernel driver<br>debug usb&#x8F49;rs485</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20161024</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+<tr>
+<td style="text-align:left">20161107</td>
+<td style="text-align:left">&#x65B0;&#x589E;:  <a href="#fedora_kernel">fedora_kernel</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#make-kernel">make kernel</a><ul>
+<li><a href="#&#x4E0B;&#x8F09;kernel">&#x4E0B;&#x8F09;kernel</a></li>
+</ul>
+</li>
+<li><a href="#build-fedora-kernel-building-a-kernel-from-the-source-rpm">build fedora kernel (Building a Kernel from the source RPM )</a><ul>
+<li><a href="#get-the-source">Get the Source</a></li>
+<li><a href="#copy-the-source-tree-and-generate-a-patch">Copy the Source Tree and Generate a Patch</a></li>
+<li><a href="#configure-kernel-options">Configure Kernel Options</a></li>
+<li><a href="#build-the-new-kernel">Build the New Kernel</a></li>
+</ul>
+</li>
+<li><a href="#building-a-kernel-from-the-exploded-git-trees">Building a kernel from the exploded git trees</a></li>
+<li><a href="#fedora_kernel">fedora_kernel</a></li>
+<li><a href="#ch341">ch341</a><ul>
+<li><a href="#usb-serial-driver">USB serial driver</a></li>
+<li><a href="#ch341ko">ch341.ko</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="make-kernel"><a href="#make_kernel" class="headerlink" title="make kernel"></a>make kernel</h2><h3 id="&#x4E0B;&#x8F09;kernel"><a href="#u4E0B_u8F09kernel" class="headerlink" title="&#x4E0B;&#x8F09;kernel"></a>&#x4E0B;&#x8F09;kernel</h3><ul>
+<li><p>apt-get<br><a href="https://www.kernel.org/pub/linux/kernel/" target="_blank" rel="external">kernel download</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get source linux-image-$(uname -r)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>make</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br><span class="line">make -j8 &gt; /dev/null</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="build-fedora-kernel-building-a-kernel-from-the-source-rpm"><a href="#build_fedora_kernel__28Building_a_Kernel_from_the_source_RPM__29" class="headerlink" title="build fedora kernel (Building a Kernel from the source RPM )"></a>build fedora kernel (Building a Kernel from the source RPM )</h2><ul>
+<li>uname -r<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[erwin@localhost BUILD]$ uname -r</span><br><span class="line">4.6.5-300.fc24.x86_64</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="get-the-source"><a href="#Get_the_Source" class="headerlink" title="Get the Source"></a>Get the Source</h3><p>If you&#x2019;ve never built an RPM before, prepare an RPM package-building environment in your (non-root) home directory by running the following command: </p>
+<ul>
+<li><p>rpmdev-setuptree<br>&#x5EFA;&#x7ACB;rpmbuild&#x76EE;&#x9304;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[erwin@localhost rpmbuild]$ tree</span><br><span class="line">.</span><br><span class="line">&#x251C;&#x2500;&#x2500; BUILD</span><br><span class="line">&#x251C;&#x2500;&#x2500; RPMS</span><br><span class="line">&#x251C;&#x2500;&#x2500; SOURCES</span><br><span class="line">&#x251C;&#x2500;&#x2500; SPECS</span><br><span class="line">&#x2514;&#x2500;&#x2500; SRPMS</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x4E0B;&#x8F09;kernel rpm source</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">koji download-build --arch=src kernel-$(uname -r)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5C07;rpm&#x89E3;&#x958B;<br>&#x5C07;&#x6703;&#x89E3;&#x5230; ${HOME}/rpmbuild/SOURCES &#x53CA; ${HOME}/rpmbuild/SPECS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh kernel-$(uname -r).src.rpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x89E3;&#x958B;&#x5167;&#x5BB9;&#x5982;&#x4E0B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[erwin@localhost rpmbuild]$ tree</span><br><span class="line">.</span><br><span class="line">&#x251C;&#x2500;&#x2500; BUILD</span><br><span class="line">&#x251C;&#x2500;&#x2500; RPMS</span><br><span class="line">&#x251C;&#x2500;&#x2500; SOURCES</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; 0001-drm-i915-Reorganize-WM-structs-unions-in-CRTC-state.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; 0002-drm-i915-Rename-s-skl_compute_pipe_wm-skl_build_pipe.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; 0003-drm-i915-gen9-Cache-plane-data-rates-in-CRTC-state.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; 0004-drm-i915-gen9-Allow-calculation-of-data-rate-for-in-.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; 0005-drm-i915-gen9-Store-plane-minimum-blocks-in-CRTC-wm-.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; 0006-drm-i915-Track-whether-an-atomic-transaction-changes.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; 0007-drm-i915-gen9-Allow-skl_allocate_pipe_ddb-to-operate.patch</span><br><span class="line">..</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; tcp-make-challenge-acks-less-predictable.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; tipc-fix-an-infoleak-in-tipc_nl_compat_link_dump.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; usb-phy-tegra-Add-38.4MHz-clock-table-entry.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; USB-usbfs-fix-potential-infoleak-in-devio.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; watchdog-Disable-watchdog-on-virtual-machines.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; x509.genkey</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; x86-Lock-down-IO-port-access-when-module-security-is.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x251C;&#x2500;&#x2500; x86-Restrict-MSR-access-when-module-loading-is-restr.patch</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x2514;&#x2500;&#x2500; xen-pciback-Don-t-disable-PCI_COMMAND-on-PCI-device-.patch</span><br><span class="line">&#x251C;&#x2500;&#x2500; SPECS</span><br><span class="line">&#x2502;&#xA0;&#xA0; &#x2514;&#x2500;&#x2500; kernel.spec</span><br><span class="line">&#x2514;&#x2500;&#x2500; SRPMS</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="copy-the-source-tree-and-generate-a-patch"><a href="#Copy_the_Source_Tree_and_Generate_a_Patch" class="headerlink" title="Copy the Source Tree and Generate a Patch"></a>Copy the Source Tree and Generate a Patch</h3><p>This step is for applying a patch to the kernel source. If a patch is not needed, proceed to &#x201C;Configure Kernel Options&#x201D;.<br>&#x6B64;&#x8655;&#x5EFA;&#x7ACB;new&#x53CA;orig&#x76EE;&#x9304;&#x662F;&#x70BA;&#x4E86;&#x7522;&#x751F;patch file</p>
+<h3 id="configure-kernel-options"><a href="#Configure_Kernel_Options" class="headerlink" title="Configure Kernel Options"></a>Configure Kernel Options</h3><ol>
+<li>cd ~/rpmbuild/BUILD/kernel-$ver.$fedver/linux-$ver.$subver.$fedver.$arch/</li>
+<li>cp /boot/xx.config .config</li>
+<li>Copy the config file to ~/rpmbuild/SOURCES/: <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp .config ~/rpmbuild/SOURCES/config-`uname -m`-generic</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="build-the-new-kernel"><a href="#Build_the_New_Kernel" class="headerlink" title="Build the New Kernel"></a>Build the New Kernel</h3><ul>
+<li>To specify that only a specific kernel should be built: <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpmbuild -bb --with &lt;option&gt; --target=`uname -m` kernel.spec</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="building-a-kernel-from-the-exploded-git-trees"><a href="#Building_a_kernel_from_the_exploded_git_trees" class="headerlink" title="Building a kernel from the exploded git trees"></a>Building a kernel from the exploded git trees</h2><p>&#x4E0B;&#x8F09;&#x4E4B;&#x5F8C;&#xFF0C;checkout&#x5230;&#x7279;&#x5B9A;&#x7248;&#x672C;&#xFF0C;build kernel&#x8DDF;&#x4E00;&#x822C;&#x7684;build&#x6CD5;&#x4E00;&#x6A23;</p>
+<ul>
+<li><p>git clone</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git://git.kernel.org/pub/scm/linux/kernel/git/jwboyer/fedora.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>git checkout</p>
+<figure class="highlight plain"><figcaption><span>checkout kernel-4.6.5-300.fc24</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>note</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Fedora keeps a git tree containing Fedora patches applied on top of the vanilla sources.</span><br><span class="line"></span><br><span class="line">$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/jwboyer/fedora.git</span><br><span class="line"></span><br><span class="line">$ git checkout -b my_branch kernel-4.7.4-200.fc24</span><br><span class="line"></span><br><span class="line">You can now build the kernel following regular kernel instructions. This tree is useful for generating patches that can be applied to the kernel.spec.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="fedora_kernel"><a href="#fedora_kernel" class="headerlink" title="fedora_kernel"></a>fedora_kernel</h2><p><a href="http://www.thegeekstuff.com/2013/06/compile-linux-kernel" target="_blank" rel="external">How to Compile Linux Kernel from Source to Build Custom Kernel</a></p>
+<ul>
+<li><p>&#x4E0B;&#x8F09;fedora kernel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git://git.kernel.org/pub/scm/linux/kernel/git/jwboyer/fedora.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>checkout &#x7279;&#x5B9A;&#x7248;&#x672C;<br>&#x4F9D;&#x64DA;uname -r&#x4F86;&#x6C7A;&#x5B9A;&#x8981;make&#x7248;&#x672C;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout kernel-4.6.5-300.fc24</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>make</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j8 &gt; /dev/null</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7522;&#x751F;vmlimuz<br>&#x7522;&#x751F;arch/x86/boot/bzImage(&#x5373;&#x8981;&#x66F4;&#x63DB;vmlimux)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[erwin@localhost fedora]$ make bzImage</span><br><span class="line">  CHK     include/config/kernel.release</span><br><span class="line">  CHK     include/generated/uapi/linux/version.h</span><br><span class="line">  CHK     include/generated/utsrelease.h</span><br><span class="line">  CHK     include/generated/bounds.h</span><br><span class="line">  CHK     include/generated/timeconst.h</span><br><span class="line">  CHK     include/generated/asm-offsets.h</span><br><span class="line">  CALL    scripts/checksyscalls.sh</span><br><span class="line">  DESCEND  objtool</span><br><span class="line">  CHK     include/generated/compile.h</span><br><span class="line">  CHK     include/generated/uapi/linux/version.h</span><br><span class="line">  TEST    posttest</span><br><span class="line">Succeed: decoded and checked 2123901 instructions</span><br><span class="line">  TEST    posttest</span><br><span class="line">arch/x86/tools/insn_sanity: Success: decoded and checked 1000000 random instructions with 0 errors (seed:0x300d2f0b)</span><br><span class="line">Kernel: arch/x86/boot/bzImage is ready  (#1)</span><br><span class="line">[erwin@localhost fedora]$</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x66F4;&#x65B0;/boot<br>make install<br>&#x6703;&#x5148;backup&#x539F;&#x672C;vmlinuz &#x53CA; System.map</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh ./arch/x86/boot/install.sh 4.6.5+ arch/x86/boot/bzImage System.map &quot;/boot&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="ch341"><a href="#ch341" class="headerlink" title="ch341"></a>ch341</h2><h3 id="usb-serial-driver"><a href="#USB_serial_driver" class="headerlink" title="USB serial driver"></a>USB serial driver</h3><ul>
+<li><a href="https://www.kernel.org/doc/Documentation/usb/usb-serial.txt" target="_blank" rel="external">USB serial driver</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Winchiphead CH341 Driver</span><br><span class="line"></span><br><span class="line">  This driver is for the Winchiphead CH341 USB-RS232 Converter. This chip</span><br><span class="line">  also implements an IEEE 1284 parallel port, I2C and SPI, but that is not</span><br><span class="line">  supported by the driver. The protocol was analyzed from the behaviour</span><br><span class="line">  of the Windows driver, no datasheet is available at present.</span><br><span class="line">  The manufacturer&apos;s website: http://www.winchiphead.com/.</span><br><span class="line">  For any questions or problems with this driver, please contact</span><br><span class="line">  frank@kingswood-consulting.co.uk.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="ch341ko"><a href="#ch341-ko" class="headerlink" title="ch341.ko"></a>ch341.ko</h3><ul>
+<li><p>lsmod<br>usbserial -&gt; ch341</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ lsmod | grep ch341</span><br><span class="line">ch341                  16384  0 </span><br><span class="line">usbserial              53248  2 ch341,ftdi_sio</span><br><span class="line"></span><br><span class="line">$ lsmod | grep usbserial</span><br><span class="line">usbserial              53248  2 ch341,ftdi_sio</span><br><span class="line"></span><br><span class="line">$ lsmod | grep ftdi_sio</span><br><span class="line">ftdi_sio               53248  0 </span><br><span class="line">usbserial              53248  2 ch341,ftdi_sio</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5148;&#x79FB;&#x9664;&#x539F;&#x672C;&#x7684;ch341.ko</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmmod ch341</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>install</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insmod ch341.ko</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
+<li><a href="https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel" target="_blank" rel="external">BuildYourOwnKernel </a></li>
+<li><a href="https://www.kernel.org/pub/linux/kernel/" target="_blank" rel="external">kernel download</a></li>
+<li><a href="http://culontseng.blogspot.tw/2015/03/ubuntu-1404-linux-kernel.html" target="_blank" rel="external">&#x5728;ubuntu 14.04 &#x7DE8;&#x8B6F; linux kernel </a></li>
+<li><p><a href="https://www.kernel.org/doc/Documentation/usb/usb-serial.txt" target="_blank" rel="external">USB serial driver</a></p>
+</li>
+<li><p>&#x5982;&#x4F55;build fedora kernel</p>
+<ul>
+<li><a href="https://fedoraproject.org/wiki/Building_a_custom_kernel/Source_RPM" target="_blank" rel="external">Building a custom kernel/Source RPM</a></li>
+<li><a href="https://wiki.centos.org/zh-tw/HowTos/SetupRpmBuildEnvironment" target="_blank" rel="external">&#x5728; CentOS &#x4E0B;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x5EFA;&#x7ACB; RPM &#x7684;&#x74B0;&#x5883;</a></li>
+<li><a href="https://fedoraproject.org/wiki/Building_a_custom_kernel" target="_blank" rel="external">Building a custom kernel</a></li>
+<li><a href="https://www.kernel.org/pub/linux/kernel/v4.x/" target="_blank" rel="external">linux kernel download</a></li>
+</ul>
+</li>
+<li><a href="http://www.thegeekstuff.com/2013/06/compile-linux-kernel" target="_blank" rel="external">How to Compile Linux Kernel from Source to Build Custom Kernel</a></li>
+<li><a href="http://www.linfo.org/vmlinuz.html" target="_blank" rel="external">vmlinuz Definition</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+            <a href="/tags/kernel/" rel="tag">#kernel</a>
+          
+            <a href="/tags/make/" rel="tag">#make</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/21/ptz/" rel="next" title="ptz">
+                <i class="fa fa-chevron-left"></i> ptz
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/24/usb/" rel="prev" title="usb">
+                usb <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#make-kernel"><span class="nav-number">3.</span> <span class="nav-text">make kernel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下載kernel"><span class="nav-number">3.1.</span> <span class="nav-text">下載kernel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-fedora-kernel-building-a-kernel-from-the-source-rpm"><span class="nav-number">4.</span> <span class="nav-text">build fedora kernel (Building a Kernel from the source RPM )</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#get-the-source"><span class="nav-number">4.1.</span> <span class="nav-text">Get the Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-the-source-tree-and-generate-a-patch"><span class="nav-number">4.2.</span> <span class="nav-text">Copy the Source Tree and Generate a Patch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-kernel-options"><span class="nav-number">4.3.</span> <span class="nav-text">Configure Kernel Options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build-the-new-kernel"><span class="nav-number">4.4.</span> <span class="nav-text">Build the New Kernel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#building-a-kernel-from-the-exploded-git-trees"><span class="nav-number">5.</span> <span class="nav-text">Building a kernel from the exploded git trees</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fedora_kernel"><span class="nav-number">6.</span> <span class="nav-text">fedora_kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ch341"><span class="nav-number">7.</span> <span class="nav-text">ch341</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#usb-serial-driver"><span class="nav-number">7.1.</span> <span class="nav-text">USB serial driver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ch341ko"><span class="nav-number">7.2.</span> <span class="nav-text">ch341.ko</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">8.</span> <span class="nav-text">參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/10/24/kernel/';
+      var disqus_title = 'kernel';
+      var disqus_url = 'http://yoursite.com/2016/10/24/kernel/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

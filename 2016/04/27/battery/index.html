@@ -1,0 +1,915 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="電池," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="電池datasheet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="battery">
+<meta property="og:url" content="http://yoursite.com/2016/04/27/battery/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="電池datasheet">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/rec-10-12-discharge-char.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/battery-rec12-10-discharge.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/battery-NCR18650B-discharge.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/battery-NCR18650B-discharge-temp.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/battery-NCR18650-discharge.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.211Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="battery">
+<meta name="twitter:description" content="電池datasheet">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/rec-10-12-discharge-char.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> battery | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                battery
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T11:05:06+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/材料/" itemprop="url" rel="index">
+                    <span itemprop="name">材料</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/27/battery/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/27/battery/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/04/27/battery/" class="leancloud_visitors" data-flag-title="battery">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x96FB;&#x6C60;datasheet</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160427</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x925B;&#x9178;&#x96FB;&#x6C60;&#x96FB;&#x6C60;">&#x925B;&#x9178;&#x96FB;&#x6C60;&#x96FB;&#x6C60;</a></li>
+<li><a href="#rec10-12-12v12a">REC10-12 (12V12A)</a></li>
+<li><a href="#&#x925B;&#x9178;&#x84C4;&#x96FB;&#x6C60;&#x4E3B;&#x8981;&#x7528;&#x9014;">&#x925B;&#x9178;&#x84C4;&#x96FB;&#x6C60;&#x4E3B;&#x8981;&#x7528;&#x9014;:</a></li>
+<li><a href="#&#x7D50;&#x8AD6;">&#x7D50;&#x8AD6;</a></li>
+<li><a href="#ncr18650b">NCR18650B</a><ul>
+<li><a href="#18650b">18650B</a></li>
+<li><a href="#18650">18650</a></li>
+</ul>
+</li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x925B;&#x9178;&#x96FB;&#x6C60;&#x96FB;&#x6C60;"><a href="#u925B_u9178_u96FB_u6C60_u96FB_u6C60" class="headerlink" title="&#x925B;&#x9178;&#x96FB;&#x6C60;&#x96FB;&#x6C60;"></a>&#x925B;&#x9178;&#x96FB;&#x6C60;&#x96FB;&#x6C60;</h2><ul>
+<li>&#x5BC6;&#x9589;&#x95A5;&#x8ABF;&#x5F0F;&#x514D;&#x7DAD;&#x8B77;&#x925B;&#x9178;&#x96FB;&#x6C60;(VRLA)<ul>
+<li>&#x4E0D;&#x6F0F;&#x6DB2;</li>
+<li>&#x514D;&#x52A0;&#x96FB;&#x89E3;&#x6DB2;</li>
+<li>&#x514D;&#x7DAD;&#x8B77;</li>
+</ul>
+</li>
+</ul>
+<h2 id="rec10-12-12v12a"><a href="#REC10-12__2812V12A_29" class="headerlink" title="REC10-12 (12V12A)"></a>REC10-12 (12V12A)</h2><ul>
+<li>REC10-12 <ul>
+<li>&#x5373;12V,10AH</li>
+<li>&#x4EE5;&#x8CA0;&#x8F09;1C (&#x5373;10A)&#xFF0C;12V&#x96FB;&#x58D3;&#x53EA;&#x80FD;&#x4FDD;&#x6301;10&#x5206;&#x9418; (&#x7531;&#x4E0B;&#x4F8B;&#x5716;&#x8868;&#x4E2D;1CA&#x66F2;&#x7DDA;&#x53EF;&#x770B;&#x51FA;)</li>
+<li>&#x7531;&#x8868;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#x7576;&#x8CA0;&#x8F09;&#x70BA;635W(&#x5373;58A)&#xFF0C;&#x53EA;&#x80FD;&#x7DAD;&#x6301;5&#x5206;</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/rec-10-12-discharge-char.png" alt="REC10-12" title="REC10-12"><br><a href="http://datasheet.octopart.com/REC10-12-Yuasa-datasheet-10855116.pdf" target="_blank" rel="external">&#x5716;&#x7247;&#x4F86;&#x6E90;</a></p>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/battery-rec12-10-discharge.png" alt="REC10-12" title="REC10-12"><br><a href="http://datasheet.octopart.com/REC10-12-Yuasa-datasheet-10855116.pdf" target="_blank" rel="external">&#x5716;&#x7247;&#x4F86;&#x6E90;</a></p>
+<h2 id="&#x925B;&#x9178;&#x84C4;&#x96FB;&#x6C60;&#x4E3B;&#x8981;&#x7528;&#x9014;"><a href="#u925B_u9178_u84C4_u96FB_u6C60_u4E3B_u8981_u7528_u9014_3A" class="headerlink" title="&#x925B;&#x9178;&#x84C4;&#x96FB;&#x6C60;&#x4E3B;&#x8981;&#x7528;&#x9014;:"></a>&#x925B;&#x9178;&#x84C4;&#x96FB;&#x6C60;&#x4E3B;&#x8981;&#x7528;&#x9014;:</h2><ul>
+<li>&#x925B;&#x9178;&#x84C4;&#x96FB;&#x6C60;,&#x4E3B;&#x8981;&#x7528;&#x5728;&#x8ECA;&#x5B50;&#x555F;&#x52D5;&#x9806;&#x9593;,&#x63D0;&#x4F9B;&#x7D66;&#x555F;&#x52D5;&#x99AC;&#x9054;&#x96FB;&#x6E90;&#xFF0C;&#x4E4B;&#x5F8C;&#x99AC;&#x4E0A;&#x53C8;&#x88AB;&#x5145;&#x96FB;</li>
+<li>&#x99AC;&#x9054;&#x555F;&#x52D5;&#x9806;&#x9593;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x5927;&#x96FB;&#x6D41;&#xFF0C;&#x56E0;&#x6B64;&#x96FB;&#x6C60;&#x9806;&#x9593;&#x96FB;&#x58D3;&#x6703;&#x5728;&#x555F;&#x52D5;&#x6642;&#xFF0C;&#x964D;&#x5230;8V&#x4EE5;&#x4E0B;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">12V10A = 120Wx 0.7(&#x8F49;&#x63DB;&#x6548;&#x7387;) x 0.96(4%&#x81EA;&#x653E;&#x96FB;&#x7387;) = 80W  -&gt; 1&#x5C0F;&#x6642;</span><br><span class="line">&#x4EE5;5&#x5206;&#x9418;&#x4F86;&#x63DB;&#x7B97;&#xFF0C;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B; 960W, &#x4F46;&#x4E0D;&#x53EF;&#x80FD;&#x76F4;&#x63A5;960W&#xFF0C;&#x53EF;&#x80FD;&#x96FB;&#x58D3;&#x592A;&#x4F4E;&#xFF0C;&#x4F7F;&#x5F97;&#x555F;&#x52D5;&#x99AC;&#x9054;&#x8D77;&#x4E0D;&#x4F86;</span><br></pre></td></tr></table></figure>
+<h2 id="&#x7D50;&#x8AD6;"><a href="#u7D50_u8AD6" class="headerlink" title="&#x7D50;&#x8AD6;"></a>&#x7D50;&#x8AD6;</h2><ul>
+<li>&#x7576;&#x61C9;&#x7528;&#x8F38;&#x5165;&#x96FB;&#x58D3;&#x4E0D;&#x53EF;&#x4EE5;&#x5C0F;&#x65BC;11V,&#x7531;&#x5716;&#x8868;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x8CA0;&#x8F09;&#x82E5;&#x70BA;1CA(&#x5373;10A,120W)&#xFF0C;&#x6B64;&#x6642;&#x53EA;&#x80FD;&#x4F7F;&#x7528;20&#x5206;&#x9418;&#x5DE6;&#x53F3;</li>
+<li>REC12-12 / REC12-10&#x9019;&#x985E;&#x96FB;&#x6C60;&#xFF0C;&#x53EA;&#x80FD;&#x62FF;&#x4F86;&#x4F5C;&#x6551;&#x63F4;&#x7528;&#xFF0C;&#x4E0D;&#x9069;&#x5408;&#x62FF;&#x4F86;&#x7576;DC-TO-AC&#x6E90;&#x982D;&#xFF0C;&#x56E0;&#x70BA;&#x7576;&#x8CA0;&#x8F09;&#x5927;&#x65BC;100W&#x4EE5;&#x4E0A;&#x53EF;&#x4EE5;&#x7528;&#x4E0D;&#x5230;30&#x5206;&#x9418;&#x5C31;&#x6C92;&#x96FB;</li>
+</ul>
+<h2 id="ncr18650b"><a href="#NCR18650B" class="headerlink" title="NCR18650B"></a>NCR18650B</h2><p>Panasonic NCR18650B / NCR18650</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">type</th>
+<th style="text-align:left">NCR18650B</th>
+<th style="text-align:left">NCR18650</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Reate Capacity</td>
+<td style="text-align:left">Min. 32000mAH</td>
+<td style="text-align:left">2700mAH</td>
+</tr>
+<tr>
+<td style="text-align:left">Nominal Capacity</td>
+<td style="text-align:left">Min. 3250mAH</td>
+<td style="text-align:left">2750mAH</td>
+</tr>
+<tr>
+<td style="text-align:left">Nominal Voltage</td>
+<td style="text-align:left">3.6V</td>
+<td style="text-align:left">3.6V</td>
+</tr>
+<tr>
+<td style="text-align:left">Volumetric Energy Density</td>
+<td style="text-align:left">676Wh/l</td>
+<td style="text-align:left">577Wh/l</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x82E5;&#x8F38;&#x51FA;&#x96FB;&#x58D3;&#x9700;&#x8981;12V(&#x7528;3&#x9846;)<ul>
+<li>&#x653E;&#x96FB;&#x96FB;&#x6D41;&#x4E0D;&#x53EF;&#x5927;&#x65BC;0.2It(&#x5373;3200mA * 0.2 = 640mA)&#xFF0C;</li>
+<li>&#x800C;&#x4E14;&#x653E;&#x96FB;&#x5BB9;&#x91CF;&#x4E0D;&#x53EF;&#x5927;&#x65BC;250mAh&#xFF0C;&#x4E0D;&#x7136;&#x55AE;&#x9846;&#x96FB;&#x58D3;&#x6703;&#x4E0B;&#x964D;&#x5230;4V&#x4EE5;&#x4E0B;(12V&#x4EE5;&#x4E0B;)</li>
+<li>&#x8003;&#x91CF;&#x8F38;&#x5165;&#x5C0F;&#x65BC;11V(DC-to-AC)&#xFF0C;&#x6B64;&#x6642;&#x55AE;&#x9846;&#x4E0D;&#x53EF;&#x5C0F;&#x65BC;3.6V</li>
+<li>1It(3250mA)&#x53EF;&#x63D0;&#x4F9B;1000mAH&#xFF0C;&#x5373;&#x9023;&#x7E8C;&#x653E;&#x96FB;1A&#x53EF;&#x4EE5;&#x7DAD;&#x6301;1&#x500B;&#x5C0F;&#x6642;,&#x8F38;&#x51FA;&#x4E0D;&#x6703;&#x5C0F;&#x65BC;11V</li>
+</ul>
+</li>
+</ul>
+<h3 id="18650b"><a href="#18650B" class="headerlink" title="18650B"></a>18650B</h3><p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/battery-NCR18650B-discharge.png" alt="NCR18650B" title="NCR18650B"></p>
+<p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/battery-NCR18650B-discharge-temp.png" alt="NCR18650B" title="NCR18650B"></p>
+<h3 id="18650"><a href="#18650" class="headerlink" title="18650"></a>18650</h3><p><img src="https://raw.githubusercontent.com/erwinchang/note/master/download/blog/battery-NCR18650-discharge.png" alt="NCR18650" title="NCR18650"></p>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://datasheet.octopart.com/REC10-12-Yuasa-datasheet-10855116.pdf" target="_blank" rel="external">REC10-12-Yuasa-datasheet</a></li>
+<li><a href="http://www.yuasa.com.tw/_chinese/01_products/03_detail_03.php?pid=3&amp;ppid=19&amp;pdid=7&amp;vd=48" target="_blank" rel="external">REC Type - REC10-12</a></li>
+<li><a href="https://tw.bid.yahoo.com/item/%E2%9C%9A%E4%B9%85%E5%A4%A7%E9%9B%BB%E6%B1%A0%E2%9D%9A-YUASA-%E6%B9%AF%E6%B7%BA%E9%9B%BB%E6%B1%A0-%E5%AF%86%E9%96%89%E9%9B%BB%E6%B1%A0-REC12-12-12V1-100025913185" target="_blank" rel="external">REC12-12 12V12AH &#x96FB;&#x52D5;&#x8ECA; &#x96FB;&#x52D5;&#x6A5F;&#x8ECA; &#x6551;&#x8ECA;&#x96FB;&#x6E90;</a></li>
+<li><a href="http://www.bsbpower.com/support_knowledge.html" target="_blank" rel="external">VRLA Battery General Knowledge</a></li>
+<li><a href="http://lygte-info.dk/review/batteries2012/Common18650comparator.php" target="_blank" rel="external">Battery test 18650, comparator</a></li>
+<li><a href="https://github.com/erwinchang/note/blob/master/download/blog/Panasonic-NCR18650B-2012datasheet.pdf" target="_blank" rel="external">NCR18650B datasheet</a></li>
+<li><a href="https://github.com/erwinchang/note/blob/master/download/blog/Panasonic-NCR18650-ACA4000CE240.pdf" target="_blank" rel="external">NCR18650 datasheet</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/電池/" rel="tag">#電池</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/27/storage-battery/" rel="next" title="storage_battery">
+                <i class="fa fa-chevron-left"></i> storage_battery
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/27/ad7995/" rel="prev" title="ad7995">
+                ad7995 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#鉛酸電池電池"><span class="nav-number">3.</span> <span class="nav-text">鉛酸電池電池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rec10-12-12v12a"><span class="nav-number">4.</span> <span class="nav-text">REC10-12 (12V12A)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#鉛酸蓄電池主要用途"><span class="nav-number">5.</span> <span class="nav-text">鉛酸蓄電池主要用途:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結論"><span class="nav-number">6.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ncr18650b"><span class="nav-number">7.</span> <span class="nav-text">NCR18650B</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#18650b"><span class="nav-number">7.1.</span> <span class="nav-text">18650B</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18650"><span class="nav-number">7.2.</span> <span class="nav-text">18650</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">8.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/04/27/battery/';
+      var disqus_title = 'battery';
+      var disqus_url = 'http://yoursite.com/2016/04/27/battery/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

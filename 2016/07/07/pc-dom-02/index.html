@@ -1,0 +1,1019 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="實作隨筆,fedora,dom," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本篇記錄如何建立啟動軟体及修改一些開機設定還有記錄一些不了解地方待查明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pc-dom-02">
+<meta property="og:url" content="http://yoursite.com/2016/07/07/pc-dom-02/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="本篇記錄如何建立啟動軟体及修改一些開機設定還有記錄一些不了解地方待查明">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.371Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pc-dom-02">
+<meta name="twitter:description" content="本篇記錄如何建立啟動軟体及修改一些開機設定還有記錄一些不了解地方待查明">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> pc-dom-02 | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pc-dom-02
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-07-07T10:48:11+08:00" content="2016-07-07">
+              2016-07-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2016/07/07/pc-dom-02/" class="leancloud_visitors" data-flag-title="pc-dom-02">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x672C;&#x7BC7;&#x8A18;&#x9304;&#x5982;&#x4F55;&#x5EFA;&#x7ACB;&#x555F;&#x52D5;&#x8EDF;&#x4F53;&#x53CA;&#x4FEE;&#x6539;&#x4E00;&#x4E9B;&#x958B;&#x6A5F;&#x8A2D;&#x5B9A;<br>&#x9084;&#x6709;&#x8A18;&#x9304;&#x4E00;&#x4E9B;&#x4E0D;&#x4E86;&#x89E3;&#x5730;&#x65B9;&#x5F85;&#x67E5;&#x660E;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20160825</td>
+<td style="text-align:left">&#x65B0;&#x589E;: rundvr.sh&#x76F8;&#x95DC;&#x5167;&#x5BB9;</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">&#x65B0;&#x589E;: modprobe pcspkr</td>
+</tr>
+<tr>
+<td style="text-align:left">20160826</td>
+<td style="text-align:left">&#x65B0;&#x589E;: &#x5982;&#x4F55;&#x88C1;&#x5207;fedora24&#x7A7A;&#x9593;</td>
+</tr>
+<tr>
+<td style="text-align:left">20160905</td>
+<td style="text-align:left">&#x65B0;&#x589E;: &#x66F4;&#x65B0;&#x7A0B;&#x5E8F;</td>
+</tr>
+<tr>
+<td style="text-align:left">20161205</td>
+<td style="text-align:left">&#x65B0;&#x589E;: &#x589E;&#x52A0;dom rootfs&#x7A7A;&#x9593;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#&#x958B;&#x767C;&#x74B0;&#x5883;os-&#x904E;&#x7A0B;">&#x958B;&#x767C;&#x74B0;&#x5883;OS &#x904E;&#x7A0B;</a><ul>
+<li><a href="#&#x5EFA;&#x7ACB;&#x958B;&#x767C;&#x8EDF;&#x4F53;&#x74B0;&#x5883;">&#x5EFA;&#x7ACB;&#x958B;&#x767C;&#x8EDF;&#x4F53;&#x74B0;&#x5883;</a></li>
+<li><a href="#&#x5EFA;&#x7ACB;dom&#x8EDF;&#x4F53;&#x57F7;&#x884C;&#x74B0;&#x5883;">&#x5EFA;&#x7ACB;DOM&#x8EDF;&#x4F53;&#x57F7;&#x884C;&#x74B0;&#x5883;</a></li>
+<li><a href="#&#x4FEE;&#x6539;dom-rootfs&#x5167;&#x5BB9;">&#x4FEE;&#x6539;dom-rootfs&#x5167;&#x5BB9;</a></li>
+<li><a href="#nvrtargz-&#x5167;&#x5BB9;">nvr.tar.gz &#x5167;&#x5BB9;</a></li>
+<li><a href="#rundvrsh">rundvr.sh</a></li>
+</ul>
+</li>
+<li><a href="#&#x5982;&#x4F55;&#x88C1;&#x5207;fedora24&#x7A7A;&#x9593;">&#x5982;&#x4F55;&#x88C1;&#x5207;fedora24&#x7A7A;&#x9593;</a><ul>
+<li><a href="#&#x4F55;&#x70BA;packagekit">&#x4F55;&#x70BA;PackageKit</a></li>
+<li><a href="#&#x7531;cache&#x6E05;&#x9664;&#x7A7A;&#x9593;">&#x7531;cache&#x6E05;&#x9664;&#x7A7A;&#x9593;</a></li>
+</ul>
+</li>
+<li><a href="#&#x555F;&#x52D5;&#x7A0B;&#x5E8F;">&#x555F;&#x52D5;&#x7A0B;&#x5E8F;</a></li>
+<li><a href="#&#x66F4;&#x65B0;&#x7A0B;&#x5E8F;">&#x66F4;&#x65B0;&#x7A0B;&#x5E8F;</a><ul>
+<li><a href="#combobox_update_disk_onchanged">combobox_update_disk_onchanged</a></li>
+<li><a href="#find_usb_disk">find_usb_disk</a></li>
+</ul>
+</li>
+<li><a href="#&#x589E;&#x52A0;dom-rootfs&#x7A7A;&#x9593;">&#x589E;&#x52A0;dom rootfs&#x7A7A;&#x9593;</a></li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="&#x958B;&#x767C;&#x74B0;&#x5883;os-&#x904E;&#x7A0B;"><a href="#u958B_u767C_u74B0_u5883OS__u904E_u7A0B" class="headerlink" title="&#x958B;&#x767C;&#x74B0;&#x5883;OS &#x904E;&#x7A0B;"></a>&#x958B;&#x767C;&#x74B0;&#x5883;OS &#x904E;&#x7A0B;</h2><h3 id="&#x5EFA;&#x7ACB;&#x958B;&#x767C;&#x8EDF;&#x4F53;&#x74B0;&#x5883;"><a href="#u5EFA_u7ACB_u958B_u767C_u8EDF_u4F53_u74B0_u5883" class="headerlink" title="&#x5EFA;&#x7ACB;&#x958B;&#x767C;&#x8EDF;&#x4F53;&#x74B0;&#x5883;"></a>&#x5EFA;&#x7ACB;&#x958B;&#x767C;&#x8EDF;&#x4F53;&#x74B0;&#x5883;</h3><ul>
+<li>&#x5207;&#x63DB;root (&#x76F4;&#x63A5;&#x4F7F;&#x7528;root&#x767B;&#x5165;)</li>
+<li>&#x5B89;&#x88DD;&#x958B;&#x767C;&#x9700;&#x8981;&#x5DE5;&#x5177;<ul>
+<li>dnf install libX11*</li>
+<li>dnf install libXv*</li>
+<li>dnf install gtk2*</li>
+<li>dnf install libjpeg-turbo*</li>
+<li>dnf install alsa-lib-devel  </li>
+<li>&#x5B89;&#x88DD;ffmpeg (./configure &amp; make &amp; make install)</li>
+</ul>
+</li>
+</ul>
+<h3 id="&#x5EFA;&#x7ACB;dom&#x8EDF;&#x4F53;&#x57F7;&#x884C;&#x74B0;&#x5883;"><a href="#u5EFA_u7ACBDOM_u8EDF_u4F53_u57F7_u884C_u74B0_u5883" class="headerlink" title="&#x5EFA;&#x7ACB;DOM&#x8EDF;&#x4F53;&#x57F7;&#x884C;&#x74B0;&#x5883;"></a>&#x5EFA;&#x7ACB;DOM&#x8EDF;&#x4F53;&#x57F7;&#x884C;&#x74B0;&#x5883;</h3><ul>
+<li>&#x5B89;&#x88DD;&#x9700;&#x8981;&#x5DE5;&#x5177;<ul>
+<li>dom&#x88E1;&#x9762;&#x7684;&#x5DE5;&#x5177;&#x4EE5;&#x6700;&#x5C0F;&#x5B89;&#x88DD;&#x70BA;&#x4E3B;&#xFF0C;&#x9019;&#x6A23;&#x5B50;&#x4F54;&#x7684;&#x7A7A;&#x9593;&#x624D;&#x6703;&#x5C0F;</li>
+<li>dnf install libX11*</li>
+<li>dnf install libXv*</li>
+<li>dnf install gtk2-devel</li>
+<li>dnf install libjpeg-turbo-devel</li>
+<li>dnf install gcc </li>
+<li>&#x5B89;&#x88DD;&#x5176;&#x5B83;&#x5DE5;&#x5177;: sendmail, lynx, hdparm, smartctl</li>
+</ul>
+</li>
+</ul>
+<h3 id="&#x4FEE;&#x6539;dom-rootfs&#x5167;&#x5BB9;"><a href="#u4FEE_u6539dom-rootfs_u5167_u5BB9" class="headerlink" title="&#x4FEE;&#x6539;dom-rootfs&#x5167;&#x5BB9;"></a>&#x4FEE;&#x6539;dom-rootfs&#x5167;&#x5BB9;</h3><ul>
+<li><p>&#x4F7F;&#x7528;&#x5DF2;&#x5EFA;&#x7ACB;&#x7684;STAT-DOM&#x555F;&#x52D5;&#xFF0C;&#x4E26;&#x4E14;&#x4FEE;&#x6539;&#x76F8;&#x95DC;&#x5167;&#x5BB9;</p>
+</li>
+<li><p>&#x65B0;&#x589E;&#x4E0B;&#x4F8B;&#x6A94;&#x6848;</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">file</th>
+<th style="text-align:left">descript</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">/dominfo.txt</td>
+<td style="text-align:left">&#x8A2D;&#x5B9A;&#x8EDF;&#x4F53;&#x7A0B;&#x5F0F;&#x7248;&#x672C;</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/lib/limit</td>
+<td style="text-align:left">&#x8A2D;&#x5B9A;&#x9650;&#x5236;&#x6700;&#x5927;ch</td>
+</tr>
+<tr>
+<td style="text-align:left">/etc/rc.d/rc.local</td>
+<td style="text-align:left">&#x589E;&#x52A0;&#x81EA;&#x5B9A;&#x7684;&#x958B;&#x6A5F;&#x57F7;&#x884C;&#x5167;&#x5BB9;</td>
+</tr>
+<tr>
+<td style="text-align:left">/nvr.tar.gz</td>
+<td style="text-align:left">&#x76EE;&#x524D;&#x4F7F;&#x7528;source&#x76F4;&#x63A5;make&#x4E4B;&#x5F8C;&#x518D;&#x6253;&#x5305;&#x70BA;nvr.tar.gz</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>rc.local<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">service smb start</span><br><span class="line">service sshd start</span><br><span class="line"></span><br><span class="line">rm -rf /mnt/*</span><br><span class="line">mount -t tmpfs tmpfs /disks</span><br><span class="line"><span class="built_in">cd</span> /disks&amp;&amp;mkdir -p {1..24} tmp</span><br><span class="line">tar xvf /nvr.tar.gz</span><br><span class="line"><span class="built_in">cd</span> /disks/nvr</span><br><span class="line">sleep 3s</span><br><span class="line">xinit ./rundvr.sh</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x8AAA;&#x660E;</p>
+<ul>
+<li>&#x5728;GNOME&#x4E0B;&#xFF0C;&#x53EF;&#x76F4;&#x63A5;&#x4F7F;&#x7528;./nvr&#x5E36;&#x8D77;</li>
+<li>&#x82E5;&#x5728;terminal&#x4E0B;&#x9700;&#x8981;&#x4F7F;&#x7528;xinit nvr&#x5E36;&#x8D77;</li>
+<li>xinit - X Window System initializer</li>
+<li>&#x65B0;&#x589E;&#x4E0B;&#x4F8B;&#x76EE;&#x9304;<ul>
+<li>mkdir /disks</li>
+<li>mkdir /disks/tmp</li>
+<li>mkdir /disks/picture</li>
+</ul>
+</li>
+</ul>
+<h3 id="nvrtargz-&#x5167;&#x5BB9;"><a href="#nvr-tar-gz__u5167_u5BB9" class="headerlink" title="nvr.tar.gz &#x5167;&#x5BB9;"></a>nvr.tar.gz &#x5167;&#x5BB9;</h3><ul>
+<li>&#x8A2D;&#x5B9A;&#x958B;&#x6A5F;&#x555F;&#x52D5;&#x81F3;&#x6587;&#x5B57;&#x6A21;&#x5F0F;&#xFF08;runlevel 3&#xFF09;<ul>
+<li>systemctl set-default multi-user.target </li>
+</ul>
+</li>
+</ul>
+<h3 id="rundvrsh"><a href="#rundvr-sh" class="headerlink" title="rundvr.sh"></a>rundvr.sh</h3><ul>
+<li>&#x7576;nvr&#x96E2;&#x958B;&#x6642;&#x624D;&#x6703;&#x57F7;&#x884C;&#x4E0B;&#x4F8B;<ul>
+<li>poweroff</li>
+<li>reboot</li>
+</ul>
+</li>
+<li>rundvr &#x7A0B;&#x5E8F;<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">ibus-daemon&amp;</span><br><span class="line">imsettings-start</span><br><span class="line">modprobe pcspkr</span><br><span class="line">xset s 0</span><br><span class="line">xset -dpms</span><br><span class="line"></span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"><span class="comment">#service iptables stop</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#export XMODIFIERS=@im=SCIM</span></span><br><span class="line"><span class="comment">#export GTK_IM_MODULE=&quot;scim&quot;</span></span><br><span class="line"><span class="comment">#scim -d</span></span><br><span class="line"><span class="built_in">cd</span> /nvr &gt; /disk/nvr.log</span><br><span class="line"><span class="comment">#insmod r8168.ko</span></span><br><span class="line"><span class="comment">#thttpd -p 80 -d /disks/nvr/web -u root &amp;</span></span><br><span class="line"><span class="comment">#./thttpd/thttpd -p 80 -C thttpd/thttpd.conf -u root &amp;</span></span><br><span class="line">./mkmountpoints.sh</span><br><span class="line">./ipserver&amp;</span><br><span class="line">./watchdog.sh &amp;</span><br><span class="line">./nvr</span><br><span class="line"><span class="keyword">if</span> [ -f /disks/tmp/poweroff.flag ] ; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot; `date` ---333--power off&quot;</span>&gt;&gt;/disks/1/run.log</span><br><span class="line">/sbin/poweroff</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot; `date` ---333--reboot&quot;</span>&gt;&gt;/disks/1/run.log</span><br><span class="line">/sbin/reboot</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>&#x8AAA;&#x660E;:</strong></p>
+<ul>
+<li>imsettings-start:  &#x82F1;&#x6587;&#x8F93;&#x5165;&#x6CD5;&#x91CC;&#x4E0D;&#x8981;&#x5F00;&#x542F;&#xFF0C;&#x82E5;&#x8981;&#x4F7F;&#x7528;&#x4E2D;&#x6587;&#x8F93;&#x5165;&#x6CD5;&#x5C31;&#x5F00;&#x542F;? (&#x4E0D;&#x4E86;&#x89E3;&#x5730;&#x65B9;)<ul>
+<li>IMSettings is a framework that delivers Input Method settings and applies the changes immediately</li>
+<li><a href="https://fedorahosted.org/im-chooser/wiki/IMSettings" target="_blank" rel="external">IMSettings: Delivery framework for general Input Method configuration</a></li>
+</ul>
+</li>
+<li>&#x958B;&#x555F;pc &#x55F6;&#x55F6; (beep)<ul>
+<li>modprobe pcspkr<br>&#x76EE;&#x524D;&#x4F7F;&#x7528;lsmod | grep pcspkr&#xFF0C;&#x7121;&#x627E;&#x5230;&#x5230;&#x76F8;&#x95DC;&#x7684;ko&#x8F09;&#x5165;<br>&#x9700;&#x8981;&#x5148; dnf install beep&#xFF0C;&#x4E4B;&#x5F8C;&#x518D; modprobe pcspkr&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;</li>
+</ul>
+</li>
+<li>xset<br>xset - user preference utility for X<ul>
+<li>s: The  s  option  lets you set the screen saver parameters. </li>
+<li>-dpms: The  dpms option allows the DPMS (Energy Star) parameters to be set.</li>
+</ul>
+</li>
+</ul>
+<p><strong>&#x8A18;&#x9304;:</strong></p>
+<ul>
+<li>&#x7531;&#x65BC;&#x7CFB;&#x7D71;&#x7B2C;&#x4E00;&#x6B21;&#x662F;&#x7121;/config&#xFF0C;&#x56E0;&#x6B64;&#x5E36;&#x8D77;nvr&#x4E4B;&#x524D;&#x6703;&#x7576;&#x6A5F;&#xFF0C;&#x91CD;&#x6A5F;&#x4E4B;&#x5F8C;&#x518D;&#x5E36;&#x4E00;&#x6B21;nvr&#x5373;&#x6B63;&#x5E38;</li>
+</ul>
+<hr>
+<h2 id="&#x5982;&#x4F55;&#x88C1;&#x5207;fedora24&#x7A7A;&#x9593;"><a href="#u5982_u4F55_u88C1_u5207fedora24_u7A7A_u9593" class="headerlink" title="&#x5982;&#x4F55;&#x88C1;&#x5207;fedora24&#x7A7A;&#x9593;"></a>&#x5982;&#x4F55;&#x88C1;&#x5207;fedora24&#x7A7A;&#x9593;</h2><h3 id="&#x4F55;&#x70BA;packagekit"><a href="#u4F55_u70BAPackageKit" class="headerlink" title="&#x4F55;&#x70BA;PackageKit"></a>&#x4F55;&#x70BA;PackageKit</h3><ul>
+<li><a href="https://zh.wikipedia.org/wiki/PackageKit" target="_blank" rel="external">PackageKit Wiki</a><ul>
+<li>PackageKit &#x662F;&#x4E00;&#x500B;&#x81EA;&#x7531;&#x4E14;&#x958B;&#x6E90;&#x7684;&#x5E94;&#x7528;&#x8F6F;&#x4EF6;&#x5957;&#x88DD;&#xFF0C;&#x65E8;&#x5728;&#x70BA;&#x591A;&#x7A2E;&#x4E0D;&#x540C;&#x7684;&#x8F6F;&#x4EF6;&#x5305;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x63D0;&#x4F9B;&#x4E00;&#x500B;&#x4E00;&#x81F4;&#x7684;&#x9AD8;&#x968E;&#x524D;&#x7AEF;</li>
+<li>PackageKit itself runs as a system-activated daemon, packagekitd</li>
+<li>pkcon &#x4F9B;&#x547D;&#x4EE4;&#x884C;&#x754C;&#x9762;&#x4F7F;&#x7528;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<h3 id="&#x7531;cache&#x6E05;&#x9664;&#x7A7A;&#x9593;"><a href="#u7531cache_u6E05_u9664_u7A7A_u9593" class="headerlink" title="&#x7531;cache&#x6E05;&#x9664;&#x7A7A;&#x9593;"></a>&#x7531;cache&#x6E05;&#x9664;&#x7A7A;&#x9593;</h3><ul>
+<li><p>&#x95DC;&#x9589;package keep cache<br>&#x9810;&#x8A2D;&#x7684;keep the package cache&#x662F;&#x88AB;&#x6253;&#x958B;&#x7684;<br>&#x4FEE;&#x6539;/etc/PackageKit/PackageKit.conf&#xFF0C;&#x5C07;KeepCache&#x8A2D;&#x5B9A;&#x70BA;false</p>
+</li>
+<li><p>&#x4F7F;&#x7528;pkcon&#x6E05;&#x9664;package cahche<br><a href="http://unix.stackexchange.com/questions/265755/fedora-23-can-i-safely-delete-files-in-var-cache-packagekit-metadata-updates" target="_blank" rel="external">Fedora 23 &#x2014; Can I safely delete files in /var/cache/PackageKit/metadata/updates/packages</a><br><strong>&#x6307;&#x4EE4;&#xFF1A;pkcon refresh force -c -1</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost cache]<span class="comment"># pkcon refresh force -c -1</span></span><br><span class="line">Refreshing cache              [=========================]         </span><br><span class="line">Downloading repository information[=========================]         </span><br><span class="line">Loading cache                 [=========================]         </span><br><span class="line">Downloading repository information[=========================]         </span><br><span class="line">Loading cache                 [=========================]         </span><br><span class="line">Downloading repository information[=================        ] (68%)  </span><br><span class="line">                                  [=========================]         </span><br><span class="line">Loading cache                 [=========================]         </span><br><span class="line">Finished                      [=========================]         </span><br><span class="line">[root@localhost cache]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x672A;&#x8A2D;&#x5B9A;&#x524D;<br>/ &#x4F7F;&#x7528;96%(&#x5269;&#x4E0B; 160M&#x7A7A;&#x9593;)<br>/var/cache/PackageKit&#x4F54;&#x4E86; 371M -&gt;&#x9019;&#x500B;&#x53EF;&#x4EE5;&#x5728;&#x7A7A;&#x51FA;&#x4F86;<br>&#x6B64;&#x6642;&#x4F7F;&#x7528;dnf clean all&#xFF0C;&#x5DF2;&#x7121;&#x6CD5;&#x5728;&#x7531;cache&#x7A7A;&#x51FA;&#x7A7A;&#x9593;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# df -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">devtmpfs        1.9G     0  1.9G   0% /dev</span><br><span class="line">tmpfs           1.9G  316K  1.9G   1% /dev/shm</span><br><span class="line">tmpfs           1.9G  9.6M  1.9G   1% /run</span><br><span class="line">tmpfs           1.9G     0  1.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sdb2       3.5G  3.2G  160M  96% /</span><br><span class="line">tmpfs           1.9G   56K  1.9G   1% /tmp</span><br><span class="line">/dev/sdb1       120M   42M   70M  37% /boot</span><br><span class="line">tmpfs           1.9G   66M  1.9G   4% /disks</span><br><span class="line">tmpfs           384M   16K  384M   1% /run/user/42</span><br><span class="line">tmpfs           384M   12K  384M   1% /run/user/0</span><br><span class="line"></span><br><span class="line">[root@localhost cache]# du -h --max-depth=1</span><br><span class="line">xx</span><br><span class="line">371M	./PackageKit</span><br><span class="line">4.0K	./foomatic</span><br><span class="line">4.0K	./krb5rcache</span><br><span class="line">36K	./libvirt</span><br><span class="line">72K	./ldconfig</span><br><span class="line">424K	./man</span><br><span class="line">380M	.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x8A2D;&#x5B9A;&#x5F8C;<br>package cache&#x7531;371M&#x8B8A;&#x6210;131M&#xFF0C;&#x5C11;&#x4E86;&#x7D04;2xxM</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost cache]# df -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">devtmpfs        1.9G     0  1.9G   0% /dev</span><br><span class="line">tmpfs           1.9G  712K  1.9G   1% /dev/shm</span><br><span class="line">tmpfs           1.9G  9.6M  1.9G   1% /run</span><br><span class="line">tmpfs           1.9G     0  1.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sdb2       3.5G  3.1G  248M  93% /</span><br><span class="line">tmpfs           1.9G   60K  1.9G   1% /tmp</span><br><span class="line">/dev/sdb1       120M   42M   70M  37% /boot</span><br><span class="line">tmpfs           1.9G   66M  1.9G   4% /disks</span><br><span class="line">tmpfs           384M   16K  384M   1% /run/user/42</span><br><span class="line">tmpfs           384M   20K  384M   1% /run/user/0</span><br><span class="line">tmpfs           384M  4.0K  384M   1% /run/user/984</span><br><span class="line">[root@localhost cache]# du -hx --max-depth=1</span><br><span class="line">xx</span><br><span class="line">131M	./PackageKit</span><br><span class="line">xx</span><br><span class="line">138M	.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x555F;&#x52D5;&#x7A0B;&#x5E8F;"><a href="#u555F_u52D5_u7A0B_u5E8F" class="headerlink" title="&#x555F;&#x52D5;&#x7A0B;&#x5E8F;"></a>&#x555F;&#x52D5;&#x7A0B;&#x5E8F;</h2><ul>
+<li><p>/proc/sys/vm/overcommit_memory<br><a href="https://access.redhat.com/documentation/zh-TW/Red_Hat_Enterprise_Linux/6/html/Performance_Tuning_Guide/s-memory-captun.html" target="_blank" rel="external">5.4. &#x5FAE;&#x8ABF;&#x8655;&#x7406;&#x80FD;&#x529B;</a><br>echo 1 &gt; /proc/sys/vm/overcommit_memory</p>
+<ul>
+<li>0 &#x2014; &#x9810;&#x8A2D;&#x8A2D;&#x5B9A;&#x3002;<br>kernel &#x6703;&#x9032;&#x884C;&#x63A2;&#x7D22;&#x5F0F;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x904E;&#x5EA6;&#x5BEB;&#x5165;&#x8655;&#x7406;&#xFF0C;&#x65B9;&#x6CD5;&#x662F;&#x9810;&#x6E2C;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x53EF;&#x7528;&#x91CF;&#x3001;&#x4E26;&#x8B93;&#x516C;&#x7136;&#x9055;&#x898F;&#x7684;&#x9700;&#x6C42;&#x5931;&#x6557;.<br>&#x4E0D;&#x5E78;&#x7684;&#x662F;&#xFF0C;&#x56E0;&#x70BA;&#x8A18;&#x61B6;&#x9AD4;&#x662F;&#x4EE5;&#x63A2;&#x7D22;&#x5F0F;&#x3001;&#x800C;&#x975E;&#x7CBE;&#x6E96;&#x7684;&#x6F14;&#x7B97;&#x6CD5;&#x5247;&#x4F86;&#x5206;&#x914D;&#xFF0C;&#x56E0;&#x6B64;&#x9019;&#x8A2D;&#x5B9A;&#x6709;&#x6642;&#x6703;&#x904E;&#x5EA6;&#x4F7F;&#x7528;&#x7CFB;&#x7D71;&#x4E0A;&#x7684;&#x53EF;&#x7528;&#x8A18;&#x61B6;&#x9AD4;</li>
+<li>1 &#x2014; kernel &#x4E0D;&#x9032;&#x884C;&#x8A18;&#x61B6;&#x9AD4;&#x904E;&#x5EA6;&#x5BEB;&#x5165;&#x8655;&#x7406;.<br>&#x5728;&#x6B64;&#x8A2D;&#x5B9A;&#x4E0B;&#xFF0C;&#x904E;&#x5EA6;&#x4F7F;&#x7528;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x6A5F;&#x6703;&#x6703;&#x589E;&#x52A0;&#xFF0C;&#x4F46;&#x5C0D;&#x65BC;&#x983B;&#x7E41;&#x5B58;&#x53D6;&#x8A18;&#x61B6;&#x9AD4;&#x7684;&#x4EFB;&#x52D9;&#x4F86;&#x8AAA;&#xFF0C;&#x6548;&#x80FD;&#x4E5F;&#x6703;&#x589E;&#x52A0;&#x3002; </li>
+</ul>
+</li>
+<li><p>SIGPIPE&#x8A0A;&#x865F;<br>signal(SIGPIPE,SIG_IGN);<br>&#x82E5;socket&#x5DF2;&#x8ABF;&#x7528;clos&#xFF0C;&#x6B64;&#x6642;&#x518D;&#x7528;write&#x7A0B;&#x5F0F;&#x5C07;&#x6703;&#x6536;&#x5230;SIGPIPE&#x8A0A;&#x865F;&#xFF0C;&#x4F7F;&#x7528;&#x7A0B;&#x5F0F;&#x9000;&#x51FA;<br>&#x70BA;&#x4E86;&#x9632;&#x6B62;&#x7A0B;&#x5F0F;&#x9000;&#x51FA;&#xFF0C;&#x6B64;&#x6642;&#x53EF;&#x4EE5;&#x8A2D;&#x5B9A;signal(SIGPIPE,SIG_IGN)<br><a href="http://www.360doc.com/content/11/0604/09/4363353_121584610.shtml" target="_blank" rel="external">&#x95DC;&#x65BC;SIGPIP&#x8A0A;&#x865F;</a><br><a href="http://blog.chinaunix.net/uid-20775448-id-3492910.html" target="_blank" rel="external">signal(SIGCHLD, SIG_IGN)</a>]</p>
+<blockquote><p>TCP&#x662F;&#x5168;&#x53CC;&#x5DE5;&#x7684;&#x4FE1;&#x9053;, &#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x4E24;&#x6761;&#x5355;&#x5DE5;&#x4FE1;&#x9053;, TCP&#x8FDE;&#x63A5;&#x4E24;&#x7AEF;&#x7684;&#x4E24;&#x4E2A;&#x7AEF;&#x70B9;&#x5404;&#x8D1F;&#x8D23;&#x4E00;&#x6761;. &#x5F53;&#x5BF9;&#x7AEF;&#x8C03;&#x7528;close&#x65F6;, &#x867D;&#x7136;&#x672C;&#x610F;&#x662F;&#x5173;&#x95ED;&#x6574;&#x4E2A;&#x4E24;&#x6761;&#x4FE1;&#x9053;,&#x4F46;&#x672C;&#x7AEF;&#x53EA;&#x662F;&#x6536;&#x5230;FIN&#x5305;. &#x6309;&#x7167;TCP&#x534F;&#x8BAE;&#x7684;&#x8BED;&#x4E49;, &#x8868;&#x793A;&#x5BF9;&#x7AEF;&#x53EA;&#x662F;&#x5173;&#x95ED;&#x4E86;&#x5176;&#x6240;&#x8D1F;&#x8D23;&#x7684;&#x90A3;&#x4E00;&#x6761;&#x5355;&#x5DE5;&#x4FE1;&#x9053;, &#x4ECD;&#x7136;&#x53EF;&#x4EE5;&#x7EE7;&#x7EED;&#x63A5;&#x6536;&#x6570;&#x636E;. &#x4E5F;&#x5C31;&#x662F;&#x8BF4;, &#x56E0;&#x4E3A;TCP&#x534F;&#x8BAE;&#x7684;&#x9650;&#x5236;,&#x4E00;&#x4E2A;&#x7AEF;&#x70B9;&#x65E0;&#x6CD5;&#x83B7;&#x77E5;&#x5BF9;&#x7AEF;&#x7684;socket&#x662F;&#x8C03;&#x7528;&#x4E86;close&#x8FD8;&#x662F;shutdown. </p>
+<footer><strong>@SIGPIPE&#x8A0A;&#x865F;</strong><cite><a href="http://blog.chinaunix.net/uid-20775448-id-3492910.html" target="_blank" rel="external">blog.chinaunix.net/uid-20775448-id-3492910.html</a></cite></footer></blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x7A0B;&#x5E8F;"><a href="#u66F4_u65B0_u7A0B_u5E8F" class="headerlink" title="&#x66F4;&#x65B0;&#x7A0B;&#x5E8F;"></a>&#x66F4;&#x65B0;&#x7A0B;&#x5E8F;</h2><h3 id="combobox_update_disk_onchanged"><a href="#combobox_update_disk_onchanged" class="headerlink" title="combobox_update_disk_onchanged"></a>combobox_update_disk_onchanged</h3><ul>
+<li><strong>&#x6CE8;&#x610F;&#x9644;&#x6A94;&#x6848;&#x4E00;&#x5B9A;&#x8981;&#x70BA;.firmware</strong></li>
+<li>combobox_update_disk_onchanged<br>&#x9700;&#x8981;&#x5148;&#x627E;&#x51FA;usb&#x662F;&#x90A3;&#x4E00;&#x500B;(&#x5373;&#x70BA;&#x672A;&#x5728;hdd rec&#x53CA;boot hdd&#x88E1;&#x9762;&#x7684;)</li>
+</ul>
+<ol>
+<li>umount /mnt</li>
+<li>mount /dev/sdc1 /mnt</li>
+<li>find /mnt -maxdepth 1 -name <em>.firmware &gt; /disks/tmp/files.txt<br>&#x7576;usb&#x88E1;&#x9762;&#x6C92;&#x6709;&#x4EFB;&#x4F55;</em>.firmware&#x6A94;&#x6848;,&#x5247;&#x6703;&#x6C92;&#x6709;&#x6A94;&#x6848;&#x53EF;&#x4EE5;&#x9078;(&#x4E26;&#x4E14;&#x76F4;&#x63A5;umount /mnt)</li>
+<li>&#x82E5;&#x6709;&#x6E05;&#x55AE;&#x5247;&#x4E00;&#x500B;&#x4E00;&#x500B;&#x52A0;&#x5165;<br><strong>&#x7531;&#x6B64;&#x53EF;&#x77E5;&#xFF0C;&#x662F;&#x5728;&#x9EDE;&#x9078;&#x6642;&#xFF0C;&#x52D5;&#x614B;mount usb&#xFF0C;&#x4E26;&#x4E14;&#x7522;&#x751F;&#x6E05;&#x55AE;</strong></li>
+</ol>
+<h3 id="find_usb_disk"><a href="#find_usb_disk" class="headerlink" title="find_usb_disk"></a>find_usb_disk</h3><ul>
+<li>find_usb_disk<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">249 find_usb_disk&lt;line:992&gt; /dev/sda1 is used                                </span><br><span class="line">250 find_usb_disk&lt;line:987&gt; add usb:/dev/sdc1                                </span><br><span class="line">251 find_usb_disk&lt;line:999&gt; start find usb =======&lt;&lt;&lt;======                  </span><br><span class="line">252 update_onchange&lt;line:1733&gt; set selected combobox_disk:/dev/sdc1          </span><br><span class="line">253 combobox_update_disk_onchanged&lt;line:1322&gt; -*-*- start -*-*- /dev/sdc1    </span><br><span class="line">254 combobox_update_disk_onchanged&lt;line:1334&gt; mount disk:/dev/sdc1           </span><br><span class="line">255 combobox_update_disk_onchanged&lt;line:1347&gt; find /mnt -maxdepth 1 -name &quot;*.firmware&quot; &gt; /disks/tmp/files.txt res=0 errno=22</span><br><span class="line">256 combobox_update_disk_onchanged&lt;line:1374&gt; find fw:/mnt/pc200_v2.0.2.tar.gz.firmware</span><br><span class="line">257 combobox_update_disk_onchanged&lt;line:1384&gt; -*-*-*-*- end res=0*-*-*-*-*-*-``</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x589E;&#x52A0;dom-rootfs&#x7A7A;&#x9593;"><a href="#u589E_u52A0dom_rootfs_u7A7A_u9593" class="headerlink" title="&#x589E;&#x52A0;dom rootfs&#x7A7A;&#x9593;"></a>&#x589E;&#x52A0;dom rootfs&#x7A7A;&#x9593;</h2><p>&#x5C07;&#x4E00;&#x4E9B;&#x76EE;&#x9304;mount&#x5230;/tmp&#xFF0C;&#x589E;&#x52A0;dom rootfs&#x7A7A;&#x9593;</p>
+<ul>
+<li><p>df -h</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# df -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">devtmpfs        3.9G     0  3.9G   0% /dev</span><br><span class="line">tmpfs           3.9G  308K  3.9G   1% /dev/shm</span><br><span class="line">tmpfs           3.9G  9.5M  3.9G   1% /run</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda2       3.5G  2.9G  433M  88% /</span><br><span class="line">tmpfs           3.9G   56K  3.9G   1% /tmp</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /var/spool</span><br><span class="line">tmpfs           3.9G   76K  3.9G   1% /var/log</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /var/cache/PackageKit</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /var/tmp</span><br><span class="line">/dev/sda1       120M   48M   64M  44% /boot</span><br><span class="line">tmpfs           3.9G   66M  3.9G   2% /disks</span><br><span class="line">tmpfs           797M   16K  797M   1% /run/user/42</span><br><span class="line">tmpfs           797M   16K  797M   1% /run/user/0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cat /etc/fstab</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LABEL=dom-rootfs /                       ext4    defaults        1 1</span><br><span class="line">LABEL=dom-boot /boot                   ext4    defaults        1 2</span><br><span class="line">tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0 0</span><br><span class="line">tmpfs	/var/spool tmpfs	defaults,noatime,mode=1777	0 0</span><br><span class="line">tmpfs 	/var/tmp	tmpfs	defaults,noatime,mode=1777	0 0</span><br><span class="line">tmpfs 	/var/log	tmpfs	defaults,noatime,mode=1777 	0 0</span><br><span class="line">tmpfs	/var/cache/PackageKit	tmpfs	defaults,noatime,mode=1777	0 0</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="http://technote.aven-network.com/852/using-systemctl-control-target" target="_blank" rel="external">&#x4F7F;&#x7528; systemctl &#x64CD;&#x4F5C;&#x7CFB;&#x7D71;&#x5C64;&#x7D1A; target</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0560daemons//0560daemons-centos5.php#starting_daemon" target="_blank" rel="external">&#x8A2D;&#x5B9A;&#x958B;&#x6A5F;&#x5F8C;&#x7ACB;&#x5373;&#x555F;&#x52D5;&#x670D;&#x52D9;&#x7684;&#x65B9;&#x6CD5;</a></li>
+<li><a href="https://fedorahosted.org/im-chooser/wiki/IMSettings" target="_blank" rel="external">IMSettings: Delivery framework for general Input Method configuration</a></li>
+<li><a href="https://access.redhat.com/documentation/zh-TW/Red_Hat_Enterprise_Linux/6/html/Performance_Tuning_Guide/s-memory-captun.html" target="_blank" rel="external">5.4. &#x5FAE;&#x8ABF;&#x8655;&#x7406;&#x80FD;&#x529B;</a></li>
+<li><a href="http://www.360doc.com/content/11/0604/09/4363353_121584610.shtml" target="_blank" rel="external">&#x95DC;&#x65BC;SIGPIP&#x8A0A;&#x865F;</a></li>
+<li><a href="http://blog.chinaunix.net/uid-20775448-id-3492910.html" target="_blank" rel="external">signal(SIGCHLD, SIG_IGN)</a></li>
+<li><a href="https://www.freedesktop.org/software/PackageKit/" target="_blank" rel="external">PackageKit</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/PackageKit" target="_blank" rel="external">PackageKit Wiki</a></li>
+<li><a href="http://unix.stackexchange.com/questions/265755/fedora-23-can-i-safely-delete-files-in-var-cache-packagekit-metadata-updates" target="_blank" rel="external">Fedora 23 &#x2014; Can I safely delete files in /var/cache/PackageKit/metadata/updates/packages</a></li>
+<li><a href="http://linux.die.net/man/8/pppoe-stop" target="_blank" rel="external">pppoe-stop(8) - Linux man page</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/fedora/" rel="tag">#fedora</a>
+          
+            <a href="/tags/dom/" rel="tag">#dom</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/06/pc-dom-01/" rel="next" title="pc-dom-01">
+                <i class="fa fa-chevron-left"></i> pc-dom-01
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/07/fedora-system/" rel="prev" title="fedora-system">
+                fedora-system <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開發環境os-過程"><span class="nav-number">3.</span> <span class="nav-text">開發環境OS 過程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立開發軟体環境"><span class="nav-number">3.1.</span> <span class="nav-text">建立開發軟体環境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立dom軟体執行環境"><span class="nav-number">3.2.</span> <span class="nav-text">建立DOM軟体執行環境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改dom-rootfs內容"><span class="nav-number">3.3.</span> <span class="nav-text">修改dom-rootfs內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nvrtargz-內容"><span class="nav-number">3.4.</span> <span class="nav-text">nvr.tar.gz 內容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rundvrsh"><span class="nav-number">3.5.</span> <span class="nav-text">rundvr.sh</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何裁切fedora24空間"><span class="nav-number">4.</span> <span class="nav-text">如何裁切fedora24空間</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#何為packagekit"><span class="nav-number">4.1.</span> <span class="nav-text">何為PackageKit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由cache清除空間"><span class="nav-number">4.2.</span> <span class="nav-text">由cache清除空間</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#啟動程序"><span class="nav-number">5.</span> <span class="nav-text">啟動程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新程序"><span class="nav-number">6.</span> <span class="nav-text">更新程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#combobox_update_disk_onchanged"><span class="nav-number">6.1.</span> <span class="nav-text">combobox_update_disk_onchanged</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find_usb_disk"><span class="nav-number">6.2.</span> <span class="nav-text">find_usb_disk</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增加dom-rootfs空間"><span class="nav-number">7.</span> <span class="nav-text">增加dom rootfs空間</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">8.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2016/07/07/pc-dom-02/';
+      var disqus_title = 'pc-dom-02';
+      var disqus_url = 'http://yoursite.com/2016/07/07/pc-dom-02/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

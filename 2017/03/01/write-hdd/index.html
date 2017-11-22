@@ -1,0 +1,983 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,nvr," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="了解寫入HDD程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="write-hdd">
+<meta property="og:url" content="http://yoursite.com/2017/03/01/write-hdd/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="了解寫入HDD程序">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/main.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/SManager_StreamAgentThd.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/Writer_RecordThd.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_WriteVideoStream.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_FlushWriteBuffer.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_Flush_RDBDATA.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_SaveFull.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_OpenFullBasket.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_setTargetDisk.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_searchBasket.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/InitProfile.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/DVR_GetDiskInfo.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_getTargetDisk.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_updateHddInfo.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/getHddTotalSize.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/BKTREC_TotalBasketInfo.png">
+<meta property="og:image" content="http://yoursite.com/2017/03/01/write-hdd/bktmgr-udf.png">
+<meta property="og:updated_time" content="2017-11-22T01:04:21.587Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="write-hdd">
+<meta name="twitter:description" content="了解寫入HDD程序">
+<meta name="twitter:image" content="http://yoursite.com/2017/03/01/write-hdd/main.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> write-hdd | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                write-hdd
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-03-01T10:35:25+08:00" content="2017-03-01">
+              2017-03-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+
+          
+          
+             <span id="/2017/03/01/write-hdd/" class="leancloud_visitors" data-flag-title="write-hdd">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x4E86;&#x89E3;&#x5BEB;&#x5165;HDD&#x7A0B;&#x5E8F;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20170301</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+<tr>
+<td style="text-align:left">20170331</td>
+<td style="text-align:left"><a href="#main-flow">main flow </a> , <a href="#smanager_streamagentthd">SManager_StreamAgentThd</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#main-flow">main flow</a></li>
+<li><a href="#smanager_streamagentthd">SManager_StreamAgentThd</a></li>
+<li><a href="#writer_recordthd">Writer_RecordThd</a><ul>
+<li><a href="#bktrec_writevideostream">BKTREC_WriteVideoStream</a></li>
+<li><a href="#bktrec_flushwritebuffer">BKTREC_FlushWriteBuffer</a></li>
+<li><a href="#bktrec_flush_rdbdata">BKTREC_Flush_RDBDATA</a></li>
+<li><a href="#bktrec_savefull">BKTREC_SaveFull</a></li>
+<li><a href="#bktrec_openfullbasket">BKTREC_OpenFullBasket</a></li>
+<li><a href="#bktrec_settargetdisk">BKTREC_setTargetDisk</a></li>
+<li><a href="#bktrec_searchbasket">BKTREC_searchBasket</a></li>
+</ul>
+</li>
+<li><a href="#initprofile">InitProfile</a><ul>
+<li><a href="#dvr_getdiskinfo">DVR_GetDiskInfo</a></li>
+<li><a href="#bktrec_gettargetdisk">BKTREC_getTargetDisk</a></li>
+<li><a href="#bktrec_updatehddinfo">BKTREC_updateHddInfo</a></li>
+</ul>
+</li>
+<li><a href="#gethddtotalsize">getHddTotalSize</a><ul>
+<li><a href="#bktrec_totalbasketinfo">BKTREC_TotalBasketInfo</a></li>
+</ul>
+</li>
+<li><a href="#bktmgrudf">bktmgr.udf</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="main-flow"><a href="#main_flow" class="headerlink" title="main flow"></a>main flow</h2><img src="/2017/03/01/write-hdd/main.png" alt="[Main Flow]" title="[Main Flow]">
+<hr>
+<h2 id="smanager_streamagentthd"><a href="#SManager_StreamAgentThd" class="headerlink" title="SManager_StreamAgentThd"></a>SManager_StreamAgentThd</h2><img src="/2017/03/01/write-hdd/SManager_StreamAgentThd.png" alt="[SManager_StreamAgentThd]" title="[SManager_StreamAgentThd]">
+<hr>
+<h2 id="writer_recordthd"><a href="#Writer_RecordThd" class="headerlink" title="Writer_RecordThd"></a>Writer_RecordThd</h2><ul>
+<li>Writer_RecordThd<br>&#x9810;&#x5148;&#x958B;&#x555F;&#xFF0C;104&#x500B;512K / 1000&#x500B;150K&#x5927;&#x5C0F;buffer<br>&#x7576;buf&#x88E1;&#x6709;&#x8CC7;&#x6599;&#xFF0C;&#x5C31;&#x5132;&#x5B58;&#x5230;1M&#x5927;&#x5C0F;&#x7684;&#x66AB;&#x5B58;<br>&#x7576;&#x8CC7;&#x6599;&#x5927;&#x65BC;1M&#x5927;&#x5C0F;&#x5247;&#x5BEB;&#x5165;&#x786C;&#x789F;</li>
+</ul>
+<img src="/2017/03/01/write-hdd/Writer_RecordThd.png" alt="[Writer_RecordThd]" title="[Writer_RecordThd]">
+<hr>
+<h3 id="bktrec_writevideostream"><a href="#BKTREC_WriteVideoStream" class="headerlink" title="BKTREC_WriteVideoStream"></a>BKTREC_WriteVideoStream</h3><ul>
+<li><p>BKTREC_WriteVideoStream<br>&#x5C07;camera&#x7684;video&#x8CC7;&#x6599;&#x5B58;&#x65BC;bkt&#x4E2D;<br>&#x82E5;&#x70BA;i-frame&#x5247;&#x66F4;&#x65B0;rdb&#x8CC7;&#x6599;</p>
+</li>
+<li><p>&#x6BCF;&#x5206;&#x9418;&#x57F7;&#x884C;&#x4E00;&#x6B21;memcpy rdb<br>gBKTREC_Ctrl.idx_sect.t1[ch]&#xFF1A;&#x5B58;&#x5132;bkt&#x5404;CH&#x7B2C;&#x4E00;&#x6B21;I-FRAME&#x9032;&#x4F86;&#x6642;&#x9593;<br>gBKTREC_Ctrl.idx_sect.t2[ch]&#xFF1A;&#x5B58;&#x5132;bkt&#x5404;CH&#x6BCF;&#x6B21;I-FRAME&#x9032;&#x4F86;&#x6642;&#x9593;</p>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_WriteVideoStream.png" alt="[BKTREC_WriteVideoStream]" title="[BKTREC_WriteVideoStream]">
+<hr>
+<h3 id="bktrec_flushwritebuffer"><a href="#BKTREC_FlushWriteBuffer" class="headerlink" title="BKTREC_FlushWriteBuffer"></a>BKTREC_FlushWriteBuffer</h3><ul>
+<li>BKTREC_FlushWriteBuffer<br>&#x5C07;&#x76EE;&#x524D;&#x7684;&#x8CC7;&#x6599;buf&#x88E1;&#x8CC7;&#x6599;&#x5BEB;&#x5165;&#x6A94;&#x6848;<br>g_handle_rec_bkt&#x76EE;&#x524D;&#x958B;&#x555F;bkt&#x6A94;&#x6848;&#x7684;fd<br>gBKTREC_Ctrl.b_buf[1M] &#xFF1A;&#x5B58;&#x653E;&#x7576;&#x4E0B;&#x8CC7;&#x6599;(&#x6B64;&#x8CC7;&#x6599;&#x5C1A;&#x672A;&#x5132;&#x5B58;&#x65BC;&#x786C;&#x789F;)<br>gBKTREC_Ctr.pos &#xFF1A; &#x8A18;&#x9304;&#x66AB;&#x5B58;buf&#x4F7F;&#x7528;&#x91CF;</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_FlushWriteBuffer.png" alt="[BKTREC_FlushWriteBuffer]" title="[BKTREC_FlushWriteBuffer]">
+<h3 id="bktrec_flush_rdbdata"><a href="#BKTREC_Flush_RDBDATA" class="headerlink" title="BKTREC_Flush_RDBDATA"></a>BKTREC_Flush_RDBDATA</h3><ul>
+<li>BKTREC_Flush_RDBDATA<br>1.&#x5148;&#x628A;/media/sda1/rdb/20170302&#x7684;rdb&#x6A94;&#x6848;&#x6574;&#x500B;&#x8B80;&#x5230;evts&#x53CA;rdbs&#x8B8A;&#x6578;&#x88E1;&#x9762;<br>1-1.&#x66F4;&#x65B0;&#x76F8;&#x5C0D;&#x61C9;&#x7684;&#x6642;&#x9593;&#x5167;T_BASKET_RDB<br>2.&#x66F4;&#x65B0;topmgr.udf&#x88E1;&#x9762;tm.reserved2&#x6642;&#x9593;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#### BKTREC_Flush_RDBDATA</span><br><span class="line">BKTREC_Flush_RDBDATA /media/sda1/rdb/20170303</span><br><span class="line">[BKTREC] - update rdb.CNT: 3, UPDATED-CNT: 3, RBUF-POS:0 /media/sda1/rdb/20170303===============</span><br><span class="line">SAVE [/media/sda1/topmgr.udf] ok</span><br><span class="line">#### BKTREC_Flush_RDBDATA</span><br><span class="line">BKTREC_Flush_RDBDATA /media/sda1/rdb/20170303</span><br><span class="line">[BKTREC] - update rdb.CNT: 2, UPDATED-CNT: 2, RBUF-POS:0 /media/sda1/rdb/20170303===============</span><br><span class="line">SAVE [/media/sda1/topmgr.udf] ok</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_Flush_RDBDATA.png" alt="[BKTREC_FlushWriteBuffer]" title="[BKTREC_FlushWriteBuffer]">
+<hr>
+<h3 id="bktrec_savefull"><a href="#BKTREC_SaveFull" class="headerlink" title="BKTREC_SaveFull"></a>BKTREC_SaveFull</h3><ul>
+<li><p>BKTREC_SaveFull<br>&#x8A2D;&#x5B9A;flag&#x70BA;SF_FULL<br>&#x95DC;&#x9589;&#x76F8;&#x95DC;&#x7684;bkt&#x53CA;idx&#x7684;fd<br>g_handle_rec_bkt : &#x76EE;&#x524D;&#x4F7F;&#x7528;&#x7684;bkt fd<br>g_hand_rec_idx   : &#x76EE;&#x524D;&#x4F7F;&#x7528;&#x7684;idx fd</p>
+</li>
+<li><p>bktmgr.udf<br>{head,bid=0 body,bid=1 body,,,}<br>&#x5132;&#x5B58;&#x6B64;&#x786C;&#x789F;&#x6240;&#x4EE5;bkt&#x6578;&#x91CF;&#xFF0C;&#x53CA;&#x6BCF;&#x500B;bkt flag</p>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_SaveFull.png" alt="[BKTREC_SaveFull]" title="[BKTREC_SaveFull]">
+<hr>
+<h3 id="bktrec_openfullbasket"><a href="#BKTREC_OpenFullBasket" class="headerlink" title="BKTREC_OpenFullBasket"></a>BKTREC_OpenFullBasket</h3><ul>
+<li><p>BKTREC_OpenFullBasket<br>&#x5C0B;&#x627E;&#x4E0B;&#x4E00;&#x500B;bkt&#xFF0C;&#x5FC5;&#x8981;&#x6642;&#x6703;&#x63DB;&#x5230;&#x4E0B;&#x4E00;&#x500B;&#x786C;&#x789F;<br>&#x4E26;&#x4E14;&#x91CD;&#x65B0;&#x8A2D;&#x5B9A;gBKTREC_Ctrl&#x76F8;&#x95DC;&#x8B8A;&#x6578;(bkt,idx)<br>&#x958B;&#x555F;&#x6642;&#x8A2D;&#x5B9A;bktmgr.udf&#x53CA;bkt_rec_info.udf&#x70BA;SF_USING</p>
+</li>
+<li><p>&#x7576;bkt&#x6EFF;&#x9700;&#x8981;&#x5224;&#x65B7;&#x662F;&#x5426;&#x8981;&#x63DB;&#x786C;&#x789F;<br>&#x7531;gBKTREC_Ctrl.bid&#x53CA;gBKTREC_Ctrl.bkt_cnt&#x6C7A;&#x5B9A;<br>gBKTREC_Ctrl.bid&#xFF1A;&#x8868;&#x793A;&#x76EE;&#x524D;&#x6B63;&#x5728;&#x9304;&#x7B2C;&#x5E7E;&#x500B;bkt<br>gBKTREC_Ctrl.bkt_cnt&#xFF1A;&#x8868;&#x793A;&#x6B64;&#x786C;&#x789F;&#x6700;&#x5927;&#x7684;bkt&#x6578;&#x91CF;</p>
+</li>
+<li><p>&#x82E5;&#x63A1;&#x7528;&#x5BEB;&#x5165;&#x6700;&#x820A;&#x7684;&#x65E5;&#x671F;<br>&#x53EF;&#x80FD;&#x9047;&#x5230;&#x8DF3;&#x786C;&#x789F;&#x975E;&#x9810;&#x671F;&#x7684;&#x6700;&#x5927;bkt&#x6578;&#xFF0C;&#x7576;&#x6642;&#x9593;&#x6709;&#x88AB;&#x5F80;&#x5F8C;&#x66F4;&#x52D5;</p>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_OpenFullBasket.png" alt="[BKTREC_OpenFullBasket]" title="[BKTREC_OpenFullBasket]">
+<hr>
+<h3 id="bktrec_settargetdisk"><a href="#BKTREC_setTargetDisk" class="headerlink" title="BKTREC_setTargetDisk"></a>BKTREC_setTargetDisk</h3><ul>
+<li><p>BKTREC_setTargetDisk<br>&#x8A2D;&#x5B9A;gBKTREC_Ctrl&#x5230;&#x76EE;&#x524D;&#x9078;&#x5230;&#x7684;&#x786C;&#x789F;&#x53CA;&#x66F4;&#x65B0;topmgr.udf&#x6642;&#x9593;<br>&#x53D6;&#x5F97;bktmgr.udf&#x88E1;&#x9762;bkt_cnt&#x8CC7;&#x6599; (&#x8868;&#x793A;&#x6B64;&#x786C;&#x789F;&#x6700;&#x5927;bkt cnt)<br><strong>gBKTREC_Ctrl.bkt_cnt</strong>&#xFF1A;&#x7528;&#x5224;&#x65B7;&#x76EE;&#x524D;&#x7684;bid&#x662F;&#x5426;&#x70BA;&#x6700;&#x5927;&#xFF0C;&#x82E5;&#x662F;&#x5247;&#x9700;&#x8981;&#x63DB;&#x4E0B;&#x4E00;&#x500B;HDD</p>
+</li>
+<li><p>/mnt/nand/dvrap_cfg/hddmgr.udf<br>&#x8A18;&#x9304;&#x6B64;&#x786C;&#x789F;<br>curid: &#x76EE;&#x524D;&#x662F;&#x5728;&#x7B2C;&#x5E7E;&#x500B;idx<br>hddcnt: &#x76EE;&#x524D;dvr&#x7CFB;&#x7D71;&#xFF0C;&#x7E3D;&#x5171;HDD&#x91CF;</p>
+</li>
+<li><p>/media/sda1/topmgr.udf<br>&#x8A18;&#x9304;&#x6B64;&#x786C;&#x789F;&#xFF0C;&#x8DDF;&#x4E0B;&#x4E00;&#x500B;&#x53CA;&#x4E0A;&#x4E00;&#x500B;&#x4E32;&#x4F8B;<br>&#x7576;&#x9078;&#x5230;&#x6B64;&#x786C;&#x789F;&#x6642;&#x6703;&#x66F4;&#x65B0;&#x6642;&#x9593;(reserveded2)</p>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_setTargetDisk.png" alt="[BKTREC_setTargetDisk]" title="[BKTREC_setTargetDisk]">
+<hr>
+<h3 id="bktrec_searchbasket"><a href="#BKTREC_searchBasket" class="headerlink" title="BKTREC_searchBasket"></a>BKTREC_searchBasket</h3><ul>
+<li>BKTREC_searchBasket<br>&#x7531;&#x76EE;&#x524D;&#x786C;&#x789F;&#x88E1;&#x627E;&#x51FA;&#xFF0C;&#x9810;&#x8A08;&#x8981;&#x4F7F;&#x7528;&#x7684;bkt<br>&#x5148;&#x627E;&#x770B;&#x770B;&#x662F;&#x5426;&#x6709;&#x6B63;&#x5728;&#x4F7F;&#x7528;&#x7684;bkt(&#x5373;SF_USING)<br>&#x82E5;&#x6C92;&#x6709;&#x5247;&#x627E;&#x770B;&#x770B;&#x662F;&#x5426;&#x6709;&#x7A7A;&#x7684;bkt(&#x5373;SF_EMPTY)<br>&#x6700;&#x5F8C;&#x624D;&#x627E;&#x6700;&#x820A;&#x7684;&#x5DF2;&#x9304;&#x6EFF;&#x7684;bkt(&#x5373;SF_FULL)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">flag</th>
+<th style="text-align:left">note</th>
+<th style="text-align:left">udf file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">SF_EMPTY</td>
+<td style="text-align:left">&#x65B0;&#x7684;&#x786C;&#x789F;&#x627E;&#x7A7A;&#x7684;bkt</td>
+<td style="text-align:left">/media/sda1/bktmgr.udf</td>
+</tr>
+<tr>
+<td style="text-align:left">SF_FULL</td>
+<td style="text-align:left">&#x7E5E;&#x5BEB;&#x6642;&#x4F7F;&#x7528;&#x6700;&#x820A;&#x7684;</td>
+<td style="text-align:left">/media/sda1/bktmgr.udf</td>
+</tr>
+<tr>
+<td style="text-align:left">SF_USING</td>
+<td style="text-align:left">&#x8868;&#x793A;&#x6B63;&#x5728;&#x4F7F;&#x7528;&#x7684;BKT</td>
+<td style="text-align:left">/media/sda1/bkt_rec_info.udf</td>
+</tr>
+</tbody>
+</table>
+<p>&#x7576;BKTREC_OpenFullBasket&#x6642;&#x6703;&#x8A2D;&#x5B9A;bkt SF_USING&#xFF0C;&#x5373;&#x7B2C;&#x4E00;&#x6B21;&#x958B;&#x555F;bkt&#xFF0C;&#x8868;&#x793A;&#x6B63;&#x5728;&#x4F7F;&#x7528;<br>&#x7576;BKTREC_SaveFull&#xFF0C;&#x8A2D;&#x5B9A;bkt SF_FULL&#xFF0C;&#x8868;&#x793A;&#x6B64;bkt&#x5DF2;&#x9304;&#x6EFF;&#x8981;&#x63DB;&#x5176;&#x5B83;bkt</p>
+<ul>
+<li><p>BKTREC_searchOldestBasket<br>BKTREC_removeRDB(bid,ts)<br>&#x7531;&#x76EE;&#x524D;&#x7684;&#x786C;&#x789F;&#x88E1;&#x627E;&#x51FA;&#x6700;&#x820A;&#x7684;bkt&#xFF0C;&#x627E;&#x5230;&#x5982;&#x4E0B;<br>bid&#xFF1A;&#x70BA;&#x5C07;&#x8981;&#x9304;&#x5F71;&#x7684;bkt id<br>ts&#xFF1A;&#x70BA;&#x76EE;&#x524D;&#x6700;&#x820A;&#x7684;&#x6642;&#x9593; </p>
+</li>
+<li><p>BKTREC_removeRDB<br>&#x5C07;&#x6703;&#x522A;&#x9664;&#x6BD4;&#x6B64;&#x6642;&#x9593;(ts 20170302)&#x9084;&#x8981;&#x820A;&#x7684;rdb&#x6A94;&#x6848;<br>&#x4E26;&#x4E14;&#x627E;&#x51FA;/media/sda1/rdb/20170302&#xFF0C;&#x5C07;&#x76F8;&#x5C0D;&#x7684;bid&#x4F4D;&#x7F6E;&#x6E05;&#x9664;&#x70BA;0</p>
+</li>
+<li><p>BKTREC_searchUsingBasket<br>&#x7576;&#x7121;bkt_rec_info.udf<br>&#x5247;&#x8868;&#x793A;&#x7B2C;&#x4E00;&#x6B21;&#x9304;&#x8CC7;&#x6599;,&#x6703;&#x8A2D;&#x5B9A; g_bkt_rec_space = BKT_SPACE_REMAIN(&#x627E;&#x7A7A;&#x7684;bkt)</p>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_searchBasket.png" alt="[BKTREC_searchBasket]" title="[BKTREC_searchBasket]">
+<hr>
+<h2 id="initprofile"><a href="#InitProfile" class="headerlink" title="InitProfile"></a>InitProfile</h2><ul>
+<li>InitProfile<br>&#x7B2C;&#x4E00;&#x6B21;&#x57F7;&#x884C;&#x6703;&#x57F7;&#x884C;InitProfile<br>&#x4E5F;&#x6703;&#x8A2D;&#x5B9A;gbk_mount_info (get_disk_info)</li>
+</ul>
+<img src="/2017/03/01/write-hdd/InitProfile.png" alt="[InitProfile]" title="[InitProfile]">
+<h3 id="dvr_getdiskinfo"><a href="#DVR_GetDiskInfo" class="headerlink" title="DVR_GetDiskInfo"></a>DVR_GetDiskInfo</h3><img src="/2017/03/01/write-hdd/DVR_GetDiskInfo.png" alt="[DVR_GetDiskInfo]" title="[DVR_GetDiskInfo]">
+<ul>
+<li>DVR_GetDiskInfo<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">================================== dev 0 </span><br><span class="line">	dev: /dev/sdb1</span><br><span class="line">	dir : </span><br><span class="line">	model : WDC WD10JUCT-63CYNY0	state : 2</span><br><span class="line">	type : GPT</span><br><span class="line">	sz_total : 976762</span><br><span class="line">	sz_avail : 0</span><br><span class="line">	sz_used  : 0</span><br><span class="line">	rec used : 0</span><br><span class="line">================================== dev 0 </span><br><span class="line">hdparm: ioctl 0x304 failed: Inappropriate ioctl for device</span><br><span class="line">&lt;LIB_GetHddModel&gt; Model Name:[WDC WD10JUCT-63CYNY0]</span><br><span class="line">================================== dev 1 </span><br><span class="line">	dev: /dev/sda1</span><br><span class="line">	dir : /media/sda1</span><br><span class="line">	model : WDC WD10JUCT-63CYNY0	state : 3</span><br><span class="line">	type : ext4</span><br><span class="line">	sz_total : 975956</span><br><span class="line">	sz_avail : 49556</span><br><span class="line">	sz_used  : 877588</span><br><span class="line">	rec used : 3</span><br><span class="line">================================== dev 1 </span><br><span class="line">hdparm: ioctl 0x304 failed: Inappropriate ioctl for device</span><br><span class="line">&lt;LIB_GetHddModel&gt; Model Name:[ST4000VM000-1F3168]</span><br><span class="line">================================== dev 2 </span><br><span class="line">	dev: /dev/sdc1</span><br><span class="line">	dir : /media/sdb1</span><br><span class="line">	model : ST4000VM000-1F3168	state : 3</span><br><span class="line">	type : ext4</span><br><span class="line">	sz_total : 3905304</span><br><span class="line">	sz_avail : 3709752</span><br><span class="line">	sz_used  : 228</span><br><span class="line">	rec used : 1</span><br><span class="line">================================== dev 2 </span><br><span class="line">hdparm: ioctl 0x304 failed: Inappropriate ioctl for device</span><br><span class="line">&lt;LIB_GetHddModel&gt; Model Name:[WDC WD10JUCT-63CYNY0]</span><br><span class="line">================================== dev 3 </span><br><span class="line">	dev: /dev/sdd1</span><br><span class="line">	dir : /media/sdc1</span><br><span class="line">	model : WDC WD10JUCT-63CYNY0	state : 3</span><br><span class="line">	type : ext4</span><br><span class="line">	sz_total : 975956</span><br><span class="line">	sz_avail : 49548</span><br><span class="line">	sz_used  : 877596</span><br><span class="line">	rec used : 2</span><br><span class="line">================================== dev 3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="bktrec_gettargetdisk"><a href="#BKTREC_getTargetDisk" class="headerlink" title="BKTREC_getTargetDisk"></a>BKTREC_getTargetDisk</h3><ul>
+<li>BKTREC_getTargetDisk<br>&#x8A2D;&#x5B9A;gbk_mount_info<br>&#x4E26;&#x4E14;&#x8A2D;&#x5B9A;currHddIdx&#x70BA;&#x7CFB;&#x7D71;&#x4E2D;&#x6700;&#x65B0;&#x7684;&#x786C;&#x789F;(&#x7531;topmgr.udf&#x4E2D;last_update_t&#x6C7A;&#x5B9A;)<br>&#x5373;&#x7531;&#x4E0A;&#x6B21;&#x9304;&#x7684;&#x5730;&#x65B9;&#x958B;&#x59CB;&#x9304;</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_getTargetDisk.png" alt="[BKTREC_getTargetDisk]" title="[BKTREC_getTargetDisk]">
+<h3 id="bktrec_updatehddinfo"><a href="#BKTREC_updateHddInfo" class="headerlink" title="BKTREC_updateHddInfo"></a>BKTREC_updateHddInfo</h3><ul>
+<li><p>BKTREC_updateHddInfo<br>&#x4F9D;&#x5BE6;&#x969B;&#x6CC1;&#x72C0;(/dev/sdx&#x53CA; /proc/partions)<br>&#x66F4;&#x65B0; gbk_mount_info<br>&#x7531;WriterUpdateMountInfo-&gt;BKTREC_getTargetDisk&#x6642;&#x6703;&#x57F7;&#x884C;</p>
+</li>
+<li><p>&#x4F55;&#x6642;&#x9700;&#x8981;&#x8A2D;&#x5B9A;gbk_mount_info<br>1.&#x7B2C;&#x4E00;&#x6B21;&#x958B;&#x6A5F;&#x9700;&#x8981;&#x66F4;&#x65B0;gbk_mount_info<br>initProfile-&gt;DVR_GetDiskInfo-&gt;WriterUpdateMountInfo<br>2.&#x6BCF;30&#x79D2;check hdd<br>DVR_CheckHddDependency-&gt;WriterUpdateMountInfo<br>3.&#x683C;&#x5F0F;&#x5316;HDD&#x4E4B;&#x5F8C;<br>DVR_FormatHDD-&gt;WriterUpdateMountInfo</p>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_updateHddInfo.png" alt="[BKTREC_updateHddInfo]" title="[BKTREC_updateHddInfo]">
+<hr>
+<h2 id="gethddtotalsize"><a href="#getHddTotalSize" class="headerlink" title="getHddTotalSize"></a>getHddTotalSize</h2><ul>
+<li><p>getHddTotalSize<br>&#x6BCF;10&#x79D2;&#x57F7;&#x884C;&#x4E00;&#x6B21;getHddTotalSize<br>getHddTotalSize / LIB_BasketInfo / DVR_BasketInfo / BKTREC_TotalBasketInfo</p>
+</li>
+<li><p>BKTREC_TotalBasketInfo<br>&#x958B;&#x6A5F;10&#x79D2;&#x6703;&#x53EA;&#x6703;&#x57F7;&#x884C;&#x4E00;&#x6B21;</p>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/getHddTotalSize.png" alt="[getHddTotalSize]" title="[getHddTotalSize]">
+<h3 id="bktrec_totalbasketinfo"><a href="#BKTREC_TotalBasketInfo" class="headerlink" title="BKTREC_TotalBasketInfo"></a>BKTREC_TotalBasketInfo</h3><ul>
+<li><p>BKTREC_TotalBasketInfo<br>&#x8A2D;&#x5B9A;BKTREC_Ctrl.bkt_cnt</p>
+</li>
+<li><p>&#x8A2D;&#x5B9A;&#x60C5;&#x6CC1;&#x5982;&#x4E0B;<br>1.&#x9304;&#x6EFF;&#x786C;&#x789F;&#x9700;&#x8981;&#x66F4;&#x63DB;&#x5230;&#x5176;&#x5B83;&#x9846; (BKTREC_OpenFullBasket)<br>2.&#x958B;&#x65B0;&#x7684;bkt&#x6A94;&#x6848; (BKTREC_open)<br>3.&#x958B;&#x6A5F;&#x7B2C;&#x4E00;&#x6B21;&#x8A2D;&#x5B9A; (BKTREC_setTargetDisk)</p>
+</li>
+</ul>
+<img src="/2017/03/01/write-hdd/BKTREC_TotalBasketInfo.png" alt="[BKTREC_TotalBasketInfo]" title="[BKTREC_TotalBasketInfo]">
+<hr>
+<h2 id="bktmgrudf"><a href="#bktmgr-udf" class="headerlink" title="bktmgr.udf"></a>bktmgr.udf</h2><ul>
+<li><p>bktmgr.udf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef struct</span><br><span class="line">{</span><br><span class="line">    long id;            ///&lt; header id</span><br><span class="line">    long mgrid;	        ///&lt; manager file numbering</span><br><span class="line">    long date;		    ///&lt; seconds since the Epoch</span><br><span class="line">    long latest_update;	///&lt;  date of latest update</span><br><span class="line">    long bkt_count;     ///&lt; basket count</span><br><span class="line">    long reserved;</span><br><span class="line">} T_BKTMGR_HDR;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bkt_count<br>0x594 = 1428</p>
+<img src="/2017/03/01/write-hdd/bktmgr-udf.png" alt="[bktmgr]" title="[bktmgr]">
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/nvr/" rel="tag">#nvr</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/22/pulseaudio/" rel="next" title="pulseaudio">
+                <i class="fa fa-chevron-left"></i> pulseaudio
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/06/http-authentication/" rel="prev" title="http-authentication">
+                http-authentication <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">142</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-flow"><span class="nav-number">3.</span> <span class="nav-text">main flow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smanager_streamagentthd"><span class="nav-number">4.</span> <span class="nav-text">SManager_StreamAgentThd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#writer_recordthd"><span class="nav-number">5.</span> <span class="nav-text">Writer_RecordThd</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_writevideostream"><span class="nav-number">5.1.</span> <span class="nav-text">BKTREC_WriteVideoStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_flushwritebuffer"><span class="nav-number">5.2.</span> <span class="nav-text">BKTREC_FlushWriteBuffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_flush_rdbdata"><span class="nav-number">5.3.</span> <span class="nav-text">BKTREC_Flush_RDBDATA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_savefull"><span class="nav-number">5.4.</span> <span class="nav-text">BKTREC_SaveFull</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_openfullbasket"><span class="nav-number">5.5.</span> <span class="nav-text">BKTREC_OpenFullBasket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_settargetdisk"><span class="nav-number">5.6.</span> <span class="nav-text">BKTREC_setTargetDisk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_searchbasket"><span class="nav-number">5.7.</span> <span class="nav-text">BKTREC_searchBasket</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#initprofile"><span class="nav-number">6.</span> <span class="nav-text">InitProfile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dvr_getdiskinfo"><span class="nav-number">6.1.</span> <span class="nav-text">DVR_GetDiskInfo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_gettargetdisk"><span class="nav-number">6.2.</span> <span class="nav-text">BKTREC_getTargetDisk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_updatehddinfo"><span class="nav-number">6.3.</span> <span class="nav-text">BKTREC_updateHddInfo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gethddtotalsize"><span class="nav-number">7.</span> <span class="nav-text">getHddTotalSize</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bktrec_totalbasketinfo"><span class="nav-number">7.1.</span> <span class="nav-text">BKTREC_TotalBasketInfo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bktmgrudf"><span class="nav-number">8.</span> <span class="nav-text">bktmgr.udf</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/03/01/write-hdd/';
+      var disqus_title = 'write-hdd';
+      var disqus_url = 'http://yoursite.com/2017/03/01/write-hdd/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

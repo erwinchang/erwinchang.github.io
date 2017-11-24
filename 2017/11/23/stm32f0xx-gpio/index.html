@@ -93,9 +93,27 @@
 <meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t1.png">
 <meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t2.png">
 <meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t3.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t9.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t6.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t7.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t8.png">
 <meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t5.png">
 <meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t4.png">
-<meta property="og:updated_time" content="2017-11-23T17:32:50.992Z">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-init.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-rcc-ahbenr.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t10.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-hal-gpio-init.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-pin.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-interrupt-ex.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-alternate.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t11.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-exticr.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-exti0.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-sr.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t13.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-clock-tree.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t12.png">
+<meta property="og:updated_time" content="2017-11-24T16:03:27.124Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="stm32f0xx-gpio">
 <meta name="twitter:description" content="STM32F0 GPIO說明/範例">
@@ -369,7 +387,30 @@
 <li><a href="#stm32f0-gpio">STM32F0 GPIO</a><ul>
 <li><a href="#&#x63D0;&#x4F9B;&#x8A2D;&#x5B9A;&#x66AB;&#x5668;">&#x63D0;&#x4F9B;&#x8A2D;&#x5B9A;&#x66AB;&#x5668;</a></li>
 <li><a href="#gpio&#x63D0;&#x4F9B;&#x529F;&#x80FD;">GPIO&#x63D0;&#x4F9B;&#x529F;&#x80FD;</a></li>
+<li><a href="#software-define">software define</a></li>
 <li><a href="#example-code">example code</a></li>
+</ul>
+</li>
+<li><a href="#hal_gpio_init">HAL_GPIO_Init</a><ul>
+<li><a href="#1&#x8A2D;&#x5B9A;clock"><1>&#x8A2D;&#x5B9A;Clock</1></a></li>
+<li><a href="#2&#x8A2D;&#x5B9A;port&#x8F38;&#x51FA;&#x70BA;low&#x5373;led&#x6C92;&#x6253;&#x4EAE;"><2>&#x8A2D;&#x5B9A;port&#x8F38;&#x51FA;&#x70BA;low(&#x5373;LED&#x6C92;&#x6253;&#x4EAE;)</2></a></li>
+<li><a href="#3hal_gpio_init"><3>HAL_GPIO_Init</3></a><ul>
+<li><a href="#hal_gpio_init-&#x7A0B;&#x5E8F;">HAL_GPIO_Init &#x7A0B;&#x5E8F;</a></li>
+<li><a href="#external-interrupt-selection-code-example">External interrupt selection code example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#stm32f05x-&#x529F;&#x80FD;&#x8AAA;&#x660E;">STM32F05X &#x529F;&#x80FD;&#x8AAA;&#x660E;</a><ul>
+<li><a href="#gpio-alternate-function">GPIO Alternate Function</a></li>
+<li><a href="#syscfg">SYSCFG</a><ul>
+<li><a href="#extended-interrupts-and-events-controller">Extended interrupts and events controller</a></li>
+<li><a href="#syscfg-exticr">SYSCFG EXTICR</a></li>
+<li><a href="#reset-and-clock-control-rcc">Reset and clock control (RCC)</a></li>
+<li><a href="#clocks">Clocks</a></li>
+</ul>
+</li>
+<li><a href="#stm32f0x1-power">STM32F0x1 Power</a></li>
 </ul>
 </li>
 <li><a href="#&#x53C3;&#x8003;">&#x53C3;&#x8003;</a></li>
@@ -410,13 +451,146 @@
 </li>
 <li>Speed selection for each I/O</li>
 </ul>
+<h3 id="software-define"><a href="#software_define" class="headerlink" title="software define"></a>software define</h3><p>&#x6587;&#x4EF6;<a href="/2017/11/23/stm32f0xx-gpio/en.DM00031936(RM0091-Reference-manual).pdf" title="[RM0091-Reference-manual]">[RM0091-Reference-manual]</a><br>2.2.2 Memory map and register boundary addresses</p>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t9.png" alt="[ define]" title="[ define]">
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t6.png" alt="[ define]" title="[ define]">
+<p>GPIOx_BRR: port bit reset register<br>GPIOx_BSRR: port bit set/reset register<br> BRy&#x5BEB;&#x5165;1&#x5247;reset the corresponding ODRx bit (ODRx bit&#x88AB;&#x6E05;&#x9664;&#x70BA;0)<br> BSy&#x5BEB;&#x5165;1&#x5247;sets the corresponding ODRx bin (ODRx bit&#x88AB;&#x8A2D;&#x5B9A;&#x70BA;1)<br>GPIOx_ODR: port output data register<br> &#x4ECB;&#x7531;GPIOx_BSRR/GPIOx_BRR&#x4F86;&#x8A2D;&#x5B9A;<br>GPIOx_IDR: port input data register </p>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t7.png" alt="[ register ]" title="[ register ]">
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t8.png" alt="[ register ]" title="[ register ]">
 <h3 id="example-code"><a href="#example_code" class="headerlink" title="example code"></a>example code</h3><p>&#x4E0D;&#x6309;&#x8F38;&#x5165;&#x70BA;0&#xFF0C;&#x6309;&#x4E86;&#x8F38;&#x70BA;1&#xFF0C;&#x6B64;&#x6642;LED&#x52D5;&#x4F5C;<br><img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t5.png" alt="[ USER Button]" title="[ USER Button]"></p>
 <img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t4.png" alt="[ example code]" title="[ example code]">
 <p>&#x4F86;&#x6E90;&#xFF1A;<a href="https://letanphuc.net/2015/02/stm32f0-tutorial-gpio-blinking-led-cubemx-keil-source-insight/" target="_blank" rel="external">STM32F0 GPIO: Blinking LED with CubeMX, Keil ARM and Source Insight - Tutorial 2</a></p>
 <hr>
+<h2 id="hal_gpio_init"><a href="#HAL_GPIO_Init" class="headerlink" title="HAL_GPIO_Init"></a>HAL_GPIO_Init</h2><img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-init.png" alt="[ GPIO Init]" title="[ GPIO Init]">
+<h3 id="&#x8A2D;&#x5B9A;clock"><a href="#3C1_3E_u8A2D_u5B9AClock" class="headerlink" title="&lt;1&gt;&#x8A2D;&#x5B9A;Clock"></a><1>&#x8A2D;&#x5B9A;Clock</1></h3><p>system reset&#x4E4B;&#x5F8C;&#x9810;&#x8A2D;i/o clock&#x70BA;disable<br>&#x56E0;&#x6B64;&#x9700;&#x8981;&#x958B;&#x555F;i/o clock<br>HAL_RCC_GPIOA_CLK_ENABLE: &#x8A2D;&#x5B9A;RCC-&gt;AHBENR&#xFF0C;&#x958B;&#x555F;PORTA Clock</p>
+<ul>
+<li>&#x96FB;&#x8DEF;&#x4E2D;&#x7528;&#x5230;GPIO<br>PA0: USER Button,PC9/PC8: LED3/LED4<br>&#x56E0;&#x6B64;&#x9700;&#x8981;&#x958B;&#x555F;PORTA,PORTC&#x7684;Clock</li>
+</ul>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-rcc-ahbenr.png" alt="[ RCC AHBENR ]" title="[ RCC AHBENR ]">
+<h3 id="&#x8A2D;&#x5B9A;port&#x8F38;&#x51FA;&#x70BA;low&#x5373;led&#x6C92;&#x6253;&#x4EAE;"><a href="#3C2_3E_u8A2D_u5B9Aport_u8F38_u51FA_u70BAlow_28_u5373LED_u6C92_u6253_u4EAE_29" class="headerlink" title="&lt;2&gt;&#x8A2D;&#x5B9A;port&#x8F38;&#x51FA;&#x70BA;low(&#x5373;LED&#x6C92;&#x6253;&#x4EAE;)"></a><2>&#x8A2D;&#x5B9A;port&#x8F38;&#x51FA;&#x70BA;low(&#x5373;LED&#x6C92;&#x6253;&#x4EAE;)</2></h3><p>HAL_GPIO_WritePin(GPIOC, LD4_Pin|LD3_Pin, GPIO_PIN_RESET);</p>
+<ul>
+<li>&#x8A2D;&#x5B9A;&#x8F38;&#x5165;&#x8173;&#x4F4D;User Botton&#x70BA; <strong>GPIO_MODE_EVT_RISING</strong></li>
+</ul>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t10.png" alt="[ GPIO Mode]" title="[ GPIO Mode]">
+<h3 id="hal_gpio_init"><a href="#3C3_3EHAL_GPIO_Init" class="headerlink" title="&lt;3&gt;HAL_GPIO_Init"></a><3>HAL_GPIO_Init</3></h3><img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-hal-gpio-init.png" alt="[ HAL GPIO Init ]" title="[ HAL GPIO Init ]">
+<p>&#x5148;&#x8A2D;&#x5B9A;&#x597D;GPIO_InitTypeDef&#x683C;&#x5F0F;&#x5167;&#x5BB9;<br>&#x547C;&#x53EB;HAL_GPIO_Init()&#x5C07;&#x6703;&#x8A2D;&#x5B9A;&#x76F8;&#x95DC;&#x7684;&#x786C;&#x4F53;</p>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-pin.png" alt="[ GPIO PIN ]" title="[ GPIO PIN ]">
+<p>GPIO_InitTypeDef&#x8AAA;&#x660E;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">type</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Pin</td>
+<td style="text-align:left">GPIO_PIN_0 ~ GPIO_PIN_15,&#x4F7F;&#x7528;OR&#x9054;&#x5230;&#x540C;&#x6642;&#x8A2D;&#x5B9A;&#x591A;&#x8173;&#x4F4D;</td>
+</tr>
+<tr>
+<td style="text-align:left">Mode</td>
+<td style="text-align:left">EX. GPIO_MODE_OUTPUT_PP, &#x63D0;&#x4F9B;12&#x7A2E;&#x8A2D;&#x5B9A;&#x65B9;&#x5F0F;</td>
+</tr>
+<tr>
+<td style="text-align:left">Pull</td>
+<td style="text-align:left">&#x662F;&#x5426;&#x8A2D;&#x5B9A;GPIO&#x63D0;&#x4F9B;&#x4E0A;&#x62C9;/&#x4E0B;&#x62C9;&#x96FB;&#x963B;</td>
+</tr>
+<tr>
+<td style="text-align:left">Speed</td>
+<td style="text-align:left">&#x8A2D;&#x5B9A;&#x8F38;&#x51FA;&#x6700;&#x5927;&#x983B;&#x7387;&#xFF1A;LOW(2MHz)/ MEDIUM(4M-10MHz)/ HIGH(10MHz-50MHz)</td>
+</tr>
+<tr>
+<td style="text-align:left">Alternate</td>
+</tr>
+</tbody>
+</table>
+<h4 id="hal_gpio_init-&#x7A0B;&#x5E8F;"><a href="#HAL_GPIO_Init__u7A0B_u5E8F" class="headerlink" title="HAL_GPIO_Init &#x7A0B;&#x5E8F;"></a>HAL_GPIO_Init &#x7A0B;&#x5E8F;</h4><p> &#x4F9D;&#x7167;GPIOx&#x7684;PIN&#x8173;&#x8A2D;&#x5B9A;&#x4E0B;&#x4F8B;</p>
+<ul>
+<li>&#x82E5;&#x70BA; GPIO_MODE_AF_PP || GPIO_MODE_AF_OD =&gt; &#x8A2D;&#x5B9A;GPIOx-&gt;AFR</li>
+<li>&#x82E5;&#x70BA; GPIO<em>MODE</em>{ OUTPUT_PP || OUTPUT_OD || AF_PP || AF_OD }<ul>
+<li>&#x8A2D;&#x5B9A; GPIOx-&gt;OSPEEDR (&#x9810;&#x8A2D;&#x70BA;GPIO_SPEED_FREQ_LOW)</li>
+<li>&#x8A2D;&#x5B9A; GPIOx-&gt;OTYPER</li>
+</ul>
+</li>
+<li>&#x8A2D;&#x5B9A; GPIOx-&gt;PUPDR</li>
+<li>&#x82E5;&#x70BA; EXIT_MODE<ul>
+<li>HAL_RCC_SYSCFG_CLK_ENABLE</li>
+<li>&#x8A2D;&#x5B9A; SYSCFG-&gt;EXTICR</li>
+<li>&#x8A2D;&#x5B9A; EXTI-&gt;IMR(interrup mask register)</li>
+<li>&#x8A2D;&#x5B9A; EXTI-&gt;EMR(Event mask register)</li>
+<li>&#x8A2D;&#x5B9A; EXTI-&gt;RTST(Rising trigger select register)</li>
+<li>&#x8A2D;&#x5B9A; EXTI-&gt;FTSR(Falling trigger select register)</li>
+</ul>
+</li>
+</ul>
+<h4 id="external-interrupt-selection-code-example"><a href="#External_interrupt_selection_code_example" class="headerlink" title="External interrupt selection code example"></a>External interrupt selection code example</h4><img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-interrupt-ex.png" alt="[ interrupt example ]" title="[ interrupt example ]">
+<hr>
+<h2 id="stm32f05x-&#x529F;&#x80FD;&#x8AAA;&#x660E;"><a href="#STM32F05X__u529F_u80FD_u8AAA_u660E" class="headerlink" title="STM32F05X &#x529F;&#x80FD;&#x8AAA;&#x660E;"></a>STM32F05X &#x529F;&#x80FD;&#x8AAA;&#x660E;</h2><h3 id="gpio-alternate-function"><a href="#GPIO_Alternate_Function" class="headerlink" title="GPIO Alternate Function"></a>GPIO Alternate Function</h3><img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-alternate.png" alt="[ Alternate Function ]" title="[ Alternate Function ]">
+<p>I/O port&#x82E5;&#x8A2D;&#x5B9A;&#x70BA;alternate function(AF0-AF7)&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;&#x529F;&#x80FD;</p>
+<ul>
+<li>&#x8F38;&#x51FA;&#x53EF;&#x4EE5;&#x8A2D;&#x5B9A;&#x70BA;AF_PP(push-pull mode)&#x6216;AF_OD(open-drain)</li>
+<li>output buffer&#x662F;&#x7531;&#x9031;&#x908A;&#x88DD;&#x7F6E;&#x9A45;&#x52D5;</li>
+<li>schmitt trigger input is activated</li>
+<li>input data register every AHB clock cycle&#x66F4;&#x65B0;</li>
+<li>A read access to the input data register get the I/O state</li>
+</ul>
+<h3 id="syscfg"><a href="#SYSCFG" class="headerlink" title="SYSCFG"></a>SYSCFG</h3><p>System configuration controller(SYSCFG)<br>&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;&#x529F;&#x80FD;</p>
+<ul>
+<li>Remapping some DMA trigger source to different DMA channels</li>
+<li>Pending interrupt status register</li>
+<li>Managing the external interrupt line connection to the GPIOs<br>&#x82E5;&#x6709;&#x4F7F;&#x7528;External&#x529F;&#x80FD;&#xFF0C;&#x5728;<strong>HAL_GPIO_Init</strong>&#x6703;&#x8A2D;&#x5B9A;SYSCFG</li>
+</ul>
+<h4 id="extended-interrupts-and-events-controller"><a href="#Extended_interrupts_and_events_controller" class="headerlink" title="Extended interrupts and events controller"></a>Extended interrupts and events controller</h4><p>Extended interrupts and events controller(EXTI)</p>
+<ul>
+<li>EXTI&#x7BA1;&#x7406;&#x5916;&#x90E8;&#x53CA;&#x5167;&#x90E8;&#x4E8B;&#x4EF6;&#x53CA;&#x4E2D;&#x65B7;&#xFF0C;&#x7522;&#x751F;&#x4E8B;&#x4EF6;&#x9700;&#x6C42;&#x7D66;CPU</li>
+<li>&#x63D0;&#x4F9B;23&#x500B;&#x5916;&#x90E8;&#x4E8B;&#x4EF6;</li>
+<li>&#x63D0;&#x4F9B;9&#x500B;&#x5167;&#x90E8;&#x4E8B;&#x4EF6;</li>
+<li>Independent mask on each event/interrupt line</li>
+</ul>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t11.png" alt="[ EXTI ]" title="[ EXTI ]">
+<h4 id="syscfg-exticr"><a href="#SYSCFG_EXTICR" class="headerlink" title="SYSCFG EXTICR"></a>SYSCFG EXTICR</h4><p>SYSCFG external interrupt configuration register(SYSCFG_EXTICR)</p>
+<p>&#x8A2D;&#x5B9A;I/O&#x70BA;&#x5916;&#x90E8;&#x4E2D;&#x65B7;(EXT0-EXT15)<br>EXTI0&#x70BA;PIN0&#x5916;&#x90E8;&#x4E2D;&#x65B7;&#x7522;&#x751F;&#x8A0A;&#x865F;&#xFF0C;&#x8A2D;&#x5B9A;:&#x9078;&#x64C7;PA/PB/PC&#x90A3;&#x4E00;&#x500B;<br>EXTI1&#x70BA;PIN1&#x5916;&#x90E8;&#x4E2D;&#x65B7;&#x7522;&#x751F;&#x8A0A;&#x865F;&#xFF0C;&#x8A2D;&#x5B9A;:&#x9078;&#x64C7;PA/PB/PC&#x90A3;&#x4E00;&#x500B;</p>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-exticr.png" alt="[ SYSCFG EXTICR ]" title="[ SYSCFG EXTICR ]">
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-exti0.png" alt="[ EXTICR ]" title="[ EXTICR ]">
+<p>&#x8A2D;&#x5B9A;&#x5B8C;&#x6210;SYSCFG&#x4E4B;&#x5F8C;&#x5C31;&#x662F;&#x8A2D;&#x5B9A;(EXTI-&gt;IMR, EXTI-&gt;EMR, EXTI-&gt;RTST, EXTI-&gt;FTSR)</p>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-sr.png" alt="[ register ]" title="[ register ]">
+<h4 id="reset-and-clock-control-rcc"><a href="#Reset_and_clock_control__28RCC_29" class="headerlink" title="Reset and clock control (RCC)"></a>Reset and clock control (RCC)</h4><p>&#x4E09;&#x7A2E;reset&#x5B9A;&#x7FA9;</p>
+<ul>
+<li>system reset<br>&#x6709;&#x4E0B;&#x4F8B;&#x6E05;&#x6CC1;&#x6703;&#x7522;&#x751F;system reset<ul>
+<li>NRST pin(exteranl reset)</li>
+<li>Window watchdog event(WWDG reset)</li>
+<li>Independent watchdog event (IWDG reset)</li>
+<li>A software reset(SW reset)</li>
+<li>Low-power management reset</li>
+<li>Option byte loader reset</li>
+<li>power reset</li>
+</ul>
+</li>
+<li>power reset<br>&#x6709;&#x4E0B;&#x4F8B;&#x60C5;&#x6CC1;&#x6703;&#x7522;&#x751F;power reset<ul>
+<li>&#x7576;&#x7522;&#x751F;POR/PDR reset&#x8A0A;&#x865F;</li>
+<li>&#x96E2;&#x958B;Standby mode</li>
+</ul>
+</li>
+<li>RTC domain reset</li>
+</ul>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t13.png" alt="[ EXTI ]" title="[ EXTI ]">
+<h4 id="clocks"><a href="#Clocks" class="headerlink" title="Clocks"></a>Clocks</h4><p>&#x7531;&#x4E0B;&#x4F8B;&#x4F86;&#x6E90;&#x7522;&#x751F;&#x7CFB;&#x7D71;&#x6642;&#x8108;(SYSCLK)</p>
+<ul>
+<li>HSI 8MHz RC oscillator clock</li>
+<li>HSE oscillator clock</li>
+<li>PLL clock</li>
+</ul>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-clock-tree.png" alt="[ Clock Tree ]" title="[ Clock Tree ]">
+<p>AHB&#x9031;&#x908A;&#x6642;&#x8108;&#x4F86;&#x6E90;HCLK<br>APB&#x9031;&#x908A;&#x6642;&#x8108;&#x4F86;&#x6E90;PCLK<br>AHB/APB domain max frequency is 48MHz</p>
+<h3 id="stm32f0x1-power"><a href="#STM32F0x1_Power" class="headerlink" title="STM32F0x1 Power"></a>STM32F0x1 Power</h3><p>STM32F0x1 device requires a 2.0V-3.6V operating supply voltage<br>and a 2.0V-3.6V analog supply voltage(VDDA)</p>
+<p>&#x7576;VDD&#x96FB;&#x6E90;&#x95DC;&#x9589;&#x6642;(&#x6216;&#x6AA2;&#x6E2C;&#x5230;Low voltage detector)<br>RTC(real-time clock)&#x53CA;backup register &#x7531;VBAT&#x4F9B;&#x96FB;</p>
+<img src="/2017/11/23/stm32f0xx-gpio/stm32f0xx-gpio-t12.png" alt="[ EXTI ]" title="[ EXTI ]">
+<hr>
 <h2 id="&#x53C3;&#x8003;"><a href="#u53C3_u8003" class="headerlink" title="&#x53C3;&#x8003;"></a>&#x53C3;&#x8003;</h2><ul>
 <li><a href="/2017/11/23/stm32f0xx-gpio/en.DM00031936(RM0091-Reference-manual).pdf" title="[RM0091-Reference-manual]">[RM0091-Reference-manual]</a></li>
 <li><a href="https://letanphuc.net/2015/02/stm32f0-tutorial-gpio-blinking-led-cubemx-keil-source-insight/" target="_blank" rel="external">STM32F0 GPIO: Blinking LED with CubeMX, Keil ARM and Source Insight - Tutorial 2</a></li>
+<li><a href="http://wiki.csie.ncku.edu.tw/embedded/GPIO" target="_blank" rel="external">General Purpose Input/Output (GPIO)</a></li>
 </ul>
 
       
@@ -599,7 +773,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stm32f0-gpio"><span class="nav-number">3.</span> <span class="nav-text">STM32F0 GPIO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#提供設定暫器"><span class="nav-number">3.1.</span> <span class="nav-text">提供設定暫器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gpio提供功能"><span class="nav-number">3.2.</span> <span class="nav-text">GPIO提供功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example-code"><span class="nav-number">3.3.</span> <span class="nav-text">example code</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">4.</span> <span class="nav-text">參考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stm32f0-gpio"><span class="nav-number">3.</span> <span class="nav-text">STM32F0 GPIO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#提供設定暫器"><span class="nav-number">3.1.</span> <span class="nav-text">提供設定暫器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gpio提供功能"><span class="nav-number">3.2.</span> <span class="nav-text">GPIO提供功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#software-define"><span class="nav-number">3.3.</span> <span class="nav-text">software define</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example-code"><span class="nav-number">3.4.</span> <span class="nav-text">example code</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hal_gpio_init"><span class="nav-number">4.</span> <span class="nav-text">HAL_GPIO_Init</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#設定clock"><span class="nav-number">4.1.</span> <span class="nav-text">設定Clock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定port輸出為low即led沒打亮"><span class="nav-number">4.2.</span> <span class="nav-text">設定port輸出為low(即LED沒打亮)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hal_gpio_init"><span class="nav-number">4.3.</span> <span class="nav-text">HAL_GPIO_Init</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hal_gpio_init-程序"><span class="nav-number">4.3.1.</span> <span class="nav-text">HAL_GPIO_Init 程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#external-interrupt-selection-code-example"><span class="nav-number">4.3.2.</span> <span class="nav-text">External interrupt selection code example</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stm32f05x-功能說明"><span class="nav-number">5.</span> <span class="nav-text">STM32F05X 功能說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gpio-alternate-function"><span class="nav-number">5.1.</span> <span class="nav-text">GPIO Alternate Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#syscfg"><span class="nav-number">5.2.</span> <span class="nav-text">SYSCFG</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#extended-interrupts-and-events-controller"><span class="nav-number">5.2.1.</span> <span class="nav-text">Extended interrupts and events controller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#syscfg-exticr"><span class="nav-number">5.2.2.</span> <span class="nav-text">SYSCFG EXTICR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reset-and-clock-control-rcc"><span class="nav-number">5.2.3.</span> <span class="nav-text">Reset and clock control (RCC)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#clocks"><span class="nav-number">5.2.4.</span> <span class="nav-text">Clocks</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stm32f0x1-power"><span class="nav-number">5.3.</span> <span class="nav-text">STM32F0x1 Power</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考"><span class="nav-number">6.</span> <span class="nav-text">參考</span></a></li></ol></div>
             
           </div>
         </section>

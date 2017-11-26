@@ -1,0 +1,937 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,實作隨筆,stm32," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="STM32F0 timer 說明/範例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stm32f0-timer">
+<meta property="og:url" content="http://yoursite.com/2017/11/25/stm32f0-timer/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="STM32F0 timer 說明/範例">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/timer-interrupt-ex1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/timer-interrupt-ex2.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/timer-interrupt-ex3.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/timer-interrupt-ex4.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/timer-interrupt-ex5.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/timer-interrupt-ex6.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/tim_typedef.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/tim-register.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/callback.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/clock-tree.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/timer-feature.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/advanced-control-timer-block.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/tim2_tim3.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/tim14.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/tim15.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/tim16_tim17.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/upcounting-mode.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/downcounting-mdoe.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/up-down.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/repetition.png">
+<meta property="og:updated_time" content="2017-11-26T18:10:21.730Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="stm32f0-timer">
+<meta name="twitter:description" content="STM32F0 timer 說明/範例">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/25/stm32f0-timer/timer-interrupt-ex1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> stm32f0-timer | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                stm32f0-timer
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-25T10:32:25+08:00" content="2017-11-25">
+              2017-11-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/11/25/stm32f0-timer/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/25/stm32f0-timer/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/11/25/stm32f0-timer/" class="leancloud_visitors" data-flag-title="stm32f0-timer">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>STM32F0 timer &#x8AAA;&#x660E;/&#x7BC4;&#x4F8B;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20171125</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#timer-interrupt-&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;">Timer Interrupt &#x7BC4;&#x4F8B;&#x8AAA;&#x660E;</a><ul>
+<li><a href="#stm32cubemx">STM32CubeMx</a></li>
+<li><a href="#&#x5176;&#x5B83;&#x8AAA;&#x660E;">&#x5176;&#x5B83;&#x8AAA;&#x660E;</a><ul>
+<li><a href="#register">register</a></li>
+<li><a href="#callback">callback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#stm32f0-timer-&#x8AAA;&#x660E;">STM32F0 Timer &#x8AAA;&#x660E;</a><ul>
+<li><a href="#tim1">TIM1</a></li>
+<li><a href="#tim2tim3">TIM2/TIM3</a></li>
+<li><a href="#tim14">TIM14</a></li>
+<li><a href="#tim15">TIM15</a></li>
+<li><a href="#tim16tim17">TIM16/TIM17</a></li>
+</ul>
+</li>
+<li><a href="#timer-counter-modes-&#x8AAA;&#x660E;">Timer Counter Modes &#x8AAA;&#x660E;</a></li>
+<li><a href="#timer-clock-source-&#x8AAA;&#x660E;">Timer Clock Source &#x8AAA;&#x660E;</a></li>
+<li><a href="#&#x53C3;&#x8003;&#x4F86;&#x6E90;">&#x53C3;&#x8003;&#x4F86;&#x6E90;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="timer-interrupt-&#x7BC4;&#x4F8B;&#x8AAA;&#x660E;"><a href="#Timer_Interrupt__u7BC4_u4F8B_u8AAA_u660E" class="headerlink" title="Timer Interrupt &#x7BC4;&#x4F8B;&#x8AAA;&#x660E;"></a>Timer Interrupt &#x7BC4;&#x4F8B;&#x8AAA;&#x660E;</h2><p>&#x4F7F;&#x7528;STM32CubeMX&#x7522;&#x751F;TIM3&#x6642;&#x9593;&#x4E2D;&#x65B7;500ms<br>&#x65BC;TIM3&#x4E2D;&#x65B7;ISR&#x4E2D;&#x8A2D;&#x5B9A;GPIO&#x66F4;&#x65B0;</p>
+<h3 id="stm32cubemx"><a href="#STM32CubeMx" class="headerlink" title="STM32CubeMx"></a>STM32CubeMx</h3><ul>
+<li><p><1> CubeMX&#x8A2D;&#x5B9A; TIM3 Clock Source&#x70BA;Internal Clock</1></p>
+<img src="/2017/11/25/stm32f0-timer/timer-interrupt-ex1.png" alt="[CubeMx]" title="[CubeMx]">
+</li>
+<li><p><2> &#x8A2D;&#x5B9A;TIM3&#x53C3;&#x6578;&#x503C;<br>Prescaler&#x8A2D;&#x5B9A;47999(&#x5373;&#x6703;&#x6578;48000&#x6B21;)&#xFF0C;48MHz&#x5247;&#x70BA;1MHz&#xFF0C;&#x5C07;&#x6703;&#x7522;&#x751F;1ms&#x6703;&#x8A08;&#x6578;&#x4E00;&#x6B21;Counter<br>Counter period&#x8A2D;&#x5B9A;&#x70BA;499(&#x5373;&#x6703;&#x6578;&#x5230;500&#x6B21;)&#xFF0C;&#x56E0;&#x6B64;&#x6642;&#x9593;&#x70BA;500ms&#x7522;&#x751F;&#x4E00;&#x6B21;&#x4E2D;&#x65B7;</2></p>
+<img src="/2017/11/25/stm32f0-timer/timer-interrupt-ex2.png" alt="[CubeMx]" title="[CubeMx]">
+<img src="/2017/11/25/stm32f0-timer/timer-interrupt-ex3.png" alt="[CubeMx]" title="[CubeMx]">
+</li>
+<li><p><3>&#x958B;&#x555F;TIM3&#x6642;&#x9593;&#x4E2D;&#x65B7;Enable<br>&#x6B64;&#x6642;&#x7A0B;&#x5F0F;&#x6703;&#x65BC;stm32f0xx_hal_msp.c&#x4E2D;HAL_TIM_Base_MspInit&#x529F;&#x80FD;&#x88E1;&#x9762;&#xFF0C;&#x52A0;&#x5165;HAL_NVIC_EnableIRQ(TIM3_IRQn)</3></p>
+<img src="/2017/11/25/stm32f0-timer/timer-interrupt-ex4.png" alt="[CubeMx]" title="[CubeMx]">
+</li>
+<li><p><4>&#x589E;&#x52A0;main.c&#x5167;&#x5BB9;&#x5982;&#x4E0B;<br>&#x6CE8;&#x610F;&#x4F7F;&#x7528;&#x529F;&#x80FD;&#x70BA;HAL_TIM_Base_Start_IT()&#xFF0C;&#x975E;HAL_TIM_Base_Start()<br>HAL_TIM_Base_Start_IT: &#x6703;&#x958B;&#x555F;TIM&#x4E2D;&#x65B7;&#x958B;&#x95DC;&#x53CA;&#x555F;&#x52D5;timer<br>HAL_TIM_Base_Start&#xFF1A;&#x53EA;&#x6703;&#x555F;&#x52D5;timer</4></p>
+<img src="/2017/11/25/stm32f0-timer/timer-interrupt-ex5.png" alt="[CubeMx]" title="[CubeMx]">
+<img src="/2017/11/25/stm32f0-timer/timer-interrupt-ex6.png" alt="[CubeMx]" title="[CubeMx]">
+</li>
+</ul>
+<h3 id="&#x5176;&#x5B83;&#x8AAA;&#x660E;"><a href="#u5176_u5B83_u8AAA_u660E" class="headerlink" title="&#x5176;&#x5B83;&#x8AAA;&#x660E;"></a>&#x5176;&#x5B83;&#x8AAA;&#x660E;</h3><h4 id="register"><a href="#register" class="headerlink" title="register"></a>register</h4><p>CEN&#x8A2D;&#x5B9A;&#x70BA;1&#xFF0C;&#x6B64;&#x6642;timer&#x958B;&#x59CB;&#x7B97;&#x8A08;<br>&#x7576;overflow&#x6216;underflow&#x5C07;&#x6703;&#x7522;&#x751F;UIF&#x8A0A;&#x865F;<br>&#x9700;&#x8981;&#x628A;UIE&#x8A0A;&#x865F;enable&#xFF0C;&#x6B64;&#x6642;&#x624D;&#x6703;&#x7522;&#x751F;&#x4E2D;&#x65B7;</p>
+<img src="/2017/11/25/stm32f0-timer/tim_typedef.png" alt="[TIM TypeDef]" title="[TIM TypeDef]">
+<img src="/2017/11/25/stm32f0-timer/tim-register.png" alt="[TIM register]" title="[TIM register]">
+<h4 id="callback"><a href="#callback" class="headerlink" title="callback"></a>callback</h4><p>TIM3_IRQHandler&#x9810;&#x8A2D;TIM3&#x4E2D;&#x65B7;ISR<br>&#x5728;ISR&#x6703;&#x57F7;&#x884C;HAL_TIM_IRQHandler</p>
+<ul>
+<li><p>HAL_TIM_IRQHandler</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/* TIM Update event */</span><br><span class="line">HAL_TIM_PeriodElapsedCallback</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TIM3_IRQHandler</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HAL_TIM_IRQHandler</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<img src="/2017/11/25/stm32f0-timer/callback.png" alt="[CubeMx]" title="[CubeMx]">
+<hr>
+<h2 id="stm32f0-timer-&#x8AAA;&#x660E;"><a href="#STM32F0_Timer__u8AAA_u660E" class="headerlink" title="STM32F0 Timer &#x8AAA;&#x660E;"></a>STM32F0 Timer &#x8AAA;&#x660E;</h2><ul>
+<li>STM32F051x&#x63D0;&#x4F9B;&#x4E0B;&#x4F8B;timer<br>6&#x500B;&#x901A;&#x7528;&#x578B;(TIM2,3,14,15,16,17)<br>1&#x500B;basic timer(TIM6)<br>1&#x500B;advanced control timer(TIM6)</li>
+</ul>
+<p>Advanced-control timer(TIM1)<br>General-purpose timers(TIM2,3,14,15,16,17)</p>
+<img src="/2017/11/25/stm32f0-timer/clock-tree.png" alt="[Clock Tree]" title="[Clock Tree]">
+<img src="/2017/11/25/stm32f0-timer/timer-feature.png" alt="[Timer Feature]" title="[Timer Feature]">
+<h3 id="tim1"><a href="#TIM1" class="headerlink" title="TIM1"></a>TIM1</h3><img src="/2017/11/25/stm32f0-timer/advanced-control-timer-block.png" alt="[advanced-control-timer-block]" title="[advanced-control-timer-block]">
+<ul>
+<li><p>TIM1<br>input capture<br>output compare<br>PWM generation(TIMx_CH1/TIMx_CH1N)<br>one-pulse mode outpupt</p>
+</li>
+<li><p>&#x7576;TIMx_CNT&#x7522;&#x751F;overflow&#x6216;underflow&#x6642;&#x6703;&#x7522;&#x751F;update event(UEV)</p>
+</li>
+<li><p>The time-base unit includes<br>Counter register(TIMx_CNT)<br>Prescaler register(TIMx_PSC)<br>Auto-reload register(TIMx_APR)<br>Repetition counter register(TIMx_RCR)</p>
+</li>
+</ul>
+<h3 id="tim2tim3"><a href="#TIM2/TIM3" class="headerlink" title="TIM2/TIM3"></a>TIM2/TIM3</h3><img src="/2017/11/25/stm32f0-timer/tim2_tim3.png" alt="[TIM2 TIM3]" title="[TIM2 TIM3]">
+<h3 id="tim14"><a href="#TIM14" class="headerlink" title="TIM14"></a>TIM14</h3><img src="/2017/11/25/stm32f0-timer/tim14.png" alt="[TIM14]" title="[TIM14]">
+<h3 id="tim15"><a href="#TIM15" class="headerlink" title="TIM15"></a>TIM15</h3><img src="/2017/11/25/stm32f0-timer/tim15.png" alt="[TIM14]" title="[TIM14]">
+<h3 id="tim16tim17"><a href="#TIM16/TIM17" class="headerlink" title="TIM16/TIM17"></a>TIM16/TIM17</h3><img src="/2017/11/25/stm32f0-timer/tim16_tim17.png" alt="[tim16_tim17]" title="[tim16_tim17]">
+<hr>
+<h2 id="timer-counter-modes-&#x8AAA;&#x660E;"><a href="#Timer_Counter_Modes__u8AAA_u660E" class="headerlink" title="Timer Counter Modes &#x8AAA;&#x660E;"></a>Timer Counter Modes &#x8AAA;&#x660E;</h2><ul>
+<li><p>Upcounting mode</p>
+<img src="/2017/11/25/stm32f0-timer/upcounting-mode.png" alt="[upcounting-mode]" title="[upcounting-mode]">
+</li>
+<li><p>Downcounting mode</p>
+<img src="/2017/11/25/stm32f0-timer/downcounting-mdoe.png" alt="[downcounting-mdoe]" title="[downcounting-mdoe]">
+</li>
+<li><p>Center-aligned mode(up/down counting)</p>
+<img src="/2017/11/25/stm32f0-timer/up-down.png" alt="[up/down counting]" title="[up/down counting]">
+</li>
+<li><p>Repetition counter</p>
+<img src="/2017/11/25/stm32f0-timer/repetition.png" alt="[Repetition counter]" title="[Repetition counter]">
+</li>
+<li><p>Repetition counter<br>&#x63A7;&#x5236;&#x7522;&#x751F;UEV(update event)&#x8A0A;&#x865F;&#x65B9;&#x5F0F;<br>&#x7576;repetition counter&#x70BA;&#x96F6;&#x4E14;&#x72C0;&#x614B;&#x70BA;overflow/underflow&#x6642;&#xFF0C;&#x5C07;&#x6703;&#x7522;&#x751F;UEV</p>
+</li>
+<li><p>The repetition counter is decrememnted<br>At each counter overflow in upcounting mode<br>At each counter undeflow in downcounting mode<br>At each counter overflow and at each counter underflow in center-aligned mode.</p>
+</li>
+</ul>
+<hr>
+<h2 id="timer-clock-source-&#x8AAA;&#x660E;"><a href="#Timer_Clock_Source__u8AAA_u660E" class="headerlink" title="Timer Clock Source &#x8AAA;&#x660E;"></a>Timer Clock Source &#x8AAA;&#x660E;</h2><ul>
+<li>counter clock source&#x4F86;&#x6E90;&#x6709;&#x4E0B;&#x4F8B;&#x8F38;&#x5165;<br>Inter clock(CK_INT)<br>External clock mode1: external input pin<br>External clock mode2: external trigger input ETR<br>Internal trigger inputs(ITRx)</li>
+</ul>
+<hr>
+<h2 id="&#x53C3;&#x8003;&#x4F86;&#x6E90;"><a href="#u53C3_u8003_u4F86_u6E90" class="headerlink" title="&#x53C3;&#x8003;&#x4F86;&#x6E90;"></a>&#x53C3;&#x8003;&#x4F86;&#x6E90;</h2><ul>
+<li><a href="https://letanphuc.net/2015/06/stm32f0-timer-tutorial-and-counter-tutorial/" target="_blank" rel="external">STM32F0 Timer, Counter, Input Capture and PWM - Tutorial 4</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/stm32/" rel="tag">#stm32</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/25/stm32f0-external-interrupt/" rel="next" title="stm32f0-external-interrupt">
+                <i class="fa fa-chevron-left"></i> stm32f0-external-interrupt
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">145</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">124</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#timer-interrupt-範例說明"><span class="nav-number">3.</span> <span class="nav-text">Timer Interrupt 範例說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#stm32cubemx"><span class="nav-number">3.1.</span> <span class="nav-text">STM32CubeMx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它說明"><span class="nav-number">3.2.</span> <span class="nav-text">其它說明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#register"><span class="nav-number">3.2.1.</span> <span class="nav-text">register</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#callback"><span class="nav-number">3.2.2.</span> <span class="nav-text">callback</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stm32f0-timer-說明"><span class="nav-number">4.</span> <span class="nav-text">STM32F0 Timer 說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tim1"><span class="nav-number">4.1.</span> <span class="nav-text">TIM1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tim2tim3"><span class="nav-number">4.2.</span> <span class="nav-text">TIM2/TIM3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tim14"><span class="nav-number">4.3.</span> <span class="nav-text">TIM14</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tim15"><span class="nav-number">4.4.</span> <span class="nav-text">TIM15</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tim16tim17"><span class="nav-number">4.5.</span> <span class="nav-text">TIM16/TIM17</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#timer-counter-modes-說明"><span class="nav-number">5.</span> <span class="nav-text">Timer Counter Modes 說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#timer-clock-source-說明"><span class="nav-number">6.</span> <span class="nav-text">Timer Clock Source 說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考來源"><span class="nav-number">7.</span> <span class="nav-text">參考來源</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/11/25/stm32f0-timer/';
+      var disqus_title = 'stm32f0-timer';
+      var disqus_url = 'http://yoursite.com/2017/11/25/stm32f0-timer/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

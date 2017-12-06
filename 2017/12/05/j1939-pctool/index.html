@@ -1,0 +1,1035 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="閱讀隨筆,實作隨筆,J1939," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="J1939 訊號說明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="j1939-pctool">
+<meta property="og:url" content="http://yoursite.com/2017/12/05/j1939-pctool/index.html">
+<meta property="og:site_name" content="平凡備忘錄">
+<meta property="og:description" content="J1939 訊號說明">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/j1939.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/pdu.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/pgn.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/pctools.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/canusb.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEF6.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/F004.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEF2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEE0.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEF1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/F003.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FE6C.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEE5.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEE5-T2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEE5-CANUSB.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEE5-PCTOOL.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/FEC1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/package-format.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/raw-data-t2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/data-verify-canusb-T2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/data-verify-pctool.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/APP-1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/APP-2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/app-2-format.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/crankshaft.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/j1939-pctool/wheel.png">
+<meta property="og:updated_time" content="2017-12-06T18:41:20.674Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="j1939-pctool">
+<meta name="twitter:description" content="J1939 訊號說明">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/05/j1939-pctool/j1939.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> j1939-pctool | 平凡備忘錄 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56798887-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">平凡備忘錄</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">規律/確實</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                j1939-pctool
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-12-05T18:42:10+08:00" content="2017-12-05">
+              2017-12-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/embedded/" itemprop="url" rel="index">
+                    <span itemprop="name">embedded</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/12/05/j1939-pctool/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/05/j1939-pctool/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/12/05/j1939-pctool/" class="leancloud_visitors" data-flag-title="j1939-pctool">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">閱讀次數 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>J1939 &#x8A0A;&#x865F;&#x8AAA;&#x660E;</p>
+<a id="more"></a>
+<hr>
+<h2 id="&#x66F4;&#x65B0;&#x8A18;&#x9304;"><a href="#u66F4_u65B0_u8A18_u9304" class="headerlink" title="&#x66F4;&#x65B0;&#x8A18;&#x9304;"></a>&#x66F4;&#x65B0;&#x8A18;&#x9304;</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">item</th>
+<th style="text-align:left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">20171205</td>
+<td style="text-align:left">&#x7B2C;&#x4E00;&#x7248;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="&#x76EE;&#x9304;"><a href="#u76EE_u9304" class="headerlink" title="&#x76EE;&#x9304;"></a>&#x76EE;&#x9304;</h2><!-- toc -->
+<ul>
+<li><a href="#j1939-&#x8A0A;&#x865F;&#x8AAA;&#x660E;">J1939 &#x8A0A;&#x865F;&#x8AAA;&#x660E;</a><ul>
+<li><a href="#j1939-format">J1939 Format</a></li>
+<li><a href="#pdu">PDU</a></li>
+<li><a href="#sae-j1939-pgn-range">SAE J1939 PGN Range</a></li>
+</ul>
+</li>
+<li><a href="#test">Test</a><ul>
+<li><a href="#&#x6A21;&#x64EC;&#x5668;">&#x6A21;&#x64EC;&#x5668;</a></li>
+</ul>
+</li>
+<li><a href="#pgn-&#x8CC7;&#x6599;">PGN &#x8CC7;&#x6599;</a><ul>
+<li><a href="#fef6spn102-boot-pressure-kpa">FEF6,SPN102: Boot Pressure (kPa)</a></li>
+<li><a href="#feef">FEEF</a></li>
+<li><a href="#f004">F004</a></li>
+<li><a href="#fef2">FEF2</a></li>
+<li><a href="#fee0">FEE0</a></li>
+<li><a href="#fef1">FEF1</a></li>
+<li><a href="#f003">F003</a></li>
+<li><a href="#fe6c">FE6C</a></li>
+<li><a href="#fee5">FEE5</a></li>
+<li><a href="#fec1">FEC1</a></li>
+</ul>
+</li>
+<li><a href="#device-data">Device Data</a></li>
+<li><a href="#&#x6E2C;&#x8A66;&#x9A57;&#x8B49;">&#x6E2C;&#x8A66;&#x9A57;&#x8B49;</a><ul>
+<li><a href="#packing-format">Packing Format</a></li>
+<li><a href="#crankshaft">crankshaft</a></li>
+<li><a href="#wheel-speed">wheel speed</a></li>
+</ul>
+</li>
+<li><a href="#&#x5176;&#x5B83;&#x53C3;&#x8003;">&#x5176;&#x5B83;&#x53C3;&#x8003;</a></li>
+</ul>
+<!-- tocstop -->
+<hr>
+<h2 id="j1939-&#x8A0A;&#x865F;&#x8AAA;&#x660E;"><a href="#J1939__u8A0A_u865F_u8AAA_u660E" class="headerlink" title="J1939 &#x8A0A;&#x865F;&#x8AAA;&#x660E;"></a>J1939 &#x8A0A;&#x865F;&#x8AAA;&#x660E;</h2><h3 id="j1939-format"><a href="#J1939_Format" class="headerlink" title="J1939 Format"></a>J1939 Format</h3><ul>
+<li>J1939 Message Format<img src="/2017/12/05/j1939-pctool/j1939.png" alt="[J1939 Format]" title="[J1939 Format]">
+&#x8CC7;&#x6599;&#x4F86;&#x6E90;&#xFF1B;<a href="http://www.esd-electronics-usa.com/online-seminars.html" target="_blank" rel="external">Serial Control and Communications Vehicle Network</a></li>
+</ul>
+<h3 id="pdu"><a href="#PDU" class="headerlink" title="PDU"></a>PDU</h3><ul>
+<li>pdu<img src="/2017/12/05/j1939-pctool/pdu.png" alt="[PDU]" title="[PDU]">
+&#x8CC7;&#x6599;&#x4F86;&#x6E90;&#xFF1B;<a href="/2017/12/05/j1939-pctool/ourdev_509914(SAE-J1939).pdf" title="[SAE J1939&#x534F;&#x8BAE;]">[SAE J1939&#x534F;&#x8BAE;]</a><ul>
+<li>P: Priority<br>3&#x500B;bit,  111&#x6700;&#x4F4E; 000&#x6700;&#x9AD8;<br>PGN (EDP + DP + PF +PS) : Parameter Group Number</li>
+<li>SA: 8 Bit Source Address</li>
+<li>PDU Foramte(PF)<br>PF = 0-239 (0x0-0xEF,&#x5373;PUD1) indicates a destination address in PS<br>&#x6B64;&#x6642;&#x76EE;&#x5730;&#x4F4D;&#x7F6E;8bit&#x653E;&#x65BC;PS&#xFF0C;&#x8868;&#x793A;&#x6B64;&#x8CC7;&#x6599;&#x6709;&#x6307;&#x5B9A;destination address</li>
+<li>PF = 240-255 (0xF0-0xFF,&#x5373;PUD2) indicate extension to PDU Format(PF)<br>&#x6B64;&#x6642;&#x7531;PS&#x5B58;&#x653E;&#x4F4E;&#x4F4D;&#x5143;8bit<br>0xF000 - 0xFFFF &#xFF1A;&#x70BA;&#x7121;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x7684;&#x8A0A;&#x606F;&#xFF0C;&#x5373;boardcast</li>
+</ul>
+</li>
+</ul>
+<h3 id="sae-j1939-pgn-range"><a href="#SAE_J1939_PGN_Range" class="headerlink" title="SAE J1939 PGN Range"></a>SAE J1939 PGN Range</h3><ul>
+<li>PGN Range<img src="/2017/12/05/j1939-pctool/pgn.png" alt="[PGN ]" title="[PGN ]">
+&#x8CC7;&#x6599;&#x4F86;&#x6E90;:<a href="http://www.esd-electronics-usa.com/online-seminars.html" target="_blank" rel="external">Serial Control and Communications Vehicle Network</a><ul>
+<li>SAE = Assigned by SAE</li>
+<li>MF = Manufacturer Specific - Proprietary Messages</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="test"><a href="#Test" class="headerlink" title="Test"></a>Test</h2><h3 id="&#x6A21;&#x64EC;&#x5668;"><a href="#u6A21_u64EC_u5668" class="headerlink" title="&#x6A21;&#x64EC;&#x5668;"></a>&#x6A21;&#x64EC;&#x5668;</h3><ul>
+<li><p>&#x6A21;&#x64EC;&#x5668;</p>
+<img src="/2017/12/05/j1939-pctool/pctools.png" alt="[&#x6A21;&#x64EC;&#x5668;]" title="[&#x6A21;&#x64EC;&#x5668;]">
+</li>
+<li><p>can&#x5206;&#x6790;&#x5668;</p>
+<img src="/2017/12/05/j1939-pctool/canusb.png" alt="[can&#x5206;&#x6790;&#x5668;]" title="[can&#x5206;&#x6790;&#x5668;]">
+</li>
+<li><p>&#x6578;&#x503C;&#x5982;&#x4E0B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">18FEF600 (FEF6) FF 00 FF FF FF FF FF FF</span><br><span class="line">18FEEF00 (FEEF) 00 FF FF 00 FF FF 00 FF</span><br><span class="line">0CF00400 (F004) FF FF 7D A0 8C FF FF FF</span><br><span class="line">18FEF200 (FEF2) 00 00 FF FF FF FF FF FF</span><br><span class="line">18FEE000 (FEE0) 7E 01 00 00 7E 36 0C 00</span><br><span class="line">18FEF100 (FEF1) FF 00 5A FF FF FF FF FF</span><br><span class="line">0CF00300 (F003) FF E1 00 FF FF FF FF FF</span><br><span class="line">18FE6C00 (FE6C) FF FF FF FF FF FF 00 5A</span><br><span class="line">18FEE500 (FEE5) 45 00 00 00 AE 03 00 00 -&gt; 1s</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>011=&gt; &#x63A7;&#x5236;&#x5831;&#x6587; (0Cxxxxxx)<br>110=&gt; &#x8ACB;&#x6C42;,ack,&#x5176;&#x5B83;&#x5831;&#x6587; (18xxxxxx)</p>
+<hr>
+<h2 id="pgn-&#x8CC7;&#x6599;"><a href="#PGN__u8CC7_u6599" class="headerlink" title="PGN &#x8CC7;&#x6599;"></a>PGN &#x8CC7;&#x6599;</h2><h3 id="fef6spn102-boot-pressure-kpa"><a href="#FEF6_2CSPN102_3A_Boot_Pressure__28kPa_29" class="headerlink" title="FEF6,SPN102: Boot Pressure (kPa)"></a>FEF6,SPN102: Boot Pressure (kPa)</h3><p>SPN102: Boot Pressure (kPa)</p>
+<ul>
+<li>FEF6<img src="/2017/12/05/j1939-pctool/FEF6.png" alt="[PGN FEF6 ]" title="[PGN FEF6 ]">
+</li>
+</ul>
+<h3 id="feef"><a href="#FEEF" class="headerlink" title="FEEF"></a>FEEF</h3><ul>
+<li>PGN 65263 (0xFEEF) Engine Fluid Level/Pressure 1</li>
+</ul>
+<h3 id="f004"><a href="#F004" class="headerlink" title="F004"></a>F004</h3><ul>
+<li>F004<img src="/2017/12/05/j1939-pctool/F004.png" alt="[PGN F004 ]" title="[PGN F004 ]">
+0x7D = 0%<br>(0x8CA0 = 3600) / 8 = 4500</li>
+</ul>
+<h3 id="fef2"><a href="#FEF2" class="headerlink" title="FEF2"></a>FEF2</h3><ul>
+<li>FEF2<img src="/2017/12/05/j1939-pctool/FEF2.png" alt="[PGN FEF2 ]" title="[PGN FEF2 ]">
+&#x8CC7;&#x6599;&#x4F86;&#x6E90;:<a href="https://www.google.com.tw/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwj_yp3ztPPXAhVBrpQKHcO_AOoQFggnMAA&amp;url=http%3A%2F%2Fwww.fms-standard.com%2FTruck%2Fdown_load%2Ffms_document_ver03_vers_14_09_2012.pdf&amp;usg=AOvVaw3V4aeryvjsAJrlTjtLHbEQ" target="_blank" rel="external">fms document_v_03_vers.14.09.2012 - FMS-Standard</a></li>
+</ul>
+<h3 id="fee0"><a href="#FEE0" class="headerlink" title="FEE0"></a>FEE0</h3><p>&#x6B64;FEE0&#x662F;&#x6C92;&#x6709;&#x63A1;&#x7528;&#xFF0C;&#x63A1;&#x7528;FEC1<br>FEE0&#x6C92;&#x6709;&#x5728;FSM&#x624B;&#x518A;&#x88E1;&#x9762;</p>
+<ul>
+<li><p>PGN 65248 (0xFEE0) Vehicle Distance</p>
+</li>
+<li><p>FEE0</p>
+<img src="/2017/12/05/j1939-pctool/FEE0.png" alt="[PGN FEE0 ]" title="[PGN FEE0 ]">
+</li>
+</ul>
+<p>(0x0000017E = 382 ) / 8 = 47<br>(0x000C367E = 800382) / 8 = 100047</p>
+<h3 id="fef1"><a href="#FEF1" class="headerlink" title="FEF1"></a>FEF1</h3><ul>
+<li>FEF1<img src="/2017/12/05/j1939-pctool/FEF1.png" alt="[PGN FEF1 ]" title="[PGN FEF1 ]">
+( 0x5A00 = 23040 ) / 256 = 90</li>
+</ul>
+<h3 id="f003"><a href="#F003" class="headerlink" title="F003"></a>F003</h3><ul>
+<li>F003<img src="/2017/12/05/j1939-pctool/F003.png" alt="[PGN F003 ]" title="[PGN F003 ]">
+( 0xE1 = 225 ) * 0.4 = 90</li>
+</ul>
+<h3 id="fe6c"><a href="#FE6C" class="headerlink" title="FE6C"></a>FE6C</h3><ul>
+<li>FE6C<img src="/2017/12/05/j1939-pctool/FE6C.png" alt="[PGN FE6C ]" title="[PGN FE6C ]">
+</li>
+</ul>
+<h3 id="fee5"><a href="#FEE5" class="headerlink" title="FEE5"></a>FEE5</h3><ul>
+<li>FEE5<img src="/2017/12/05/j1939-pctool/FEE5.png" alt="[PGN FEE5 ]" title="[PGN FEE5 ]">
+<img src="/2017/12/05/j1939-pctool/FEE5-T2.png" alt="[PGN FEE5 ]" title="[PGN FEE5 ]">
+<img src="/2017/12/05/j1939-pctool/FEE5-CANUSB.png" alt="[CANUSB ]" title="[CANUSB ]">
+<img src="/2017/12/05/j1939-pctool/FEE5-PCTOOL.png" alt="[PCTOOL ]" title="[PCTOOL ]">
+( 0x45 = 69 ) <em> 0.05 = 3.45<br>( 0x3AE = 942) </em> 1000 = 942000</li>
+</ul>
+<h3 id="fec1"><a href="#FEC1" class="headerlink" title="FEC1"></a>FEC1</h3><ul>
+<li>FEC1<img src="/2017/12/05/j1939-pctool/FEC1.png" alt="[PGN FEC1 ]" title="[PGN FEC1 ]">
+</li>
+</ul>
+<hr>
+<h2 id="device-data"><a href="#Device_Data" class="headerlink" title="Device Data"></a>Device Data</h2><ul>
+<li>device data<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">23:27:05.358 40 61 00 20 22 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 42 0D 0A</span><br><span class="line">23:27:06.201 40 62 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0D 0A</span><br><span class="line">23:27:07.192 40 63 00 00 00 FF FF 00 00 00 00 00 00 00 00 13 7F B4 00 00 44 0D 0A</span><br><span class="line">23:27:08.171 40 64 20 22 00 00 00 00 00 00 00 00 00 00 E0 01 00 00 00 00 23 0D 0A</span><br><span class="line">23:27:09.176 40 65 00 00 00 22 DA 00 7B 8E 00 00 00 00 00 00 00 00 00 00 05 0D 0A</span><br><span class="line">23:27:10.175 40 31 00 5A F3 1F E1 00 00 00 00 C8 A0 8C 0F 00 00 00 0A</span><br><span class="line">23:27:10.175 00 5A 0D 0A</span><br><span class="line">23:27:11.196 40 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0D 0A</span><br><span class="line">23:27:12.175 40 33 00 00 00 FF FF FF FF 00 5A 78 00 FF 00 00 00 00 00 03 D0 0D 0A</span><br><span class="line">23:27:13.183 40 61 00 20 22 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 42 0D 0A</span><br><span class="line">23:27:14.197 40 62 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0D 0A</span><br><span class="line">23:27:15.175 40 63 00 00 00 FF FF 00 00 00 00 00 00 00 00 13 7F B4 00 00 44 0D 0A</span><br><span class="line">23:27:16.177 40 64 20 22 00 00 00 00 00 00 00 00 00 00 E0 01 00 00 00 00 23 0D 0A</span><br><span class="line">23:27:17.219 40 65 00 00 00 22 DA 00 7B 8E 00 00 00 00 00 00 00 00 00 00 05 0D 0A</span><br><span class="line">23:27:18.184 40 31 00 5A F3 1F E1 00 00 00 00 C8 A0 8C 0F 00 00 00 0A</span><br><span class="line">23:27:18.184 00 5A 0D 0A</span><br><span class="line">23:27:19.175 40 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0D 0A</span><br><span class="line">23:27:20.178 40 33 00 00 00 FF FF FF FF 00 5A 78 00 FF 00 00 00 00 00 03 D0 0D 0A</span><br><span class="line">23:27:21.208 40 61 00 20 22 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 42 0D 0A</span><br><span class="line">23:27:22.184 40 62 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0D 0A</span><br><span class="line">23:27:23.225 40 63 00 00 00 FF FF 00 00 00 00 00 00 00 00 13 7F B4 00 00 44 0D 0A</span><br><span class="line">23:27:24.201 40 64 20 22 00 00 00 00 00 00 00 00 00 00 E0 01 00 00 00 00 23 0D 0A</span><br><span class="line">23:27:25.219 40 65 00 00 00 22 DA 00 7B 8E 00 00 00 00 00 00 00 00 00 00 05 0D 0A</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="&#x6E2C;&#x8A66;&#x9A57;&#x8B49;"><a href="#u6E2C_u8A66_u9A57_u8B49" class="headerlink" title="&#x6E2C;&#x8A66;&#x9A57;&#x8B49;"></a>&#x6E2C;&#x8A66;&#x9A57;&#x8B49;</h2><h3 id="packing-format"><a href="#Packing_Format" class="headerlink" title="Packing Format"></a>Packing Format</h3><ul>
+<li><p>Packing Format</p>
+<img src="/2017/12/05/j1939-pctool/package-format.png" alt="[Packing Format ]" title="[Packing Format ]">
+</li>
+<li><p>raw data</p>
+<img src="/2017/12/05/j1939-pctool/raw-data-t2.png" alt="[raw data ]" title="[raw data ]">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">40 31 00 50 F3 1F E1 08 00 00 00 7D 60 6D 0F 00 00 00 07 00 AB 0D 0A</span><br><span class="line">40 32 00 00 00 00 00 00 00 00 00 00 0A 00 00 00 00 00 00 00 0A 0D 0A</span><br><span class="line">40 33 00 00 00 FF FF FF FF 00 50 78 00 FF 00 00 00 00 00 03 C6 0D 0A</span><br><span class="line">40 61 00 20 22 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 42 0D 0A</span><br><span class="line">40 62 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0D 0A</span><br><span class="line">40 63 00 C8 00 FF FF 00 00 00 00 00 00 00 00 13 7F A0 00 00 F8 0D 0A</span><br><span class="line">40 64 20 22 00 00 00 00 00 00 00 00 00 00 E0 01 00 00 00 00 23 0D 0A</span><br><span class="line">40 65 00 00 00 62 DA 20 7B F7 00 00 00 00 00 00 00 00 00 00 CE 0D 0A</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>USBCAN Log</p>
+<img src="/2017/12/05/j1939-pctool/data-verify-canusb-T2.png" alt="[USBCAD ]" title="[USBCAD ]">
+</li>
+<li><p>PCTOOL</p>
+<img src="/2017/12/05/j1939-pctool/data-verify-pctool.png" alt="[PCTOOL ]" title="[PCTOOL ]">
+</li>
+<li><p>APP1 Data</p>
+<img src="/2017/12/05/j1939-pctool/APP-1.png" alt="[APP-1 ]" title="[APP-1 ]">
+</li>
+<li><p>APP2 Data</p>
+<img src="/2017/12/05/j1939-pctool/APP-2.png" alt="[APP-2 ]" title="[APP-2 ]">
+<img src="/2017/12/05/j1939-pctool/app-2-format.png" alt="[APP-2 ]" title="[APP-2 ]">
+</li>
+</ul>
+<h3 id="crankshaft"><a href="#crankshaft" class="headerlink" title="crankshaft"></a>crankshaft</h3><ul>
+<li><p>crankshaft(&#x66F2;&#x8EF8;)</p>
+<img src="/2017/12/05/j1939-pctool/crankshaft.png" alt="[crankshaft ]" title="[crankshaft ]">
+<p>&#x7531;&#x8A08;&#x7B97;crankshaft(&#x66F2;&#x8EF8;)&#x89D2;&#x5EA6;&#xFF0C;&#x4F86;&#x53D6;&#x5F97;RPM<br>&#x5373;1ms&#x5167;&#x8DD1;&#x4E86;&#x591A;&#x5C11;&#x89D2;&#x5EA6;&#x5373;&#x53EF;&#x7B97;&#x51FA;RPM, 1&#x5708;720&#x5EA6;</p>
+</li>
+<li><p>SPN190: Engine RPM &lt;= F004<br>Actual engine RPM(&#x7531;&#x8A08;&#x7B97;&#x66F2;&#x8EF8;&#x89D2;&#x5EA6;&#x5F97;&#x5230;)</p>
+</li>
+</ul>
+<h3 id="wheel-speed"><a href="#wheel_speed" class="headerlink" title="wheel speed"></a>wheel speed</h3><ul>
+<li><p>wheel speed</p>
+<img src="/2017/12/05/j1939-pctool/wheel.png" alt="[wheel ]" title="[wheel ]">
+</li>
+<li><p>CRANKSHAFT POSITION (CKP) SENSOR<br>1&#x5708;&#x6703;&#x56DE;&#x50B3;n&#x500B;pulse&#xFF0C;&#x53EF;&#x5F97;&#x5230;&#x89D2;&#x5EA6;<br>&#x5176;&#x4E2D;&#x6B78;&#x4F4D;&#x9EDE;&#x7684;pulse&#x9593;&#x8DDD;&#x6BD4;&#x5927;&#xFF0C;&#x56E0;&#x6B64;&#x53EF;&#x77E5;&#x9053; &#x6BCF;&#x79D2;&#x8F49;&#x4E86;&#x5E7E;&#x5708;&#xFF0C;&#x5373;&#x53EF;&#x8A08;&#x7B97;&#x51FA;speed</p>
+</li>
+<li><p>SPN84:Wheel-Baseed Vehicle Speed &lt;= FEF1<br>Speed of the vehicle as calculated from wheel</p>
+</li>
+</ul>
+<hr>
+<h2 id="&#x5176;&#x5B83;&#x53C3;&#x8003;"><a href="#u5176_u5B83_u53C3_u8003" class="headerlink" title="&#x5176;&#x5B83;&#x53C3;&#x8003;"></a>&#x5176;&#x5B83;&#x53C3;&#x8003;</h2><ul>
+<li><a href="http://www.sae.org/standardsdev/groundvehicle/j1939a.htm" target="_blank" rel="external">SAE J1939 Standards Collection</a></li>
+<li><a href="http://www.esd-electronics-usa.com/online-seminars.html" target="_blank" rel="external">Serial Control and Communications Vehicle Network</a></li>
+<li><a href="https://www.powertraincontrolsolutions.com/Performance_Aftermarket/Tech-Resources/downloads/devfiles/PCS%20J1939%20Messages%20v2_1.pdf" target="_blank" rel="external">TCU J1939 CAN Messages - Powertrain Control Solutions</a></li>
+<li><a href="https://www.google.com.tw/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwjA6I3PrfPXAhUV5LwKHUHlDyAQFggsMAE&amp;url=http%3A%2F%2Fwww.barksdale.com%2Fdownload%2F%3Fdl%3D860&amp;usg=AOvVaw0nlbFCMHlInMIpUXiEZ2F0" target="_blank" rel="external">CANbus J1939 Engine Monitor - Barksdale Inc.</a><ul>
+<li>FEEF</li>
+</ul>
+</li>
+<li><a href="https://www.google.com.tw/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwj_yp3ztPPXAhVBrpQKHcO_AOoQFggnMAA&amp;url=http%3A%2F%2Fwww.fms-standard.com%2FTruck%2Fdown_load%2Ffms_document_ver03_vers_14_09_2012.pdf&amp;usg=AOvVaw3V4aeryvjsAJrlTjtLHbEQ" target="_blank" rel="external">fms document_v_03_vers.14.09.2012 - FMS-Standard</a><ul>
+<li>FEF2</li>
+</ul>
+</li>
+<li><p><a href="http://www.dafulaielectronics.com/documents/dflsj1939bv1.pdf" target="_blank" rel="external">J1939 Simulator</a></p>
+</li>
+<li><p><a href="https://til.scania.com/idcplg?IdcService=GET_SEARCH_RESULTS&amp;QueryText=+xMatrix+%3Cmatches%3E+%60%7C001%2C004%2C008%2C1E0%2C400%2C001000%2C004000%2C008000%2C0E0000%2C001000000%2C080000000%2C100000000%2C800000000%7C%7C%60++%3CAND%3E++++dDocType+%3Cmatches%3E+%60OPM%60++%3CAND%3E++xFileType+%3Cstarts%3E+%60PDF%60+%3CAND%3E+xLang+%3Cmatches%3E+%6001%60&amp;coreContentOnly=1&amp;idcGlobalVariable=0800010000000000000000&amp;ucmGlobalVariable=&amp;sb=1&amp;tilProduct=OPM&amp;funcNum=01&amp;dpTriggerValue=OPM&amp;SearchQueryFormat=UNIVERSAL&amp;ftx=&amp;AdvSearch=True&amp;SortSpec=order+by+xEngineType+Asc+NULLS+LAST%2C+xPrintNo+Asc+NULLS+LAST&amp;UseSearchCache=0&amp;ResultCount=200&amp;possibleLangs=00%7C01%7C02%7C03%7C04%7C05%7C06%7C07%7C09%7C10%7C13%7C14%7C22%7C19%7C08%7C16%7C12%7C23%7C18%7C11%7C32%7C33%7C&amp;manSortMode=" target="_blank" rel="external">Technical Information Library</a></p>
+<ul>
+<li>Industrial/Power Generation</li>
+</ul>
+</li>
+<li><p><a href="http://bus-fms-standard.com/Bus/index.htm" target="_blank" rel="external">    Information about the Bus-FMS-Standard</a></p>
+</li>
+<li><a href="http://copperhilltech.com/blog/simulating-sae-j1939-pgns-used-by-truck-bus-fms-fleet-management-system-standard/" target="_blank" rel="external">Simulating SAE J1939 PGNs Used By Truck &amp; Bus FMS (Fleet Management System) Standard</a></li>
+<li><p><a href="http://www.auelectronics.com/System-FleetManagementSystemSimulator.htm" target="_blank" rel="external">Au Truck / Bus Fleet Management System (FMS) Simulators </a></p>
+</li>
+<li><p><a href="https://kknews.cc/car/p5bz8jz.html" target="_blank" rel="external">&#x53EA;&#x8981;3&#x5206;&#x9418; &#x4E86;&#x89E3;&#x52D5;&#x529B;&#x5982;&#x4F55;&#x5F9E;&#x767C;&#x52D5;&#x6A5F;&#x4F86;&#x5230;&#x8ECA;&#x8F2A;</a></p>
+</li>
+<li><a href="http://www.mazda3thailand.com/workshopmanual/esicont/en/srvc/html/B3E014018230W02.html" target="_blank" rel="external">CRANKSHAFT POSITION (CKP) SENSOR REMOVAL/INSTALLATION</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/閱讀隨筆/" rel="tag">#閱讀隨筆</a>
+          
+            <a href="/tags/實作隨筆/" rel="tag">#實作隨筆</a>
+          
+            <a href="/tags/J1939/" rel="tag">#J1939</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/28/stm32f0-pwm/" rel="next" title="stm32f0-pwm">
+                <i class="fa fa-chevron-left"></i> stm32f0-pwm
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/erwin-profile.jpeg"
+               alt="Erwin" />
+          <p class="site-author-name" itemprop="name">Erwin</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">149</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">125</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/erwinchang" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://hub.docker.com/r/erwinchang" target="_blank" title="dockhub">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  dockhub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新記錄"><span class="nav-number">1.</span> <span class="nav-text">更新記錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目錄"><span class="nav-number">2.</span> <span class="nav-text">目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#j1939-訊號說明"><span class="nav-number">3.</span> <span class="nav-text">J1939 訊號說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#j1939-format"><span class="nav-number">3.1.</span> <span class="nav-text">J1939 Format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pdu"><span class="nav-number">3.2.</span> <span class="nav-text">PDU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sae-j1939-pgn-range"><span class="nav-number">3.3.</span> <span class="nav-text">SAE J1939 PGN Range</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#test"><span class="nav-number">4.</span> <span class="nav-text">Test</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模擬器"><span class="nav-number">4.1.</span> <span class="nav-text">模擬器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pgn-資料"><span class="nav-number">5.</span> <span class="nav-text">PGN 資料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fef6spn102-boot-pressure-kpa"><span class="nav-number">5.1.</span> <span class="nav-text">FEF6,SPN102: Boot Pressure (kPa)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#feef"><span class="nav-number">5.2.</span> <span class="nav-text">FEEF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f004"><span class="nav-number">5.3.</span> <span class="nav-text">F004</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fef2"><span class="nav-number">5.4.</span> <span class="nav-text">FEF2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fee0"><span class="nav-number">5.5.</span> <span class="nav-text">FEE0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fef1"><span class="nav-number">5.6.</span> <span class="nav-text">FEF1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f003"><span class="nav-number">5.7.</span> <span class="nav-text">F003</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fe6c"><span class="nav-number">5.8.</span> <span class="nav-text">FE6C</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fee5"><span class="nav-number">5.9.</span> <span class="nav-text">FEE5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fec1"><span class="nav-number">5.10.</span> <span class="nav-text">FEC1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#device-data"><span class="nav-number">6.</span> <span class="nav-text">Device Data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試驗證"><span class="nav-number">7.</span> <span class="nav-text">測試驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#packing-format"><span class="nav-number">7.1.</span> <span class="nav-text">Packing Format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#crankshaft"><span class="nav-number">7.2.</span> <span class="nav-text">crankshaft</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wheel-speed"><span class="nav-number">7.3.</span> <span class="nav-text">wheel speed</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它參考"><span class="nav-number">8.</span> <span class="nav-text">其它參考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erwin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'erwinchang';
+      var disqus_identifier = '2017/12/05/j1939-pctool/';
+      var disqus_title = 'j1939-pctool';
+      var disqus_url = 'http://yoursite.com/2017/12/05/j1939-pctool/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("V8gfzvkgxv3hsXXQpL6z6gdK-gzGzoHsz", "inrnSES9i4rAlMHr8J5oC9iV");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
